@@ -127,7 +127,7 @@ class CameraViewController: SwiftyCamViewController {
     // Adding buttons programatically to the Camera view
     private func addButtons() {
         captureButton = UIButton(frame: CGRect(x: view.frame.midX - 37.5, y: view.frame.height - 100.0, width: 75.0, height: 75.0))
-        captureButton.setImage(#imageLiteral(resourceName: "capture_photo"), for: .normal)
+        captureButton.setImage(#imageLiteral(resourceName: "Trigger"), for: .normal)
         //  captureButton.addTarget(self, action: #selector(Long), for: .touchUpInside)
         self.view.addSubview(captureButton)
         //captureButton.delegate = self

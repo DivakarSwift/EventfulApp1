@@ -35,7 +35,7 @@ class SideMenuHeader: UICollectionViewCell {
     
     lazy var dismissButton : UIButton = {
         let locationMarker = UIButton(type: .system)
-        locationMarker.setImage(#imageLiteral(resourceName: "icons8-back-26 (1)").withRenderingMode(.alwaysOriginal), for: .normal)
+        locationMarker.setImage(#imageLiteral(resourceName: "icons8-Back-64").withRenderingMode(.alwaysOriginal), for: .normal)
         return locationMarker
     }()
     let nameLabel: UILabel = {
@@ -55,9 +55,9 @@ class SideMenuHeader: UICollectionViewCell {
             make.center.equalTo(self.snp.center)
 //            make.top.equalTo(self.snp.top)
 //            make.left.equalTo(self.snp.left).inset(5)
-            make.height.width.equalTo(60)
+            make.height.width.equalTo(80)
         }
-        profileImage.layer.cornerRadius = 60/2
+        profileImage.layer.cornerRadius = 80/2
 //        addSubview(nameLabel)
 //        nameLabel.snp.makeConstraints { (make) in
 //            make.top.equalTo(profileImage.snp.bottom).offset(5)

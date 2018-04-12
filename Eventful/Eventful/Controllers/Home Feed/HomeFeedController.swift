@@ -14,7 +14,6 @@ import SwiftLocation
 import CoreLocation
 import FirebaseDatabase
 import SVProgressHUD
-import SkeletonView
 import GooglePlaces
 
 class ImageAndTitleItem: NSObject {
@@ -75,6 +74,7 @@ class HomeFeedController: UICollectionViewController, UICollectionViewDelegateFl
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
+
     }
     
     deinit {
@@ -218,17 +218,7 @@ class HomeFeedController: UICollectionViewController, UICollectionViewDelegateFl
         }
     }
     
-    func uniq<S : Sequence, T : Hashable>(source: S) -> [T] where S.Iterator.Element == T {
-        var buffer = [T]()
-        var added = Set<T>()
-        for elem in source {
-            if !added.contains(elem) {
-                buffer.append(elem)
-                added.insert(elem)
-            }
-        }
-        return buffer
-    }
+
     
     override func didMove(toParentViewController parent: UIViewController?) {
         super.didMove(toParentViewController: parent)
@@ -285,7 +275,7 @@ class HomeFeedController: UICollectionViewController, UICollectionViewDelegateFl
         cell.sectionNameLabel.text = categories[indexPath.item]
         cell.homeFeedController = self
         if allEvents2[categories[indexPath.item]]?.count != nil {
-            print(allEvents2[categories[indexPath.item]])
+            //print(allEvents2[categories[indexPath.item]])
             cell.categoryEvents = allEvents2[categories[indexPath.item]]
         } else{
             cell.categoryEvents = allEvents
@@ -316,3 +306,5 @@ class HomeFeedController: UICollectionViewController, UICollectionViewDelegateFl
         return UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
     }
 }
+
+

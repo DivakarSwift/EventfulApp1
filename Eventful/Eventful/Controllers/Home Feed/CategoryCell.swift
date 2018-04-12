@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SkeletonView
 
 class CategoryCell: UICollectionViewCell, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout,UIScrollViewDelegate {
     private let cellID = "cellID"
@@ -24,7 +25,6 @@ class CategoryCell: UICollectionViewCell, UICollectionViewDataSource, UICollecti
              sectionNameLabel.text = titles
         }
     }
-    
     
     let sectionNameLabel : UILabel =  {
         let sectionNameLabel = UILabel()
@@ -66,6 +66,7 @@ class CategoryCell: UICollectionViewCell, UICollectionViewDataSource, UICollecti
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 10, left: 14, bottom: 5, right: 14)
     }
+ 
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         self.categoryCollectionView.scrollToNearestVisibleCollectionViewCell()
@@ -124,3 +125,11 @@ extension UICollectionView {
         }
     }
 }
+
+
+extension CategoryCell: SkeletonCollectionViewDataSource {
+    func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> ReusableCellIdentifier {
+        return cellID
+    }
+}
+
