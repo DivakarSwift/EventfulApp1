@@ -144,6 +144,12 @@ class NewCommentsViewController: UIViewController, UITextFieldDelegate,CommentsS
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupViews()
+//        self.fetchComments()
+//        self.tryObserveComments()
+    }
+    
+    @objc func setupViews(){
         collectionView.frame = CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height-40)
         view.addSubview(collectionView)
         collectionView.alwaysBounceVertical = true
@@ -159,9 +165,9 @@ class NewCommentsViewController: UIViewController, UITextFieldDelegate,CommentsS
         self.navigationItem.hidesBackButton = true
         let backButton = UIBarButtonItem(image: UIImage(named: "icons8-Back-64"), style: .plain, target: self, action: #selector(GoBack))
         self.navigationItem.leftBarButtonItem = backButton
-//        self.fetchComments()
-//        self.tryObserveComments()
     }
+    
+    
     deinit {
         print("NewCommentsController class removed from memory")
         messagesRef?.removeObserver(withHandle: messageHandle)

@@ -20,7 +20,6 @@ target 'Eventful' do
     pod 'SwiftyCam', :git => 'https://github.com/Awalz/SwiftyCam.git', :branch => 'Swift4'
     pod ‘TextFieldEffects’
     pod 'SwiftLocation'
-    pod 'EZSwipeController'
     pod 'IGListKit', :git => 'https://github.com/Instagram/IGListKit.git', :branch => 'master'
     pod 'GeoFire', :git => 'https://github.com/firebase/geofire-objc.git'
     pod 'Fabric'

@@ -7,7 +7,6 @@ PODS:
   - BPStatusBarAlert (0.1.5)
   - Crashlytics (3.10.0):
     - Fabric (~> 1.7.3)
-  - EZSwipeController (0.6.1)
   - Fabric (1.7.3)
   - FaceAware (1.2.0)
   - Firebase/Auth (4.9.0):
@@ -109,7 +108,6 @@ DEPENDENCIES:
   - AlamofireNetworkActivityIndicator
   - BPStatusBarAlert
   - Crashlytics
-  - EZSwipeController
   - Fabric
   - FaceAware
   - Firebase/Auth
@@ -158,7 +156,6 @@ SPEC CHECKSUMS:
   AlamofireNetworkActivityIndicator: 81e1630e7cfed22a4e4e82a174c59e651dc4f8ca
   BPStatusBarAlert: 0bc567e3a0f740189239f49c6c516bd61cb3c758
   Crashlytics: a989ef242b66605577a425733797f810bd2725eb
-  EZSwipeController: 255b0f8aed31963b0236802c926e27dd006a2532
   Fabric: bb495bb9a7a7677c6d03a1f8b83d95bc49b47e41
   FaceAware: 421436f9d16aacdb26ffcf8e5a39a1dd68630395
   Firebase: 632216af3ed7f31e3be34776947fdc7546cfb572
@@ -190,6 +187,6 @@ SPEC CHECKSUMS:
   SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
   TextFieldEffects: 4ee41b5216e674d55fb6ac25107bf1af7629176f
 
-PODFILE CHECKSUM: 7ec4de0c865c833e4b43a133cf6dd79ef270ee5a
+PODFILE CHECKSUM: ff5c1912f71a942b1d9fc9a7323625ad5c2764a2
 
 COCOAPODS: 1.4.0
