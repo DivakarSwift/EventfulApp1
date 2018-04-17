@@ -248,7 +248,7 @@ class EventSearchController: UICollectionViewController, UISearchBarDelegate, UI
             self.filteredEvents.removeAll()
             self.eventsArray.removeAll()
             self.collectionView?.reloadData()
-            present(currentEventDetailController, animated: true, completion: nil)
+            self.navigationController?.pushViewController(currentEventDetailController, animated: true)
             //  navigationController?.pushViewController(currentEventDetailController, animated: true)
             navigationController?.navigationBar.isHidden = false
             break
@@ -262,8 +262,8 @@ class EventSearchController: UICollectionViewController, UISearchBarDelegate, UI
             userProfileController.navigationItem.hidesBackButton = true
             let backButton = UIBarButtonItem(image: UIImage(named: "icons8-Back-64"), style: .plain, target: self, action: #selector(GoBack))
             userProfileController.navigationItem.leftBarButtonItem = backButton
-            let navController = UINavigationController(rootViewController: userProfileController)
-            present(navController, animated: true, completion: nil)
+            self.navigationController?.pushViewController(userProfileController, animated: true)
+
             break
         default:
             break
@@ -272,7 +272,7 @@ class EventSearchController: UICollectionViewController, UISearchBarDelegate, UI
     }
     
     @objc func GoBack(){
-        self.dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewController(animated: true)
     }
     
     

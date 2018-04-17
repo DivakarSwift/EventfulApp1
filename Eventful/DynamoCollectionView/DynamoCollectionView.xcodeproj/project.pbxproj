@@ -103,7 +103,8 @@
 				52C91A151F8E357600FF975E /* CCLocalMaximum.h */,
 				52C91A161F8E357600FF975E /* CCLocalMaximum.m */,
 			);
-			path = ColorCube;
+			name = ColorCube;
+			path = ../../Eventful/ColorCube;
 			sourceTree = "<group>";
 		};
 		B4144779CC9C1C0BD1709F54 /* Frameworks */ = {

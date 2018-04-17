@@ -60,7 +60,7 @@ class CategoryCell: UICollectionViewCell, UICollectionViewDataSource, UICollecti
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let eventDetails = EventDetailViewController()
         eventDetails.currentEvent = categoryEvents?[indexPath.item]
-        homeFeedController?.present(eventDetails, animated: false, completion: nil)
+        homeFeedController?.navigationController?.pushViewController(eventDetails, animated: true)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {

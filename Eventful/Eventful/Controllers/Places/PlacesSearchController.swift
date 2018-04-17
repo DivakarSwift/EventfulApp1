@@ -8,6 +8,7 @@
 
 import UIKit
 import GooglePlaces
+import SVProgressHUD
 
 class PlacesSearchController: UIViewController, UICollectionViewDelegateFlowLayout {
     let cellID = "cellID"
@@ -69,6 +70,9 @@ class PlacesSearchController: UIViewController, UICollectionViewDelegateFlowLayo
         searchCollectionView.anchor(top: searchBar.bottomAnchor, left: view.safeLeftAnchor, bottom: view.safeBottomAnchor, right: view.safeRightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
 
     }
+    override func viewWillAppear(_ animated: Bool) {
+        tabBarController?.tabBar.isHidden = true
+    }
     //Calls this function when the tap is recognized.
     @objc func dismissKeyboard() {
         //Causes the view (or one of its embedded text fields) to resign the first responder status.
@@ -109,14 +113,14 @@ extension PlacesSearchController: UICollectionViewDataSource{
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let currentLocation = arrayAddress[indexPath.item].placeID
-        print("cell tapped and current location is \(currentLocation)")
+       // print("cell tapped and current location is \(currentLocation)")
         let city = arrayAddress[indexPath.item].attributedPrimaryText.string
         let stateHolder = arrayAddress[indexPath.item].attributedSecondaryText?.string.split(separator: ",")
         let string = "\(city), \(String(describing: stateHolder![0])) ▼"
         self.homeFeedController?.titleView.text = string
         self.homeFeedController?.updateCVWithLocation(placeID: currentLocation!)
-        self.dismiss(animated: false, completion: nil)
-        
+        self.homeFeedController?.navigationController?.popViewController(animated: true)
+        SVProgressHUD.show()
     }
     
 }

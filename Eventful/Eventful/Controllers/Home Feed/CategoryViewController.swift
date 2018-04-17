@@ -78,7 +78,7 @@ class CategoryViewController: UICollectionViewController,UICollectionViewDelegat
         print("cell selected")
         let eventDetails = EventDetailViewController()
         eventDetails.currentEvent = events[indexPath.item]
-        self.present(eventDetails, animated: false, completion: nil)
+        self.navigationController?.pushViewController(eventDetails, animated: true)
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

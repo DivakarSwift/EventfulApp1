@@ -39,13 +39,6 @@
 		0747A9E020375C9500F725C7 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0747A9DE20375C9500F725C7 /* SignUpViewController.swift */; };
 		0747A9E120375C9500F725C7 /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0747A9DF20375C9500F725C7 /* ForgotPasswordViewController.swift */; };
 		0747A9E320375CD800F725C7 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0747A9E220375CD800F725C7 /* HomeViewController.swift */; };
-		0747A9EB20375CF300F725C7 /* ProfileCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0747A9E420375CF200F725C7 /* ProfileCollectionViewCell.swift */; };
-		0747A9EC20375CF300F725C7 /* EventDetailsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0747A9E520375CF200F725C7 /* EventDetailsCell.swift */; };
-		0747A9ED20375CF300F725C7 /* FriendsEventsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0747A9E620375CF200F725C7 /* FriendsEventsView.swift */; };
-		0747A9EE20375CF300F725C7 /* CollapsibleTableViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0747A9E720375CF200F725C7 /* CollapsibleTableViewHeader.swift */; };
-		0747A9EF20375CF300F725C7 /* ImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0747A9E820375CF300F725C7 /* ImageCollectionViewCell.swift */; };
-		0747A9F020375CF300F725C7 /* SideMenuOld.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0747A9E920375CF300F725C7 /* SideMenuOld.swift */; };
-		0747A9F120375CF300F725C7 /* ImageViewForURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0747A9EA20375CF300F725C7 /* ImageViewForURL.swift */; };
 		0747A9F620375D2400F725C7 /* HomeFeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0747A9F220375D2400F725C7 /* HomeFeedCell.swift */; };
 		0747A9F820375D2400F725C7 /* BaseRoundedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0747A9F420375D2400F725C7 /* BaseRoundedCell.swift */; };
 		0747A9F920375D2400F725C7 /* HomeFeedController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0747A9F520375D2400F725C7 /* HomeFeedController.swift */; };
@@ -78,6 +71,9 @@
 		0747AA3A203779D900F725C7 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0747AA37203779D900F725C7 /* Event.swift */; };
 		0747AA3B203779D900F725C7 /* Friend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0747AA38203779D900F725C7 /* Friend.swift */; };
 		0747AA3D20377A2900F725C7 /* NSLayoutConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0747AA3C20377A2900F725C7 /* NSLayoutConstraint.swift */; };
+		07487148208454AA0024635C /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07487147208454AA0024635C /* CalendarViewController.swift */; };
+		0748714A20845BCF0024635C /* CalendarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0748714920845BCF0024635C /* CalendarCell.swift */; };
+		0748714C20845C320024635C /* BaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0748714B20845C320024635C /* BaseCell.swift */; };
 		074D75A0200C8E8C0044C3AD /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074D759F200C8E8C0044C3AD /* LocationService.swift */; };
 		0753E7D72041E2AF00B882E4 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0753E7D62041E2AF00B882E4 /* Notification.swift */; };
 		0753E7D92043CF9E00B882E4 /* FollowNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0753E7D82043CF9E00B882E4 /* FollowNotification.swift */; };
@@ -145,13 +141,6 @@
 		0747A9DE20375C9500F725C7 /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SignUpViewController.swift; path = Controllers/SignUp/SignUpViewController.swift; sourceTree = "<group>"; };
 		0747A9DF20375C9500F725C7 /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ForgotPasswordViewController.swift; path = Controllers/SignUp/ForgotPasswordViewController.swift; sourceTree = "<group>"; };
 		0747A9E220375CD800F725C7 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HomeViewController.swift; path = Controllers/RootView/HomeViewController.swift; sourceTree = "<group>"; };
-		0747A9E420375CF200F725C7 /* ProfileCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileCollectionViewCell.swift; path = Controllers/RootView/ProfileCollectionViewCell.swift; sourceTree = "<group>"; };
-		0747A9E520375CF200F725C7 /* EventDetailsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EventDetailsCell.swift; path = Controllers/RootView/EventDetailsCell.swift; sourceTree = "<group>"; };
-		0747A9E620375CF200F725C7 /* FriendsEventsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FriendsEventsView.swift; path = Controllers/RootView/FriendsEventsView.swift; sourceTree = "<group>"; };
-		0747A9E720375CF200F725C7 /* CollapsibleTableViewHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CollapsibleTableViewHeader.swift; path = Controllers/RootView/CollapsibleTableViewHeader.swift; sourceTree = "<group>"; };
-		0747A9E820375CF300F725C7 /* ImageCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageCollectionViewCell.swift; path = Controllers/RootView/ImageCollectionViewCell.swift; sourceTree = "<group>"; };
-		0747A9E920375CF300F725C7 /* SideMenuOld.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SideMenuOld.swift; path = Controllers/RootView/SideMenuOld.swift; sourceTree = "<group>"; };
-		0747A9EA20375CF300F725C7 /* ImageViewForURL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageViewForURL.swift; path = Controllers/RootView/ImageViewForURL.swift; sourceTree = "<group>"; };
 		0747A9F220375D2400F725C7 /* HomeFeedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HomeFeedCell.swift; path = "Controllers/Home Feed/HomeFeedCell.swift"; sourceTree = "<group>"; };
 		0747A9F420375D2400F725C7 /* BaseRoundedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseRoundedCell.swift; path = "Controllers/Home Feed/BaseRoundedCell.swift"; sourceTree = "<group>"; };
 		0747A9F520375D2400F725C7 /* HomeFeedController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HomeFeedController.swift; path = "Controllers/Home Feed/HomeFeedController.swift"; sourceTree = "<group>"; };
@@ -184,6 +173,9 @@
 		0747AA37203779D900F725C7 /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Event.swift; path = Models/Event.swift; sourceTree = "<group>"; };
 		0747AA38203779D900F725C7 /* Friend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Friend.swift; path = Models/Friend.swift; sourceTree = "<group>"; };
 		0747AA3C20377A2900F725C7 /* NSLayoutConstraint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NSLayoutConstraint.swift; path = Extensions/NSLayoutConstraint.swift; sourceTree = "<group>"; };
+		07487147208454AA0024635C /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CalendarViewController.swift; path = Controllers/Calendar/CalendarViewController.swift; sourceTree = "<group>"; };
+		0748714920845BCF0024635C /* CalendarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CalendarCell.swift; path = Controllers/Calendar/CalendarCell.swift; sourceTree = "<group>"; };
+		0748714B20845C320024635C /* BaseCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseCell.swift; path = Controllers/Calendar/BaseCell.swift; sourceTree = "<group>"; };
 		074BE9E72028969C001231B9 /* Eventful.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Eventful.entitlements; sourceTree = "<group>"; };
 		074D759F200C8E8C0044C3AD /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LocationService.swift; path = Services/LocationService.swift; sourceTree = "<group>"; };
 		0753E7D62041E2AF00B882E4 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Notification.swift; path = Models/Notification.swift; sourceTree = "<group>"; };
@@ -298,6 +290,7 @@
 		07437F2D1F267E1D00CE728B /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				07487146208453D50024635C /* Calendar */,
 				0724731D2078558D00DD285E /* Places */,
 				074290A0201ECE2000C1D68D /* Notifications */,
 				07D923A21F2EEEF90069613D /* Login */,
@@ -370,6 +363,16 @@
 			name = Services;
 			sourceTree = "<group>";
 		};
+		07487146208453D50024635C /* Calendar */ = {
+			isa = PBXGroup;
+			children = (
+				0748714B20845C320024635C /* BaseCell.swift */,
+				07487147208454AA0024635C /* CalendarViewController.swift */,
+				0748714920845BCF0024635C /* CalendarCell.swift */,
+			);
+			name = Calendar;
+			sourceTree = "<group>";
+		};
 		07D923A01F2EEE4C0069613D /* Profile */ = {
 			isa = PBXGroup;
 			children = (
@@ -420,13 +423,6 @@
 		07D923A41F2EEF1E0069613D /* Root View */ = {
 			isa = PBXGroup;
 			children = (
-				0747A9E720375CF200F725C7 /* CollapsibleTableViewHeader.swift */,
-				0747A9E520375CF200F725C7 /* EventDetailsCell.swift */,
-				0747A9E620375CF200F725C7 /* FriendsEventsView.swift */,
-				0747A9E820375CF300F725C7 /* ImageCollectionViewCell.swift */,
-				0747A9EA20375CF300F725C7 /* ImageViewForURL.swift */,
-				0747A9E420375CF200F725C7 /* ProfileCollectionViewCell.swift */,
-				0747A9E920375CF300F725C7 /* SideMenuOld.swift */,
 				0747A9E220375CD800F725C7 /* HomeViewController.swift */,
 			);
 			name = "Root View";
@@ -602,6 +598,7 @@
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/Hero-iOS11.2/Hero.framework",
 				"${BUILT_PRODUCTS_DIR}/IGListKit/IGListKit.framework",
+				"${BUILT_PRODUCTS_DIR}/JTAppleCalendar/JTAppleCalendar.framework",
 				"${BUILT_PRODUCTS_DIR}/MarqueeLabel/MarqueeLabel.framework",
 				"${BUILT_PRODUCTS_DIR}/NotificationBannerSwift/NotificationBannerSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
@@ -627,6 +624,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Hero.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IGListKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JTAppleCalendar.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MarqueeLabel.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NotificationBannerSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
@@ -692,9 +690,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				07487148208454AA0024635C /* CalendarViewController.swift in Sources */,
 				0747AA2A20375E2A00F725C7 /* StoriesViewController.swift in Sources */,
-				0747A9EE20375CF300F725C7 /* CollapsibleTableViewHeader.swift in Sources */,
-				0747A9F020375CF300F725C7 /* SideMenuOld.swift in Sources */,
 				0753E7D92043CF9E00B882E4 /* FollowNotification.swift in Sources */,
 				0747A9FF20375D3B00F725C7 /* ProfileeViewController.swift in Sources */,
 				072473182072C83700DD285E /* SideMenuHeader.swift in Sources */,
@@ -704,13 +701,13 @@
 				0704C7702062BB7C00C9E35A /* CategoryEventCell.swift in Sources */,
 				0747A9E020375C9500F725C7 /* SignUpViewController.swift in Sources */,
 				0724731C207421CF00DD285E /* CategoryViewController.swift in Sources */,
+				0748714A20845BCF0024635C /* CalendarCell.swift in Sources */,
 				0753E7D72041E2AF00B882E4 /* Notification.swift in Sources */,
 				077247D5206F2C42007E5C29 /* PreviewPhotoContainerView.swift in Sources */,
 				0747A9F620375D2400F725C7 /* HomeFeedCell.swift in Sources */,
 				0747AA0020375D3B00F725C7 /* UserEventAttendingCell.swift in Sources */,
 				0747AA0B20375D6E00F725C7 /* VideoLauncher.swift in Sources */,
 				0747A9F820375D2400F725C7 /* BaseRoundedCell.swift in Sources */,
-				0747A9EC20375CF300F725C7 /* EventDetailsCell.swift in Sources */,
 				07D923A81F33C61D0069613D /* Storyboard+Utility.swift in Sources */,
 				0741702C20468A1F006B236B /* NotificationCell.swift in Sources */,
 				0741702E20474D12006B236B /* NotificationSectionController.swift in Sources */,
@@ -728,6 +725,7 @@
 				07437F1A1F267CA900CE728B /* AppDelegate.swift in Sources */,
 				0704C7742062DC4300C9E35A /* EventSectionHeader.swift in Sources */,
 				0747A9E120375C9500F725C7 /* ForgotPasswordViewController.swift in Sources */,
+				0748714C20845C320024635C /* BaseCell.swift in Sources */,
 				074D75A0200C8E8C0044C3AD /* LocationService.swift in Sources */,
 				0704C7722062CE1D00C9E35A /* HomeFeedEventCell.swift in Sources */,
 				0747AA1F20375E0E00F725C7 /* EventSearchHeader.swift in Sources */,
@@ -743,9 +741,7 @@
 				07F3EC5E1F4B7B28005296EB /* StoryService.swift in Sources */,
 				0747AA2920375E2A00F725C7 /* VideoViewController.swift in Sources */,
 				0747A9F920375D2400F725C7 /* HomeFeedController.swift in Sources */,
-				0747A9F120375CF300F725C7 /* ImageViewForURL.swift in Sources */,
 				0747AA2020375E0E00F725C7 /* UserSearchCell.swift in Sources */,
-				0747A9EF20375CF300F725C7 /* ImageCollectionViewCell.swift in Sources */,
 				0747AA2220375E0E00F725C7 /* SearchViewController.swift in Sources */,
 				077247D720720CE2007E5C29 /* SideMenuLauncher.swift in Sources */,
 				07E271B62056354F007F0592 /* NotifBannerView.swift in Sources */,
@@ -763,11 +759,9 @@
 				07437F461F2911E500CE728B /* AuthService.swift in Sources */,
 				0747AA1720375D8500F725C7 /* CommentInputAccessoryView.swift in Sources */,
 				0747AA1320375D8500F725C7 /* CommentCell.swift in Sources */,
-				0747A9EB20375CF300F725C7 /* ProfileCollectionViewCell.swift in Sources */,
 				07F3EC601F4B7BE9005296EB /* Story.swift in Sources */,
 				0747AA39203779D900F725C7 /* CommentGrabbed.swift in Sources */,
 				07370C841F4A4CC8006DC7A2 /* StorageService.swift in Sources */,
-				0747A9ED20375CF300F725C7 /* FriendsEventsView.swift in Sources */,
 				0747AA3B203779D900F725C7 /* Friend.swift in Sources */,
 				0747AA2120375E0E00F725C7 /* EventSearchCell.swift in Sources */,
 				0747AA0120375D3B00F725C7 /* UserHeader.swift in Sources */,

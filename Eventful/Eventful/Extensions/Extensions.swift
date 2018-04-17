@@ -252,9 +252,22 @@ extension UIImageView
         blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight] // for supporting device rotation
         targetImageView?.addSubview(blurEffectView)
     }
-}
-
-extension UIImageView {
+    
+    func isDark(_ rect:CGRect)->Bool {
+        let s=image?.cgImage?.cropping(to: rect);
+        let data=s?.dataProvider?.data;
+        if data == nil {return false;}
+        guard let ptr = CFDataGetBytePtr(data) else {return false;}
+        let threshold = Int(Double(rect.width * rect.height) * 0.45);
+        var dark = 0,len=CFDataGetLength(data);
+        for i in stride(from: 0, to: len, by: 4) {
+            let r = ptr[i], g = ptr[i+1], b = ptr[i+2];
+            if (0.299 * Double(r) + 0.587 * Double(g) + 0.114 * Double(b)) < 100 {dark += 1;}
+            if dark > threshold {return true;}
+        }
+        return false;
+    }
+    
     func renderedImage() -> UIImage {
         UIGraphicsBeginImageContextWithOptions(self.bounds.size, false, UIScreen.main.scale)
         self.layer.render(in: UIGraphicsGetCurrentContext()!)
@@ -263,6 +276,8 @@ extension UIImageView {
         return image
     }
 }
+
+
 
 extension UIView {
     
@@ -275,6 +290,15 @@ extension UIView {
         animation.fillMode = kCAFillModeForwards
         
         self.layer.add(animation, forKey: nil)
+    }
+    
+    func bounce(){
+        self.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.3, initialSpringVelocity: 0.1, options: .beginFromCurrentState, animations: {
+            self.transform = CGAffineTransform(scaleX: 1, y: 1)
+        }) { (finished) in
+            print("done")
+        }
     }
     
 }

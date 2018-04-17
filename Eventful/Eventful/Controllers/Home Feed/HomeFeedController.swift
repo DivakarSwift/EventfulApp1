@@ -58,6 +58,7 @@ class HomeFeedController: UICollectionViewController, UICollectionViewDelegateFl
 
     override func viewDidLoad() {
         super.viewDidLoad()
+         self.navigationController?.navigationBar.backgroundColor = UIColor.white
         collectionView?.backgroundColor = .white
         collectionView?.showsVerticalScrollIndicator = false
         SVProgressHUD.dismiss()
@@ -85,7 +86,18 @@ class HomeFeedController: UICollectionViewController, UICollectionViewDelegateFl
     @objc func setupBarButtonItems(){
     let sideMenuButton = UIBarButtonItem(image: UIImage(named: "icons8-Menu-48"), style: .plain, target: self, action: #selector(presentSideMenu))
     navigationItem.leftBarButtonItem = sideMenuButton
+        let calendarMenuButton = UIBarButtonItem(image: UIImage(named: "icons8-calendar-48"), style: .plain, target: self, action: #selector(presentCalendar))
+        navigationItem.rightBarButtonItem = calendarMenuButton
     }
+    
+    @objc func presentCalendar(){
+        print("calendar tapped")
+        let calendar = CalendarViewController()
+        calendar.homeFeedController = self
+        self.navigationController?.pushViewController(calendar, animated: false)
+    }
+    
+    
     
     @objc func presentSideMenu(){
         sideMenuLauncher.presentSideMenu()
@@ -99,18 +111,18 @@ class HomeFeedController: UICollectionViewController, UICollectionViewDelegateFl
     }
     
     @objc func updateCVWithLocation(placeID: String){
-        print(placeID)
+        //print(placeID)
         placesClient.lookUpPlaceID(placeID) { (place, error) in
             if error != nil {
                 print("lookup place id query error: \(error!.localizedDescription)")
                 return
             }
             if let p = place {
-                print("Place name \(p.name)")
-                print("Place address \(p.formattedAddress)")
-                print("Place placeID \(p.placeID)")
-                print("Place attributions \(p.attributions)")
-                print("Place coordinates \(p.coordinate)")
+//                print("Place name \(p.name)")
+//                print("Place address \(p.formattedAddress)")
+//                print("Place placeID \(p.placeID)")
+//                print("Place attributions \(p.attributions)")
+//                print("Place coordinates \(p.coordinate)")
                 let currentLocation = CLLocation(latitude: p.coordinate.latitude, longitude: p.coordinate.longitude)
                 ///regular events
                 self.allEvents2["Seize The Night"]?.removeAll()
@@ -140,6 +152,7 @@ class HomeFeedController: UICollectionViewController, UICollectionViewDelegateFl
                     self.allEvents2[ "21 & Up"] = self.twentyOne
                     DispatchQueue.main.async {
                         self.collectionView?.reloadData()
+                        SVProgressHUD.dismiss()
                     }
                 })
                 
@@ -149,6 +162,7 @@ class HomeFeedController: UICollectionViewController, UICollectionViewDelegateFl
                     self?.featuredEvents = events
                     DispatchQueue.main.async {
                         self?.collectionView?.reloadData()
+                        SVProgressHUD.dismiss()
                     }
                     // print("Event count in Featured Events Closure is:\(self?.featuredEvents.count)")
                     }
@@ -159,7 +173,8 @@ class HomeFeedController: UICollectionViewController, UICollectionViewDelegateFl
             }else {
                 print("No place details for \(placeID)")
             }
-            
+            self.collectionView?.reloadData()
+            SVProgressHUD.dismiss()
         }
     }
     
@@ -261,7 +276,7 @@ class HomeFeedController: UICollectionViewController, UICollectionViewDelegateFl
         let searchController = PlacesSearchController()
         searchController.homeFeedController = self
         let placesNavController = UINavigationController(rootViewController: searchController)
-        self.present(placesNavController, animated: false, completion: nil)
+        self.navigationController?.pushViewController(searchController, animated: true)
     }
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.section == 0 {

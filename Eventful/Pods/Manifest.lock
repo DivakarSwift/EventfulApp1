@@ -82,6 +82,7 @@ PODS:
   - IGListKit/Default (3.2.0):
     - IGListKit/Diffing
   - IGListKit/Diffing (3.2.0)
+  - JTAppleCalendar (7.1.5)
   - leveldb-library (1.20)
   - MarqueeLabel/Swift (3.1.4)
   - nanopb (0.3.8):
@@ -121,6 +122,7 @@ DEPENDENCIES:
   - GooglePlaces
   - Hero
   - IGListKit (from `https://github.com/Instagram/IGListKit.git`, branch `master`)
+  - JTAppleCalendar
   - NotificationBannerSwift
   - SkeletonView
   - SVProgressHUD
@@ -174,6 +176,7 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 5bb1eae636127de695590f50e7d248483eb891e6
   Hero: ce59e81c79390613d97b43da7179e2c5e1017e04
   IGListKit: ffe6f98a728ab0250aceea22e7957aa5477c5048
+  JTAppleCalendar: 2d4f974f9f3c8b4964d51ca1f6e004883c031fbe
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   MarqueeLabel: bf768455fe88d427f71476ebb23f9092b660f40b
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
@@ -187,6 +190,6 @@ SPEC CHECKSUMS:
   SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
   TextFieldEffects: 4ee41b5216e674d55fb6ac25107bf1af7629176f
 
-PODFILE CHECKSUM: ff5c1912f71a942b1d9fc9a7323625ad5c2764a2
+PODFILE CHECKSUM: 5f8a0b09c86049ec5162e6802899ee6d899febb0
 
 COCOAPODS: 1.4.0

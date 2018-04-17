@@ -44,7 +44,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
         configureInitialRootViewController(for: window)
             // 3
        // Will make the navigation bar white
-       UINavigationBar.appearance().backgroundColor = UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1)
+//       UINavigationBar.appearance().backgroundColor = UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1)
        // Will make the tab bar white
         UITabBar.appearance().backgroundColor = UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1)
         UITabBar.appearance().tintColor = .black
@@ -194,6 +194,12 @@ extension AppDelegate{
         print(messaging)
     }
     
+}
+
+extension UIApplication {
+    var statusBarView: UIView? {
+        return value(forKey: "statusBar") as? UIView
+    }
 }
 
 

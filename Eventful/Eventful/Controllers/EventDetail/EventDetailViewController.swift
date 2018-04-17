@@ -22,8 +22,6 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
                     let image = response.result.value // UIImage Object
                 })
             }
-            //will set pass the event name to the eventLabel via the event object passed to the vc
-            eventNameLabel.text = currentEvent?.currentEventName.uppercased()
             //will pass the event description to the corresponding label
             infoText.text = currentEvent?.currentEventDescription
             updateWithSpacing(lineSpacing: 5.0)
@@ -39,6 +37,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
             eventKey = (currentEvent?.key)!
             eventPromo = (currentEvent?.currentEventPromo)!
             setupAttendInteraction()
+            titleView.text = currentEvent?.currentEventName.uppercased()
         }
     }
     private let scrollView = UIScrollView()
@@ -47,6 +46,8 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
     private var userInteractStackView: UIStackView?
     private var eventKey = ""
     private var eventPromo = ""
+    let titleView = UILabel()
+
 
     
     private let infoText: UILabel = {
@@ -87,14 +88,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         let videoLauncher = extractedFunc(url)
         present(videoLauncher, animated: true, completion: nil)
     }
-    
-    //will show the event name
-    lazy var eventNameLabel: UILabel = {
-        let currentEventName = UILabel()
-        currentEventName.font = UIFont(name:"Futura-CondensedMedium", size: 24.0)
-        currentEventName.translatesAutoresizingMaskIntoConstraints = false
-        return currentEventName
-    }()
+
     //wil be responsible for creating the address  label
     lazy var addressLabel : UILabel = {
         let currentAddressLabel = UILabel()
@@ -134,6 +128,28 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         attendButton.addTarget(self, action: #selector(handleAttend), for: .touchUpInside)
         return attendButton
     }()
+    
+    override func didMove(toParentViewController parent: UIViewController?) {
+        super.didMove(toParentViewController: parent)
+        
+        if parent != nil && self.navigationItem.titleView == nil {
+            initNavigationItemTitleView()
+        }
+    }
+    
+    private func initNavigationItemTitleView() {
+        let width = titleView.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)).width
+        titleView.frame = CGRect(origin:CGPoint.zero, size:CGSize(width: width, height: 500))
+        titleView.textAlignment = .center;
+        self.navigationItem.titleView = titleView
+        self.titleView.font = UIFont(name: "Futura-CondensedMedium", size: 18)
+        self.titleView.adjustsFontSizeToFitWidth = true
+        
+//        let recognizer = UITapGestureRecognizer(target: self, action: #selector(YourViewController.titleWasTapped))
+//        titleView.userInteractionEnabled = true
+//        titleView.addGestureRecognizer(recognizer)
+    }
+
     @objc func handleAttend(){
         // 2
         attendingButton.isUserInteractionEnabled = false
@@ -222,15 +238,25 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
+    override func viewWillAppear(_ animated: Bool) {
+        tabBarController?.tabBar.isHidden = true
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
        setupVc()
     }
+    @objc func GoBack(){
+        print("BACK TAPPED")
+        self.navigationController?.popViewController(animated: true)
+    }
     
     @objc func setupVc(){
-    
-    view.backgroundColor = .gray
+        self.navigationController?.navigationBar.isTranslucent = false
+
+    let backButton = UIBarButtonItem(image: UIImage(named: "icons8-Back-64"), style: .plain, target: self, action: #selector(GoBack))
+        self.navigationItem.leftBarButtonItem = backButton
+    view.backgroundColor = .white
     
     scrollView.contentInsetAdjustmentBehavior = .never
     scrollView.delegate = self
@@ -261,7 +287,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
     scrollView.addSubview(textContainer)
     scrollView.addSubview(currentEventImage)
     
-    textContainer.addSubview(eventNameLabel)
+//    textContainer.addSubview(eventNameLabel)
     textContainer.addSubview(addressLabel)
     textContainer.addSubview(currentEventDate)
     textContainer.addSubview(LocationMarkerViewButton)
@@ -270,7 +296,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
     scrollView.snp.makeConstraints {
     make in
     
-    make.edges.equalTo(view)
+    make.edges.equalTo(view.safeAreaLayoutGuide)
     }
     
     imageContainer.snp.makeConstraints {
@@ -311,21 +337,16 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
     make.bottom.equalTo(view)
     }
         
-    eventNameLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(textContainer.snp.top)
-            make.left.equalTo(textContainer.snp.left).offset(5)
+    LocationMarkerViewButton.snp.makeConstraints { (make) in
+            make.top.equalTo(textContainer.snp.top).offset(2)
+            make.left.equalTo(textContainer.snp.left)
         }
         currentEventDate.snp.makeConstraints { (make) in
             make.top.equalTo(textContainer.snp.top)
             make.right.equalTo(textContainer).inset(5)
         }
-    
-    LocationMarkerViewButton.snp.makeConstraints { (make) in
-            make.top.equalTo(eventNameLabel.snp.bottom).offset(5)
-            make.left.equalTo(textContainer.snp.left)
-        }
     addressLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(eventNameLabel.snp.bottom).offset(7)
+            make.top.equalTo(textContainer.snp.top).offset(5)
             make.left.equalTo(LocationMarkerViewButton.snp.right).offset(1.5)
         }
         
@@ -344,7 +365,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
+
         scrollView.scrollIndicatorInsets = view.safeAreaInsets
         scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: view.safeAreaInsets.bottom, right: 0)
     }

@@ -58,9 +58,9 @@ class ForgotPasswordViewController: UIViewController {
         button.setTitle("Send Reset Link", for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 15.0, weight: UIFont.Weight.regular)
         button.setTitleColor(.white, for: .normal)
-        button.layer.cornerRadius = 23.5
+        button.layer.cornerRadius = 5
         button.addTarget(self, action: #selector(resetPassword), for: .touchUpInside)
-        button.backgroundColor = UIColor.logoColor
+        button.backgroundColor = UIColor.rgb(red: 45, green: 162, blue: 232)
         return button
     }()
     
