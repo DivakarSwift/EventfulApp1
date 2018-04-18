@@ -184,9 +184,19 @@ extension Date {
             quotient = secondsAgo / month
             unit = "month"
         }
-        
         return "\(quotient) \(unit)\(quotient == 1 ? "" : "s") ago"
-        
+    }
+    
+    static func greaterThan(a: Date, b: Date) -> Bool{
+        return a.compare(b) == ComparisonResult.orderedAscending
+    }
+    
+    static func lessThan(a: Date, b: Date) -> Bool{
+        return a.compare(b) == ComparisonResult.orderedDescending
+    }
+
+    static func equalTo(a: Date, b: Date) -> Bool {
+        return a.compare(b) == ComparisonResult.orderedSame
     }
 }
 

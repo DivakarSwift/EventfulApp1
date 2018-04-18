@@ -8,13 +8,15 @@
 
 import UIKit
 import JTAppleCalendar
+import SVProgressHUD
 
 class CalendarViewController: UIViewController, UICollectionViewDelegateFlowLayout {
     let cellID = "cellID"
     let formatter = DateFormatter()
     let dateFormatterGet = DateFormatter()
     let dateFormatterPrint = DateFormatter()
-
+    var selectedDate = Date()
+    var passedDate = Date()
     var homeFeedController: HomeFeedController?
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 100, height: 100)
@@ -89,8 +91,6 @@ class CalendarViewController: UIViewController, UICollectionViewDelegateFlowLayo
     }()
     
     let calendarCollectionView: JTAppleCalendarView = {
-//        let layout = UICollectionViewFlowLayout()
-//        layout.scrollDirection = .horizontal
         let cv = JTAppleCalendarView(frame: .zero)
         cv.scrollDirection = .vertical
         cv.allowsSelection = true
@@ -112,18 +112,23 @@ class CalendarViewController: UIViewController, UICollectionViewDelegateFlowLayo
         tabBarController?.tabBar.isHidden = true
     }
     
-    
+    @objc func setupNavBar(){
+        self.navigationController?.navigationBar.isTranslucent = false
+
+        let backButton = UIBarButtonItem(image: UIImage(named: "icons8-Back-64"), style: .plain, target: self, action: #selector(GoBack))
+        self.navigationItem.leftBarButtonItem = backButton
+        
+        let doneButton = UIBarButtonItem(image: UIImage(named: "icons8-checkmark-64"), style: .plain, target: self, action: #selector(beginDateFilter))
+        navigationItem.rightBarButtonItem = doneButton
+    }
 
     
     @objc func setupVC(){
-        
+        setupNavBar()
         calendarCollectionView.visibleDates { (visibleDates) in
             self.setupViewsOfCalendar(from: visibleDates)
 
         }
-        let backButton = UIBarButtonItem(image: UIImage(named: "icons8-Back-64"), style: .plain, target: self, action: #selector(GoBack))
-        self.navigationItem.leftBarButtonItem = backButton
-        self.navigationController?.navigationBar.isTranslucent = false
         dayStackView = UIStackView(arrangedSubviews: [sunLabel,monLabel,tuesLabel,wedsLabel,thursLabel,friLabel,satLabel])
         dayStackView?.distribution = .fillEqually
         dayStackView?.axis = .horizontal
@@ -141,8 +146,6 @@ class CalendarViewController: UIViewController, UICollectionViewDelegateFlowLayo
         
         view.addSubview(stackView)
         stackView.snp.makeConstraints { (make) in
-//            make.top.left.right.equalTo(view)
-//            make.height.equalTo(view.bounds.height/2)
             make.edges.equalTo(view)
         }
         calendarCollectionView.isPagingEnabled = true
@@ -151,8 +154,14 @@ class CalendarViewController: UIViewController, UICollectionViewDelegateFlowLayo
         calendarCollectionView.showsHorizontalScrollIndicator = false
         calendarCollectionView.showsVerticalScrollIndicator = false
         calendarCollectionView.register(CalendarCell.self, forCellWithReuseIdentifier: cellID)
-        calendarCollectionView.scrollToDate(Date(), animateScroll: false)
-        calendarCollectionView.selectDates([Date()])
+        if passedDate != nil {
+            calendarCollectionView.scrollToDate(passedDate, animateScroll: false)
+            calendarCollectionView.selectDates([passedDate])
+        }else{
+            calendarCollectionView.scrollToDate(Date(), animateScroll: false)
+            calendarCollectionView.selectDates([Date()])
+        }
+        
     }
     
     func setupViewsOfCalendar(from visibleDates: DateSegmentInfo){
@@ -166,6 +175,13 @@ class CalendarViewController: UIViewController, UICollectionViewDelegateFlowLayo
     @objc func GoBack(){
         print("BACK TAPPED")
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    @objc func beginDateFilter(){
+        print("Done Pressed")
+        self.homeFeedController?.getSelectedDateFromCal(from: self.selectedDate)
+        self.navigationController?.popViewController(animated: true)
+        SVProgressHUD.dismiss(withDelay: 2)
     }
 
     override func didReceiveMemoryWarning() {
@@ -241,17 +257,8 @@ extension CalendarViewController: JTAppleCalendarViewDelegate {
             return
         }
         validCell.bounce()
+        selectedDate = date
         print(date.description)
-        dateFormatterGet.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
-        dateFormatterPrint.dateFormat = "MMM dd,yyyy"
-        
-        if let date = dateFormatterGet.date(from: date.description){
-            print(dateFormatterPrint.string(from: date))
-        }
-        else {
-            print("There was an error decoding the string")
-        }
-
         handleCellSelected(view: validCell, cellState: cellState)
         handleCellTextColor(view: validCell, cellState: cellState)
     }

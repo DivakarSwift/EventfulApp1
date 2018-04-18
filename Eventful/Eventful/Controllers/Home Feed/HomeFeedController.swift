@@ -27,7 +27,7 @@ class ImageAndTitleItem: NSObject {
     }
 }
 
-class HomeFeedController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+class HomeFeedController: UICollectionViewController {
     
     let dispatchGroup = DispatchGroup()
     var savedLocation: CLLocation?
@@ -43,12 +43,12 @@ class HomeFeedController: UICollectionViewController, UICollectionViewDelegateFl
     var friendsEvents = [Event]()
     var newLoadedEvents = [Event]()
     var placesClient = GMSPlacesClient()
+    let dateFormatter = DateFormatter()
+    var lastSelectedDate = Date()
     private let cellID = "cellID"
     private let catergoryCellID = "catergoryCellID"
-    var images: [String] = ["gear1","gear4","snakeman","gear4","gear1"]
-    var images1: [String] = ["sage","sagemode","kyubi","Naruto_Part_III","team7"]
     var featuredEventsHeaderString = "Featured Events"
-    var categories : [String] = ["Seize The Night","Seize The Day","21 & Up", "Friends Events"]
+    var categories : [String] = ["Seize The Night","Seize The Day","21 & Up"]
     lazy var sideMenuLauncher: SideMenuLauncher = {
        let launcher = SideMenuLauncher()
         launcher.homeFeedController = self
@@ -61,7 +61,7 @@ class HomeFeedController: UICollectionViewController, UICollectionViewDelegateFl
          self.navigationController?.navigationBar.backgroundColor = UIColor.white
         collectionView?.backgroundColor = .white
         collectionView?.showsVerticalScrollIndicator = false
-        SVProgressHUD.dismiss()
+        SVProgressHUD.dismiss(withDelay: 0.5)
         grabUserLoc()
         setupBarButtonItems()
         grabFriendsEvents()
@@ -93,11 +93,12 @@ class HomeFeedController: UICollectionViewController, UICollectionViewDelegateFl
     @objc func presentCalendar(){
         print("calendar tapped")
         let calendar = CalendarViewController()
+        if lastSelectedDate != nil {
+            calendar.passedDate = lastSelectedDate
+        }
         calendar.homeFeedController = self
         self.navigationController?.pushViewController(calendar, animated: false)
     }
-    
-    
     
     @objc func presentSideMenu(){
         sideMenuLauncher.presentSideMenu()
@@ -106,24 +107,24 @@ class HomeFeedController: UICollectionViewController, UICollectionViewDelegateFl
     @objc func showControllerForCategory(sideMenu: SideMenu){
         let categoryVC = CategoryViewController(collectionViewLayout: UICollectionViewFlowLayout())
         categoryVC.titleView.text = sideMenu.name.rawValue
-        categoryVC.events = self.allEvents2[sideMenu.name.rawValue]!
+        if sideMenu.name.rawValue == "Friends Events" {
+            categoryVC.events = self.friendsEvents
+        }else{
+            categoryVC.events = self.allEvents2[sideMenu.name.rawValue]!
+
+        }
         navigationController?.pushViewController(categoryVC, animated: true)
     }
     
     @objc func updateCVWithLocation(placeID: String){
-        //print(placeID)
         placesClient.lookUpPlaceID(placeID) { (place, error) in
             if error != nil {
                 print("lookup place id query error: \(error!.localizedDescription)")
                 return
             }
             if let p = place {
-//                print("Place name \(p.name)")
-//                print("Place address \(p.formattedAddress)")
-//                print("Place placeID \(p.placeID)")
-//                print("Place attributions \(p.attributions)")
-//                print("Place coordinates \(p.coordinate)")
                 let currentLocation = CLLocation(latitude: p.coordinate.latitude, longitude: p.coordinate.longitude)
+                self.userLocation = currentLocation
                 ///regular events
                 self.allEvents2["Seize The Night"]?.removeAll()
                 self.allEvents2["Seize The Day"]?.removeAll()
@@ -152,7 +153,7 @@ class HomeFeedController: UICollectionViewController, UICollectionViewDelegateFl
                     self.allEvents2[ "21 & Up"] = self.twentyOne
                     DispatchQueue.main.async {
                         self.collectionView?.reloadData()
-                        SVProgressHUD.dismiss()
+                        SVProgressHUD.dismiss(withDelay: 1)
                     }
                 })
                 
@@ -162,9 +163,8 @@ class HomeFeedController: UICollectionViewController, UICollectionViewDelegateFl
                     self?.featuredEvents = events
                     DispatchQueue.main.async {
                         self?.collectionView?.reloadData()
-                        SVProgressHUD.dismiss()
+                        SVProgressHUD.dismiss(withDelay: 1)
                     }
-                    // print("Event count in Featured Events Closure is:\(self?.featuredEvents.count)")
                     }
                 )
                 
@@ -174,7 +174,7 @@ class HomeFeedController: UICollectionViewController, UICollectionViewDelegateFl
                 print("No place details for \(placeID)")
             }
             self.collectionView?.reloadData()
-            SVProgressHUD.dismiss()
+            SVProgressHUD.dismiss(withDelay: 1)
         }
     }
     
@@ -224,7 +224,7 @@ class HomeFeedController: UICollectionViewController, UICollectionViewDelegateFl
                     self.friendsEvents.append(event)
                    // self.friendsEvents.append(contentsOf: event)
                     // leave here
-                    self.allEvents2["Friends Events"] = self.friendsEvents.removeDuplicates()
+                    self.friendsEvents = self.friendsEvents.removeDuplicates()
                     self.collectionView?.reloadData()
                 })
                 
@@ -233,7 +233,26 @@ class HomeFeedController: UICollectionViewController, UICollectionViewDelegateFl
         }
     }
     
-
+    @objc func getSelectedDateFromCal(from selectedDate: Date){
+        lastSelectedDate = selectedDate
+        print(selectedDate.description)
+        dateFormatter.dateFormat = "MM/dd/yyyy"
+        SVProgressHUD.show(withStatus: "Grabbing Events")
+        self.allEvents2["Seize The Night"]?.removeAll()
+        self.allEvents2["Seize The Day"]?.removeAll()
+        self.allEvents2["21 & Up"]?.removeAll()
+        self.seizeTheNight.removeAll()
+        self.seizeTheDay.removeAll()
+        self.twentyOne.removeAll()
+        self.featuredEvents.removeAll()
+        
+        if let location = self.userLocation {
+            fetchEvents(currentLocation: location, selectedDate: selectedDate)
+        }else{
+            fetchEvents(currentLocation: savedLocation!, selectedDate: selectedDate)
+        }
+        
+    }
     
     override func didMove(toParentViewController parent: UIViewController?) {
         super.didMove(toParentViewController: parent)
@@ -278,6 +297,22 @@ class HomeFeedController: UICollectionViewController, UICollectionViewDelegateFl
         let placesNavController = UINavigationController(rootViewController: searchController)
         self.navigationController?.pushViewController(searchController, animated: true)
     }
+
+
+}
+
+//DATASOURCE
+extension HomeFeedController {
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if section == 1{
+            return categories.count
+        }
+        return 1
+    }
+    
+    override func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 2
+    }
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.section == 0 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! HomeFeedCell
@@ -297,19 +332,14 @@ class HomeFeedController: UICollectionViewController, UICollectionViewDelegateFl
         }
         return cell
     }
-    override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 2
-    }
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if section == 1{
-            return categories.count
-        }
-        return 1
-    }
+
+}
+//Delegate flow layout
+extension HomeFeedController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         if indexPath.section == 0 {
-             return CGSize(width: view.frame.width, height: 450)
+            return CGSize(width: view.frame.width, height: 450)
         }
         return CGSize(width: view.frame.width, height: 300)
         
@@ -319,6 +349,65 @@ class HomeFeedController: UICollectionViewController, UICollectionViewDelegateFl
             return UIEdgeInsets(top: 5, left: 5, bottom: 10, right: 5)
         }
         return UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
+    }
+}
+
+
+extension HomeFeedController {
+    @objc func fetchEvents(currentLocation: CLLocation, selectedDate: Date){
+        
+        PostService.showEvent(for: currentLocation, completion: { [unowned self](event) in
+            print(event.key)
+            
+            
+            if event.category == "Seize The Night" {
+                self.seizeTheNight.append(event)
+            }
+            if event.category == "Seize The Day"{
+                self.seizeTheDay.append(event)
+            }
+            if event.category == "21 & Up"{
+                self.twentyOne.append(event)
+            }
+            
+            self.allEvents2["Seize The Night"] = self.seizeTheNight
+            self.allEvents2["Seize The Day"] = self.seizeTheDay
+            self.allEvents2[ "21 & Up"] = self.twentyOne
+            
+            for events in self.allEvents2 {
+                for currentEvents in events.value {
+                    if let date = self.dateFormatter.date(from: currentEvents.currentEventDate!){
+                        print(date.description)
+                        if date.compare(selectedDate) == ComparisonResult.orderedAscending{
+                            print("happens earlier")
+                            self.allEvents2[events.key] = self.allEvents2[events.key]?.filter({ $0 != currentEvents})
+                        }
+                    }
+                }
+                DispatchQueue.main.async {
+                    self.collectionView?.reloadData()
+                    //SVProgressHUD.dismiss(withDelay: 1)
+                }
+            }
+        })
+        
+        PostService.showFeaturedEvent(for: currentLocation, completion: { [weak self] (events) in
+            self?.featuredEvents = events
+            for events in (self?.featuredEvents)! {
+                if let date = self?.dateFormatter.date(from: events.currentEventDate!){
+                    print(date.description)
+                    if date.compare(selectedDate) == ComparisonResult.orderedAscending{
+                        print("happens earlier")
+                        self?.featuredEvents = (self?.featuredEvents.filter({ $0 != events}))!
+                    }
+                }
+            }
+            DispatchQueue.main.async {
+                self?.collectionView?.reloadData()
+                SVProgressHUD.dismiss(withDelay: 1)
+            }
+            }
+        )
     }
 }
 

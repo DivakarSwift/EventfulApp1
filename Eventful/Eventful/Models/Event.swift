@@ -58,6 +58,7 @@ class Event:NSObject{
         self.currentEventTime = eventDate?["start:time"] as? String ?? ""
         self.currentEventEndTime = eventDate?["end:time"] as? String ?? ""
         self.currentEventEndDate = eventDate?["end:date"] as? String ?? ""
+        
     }
     
     init?(snapshot: DataSnapshot) {
