@@ -75,7 +75,7 @@ internal class BaseRoundedCardCell: UICollectionViewCell {
             let shadowPath = UIBezierPath(roundedRect: shadowView.bounds, cornerRadius: 14.0)
             shadowView.layer.masksToBounds = false
             shadowView.layer.shadowRadius = 8.0
-            shadowView.layer.shadowColor = UIColor.black.cgColor
+            shadowView.layer.shadowColor = UIColor.rgb(red: 195, green: 220, blue: 229).cgColor
             shadowView.layer.shadowOffset = CGSize(width: width, height: height)
             shadowView.layer.shadowOpacity = 0.35
             shadowView.layer.shadowPath = shadowPath.cgPath

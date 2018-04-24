@@ -44,6 +44,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
     private let imageView = UIImageView()
     private let textContainer = UIView()
     private var userInteractStackView: UIStackView?
+    private var userInteractStackView1: UIStackView?
     private var eventKey = ""
     private var eventPromo = ""
     let titleView = UILabel()
@@ -107,7 +108,12 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
     lazy var commentsViewButton : UIButton = {
         let viewComments = UIButton(type: .system)
         viewComments.setImage(#imageLiteral(resourceName: "commentBubble-1").withRenderingMode(.alwaysOriginal), for: .normal)
+        viewComments.layer.cornerRadius = 5
+        viewComments.setTitle("Comments", for: .normal)
         viewComments.setTitleColor(.white, for: .normal)
+        viewComments.backgroundColor = UIColor.rgb(red: 33, green: 154, blue: 233)
+        viewComments.layer.borderWidth = 0.5
+        viewComments.layer.borderColor = UIColor.black.cgColor
         viewComments.addTarget(self, action: #selector(presentComments), for: .touchUpInside)
         return viewComments
     }()
@@ -125,6 +131,12 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
     lazy var attendingButton: UIButton = {
         let attendButton = UIButton(type: .system)
         attendButton.setImage(#imageLiteral(resourceName: "walkingNotFiled").withRenderingMode(.alwaysOriginal), for: .normal)
+        attendButton.layer.cornerRadius = 5
+        attendButton.setTitle("Attending", for: .normal)
+        attendButton.setTitleColor(.black, for: .normal)
+        attendButton.backgroundColor = .white
+        attendButton.layer.borderWidth = 0.5
+        attendButton.layer.borderColor = UIColor.black.cgColor
         attendButton.addTarget(self, action: #selector(handleAttend), for: .touchUpInside)
         return attendButton
     }()
@@ -217,6 +229,13 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
     lazy var addToStoryButton : UIButton =  {
         let addToStory = UIButton(type: .system)
         addToStory.setImage(#imageLiteral(resourceName: "photo-camera").withRenderingMode(.alwaysOriginal), for: .normal)
+        addToStory.layer.cornerRadius = 5
+
+        addToStory.setTitle("Add to Story", for: .normal)
+        addToStory.setTitleColor(.black, for: .normal)
+        addToStory.backgroundColor = .white
+        addToStory.layer.borderWidth = 0.5
+        addToStory.layer.borderColor = UIColor.black.cgColor
         addToStory.addTarget(self, action: #selector(beginAddToStory), for: .touchUpInside)
         return addToStory
     }()
@@ -230,6 +249,12 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
     lazy var viewStoryButton : UIButton = {
         let viewStoryButton = UIButton(type: .system)
         viewStoryButton.setImage(#imageLiteral(resourceName: "icons8-Logout Rounded Up-50").withRenderingMode(.alwaysOriginal), for: .normal)
+        viewStoryButton.layer.cornerRadius = 5
+        viewStoryButton.setTitle("View Story", for: .normal)
+        viewStoryButton.setTitleColor(.black, for: .normal)
+        viewStoryButton.backgroundColor = .white
+        viewStoryButton.layer.borderWidth = 0.50
+        viewStoryButton.layer.borderColor = UIColor.black.cgColor
 //        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleViewStory))
 //        viewStoryButton.addGestureRecognizer(tapGesture)
         return viewStoryButton
@@ -274,11 +299,19 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
     textBacking.backgroundColor = .white
     
         
-    userInteractStackView = UIStackView(arrangedSubviews: [commentsViewButton, attendingButton,addToStoryButton, viewStoryButton])
-    userInteractStackView?.translatesAutoresizingMaskIntoConstraints = false
-    userInteractStackView?.distribution = .fillEqually
-    userInteractStackView?.axis = .horizontal
-    userInteractStackView?.spacing = 10.0
+    userInteractStackView = UIStackView(arrangedSubviews: [commentsViewButton, attendingButton])
+        userInteractStackView?.translatesAutoresizingMaskIntoConstraints = false
+        userInteractStackView?.distribution = .fillEqually
+        userInteractStackView?.axis = .horizontal
+        userInteractStackView?.spacing = 5.0
+        
+    userInteractStackView1 = UIStackView(arrangedSubviews: [addToStoryButton,viewStoryButton])
+        userInteractStackView1?.translatesAutoresizingMaskIntoConstraints = false
+        userInteractStackView1?.distribution = .fillEqually
+        userInteractStackView1?.axis = .horizontal
+        userInteractStackView1?.spacing = 5.0
+
+
         
     view.addSubview(scrollView)
     
@@ -293,6 +326,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
     textContainer.addSubview(LocationMarkerViewButton)
     textContainer.addSubview(infoText)
     textContainer.addSubview(userInteractStackView!)
+    textContainer.addSubview(userInteractStackView1!)
     scrollView.snp.makeConstraints {
     make in
     
@@ -358,9 +392,16 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
     
         userInteractStackView?.snp.makeConstraints { (make) in
             make.top.equalTo(infoText.snp.bottom).offset(30)
-            make.left.right.equalTo(textContainer)
-            make.bottom.equalTo(textContainer.snp.bottom)
+            make.height.equalTo(40)
+            make.left.right.equalTo(textContainer).inset(5)
         }
+        
+        userInteractStackView1?.snp.makeConstraints({ (make) in
+            make.top.equalTo((userInteractStackView?.snp.bottom)!).offset(5)
+            make.height.equalTo(40)
+            make.left.right.equalTo(textContainer).inset(5)
+            make.bottom.equalTo(textContainer.snp.bottom)
+        })
     }
     
     override func viewDidLayoutSubviews() {

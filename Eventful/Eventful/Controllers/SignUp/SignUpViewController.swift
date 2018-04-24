@@ -126,7 +126,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 5
         button.addTarget(self, action: #selector(handleSignUp), for: .touchUpInside)
-        button.backgroundColor = UIColor.rgb(red: 45, green: 162, blue: 232)
+        button.backgroundColor = UIColor.rgb(red: 33, green: 154, blue: 233)
         return button
     }()
     

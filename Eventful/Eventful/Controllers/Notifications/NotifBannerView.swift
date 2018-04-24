@@ -9,6 +9,8 @@
 //custom notification view for in app push notifs
 import UIKit
 import Foundation
+import SwiftyJSON
+
 
 class NotifBannerView: UIView {
 
@@ -23,11 +25,29 @@ class NotifBannerView: UIView {
     //content:
     var userInfoForNotif: [AnyHashable : Any]?{
         didSet{
-            profileImageView.loadImage(urlString: userInfoForNotif!["profilePic"] as! String)
-            let attributedText = NSMutableAttributedString(string: userInfoForNotif!["content"] as! String, attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 10)])
+            guard let currentUserNotif = userInfoForNotif else {
+                return
+            }
+//            let json = JSON(dictionaryLiteral:)
+            
+            let userInfo = currentUserNotif["repliedBy"] as! String
+            let userInfoDict = convertToDictionary(text: userInfo)
+            profileImageView.loadImage(urlString: userInfoDict!["profilePic"] as! String)
+            let attributedText = NSMutableAttributedString(string: currentUserNotif["content"] as! String, attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 10)])
             label.attributedText = attributedText
 
         }
+    }
+    
+    func convertToDictionary(text: String) -> [String: Any]? {
+        if let data = text.data(using: .utf8) {
+            do {
+                return try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+        return nil
     }
     //profile image view for the notif banner
      var profileImageView: CustomImageView = {

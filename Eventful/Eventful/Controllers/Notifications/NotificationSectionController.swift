@@ -13,7 +13,6 @@ protocol NotificationsSectionDelegate: class {
 }
 class NotificationsSectionController: ListSectionController,NotificationCellDelegate {
     
-     let userProfileController = ProfileeViewController(collectionViewLayout: UICollectionViewFlowLayout())
     weak var delegate: NotificationsSectionDelegate? = nil
     weak var notif: Notifications?
     
@@ -60,6 +59,7 @@ class NotificationsSectionController: ListSectionController,NotificationCellDele
     }
     
     func handleProfileTransition(tapGesture: UITapGestureRecognizer) {
+        let userProfileController = ProfileeViewController(collectionViewLayout: UICollectionViewFlowLayout())
         userProfileController.user = notif?.sender
         userProfileController.navigationItem.title = notif?.sender.username
         userProfileController.navigationItem.hidesBackButton = true

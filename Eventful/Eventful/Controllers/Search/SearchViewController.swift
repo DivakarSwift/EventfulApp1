@@ -18,7 +18,6 @@ class EventSearchController: UICollectionViewController, UISearchBarDelegate, UI
     let cellId = "cellID"
     var scopeIndex: Int = 0
     let cellID2 = "newCellID"
-    let userProfileController = ProfileeViewController(collectionViewLayout: UICollectionViewFlowLayout())
     var emptyLabel: UILabel?
 
     override func viewDidLoad() {
@@ -257,6 +256,7 @@ class EventSearchController: UICollectionViewController, UISearchBarDelegate, UI
             navigationController?.navigationBar.isHidden = false
             let user = filteredUsers[indexPath.item]
            // print(user.username ?? "")
+            let userProfileController = ProfileeViewController(collectionViewLayout: UICollectionViewFlowLayout())
             userProfileController.user = user
             userProfileController.navigationItem.title = user.username
             userProfileController.navigationItem.hidesBackButton = true

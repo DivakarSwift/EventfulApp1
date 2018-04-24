@@ -18,7 +18,6 @@ class CommentsSectionController: ListSectionController,CommentCellDelegate {
     weak var delegate: CommentsSectionDelegate? = nil
     weak var comment: CommentGrabbed?
     var currentViewController: NewCommentsViewController!
-    let userProfileController = ProfileeViewController(collectionViewLayout: UICollectionViewFlowLayout())
     var eventKey: String?
     override init() {
         super.init()
@@ -116,6 +115,8 @@ class CommentsSectionController: ListSectionController,CommentCellDelegate {
         delegate?.CommentSectionUpdared(sectionController: self, comment: comment!)
     }
     func handleProfileTransition(tapGesture: UITapGestureRecognizer){
+        let userProfileController = ProfileeViewController(collectionViewLayout: UICollectionViewFlowLayout())
+
         userProfileController.user = comment?.sender
         userProfileController.navigationItem.title = comment?.sender.username
         userProfileController.navigationItem.hidesBackButton = true

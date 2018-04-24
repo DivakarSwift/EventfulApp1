@@ -84,6 +84,7 @@
 		07F3EC591F4A57C3005296EB /* PostService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F3EC581F4A57C3005296EB /* PostService.swift */; };
 		07F3EC5E1F4B7B28005296EB /* StoryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F3EC5D1F4B7B28005296EB /* StoryService.swift */; };
 		07F3EC601F4B7BE9005296EB /* Story.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F3EC5F1F4B7BE9005296EB /* Story.swift */; };
+		07F76C82208B05DA00EEBD58 /* SideMenuFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F76C81208B05DA00EEBD58 /* SideMenuFooter.swift */; };
 		07FF92B91F3627A300FC9716 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07FF92B81F3627A300FC9716 /* Post.swift */; };
 		07FF92C91F3B898C00FC9716 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07FF92C81F3B898C00FC9716 /* Comment.swift */; };
 		07FF92CB1F3B925800FC9716 /* ChatService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07FF92CA1F3B925800FC9716 /* ChatService.swift */; };
@@ -187,6 +188,7 @@
 		07F3EC581F4A57C3005296EB /* PostService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostService.swift; path = Services/PostService.swift; sourceTree = "<group>"; };
 		07F3EC5D1F4B7B28005296EB /* StoryService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StoryService.swift; path = Services/StoryService.swift; sourceTree = "<group>"; };
 		07F3EC5F1F4B7BE9005296EB /* Story.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Story.swift; path = Models/Story.swift; sourceTree = "<group>"; };
+		07F76C81208B05DA00EEBD58 /* SideMenuFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SideMenuFooter.swift; path = "Controllers/Home Feed/SideMenuFooter.swift"; sourceTree = "<group>"; };
 		07FF92B81F3627A300FC9716 /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Post.swift; path = Models/Post.swift; sourceTree = "<group>"; };
 		07FF92C81F3B898C00FC9716 /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Comment.swift; path = Models/Comment.swift; sourceTree = "<group>"; };
 		07FF92CA1F3B925800FC9716 /* ChatService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatService.swift; path = Services/ChatService.swift; sourceTree = "<group>"; };
@@ -398,6 +400,7 @@
 				072473152072C34A00DD285E /* SideMenuCell.swift */,
 				072473172072C83700DD285E /* SideMenuHeader.swift */,
 				072473192072D48800DD285E /* SideMenu.swift */,
+				07F76C81208B05DA00EEBD58 /* SideMenuFooter.swift */,
 				0724731B207421CF00DD285E /* CategoryViewController.swift */,
 			);
 			name = "Home Feed";
@@ -702,6 +705,7 @@
 				0747A9E020375C9500F725C7 /* SignUpViewController.swift in Sources */,
 				0724731C207421CF00DD285E /* CategoryViewController.swift in Sources */,
 				0748714A20845BCF0024635C /* CalendarCell.swift in Sources */,
+				07F76C82208B05DA00EEBD58 /* SideMenuFooter.swift in Sources */,
 				0753E7D72041E2AF00B882E4 /* Notification.swift in Sources */,
 				077247D5206F2C42007E5C29 /* PreviewPhotoContainerView.swift in Sources */,
 				0747A9F620375D2400F725C7 /* HomeFeedCell.swift in Sources */,
@@ -897,7 +901,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5A2D82487A88CC695A029DCA /* Pods-Eventful.debug.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-2";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-1";
 				CODE_SIGN_ENTITLEMENTS = Eventful/Eventful.entitlements;
 				DEVELOPMENT_TEAM = W8XH6RU95C;
 				INFOPLIST_FILE = "$(SRCROOT)/Eventful/Supporting/Info.plist";
@@ -915,7 +920,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4D63B9A855CD185FB49E3D17 /* Pods-Eventful.release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-2";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-1";
 				CODE_SIGN_ENTITLEMENTS = Eventful/Eventful.entitlements;
 				DEVELOPMENT_TEAM = W8XH6RU95C;
 				INFOPLIST_FILE = "$(SRCROOT)/Eventful/Supporting/Info.plist";

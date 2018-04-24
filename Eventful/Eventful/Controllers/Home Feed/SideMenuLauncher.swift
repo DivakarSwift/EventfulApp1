@@ -16,7 +16,8 @@ class SideMenuLauncher: NSObject, UICollectionViewDelegateFlowLayout {
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(SideMenuCell.self, forCellWithReuseIdentifier: cellID)
-        collectionView.register(SideMenuHeader.self, forCellWithReuseIdentifier: headerID)
+        collectionView.register(SideMenuHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerID)
+        collectionView.register(SideMenuFooter.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: footerID)
     }
     let collectionView :UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -25,12 +26,14 @@ class SideMenuLauncher: NSObject, UICollectionViewDelegateFlowLayout {
         return cv
     }()
     
+
     let sideMenu: [SideMenu] = {
         return[SideMenu(name: .SeizeTheNight, imageName:"icons8-night-50"),SideMenu(name: .SeizeTheDay, imageName:"icons8-sun-50"),SideMenu(name:.TwentyOneAndUp, imageName:"21"), SideMenu(name: .FriendsEvents, imageName:"icons8-friends-50")]
     }()
     weak var homeFeedController: HomeFeedController?
     let cellID = "cellID"
     let headerID = "headerID"
+    let footerID = "footerID"
     let blackView = UIView()
 
     @objc func presentSideMenu(){
@@ -52,7 +55,7 @@ class SideMenuLauncher: NSObject, UICollectionViewDelegateFlowLayout {
         }
     }
     @objc func handleDismiss(sideMenu: SideMenu){
-        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+        UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
             self.blackView.alpha = 0
             if let window = UIApplication.shared.keyWindow {
                 self.collectionView.frame = CGRect(x: -(window.frame.width), y: 0, width: self.collectionView.frame.width, height: self.collectionView.frame.height)
@@ -79,42 +82,54 @@ class SideMenuLauncher: NSObject, UICollectionViewDelegateFlowLayout {
 
 extension SideMenuLauncher: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if section == 1{
             return sideMenu.count
-        } else{
-            return 1
-        }
+     
     }
+    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 2
+        return 1
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if indexPath.section == 1 {
             return CGSize(width: collectionView.frame.width, height:45)
-        } else{
-            return CGSize(width: collectionView.frame.width, height:90)
-            
-        }
-
+       
     }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        switch kind {
+        case UICollectionElementKindSectionHeader:
+             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerID, for: indexPath) as! SideMenuHeader
+            header.user = User.current
+                        header.dismissButton.addTarget(self, action: #selector(handleDismiss), for: .touchUpInside)
+             return header
+
+        case UICollectionElementKindSectionFooter:
+                         let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: footerID, for: indexPath) as! SideMenuFooter
+            footer.nameLabel.text = "Settings"
+            footer.iconImageView.image = UIImage(named: "icons8-Settings-50")
+                         return footer
+
+        default:
+             assert(false, "Unexpected element kind")
+        }
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: collectionView.frame.width, height: 90)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+        return CGSize(width: collectionView.frame.width, height: 45)
+    }
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if indexPath.section == 1 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! SideMenuCell
             cell.sideMenu = sideMenu[indexPath.item]
             return cell
-        }else {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: headerID, for: indexPath) as! SideMenuHeader
-            cell.user = User.current
-            cell.dismissButton.addTarget(self, action: #selector(handleDismiss), for: .touchUpInside)
-            return cell
-        }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if indexPath.section == 1 {
             let sideMenuTitle = self.sideMenu[indexPath.item]
             handleDismissOne(sideMenu: sideMenuTitle)
-        }
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -122,11 +137,8 @@ extension SideMenuLauncher: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        if section == 0 {
              return UIEdgeInsets(top: 25, left: 0, bottom: 5, right: 0)
-        }else {
-            return UIEdgeInsets(top: 5, left: 0, bottom: 0, right: 0)
-        }
+ 
     }
 }
 

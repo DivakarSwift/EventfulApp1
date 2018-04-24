@@ -13,6 +13,7 @@ import SVProgressHUD
 class PlacesSearchController: UIViewController, UICollectionViewDelegateFlowLayout {
     let cellID = "cellID"
     var homeFeedController: HomeFeedController?
+    let titleView = UILabel()
     var placesClient = GMSPlacesClient()
     var arrayAddress = [GMSAutocompletePrediction]()
     lazy var filter : GMSAutocompleteFilter = {
@@ -68,6 +69,13 @@ class PlacesSearchController: UIViewController, UICollectionViewDelegateFlowLayo
         view.addSubview(searchCollectionView)
         searchBar.anchor(top: view.safeTopAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         searchCollectionView.anchor(top: searchBar.bottomAnchor, left: view.safeLeftAnchor, bottom: view.safeBottomAnchor, right: view.safeRightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        
+        titleView.font = UIFont(name: "Avenir", size: 18)
+        titleView.text = "Location"
+        let width = titleView.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)).width
+        titleView.frame = CGRect(origin:CGPoint.zero, size:CGSize(width: width, height: 500))
+        self.navigationItem.titleView = titleView
+        titleView.isUserInteractionEnabled = true
 
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -80,7 +88,7 @@ class PlacesSearchController: UIViewController, UICollectionViewDelegateFlowLayo
     }
     @objc func GoBack(){
         print("BACK TAPPED")
-        self.dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewController(animated: true)
     }
     
 
@@ -120,7 +128,7 @@ extension PlacesSearchController: UICollectionViewDataSource{
         self.homeFeedController?.titleView.text = string
         self.homeFeedController?.updateCVWithLocation(placeID: currentLocation!)
         self.homeFeedController?.navigationController?.popViewController(animated: true)
-        SVProgressHUD.show()
+        SVProgressHUD.show(withStatus: "Grabbing Events")
     }
     
 }

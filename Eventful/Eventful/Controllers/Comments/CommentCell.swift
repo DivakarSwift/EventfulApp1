@@ -101,6 +101,10 @@ class CommentCell: UICollectionViewCell {
         profileImageView.layer.cornerRadius = 40/2
         flagButton.anchor(top: topAnchor, left: nil, bottom: nil, right: rightAnchor, paddingTop: 4, paddingLeft: 0, paddingBottom: 0, paddingRight: 4, width: 40, height: 40)
         flagButton.addTarget(self, action: #selector(CommentCell.onOptionsTapped), for: .touchUpInside)
+        let notCurrentUserDividerView = UIView()
+        notCurrentUserDividerView.backgroundColor = UIColor.lightGray
+        addSubview(notCurrentUserDividerView)
+        notCurrentUserDividerView.anchor(top: nil, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0.5)
         
     }
     

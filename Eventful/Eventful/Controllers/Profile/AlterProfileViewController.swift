@@ -135,7 +135,7 @@ class AlterProfileViewController: UIViewController, UIImagePickerControllerDeleg
     //The button to trigger the image picker and change the image
     lazy var changeProfilePicture: UIButton = {
         let changePicture = UIButton(type: .system)
-        changePicture.backgroundColor = .black
+        changePicture.backgroundColor = UIColor.rgb(red: 33, green: 154, blue: 233)
         changePicture.setTitle("Choose Another Image", for: .normal)
         changePicture.setTitleColor(.white, for: .normal)
         changePicture.titleLabel?.font = UIFont.boldSystemFont(ofSize: 12)
@@ -186,9 +186,9 @@ class AlterProfileViewController: UIViewController, UIImagePickerControllerDeleg
     //will create the save edits button
     let saveProfileEdits: UIButton = {
         let saveEdits = UIButton(type: .system)
-        saveEdits.backgroundColor = .black
         saveEdits.setTitle("End Edits", for: .normal)
         saveEdits.setTitleColor(.white, for: .normal)
+        saveEdits.backgroundColor = UIColor.rgb(red: 33, green: 154, blue: 233)
         saveEdits.titleLabel?.font = UIFont.boldSystemFont(ofSize: 12)
         saveEdits.addTarget(self, action: #selector(saveCurrentEdits), for: .touchUpInside)
         return saveEdits

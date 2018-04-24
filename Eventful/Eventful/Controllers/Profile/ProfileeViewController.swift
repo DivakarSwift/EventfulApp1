@@ -25,7 +25,7 @@
         let settingView = SettingsViewController()
         var userEvents = [Event]()
         var userId: String?
-        weak var user: User?
+        var user: User?
         var emptyLabel: UILabel?
         
         var currentUserName: String = ""
@@ -34,9 +34,9 @@
         override func viewDidLoad() {
             super.viewDidLoad()
             collectionView?.backgroundColor = UIColor.white
-            let user = self.user ?? User.current
+            user = self.user ?? User.current
             
-            profileHandle = UserService.observeProfile(for: user) { [unowned self](ref, user, events) in
+            profileHandle = UserService.observeProfile(for: user!) { [unowned self](ref, user, events) in
                 self.profileRef = ref
                 self.user = user
                 self.userEvents = events
@@ -54,7 +54,7 @@
             // fetchUser()
             
             self.collectionView?.contentInset = UIEdgeInsetsMake(20, 0, 0, 0)
-            navigationItem.title = user.username
+            navigationItem.title = user?.username
             collectionView?.register(UserProfileHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "headerID")
             
             collectionView?.register(EventsAttendingCell.self, forCellWithReuseIdentifier: cellID)
@@ -64,6 +64,7 @@
         
         deinit {
             profileRef?.removeObserver(withHandle: profileHandle)
+            print("removed from memory")
         }
         
         

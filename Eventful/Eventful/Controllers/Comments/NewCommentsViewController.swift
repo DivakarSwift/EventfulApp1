@@ -64,6 +64,14 @@ class NewCommentsViewController: UIViewController, UITextFieldDelegate,CommentsS
             self.commentRer = ref
             self.comments.append(newComments!)
             self.adapter.performUpdates(animated: true)
+            self.adapter.performUpdates(animated: true, completion: { (finished) in
+                if finished {
+                    let item = self.collectionView.numberOfItems(inSection: self.collectionView.numberOfSections - 1) - 1
+                    let insertionIndexPath = IndexPath(item: item, section: self.collectionView.numberOfSections - 1)
+                    self.collectionView.scrollToItem(at: insertionIndexPath, at: UICollectionViewScrollPosition.top, animated: true)
+                }
+            })
+
         }
     }
     
@@ -123,7 +131,7 @@ class NewCommentsViewController: UIViewController, UITextFieldDelegate,CommentsS
                     self.view.layoutIfNeeded()
                 }, completion: { (completion) in
                     if self.comments.count > 0  && isKeyboardShowing {
-                        let item = self.collectionView.numberOfItems(inSection: self.collectionView.numberOfSections - 1)-1
+                        let item = self.collectionView.numberOfItems(inSection: self.collectionView.numberOfSections - 1) - 1
                         let lastItemIndex = IndexPath(item: item, section: self.collectionView.numberOfSections - 1)
                         self.collectionView.scrollToItem(at: lastItemIndex, at: UICollectionViewScrollPosition.top, animated: true)
                     }
@@ -184,7 +192,7 @@ class NewCommentsViewController: UIViewController, UITextFieldDelegate,CommentsS
     func CommentSectionUpdared(sectionController: CommentsSectionController,comment: CommentGrabbed){
         print("like")
         self.comments = comments.filter({ (someComment: CommentGrabbed) -> Bool in
-            return someComment.content != comment.content
+            return someComment.key != comment.key
         })
         self.adapter.performUpdates(animated: true)
     }
@@ -235,11 +243,6 @@ class NewCommentsViewController: UIViewController, UITextFieldDelegate,CommentsS
         //submitButton.isUserInteractionEnabled = true
         
     }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        self.view.removeFromSuperview()
-    }
-
     //viewDidLayoutSubviews() is overridden, setting the collectionView frame to match the view bounds.
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()

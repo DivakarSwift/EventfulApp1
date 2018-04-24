@@ -26,7 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
     var hasNotification = false
     var appRef : UIApplication!
     var notifBanner = NotifBannerView()
-
+    let userProfileController = ProfileeViewController(collectionViewLayout: UICollectionViewFlowLayout())
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         Fabric.with([Crashlytics.self])
         self.appRef = application
@@ -42,9 +42,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
         window?.makeKeyAndVisible()
         window?.backgroundColor = UIColor.white
         configureInitialRootViewController(for: window)
-            // 3
-       // Will make the navigation bar white
-//       UINavigationBar.appearance().backgroundColor = UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1)
        // Will make the tab bar white
         UITabBar.appearance().backgroundColor = UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1)
         UITabBar.appearance().tintColor = .black
@@ -172,16 +169,19 @@ extension AppDelegate{
     }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        print(userInfo)
-//        _ = userInfo["content"] as! String
         notifBanner.userInfoForNotif = userInfo
-
         if application.applicationState == .active{
             let banner = NotificationBanner(customView: notifBanner)
             banner.bannerHeight = 40
             banner.show()
+            banner.onTap = {
+                self.vcTransition(from: userInfo)
+            }
+            banner.dismissOnSwipeUp = true
             self.hasNotification = true
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "didReceivePush"), object: nil, userInfo: nil)
+        }else{
+            self.vcTransition(from: userInfo)
         }
     }
     
@@ -200,6 +200,81 @@ extension UIApplication {
     var statusBarView: UIView? {
         return value(forKey: "statusBar") as? UIView
     }
+}
+
+extension AppDelegate {
+    func convertToDictionary(text: String) -> [String: Any]? {
+        if let data = text.data(using: .utf8) {
+            do {
+                return try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+        return nil
+    }
+    
+    @objc func GoBack(){
+        self.userProfileController.navigationController?.popViewController(animated: true)
+    }
+    
+    @objc func vcTransition(from userInfo: [AnyHashable : Any]){
+        
+        if userInfo["notiType"] as? String == "follow"{
+            let userInfoDict = self.convertToDictionary(text: userInfo["repliedBy"] as! String)
+            UserService.show(forUID: userInfoDict!["uid"] as! String, completion: { (user) in
+                self.userProfileController.user = user
+                if let mainTabBarController = self.window?.rootViewController as? HomeViewController {
+                    if let homeNavController = mainTabBarController.viewControllerList.first as? UINavigationController {
+                        self.userProfileController.navigationItem.title = user?.username
+                        self.userProfileController.navigationItem.hidesBackButton = true
+                        let backButton = UIBarButtonItem(image: UIImage(named: "icons8-Back-64"), style: .plain, target: self, action: #selector(self.GoBack))
+                        self.userProfileController.navigationItem.leftBarButtonItem = backButton
+                        homeNavController.tabBarController?.tabBar.isHidden = true
+                        homeNavController.pushViewController(self.userProfileController, animated: true)
+                    }
+                }
+            })
+        }
+        
+        if userInfo["notiType"] as? String == "comment"{
+            print("comment came in")
+            let eventKey = userInfo["eventKey"] as? String
+            if let mainTabBarController = self.window?.rootViewController as? HomeViewController {
+                if let homeNavController = mainTabBarController.viewControllerList.first as? UINavigationController {
+                    let newCommentsController = NewCommentsViewController()
+                    let navController = UINavigationController(rootViewController: newCommentsController)
+                    newCommentsController.eventKey = eventKey!
+                    newCommentsController.comments.removeAll()
+                    newCommentsController.adapter.reloadData { (updated) in
+                    }
+                    homeNavController.tabBarController?.tabBar.isHidden = true
+                   homeNavController.present(navController, animated: true, completion: nil)
+                }
+            }
+            
+        }
+    }
+    
+    @objc func stringify(json: Any, prettyPrinted: Bool = false) -> String {
+        var options: JSONSerialization.WritingOptions = []
+        if prettyPrinted {
+            options = JSONSerialization.WritingOptions.prettyPrinted
+        }
+        
+        do {
+            let data = try JSONSerialization.data(withJSONObject: json, options: options)
+            if let string = String(data: data, encoding: String.Encoding.utf8) {
+                return string
+            }
+        } catch {
+            print(error)
+        }
+        
+        return ""
+    }
+    
+    
 }
 
 

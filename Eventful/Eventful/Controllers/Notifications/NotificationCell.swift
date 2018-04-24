@@ -37,7 +37,7 @@ class NotificationCell: UICollectionViewCell,NotificationCellDelegate {
             label.attributedText = attributedText
             
             if notification.notiType == "follow"{
-                setupUserInteraction()
+                //setupUserInteraction()
             }
         }
     }
@@ -101,6 +101,10 @@ class NotificationCell: UICollectionViewCell,NotificationCellDelegate {
         profileImageView.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 8, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 40, height: 40)
         profileImageView.layer.cornerRadius = 40/2
         label.anchor(top: topAnchor, left: profileImageView.rightAnchor, bottom: bottomAnchor, right: nil, paddingTop: 4, paddingLeft: 4, paddingBottom: 4, paddingRight: 0, width: 0, height: 0)
+       let notCurrentUserDividerView = UIView()
+        notCurrentUserDividerView.backgroundColor = UIColor.lightGray
+        addSubview(notCurrentUserDividerView)
+        notCurrentUserDividerView.anchor(top: nil, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0.5)
 
     }
     

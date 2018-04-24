@@ -25,44 +25,15 @@ class LoginViewController: UIViewController , LoginViewControllerDelegate {
     let signUpTransition = SignUpViewController()
     let forgotPasswordTransition = ForgotPasswordViewController()
 
-    
-    
-    // each of these creates a compnenet of the screen
-    // creates a UILabel
-    let nameOfAppLabel : UILabel =  {
-        let nameLabel = UILabel()
-        nameLabel.textColor = UIColor.logoColor
-        let myString = "[Name of App]"
-        let myAttribute = [NSAttributedStringKey.font:UIFont(name: "Times New Roman", size: 7.3)!]
-        let myAttrString = NSAttributedString(string: myString, attributes: myAttribute)
-        nameLabel.attributedText = myAttrString
-        return nameLabel
-    }()
-    // creates a UILabel
-    
-    
-    let welcomeBackLabel : UILabel =  {
-        let welcomeLabel = UILabel()
-        welcomeLabel.textColor = UIColor.logoColor
-        let myString = "Welcome Back!"
-        let myAttribute = [NSAttributedStringKey.font:UIFont(name: "Times New Roman", size: 20.7)!]
-        let myAttrString = NSAttributedString(string: myString, attributes: myAttribute)
-        welcomeLabel.attributedText = myAttrString
-        return welcomeLabel
+    lazy var logoImageView: CustomImageView = {
+        let iv = CustomImageView()
+        iv.clipsToBounds = true
+        iv.isUserInteractionEnabled = true
+        iv.contentMode = .scaleAspectFit
+        iv.image = UIImage(named: "logoWithWords")
+        return iv
     }()
     
-    // creates a UILabel
-    
-    
-    let goalLabel : UILabel =  {
-        let primaryGoalLabel = UILabel()
-        primaryGoalLabel.textColor = UIColor.logoColor
-        let myString = "Use our application to find events"
-        let myAttribute = [NSAttributedStringKey.font:UIFont(name: "Times New Roman", size: 13)!]
-        let myAttrString = NSAttributedString(string: myString, attributes: myAttribute)
-        primaryGoalLabel.attributedText = myAttrString
-        return primaryGoalLabel
-    }()
     
     // creates a UITextField
     
@@ -109,7 +80,7 @@ class LoginViewController: UIViewController , LoginViewControllerDelegate {
         button.layer.cornerRadius = 5
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
         button.addTarget(self, action: #selector(handleLogin), for: .touchUpInside)
-        button.backgroundColor = UIColor.rgb(red: 45, green: 162, blue: 232)
+        button.backgroundColor = UIColor.rgb(red: 33, green: 154, blue: 233)
         return button
     }()
     
@@ -210,12 +181,15 @@ class LoginViewController: UIViewController , LoginViewControllerDelegate {
     
     var stackView: UIStackView?
     fileprivate func setupLoginScreen(){
+        self.view.addSubview(logoImageView)
+        logoImageView.anchor(top: view.safeTopAnchor, left: view.safeLeftAnchor, bottom: nil, right: view.safeRightAnchor, paddingTop: view.bounds.height / 5, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, width: 0, height: 0)
+       
         stackView = UIStackView(arrangedSubviews: [ emailTextField, passwordTextField,loginButton])
         self.view.addSubview(stackView!)
         stackView?.distribution = .fillEqually
         stackView?.axis = .vertical
         stackView?.spacing = 15.0
-        stackView?.anchor(top: self.view.topAnchor, left: self.view.leftAnchor, bottom: nil, right: self.view.rightAnchor, paddingTop: 260, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, width: 0, height: 152)
+        stackView?.anchor(top: logoImageView.bottomAnchor, left: self.view.leftAnchor, bottom: nil, right: self.view.rightAnchor, paddingTop: 50, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, width: 0, height: 152)
         self.addBottomMostItems()
         self.addForgotPasswordItem()
     }

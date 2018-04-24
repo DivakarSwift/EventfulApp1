@@ -10,20 +10,30 @@ import UIKit
 import SnapKit
 
 class SideMenuCell: UICollectionViewCell {
+    override var isHighlighted: Bool {
+        didSet {
+            backgroundColor = isHighlighted ? UIColor.rgb(red: 243, green: 249, blue: 252): UIColor.white
+            nameLabel.textColor = isHighlighted ? UIColor.black : UIColor.rgb(red: 53, green: 56, blue: 57)
+            iconImageView.tintColor = isHighlighted ? UIColor.rgb(red: 34, green: 153, blue: 234) : UIColor.black
+            
+        }
+    }
     var sideMenu: SideMenu? {
     didSet{
         nameLabel.text = (sideMenu?.name).map { $0.rawValue }
         if let imageName = sideMenu?.imageName {
-            iconImageView.image = UIImage(named: imageName)?.withRenderingMode(.alwaysOriginal)
-            //iconImageView.tintColor = UIColor.darkGray
+            iconImageView.image = UIImage(named: imageName)?.withRenderingMode(.alwaysTemplate)
+            iconImageView.tintColor = UIColor.darkGray
         }
     }
     }
     let nameLabel: UILabel = {
         let nameLabel = UILabel()
         nameLabel.font = UIFont(name: "AvenirNext-Regular", size: 15.0)
+        nameLabel.textColor = UIColor.rgb(red: 53, green: 56, blue: 57)
         return nameLabel
     }()
+    
     
     let iconImageView: UIImageView = {
         let imageView = UIImageView()
@@ -54,7 +64,7 @@ class SideMenuCell: UICollectionViewCell {
         currentUserDividerView.snp.makeConstraints { (make) in
             make.left.right.equalTo(self)
             make.bottom.equalTo(self.snp.bottom)
-            make.height.greaterThanOrEqualTo(0.5)
+            make.height.greaterThanOrEqualTo(0.75)
         }
     }
     

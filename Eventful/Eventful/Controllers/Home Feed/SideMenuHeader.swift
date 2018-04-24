@@ -52,9 +52,8 @@ class SideMenuHeader: UICollectionViewCell {
         backgroundColor = .white
         addSubview(profileImage)
         profileImage.snp.makeConstraints { (make) in
-            make.center.equalTo(self.snp.center)
-//            make.top.equalTo(self.snp.top)
-//            make.left.equalTo(self.snp.left).inset(5)
+            make.top.equalTo(self.snp.top).offset(20)
+            make.left.equalTo(self.snp.left).offset(self.frame.width / 4)
             make.height.width.equalTo(80)
         }
         profileImage.layer.cornerRadius = 80/2
@@ -64,7 +63,7 @@ class SideMenuHeader: UICollectionViewCell {
 //        }
         addSubview(dismissButton)
         dismissButton.snp.makeConstraints { (make) in
-            make.top.equalTo(self.snp.top)
+            make.top.equalTo(self.snp.top).offset(15)
             make.right.equalTo(self.snp.right).inset(10)
         }
         
