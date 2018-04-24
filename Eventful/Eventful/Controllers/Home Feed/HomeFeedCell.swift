@@ -10,7 +10,7 @@ import UIKit
 
 class HomeFeedCell: UICollectionViewCell, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate {
     var homeFeedController: HomeFeedController?
-
+    let emptyView = UIView()
     private let cellId = "cellId"
     var featuredEvents: [Event]?{
         didSet {
@@ -44,6 +44,21 @@ class HomeFeedCell: UICollectionViewCell, UICollectionViewDataSource, UICollecti
         return sectionNameLabel
     }()
     
+    lazy var emptyLabel: UILabel = {
+        let emptyLabel = UILabel()
+        emptyLabel.text = "Sorry We Currently Have No Events, \n In This Category Near You"
+        emptyLabel.font = UIFont(name: "Avenir", size: 14)
+        emptyLabel.numberOfLines = 0
+        emptyLabel.textAlignment = .center
+        return emptyLabel
+    }()
+    
+    lazy var iconImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }()
+    
     let homeFeedCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -68,7 +83,32 @@ class HomeFeedCell: UICollectionViewCell, UICollectionViewDataSource, UICollecti
         guard let currentEventCount = featuredEvents?.count else{
             return 0
         }
+        if currentEventCount == 0 {
+            print("no events")
+            setupEmptyDataSet()
+        }else{
+            emptyView.removeFromSuperview()
+        }
         return currentEventCount
+    }
+    
+    @objc func setupEmptyDataSet(){
+        self.addSubview(emptyView)
+        emptyView.backgroundColor = .clear
+        emptyView.snp.makeConstraints { (make) in
+            make.edges.equalTo(self)
+        }
+        emptyView.addSubview(iconImageView)
+        iconImageView.image = UIImage(named: "icons8-face-100")
+        iconImageView.snp.makeConstraints { (make) in
+            make.center.equalTo(emptyView)
+        }
+        
+        emptyView.addSubview(emptyLabel)
+        emptyLabel.snp.makeConstraints { (make) in
+            make.bottom.equalTo(iconImageView.snp.bottom).offset(30)
+            make.left.right.equalTo(emptyView)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {

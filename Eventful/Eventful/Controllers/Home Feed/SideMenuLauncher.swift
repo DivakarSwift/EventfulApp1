@@ -103,15 +103,37 @@ extension SideMenuLauncher: UICollectionViewDataSource {
              return header
 
         case UICollectionElementKindSectionFooter:
-                         let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: footerID, for: indexPath) as! SideMenuFooter
+            let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: footerID, for: indexPath) as! SideMenuFooter
             footer.nameLabel.text = "Settings"
             footer.iconImageView.image = UIImage(named: "icons8-Settings-50")
-                         return footer
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
+            footer.addGestureRecognizer(tapGesture)
+            return footer
 
         default:
              assert(false, "Unexpected element kind")
         }
     }
+    
+    
+    
+    
+    
+    @objc func handleTap(_ recognizer:UITapGestureRecognizer) {
+        let footerView = recognizer.view
+        print("footer tapped")
+        
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+            self.blackView.alpha = 0
+            if let window = UIApplication.shared.keyWindow {
+                self.collectionView.frame = CGRect(x: -(window.frame.width), y: 0, width: self.collectionView.frame.width, height: self.collectionView.frame.height)
+            }
+        }, completion: { (completed: Bool) in
+            let settingView = SettingsViewController()
+        self.homeFeedController?.navigationController?.pushViewController(settingView, animated: true)
+        })
+    }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: collectionView.frame.width, height: 90)
     }
@@ -119,6 +141,7 @@ extension SideMenuLauncher: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
         return CGSize(width: collectionView.frame.width, height: 45)
     }
+
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! SideMenuCell
@@ -137,7 +160,8 @@ extension SideMenuLauncher: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-             return UIEdgeInsets(top: 25, left: 0, bottom: 5, right: 0)
+        let theHeight = collectionView.safeAreaLayoutGuide.layoutFrame.height
+        return UIEdgeInsets(top: 25, left: 0, bottom: theHeight - 350, right: 0)
  
     }
 }

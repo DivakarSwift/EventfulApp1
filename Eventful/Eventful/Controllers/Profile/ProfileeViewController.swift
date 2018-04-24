@@ -21,8 +21,6 @@
         var profileHandle: DatabaseHandle = 0
         var profileRef: DatabaseReference?
         let cellID = "cellID"
-         var profileSetupTransition = AlterProfileViewController()
-        let settingView = SettingsViewController()
         var userEvents = [Event]()
         var userId: String?
         var user: User?
@@ -72,8 +70,6 @@
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "headerID", for: indexPath) as! UserProfileHeader
             header.profileeSettings.addTarget(self, action: #selector(profileSettingsTapped), for: .touchUpInside)
             header.profileViewController = self
-            header.settings.addTarget(self, action: #selector(settingsButtonTapped), for: .touchUpInside)
-
             header.user = self.user
             header.backButton.addTarget(self, action: #selector(GoBack), for: .touchUpInside)
             return header
@@ -84,16 +80,11 @@
             
         }
         
-        @objc func settingsButtonTapped(){
-            let navController = UINavigationController(rootViewController: settingView)
-            present(navController, animated: true, completion: nil)
-            //        self.navigationController?.pushViewController(settingView, animated: true)
-            
-        }
+
         
         @objc func profileSettingsTapped(){
+            var profileSetupTransition = AlterProfileViewController()
             let navController = UINavigationController(rootViewController: profileSetupTransition)
-            
             present(navController, animated: true, completion: nil)
             //        self.navigationController?.pushViewController(profileSetupTransition, animated: true)
         }

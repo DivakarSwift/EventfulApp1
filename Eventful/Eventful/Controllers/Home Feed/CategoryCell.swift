@@ -12,11 +12,27 @@ import SkeletonView
 class CategoryCell: UICollectionViewCell, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout,UIScrollViewDelegate {
     private let cellID = "cellID"
     var homeFeedController: HomeFeedController?
+    let emptyView = UIView()
     var categoryEvents: [Event]?{
         didSet{
             categoryCollectionView.reloadData()
         }
     }
+    lazy var emptyLabel: UILabel = {
+        let emptyLabel = UILabel()
+        emptyLabel.text = "Sorry We Currently Have No Events, \n In This Category Near You"
+        emptyLabel.font = UIFont(name: "Avenir", size: 14)
+        emptyLabel.numberOfLines = 0
+        emptyLabel.textAlignment = .center
+        return emptyLabel
+    }()
+    
+    lazy var iconImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }()
+    
     var titles: String? {
         didSet {
             guard let titles = titles else {
@@ -44,7 +60,35 @@ class CategoryCell: UICollectionViewCell, UICollectionViewDataSource, UICollecti
         guard let currentEventCount = categoryEvents?.count else{
             return 0
         }
+        
+        if currentEventCount == 0 {
+            print("no events")
+            setupEmptyDataSet()
+        }else{
+            emptyView.removeFromSuperview()
+        }
+        
+        
         return currentEventCount
+    }
+    
+    @objc func setupEmptyDataSet(){
+        self.addSubview(emptyView)
+        emptyView.backgroundColor = .clear
+        emptyView.snp.makeConstraints { (make) in
+            make.edges.equalTo(self)
+        }
+        emptyView.addSubview(iconImageView)
+        iconImageView.image = UIImage(named: "icons8-face-100")
+        iconImageView.snp.makeConstraints { (make) in
+            make.center.equalTo(emptyView)
+        }
+        
+        emptyView.addSubview(emptyLabel)
+        emptyLabel.snp.makeConstraints { (make) in
+            make.bottom.equalTo(iconImageView.snp.bottom).offset(30)
+            make.left.right.equalTo(emptyView)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

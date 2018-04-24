@@ -12,19 +12,24 @@ import FirebaseAuth
 
 class SettingsViewController: UITableViewController {
     var authHandle: AuthStateDidChangeListenerHandle?
-    let cellID = "cellID"
+    let settingsCell = "settingsCell"
     let settingsOptionsTwoDimArray = [
     ["Logout"]
     ]
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupVc()
+    }
+    
+    @objc func setupVc(){
         view.backgroundColor = UIColor.white
         navigationItem.title = "Settings"
         self.navigationItem.hidesBackButton = true
         let backButton = UIBarButtonItem(image: UIImage(named: "icons8-Back-64"), style: .plain, target: self, action: #selector(GoBack))
         self.navigationItem.leftBarButtonItem = backButton
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
+        self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: settingsCell)
         self.tableView.tableFooterView = UIView(frame: CGRect.zero)
+        self.tabBarController?.tabBar.isHidden = true
         authHandle = AuthService.authListener(viewController: self)
     }
     deinit {
@@ -41,7 +46,7 @@ class SettingsViewController: UITableViewController {
     //will dismiss the screen
     @objc func GoBack(){
         print("BACK TAPPED")
-        self.dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewController(animated: true)
     }
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let label = UILabel()
@@ -57,7 +62,7 @@ class SettingsViewController: UITableViewController {
         return settingsOptionsTwoDimArray[section].count
     }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: settingsCell, for: indexPath) as UITableViewCell
         let currentSetting = settingsOptionsTwoDimArray[indexPath.section][indexPath.row]
         cell.textLabel?.text = currentSetting
         cell.textLabel?.textAlignment = .justified

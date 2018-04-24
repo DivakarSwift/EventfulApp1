@@ -110,8 +110,9 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         viewComments.setImage(#imageLiteral(resourceName: "commentBubble-1").withRenderingMode(.alwaysOriginal), for: .normal)
         viewComments.layer.cornerRadius = 5
         viewComments.setTitle("Comments", for: .normal)
-        viewComments.setTitleColor(.white, for: .normal)
-        viewComments.backgroundColor = UIColor.rgb(red: 33, green: 154, blue: 233)
+        viewComments.titleLabel?.font = UIFont(name: "GillSans", size: 15)
+        viewComments.setTitleColor(.black, for: .normal)
+        viewComments.backgroundColor = .white
         viewComments.layer.borderWidth = 0.5
         viewComments.layer.borderColor = UIColor.black.cgColor
         viewComments.addTarget(self, action: #selector(presentComments), for: .touchUpInside)
@@ -133,6 +134,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         attendButton.setImage(#imageLiteral(resourceName: "walkingNotFiled").withRenderingMode(.alwaysOriginal), for: .normal)
         attendButton.layer.cornerRadius = 5
         attendButton.setTitle("Attending", for: .normal)
+         attendButton.titleLabel?.font = UIFont(name: "GillSans", size: 15)
         attendButton.setTitleColor(.black, for: .normal)
         attendButton.backgroundColor = .white
         attendButton.layer.borderWidth = 0.5
@@ -230,7 +232,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         let addToStory = UIButton(type: .system)
         addToStory.setImage(#imageLiteral(resourceName: "photo-camera").withRenderingMode(.alwaysOriginal), for: .normal)
         addToStory.layer.cornerRadius = 5
-
+        addToStory.titleLabel?.font = UIFont(name: "GillSans", size: 15)
         addToStory.setTitle("Add to Story", for: .normal)
         addToStory.setTitleColor(.black, for: .normal)
         addToStory.backgroundColor = .white
@@ -251,6 +253,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         viewStoryButton.setImage(#imageLiteral(resourceName: "icons8-Logout Rounded Up-50").withRenderingMode(.alwaysOriginal), for: .normal)
         viewStoryButton.layer.cornerRadius = 5
         viewStoryButton.setTitle("View Story", for: .normal)
+        viewStoryButton.titleLabel?.font = UIFont(name: "GillSans", size: 15)
         viewStoryButton.setTitleColor(.black, for: .normal)
         viewStoryButton.backgroundColor = .white
         viewStoryButton.layer.borderWidth = 0.50
@@ -400,7 +403,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
             make.top.equalTo((userInteractStackView?.snp.bottom)!).offset(5)
             make.height.equalTo(40)
             make.left.right.equalTo(textContainer).inset(5)
-            make.bottom.equalTo(textContainer.snp.bottom)
+            make.bottom.equalTo(textContainer.snp.bottom).inset(10)
         })
     }
     

@@ -12,6 +12,20 @@ class CategoryViewController: UICollectionViewController,UICollectionViewDelegat
     var events = [Event]()
     let cellID = "cellID"
     let titleView = UILabel()
+    lazy var iconImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }()
+    
+    lazy var emptyLabel: UILabel = {
+        let emptyLabel = UILabel()
+        emptyLabel.text = "Sorry We Currently Have No Events, \n In This Category Near You"
+        emptyLabel.font = UIFont(name: "Avenir", size: 18)
+        emptyLabel.numberOfLines = 0
+        emptyLabel.textAlignment = .center
+        return emptyLabel
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,8 +70,33 @@ class CategoryViewController: UICollectionViewController,UICollectionViewDelegat
 
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if events.count == 0 {
+            print("no events")
+            setupEmptyDataSet()
+        }
         return events.count
     }
+    
+    @objc func setupEmptyDataSet(){
+        let emptyView = UIView()
+        view.addSubview(emptyView)
+        emptyView.backgroundColor = .clear
+        emptyView.snp.makeConstraints { (make) in
+            make.edges.equalTo(view)
+        }
+        emptyView.addSubview(iconImageView)
+        iconImageView.image = UIImage(named: "icons8-face-50")
+        iconImageView.snp.makeConstraints { (make) in
+            make.center.equalTo(emptyView)
+        }
+        
+        emptyView.addSubview(emptyLabel)
+        emptyLabel.snp.makeConstraints { (make) in
+            make.bottom.equalTo(iconImageView.snp.bottom).offset(30)
+            make.left.right.equalTo(emptyView)
+        }
+    }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 1
     }

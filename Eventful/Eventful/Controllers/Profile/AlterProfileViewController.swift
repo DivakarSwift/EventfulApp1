@@ -47,8 +47,9 @@ class AlterProfileViewController: UIViewController, UIImagePickerControllerDeleg
         //Constraints for the text field that corresponds to the user name
         _ = changeUsername.anchor(top: changeProfilePicture.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 15, paddingLeft: 32, paddingBottom: 0, paddingRight: 32, width: 0, height: 35)
         //Constraints for the text field that corresponds to the label
-        _ = saveProfileEdits.anchor(top: changeUsername.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 200, paddingLeft: 32, paddingBottom: 0, paddingRight: 32, width: 200, height: 35)
-        
+        saveProfileEdits.snp.makeConstraints { (make) in
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(10)
+        }
         ///////////////////////////////////////////////
         
         

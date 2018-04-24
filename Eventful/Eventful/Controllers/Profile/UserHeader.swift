@@ -56,12 +56,6 @@ class UserProfileHeader: UICollectionViewCell {
         profileSetup.setTitleColor(.black, for: .normal)
         return profileSetup
     }()
-    lazy var settings: UIButton = {
-        let settings = UIButton(type: .system)
-        settings.setImage(#imageLiteral(resourceName: "icons8-Settings-50").withRenderingMode(.alwaysOriginal), for: .normal)
-        settings.setTitleColor(.black, for: .normal)
-        return settings
-    }()
     lazy var followButton: UIButton = {
         let button = UIButton(type: .system)
        // button.setTitle("Edit Profile", for: .normal)
@@ -93,7 +87,6 @@ class UserProfileHeader: UICollectionViewCell {
 //        self.currentUserDividerView?.isHidden = true
 //        self.followButton.isHidden = true
 //        self.userStackView?.isHidden = true
-        self.settings.removeFromSuperview()
         self.profileeSettings.removeFromSuperview()
         self.currentUserDividerView?.removeFromSuperview()
         self.notCurrentUserDividerView?.removeFromSuperview()
@@ -137,11 +130,7 @@ class UserProfileHeader: UICollectionViewCell {
             make.left.equalTo(self.snp.left).offset(4)
         }
         
-        addSubview(settings)
-        settings.snp.makeConstraints { (make) in
-            make.top.equalTo(self.snp.top)
-            make.right.equalTo(self.snp.right).inset(4)
-        }
+      
         
         currentUserDividerView = UIView()
         currentUserDividerView?.backgroundColor = UIColor.lightGray
