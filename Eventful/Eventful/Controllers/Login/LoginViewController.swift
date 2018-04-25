@@ -42,6 +42,7 @@ class LoginViewController: UIViewController , LoginViewControllerDelegate {
 //        textField.placeholderColor = UIColor.logoColor
         textField.placeholderColor = UIColor.black
         textField.placeholder = "Email"
+        textField.placeholderLabel.font = UIFont(name: "Futura", size: 14)
         textField.placeholderFontScale = 0.85
         textField.layer.borderColor = UIColor.lightGray.cgColor
         textField.layer.borderWidth = 0
@@ -61,6 +62,7 @@ class LoginViewController: UIViewController , LoginViewControllerDelegate {
         textField.placeholderColor = UIColor.black
         textField.placeholder = "Password"
         textField.placeholderFontScale = 0.85
+        textField.placeholderLabel.font = UIFont(name: "Futura", size: 14)
         textField.layer.borderColor = UIColor.lightGray.cgColor
         textField.layer.borderWidth = 0
         textField.borderStyle = .roundedRect
@@ -78,9 +80,9 @@ class LoginViewController: UIViewController , LoginViewControllerDelegate {
         button.setTitle("LOGIN", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 5
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
+        button.titleLabel?.font = UIFont(name: "Futura", size: 14)
         button.addTarget(self, action: #selector(handleLogin), for: .touchUpInside)
-        button.backgroundColor = UIColor.rgb(red: 33, green: 154, blue: 233)
+        button.backgroundColor = UIColor.rgb(red: 44, green: 152, blue: 229)
         return button
     }()
     
@@ -126,9 +128,9 @@ class LoginViewController: UIViewController , LoginViewControllerDelegate {
     //creatas a UILabel
     let signUpLabel: UILabel = {
         let signUp = UILabel()
-        signUp.text = "Don't have an account?"
+        signUp.text = "Don't Have An Account?"
         signUp.textColor = UIColor.black
-        signUp.font = UIFont.boldSystemFont(ofSize: 13)
+        signUp.font = UIFont(name: "Futura", size: 13)
         return signUp
     }()
     
@@ -136,7 +138,7 @@ class LoginViewController: UIViewController , LoginViewControllerDelegate {
     let signUpButton: UIButton = {
         let signUpButton = UIButton(type: .system)
         signUpButton.setTitle("Sign Up", for: .normal)
-        signUpButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 13)
+        signUpButton.titleLabel?.font = UIFont(name: "Futura", size: 13)
         signUpButton.setTitleColor(UIColor.rgb(red: 45, green: 162, blue: 232), for: .normal)
         signUpButton.addTarget(self, action: #selector(handleSignUpTransition), for: .touchUpInside)
         return signUpButton

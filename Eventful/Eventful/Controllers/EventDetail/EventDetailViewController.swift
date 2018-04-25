@@ -98,7 +98,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         let currentAddressLabel = UILabel()
         currentAddressLabel.numberOfLines = 0
         currentAddressLabel.textColor = UIColor.lightGray
-        currentAddressLabel.font = UIFont(name:"GillSans", size: 14.0)
+        currentAddressLabel.font = UIFont(name:"GillSans", size: 13.0)
         currentAddressLabel.isUserInteractionEnabled = true
         currentAddressLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(openMaps)))
         return currentAddressLabel

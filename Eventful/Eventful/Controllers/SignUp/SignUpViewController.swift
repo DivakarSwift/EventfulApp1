@@ -60,7 +60,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         nameText.placeholderColor = .black
         nameText.placeholder = "Username"
         nameText.placeholderFontScale = 0.85
-
+        nameText.placeholderLabel.font = UIFont(name: "Futura", size: 14)
         nameText.layer.borderColor = UIColor.lightGray.cgColor
         nameText.layer.borderWidth = 0
         nameText.borderStyle = .none
@@ -75,7 +75,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         let emaiilText = HoshiTextField()
         emaiilText.placeholderColor = .black
         emaiilText.placeholderFontScale = 0.85
-
+        emaiilText.placeholderLabel.font = UIFont(name: "Futura", size: 14)
         emaiilText.placeholder = "Email"
         emaiilText.layer.borderColor = UIColor.lightGray.cgColor
         emaiilText.layer.borderWidth = 0
@@ -91,7 +91,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         let passwordText = HoshiTextField()
         passwordText.placeholderColor = .black
         passwordText.placeholderFontScale = 0.85
-
+        passwordText.placeholderLabel.font = UIFont(name: "Futura", size: 14)
         passwordText.placeholder = "Password"
         passwordText.layer.borderColor = UIColor.lightGray.cgColor
         passwordText.layer.borderWidth = 0
@@ -106,6 +106,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
     //creates a confirm password UItextfield
     let confirmPasswordTextField : HoshiTextField = {
         let confirmPasswordText = HoshiTextField()
+        confirmPasswordText.placeholderLabel.font = UIFont(name: "Futura", size: 14)
         confirmPasswordText.placeholderFontScale = 0.85
         confirmPasswordText.placeholderColor = .black
         confirmPasswordText.placeholder = "Confirm Password"
@@ -123,10 +124,11 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
     let signupButton: UIButton  = {
         let button = UIButton(type: .system)
         button.setTitle("SIGN UP", for: .normal)
+        button.titleLabel?.font = UIFont(name: "Futura", size: 14)
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 5
         button.addTarget(self, action: #selector(handleSignUp), for: .touchUpInside)
-        button.backgroundColor = UIColor.rgb(red: 33, green: 154, blue: 233)
+        button.backgroundColor = UIColor.rgb(red: 44, green: 152, blue: 229)
         return button
     }()
     
@@ -363,8 +365,8 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
     let signInLabel: UILabel = {
         let signUp = UILabel()
         signUp.textColor = UIColor.black
-        signUp.font = UIFont.boldSystemFont(ofSize: 13)
-        signUp.text = "Already have an account?"
+        signUp.font = UIFont(name: "Futura", size: 13)
+        signUp.text = "Already Have An Account?"
         return signUp
     }()
     
@@ -372,7 +374,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
     let signInButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Sign in", for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 13)
+        button.titleLabel?.font = UIFont(name: "Futura", size: 13)
         button.setTitleColor(UIColor.rgb(red: 45, green: 162, blue: 232), for: .normal)
         button.addTarget(self, action: #selector(handleCancel), for: .touchUpInside)
         return button

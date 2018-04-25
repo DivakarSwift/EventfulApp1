@@ -197,8 +197,9 @@ struct AuthService {
                 break;
   
             default :
-                let generalErrorAlert = UIAlertController(title: "We are having trouble processing your password reset request.", message:
-                    "We are having trouble processing your password reset request, please try again soon.", preferredStyle: UIAlertControllerStyle.alert)
+                
+                let generalErrorAlert = UIAlertController(title:"Try again later", message:
+                     "We are having trouble processing your password reset request.", preferredStyle: UIAlertControllerStyle.alert)
                 generalErrorAlert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default,handler: nil))
                 controller.present(generalErrorAlert, animated: true, completion: nil)
                 break;

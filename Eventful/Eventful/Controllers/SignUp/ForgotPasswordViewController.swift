@@ -32,8 +32,9 @@ class ForgotPasswordViewController: UIViewController {
         let  instructionsLabel = UILabel()
         instructionsLabel.textColor = .black
         instructionsLabel.numberOfLines = 0
-        instructionsLabel.text = "Enter your email"
-        instructionsLabel.font = UIFont.systemFont(ofSize: 20.0, weight: UIFont.Weight.bold)
+        instructionsLabel.text = "Enter Your Email"
+        instructionsLabel.textAlignment = .center
+        instructionsLabel.font = UIFont(name: "Futura", size: 20)
         return instructionsLabel
         
     }()
@@ -41,6 +42,7 @@ class ForgotPasswordViewController: UIViewController {
     // creates a email UITextField to hold the email
     let emailTextField : HoshiTextField = {
         let emaiilText = HoshiTextField()
+        emaiilText.placeholderLabel.font = UIFont(name: "Futura", size: 14)
         emaiilText.placeholderColor = .black
         emaiilText.placeholder = "Email"
         emaiilText.placeholderFontScale = 0.85
@@ -55,12 +57,12 @@ class ForgotPasswordViewController: UIViewController {
     // creates a UIButton that will sign up the user
     let sendResetEmail: UIButton  = {
         let button = UIButton(type: .system)
-        button.setTitle("Send Reset Link", for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 15.0, weight: UIFont.Weight.regular)
+        button.setTitle("SEND RESET LINK", for: .normal)
+        button.titleLabel?.font = UIFont(name: "Futura", size: 14)
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 5
         button.addTarget(self, action: #selector(resetPassword), for: .touchUpInside)
-        button.backgroundColor = UIColor.rgb(red: 45, green: 162, blue: 232)
+        button.backgroundColor = UIColor.rgb(red: 44, green: 152, blue: 229)
         return button
     }()
     
@@ -68,7 +70,8 @@ class ForgotPasswordViewController: UIViewController {
     let signInButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Reurn to Login Screen", for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 13)
+        button.titleLabel?.textAlignment = .center
+        button.titleLabel?.font = UIFont(name: "Futura", size: 14)
         button.setTitleColor(UIColor.black, for: .normal)
         button.addTarget(self, action: #selector(handleCancel), for: .touchUpInside)
         return button
@@ -81,24 +84,35 @@ class ForgotPasswordViewController: UIViewController {
     
     @objc func resetPassword(){
         print("reset password tapped")
-        if let email = emailTextField.text {
-            print("User email is \(email)")
-            AuthService.resetUserPassword(controller: self, for: email, completion: { [unowned self] (completed) in
-                if completed {
-                    let succesAlert = UIAlertController(title: "Password reset processed", message:
-                        "Check email for further instructions", preferredStyle: UIAlertControllerStyle.alert)
-                    succesAlert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: { (alertAction) in
-                        self.dismiss(animated: true, completion: nil)
-                    }))
-                    self.present(succesAlert, animated: true, completion: nil)
-                }else{
-                    let failureAlert = UIAlertController(title: "We seem to be having some network errors at the moment", message:
-                        "Try back later", preferredStyle: UIAlertControllerStyle.alert)
-                    failureAlert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default,handler: nil))
-                    self.present(failureAlert, animated: true, completion: nil)
-                }
-            })
+        
+        
+        if !(emailTextField.text?.isEmpty)!{
+            if let email = emailTextField.text {
+                print("User email is \(email)")
+                AuthService.resetUserPassword(controller: self, for: email, completion: { [unowned self] (completed) in
+                    if completed {
+                        let succesAlert = UIAlertController(title: "Password reset processed", message:
+                            "Check email for further instructions", preferredStyle: UIAlertControllerStyle.alert)
+                        succesAlert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default, handler: { (alertAction) in
+                            self.dismiss(animated: true, completion: nil)
+                        }))
+                        self.present(succesAlert, animated: true, completion: nil)
+                    }else{
+                        let failureAlert = UIAlertController(title: "We seem to be having some network errors at the moment", message:
+                            "Try back later", preferredStyle: UIAlertControllerStyle.alert)
+                        failureAlert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default,handler: nil))
+                        self.present(failureAlert, animated: true, completion: nil)
+                    }
+                })
+            }
+        }else{
+            let failureAlert1 = UIAlertController(title: "Please enter an email", message:
+                "", preferredStyle: UIAlertControllerStyle.alert)
+            failureAlert1.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default,handler: nil))
+            self.present(failureAlert1, animated: true, completion: nil)
         }
+        
+        
         
     }
     // Will move the UI Up on login Screen when keyboard appears
@@ -153,13 +167,11 @@ class ForgotPasswordViewController: UIViewController {
         view.endEditing(true)
     }
     @objc func setupForgotPasswordLabel(){
-        instructionsStackVIew =  UIStackView(arrangedSubviews: [instructionsLabel])
-        self.view.addSubview(instructionsStackVIew!)
-        instructionsStackVIew?.distribution = .fillEqually
-        instructionsStackVIew?.axis = .vertical
-        instructionsStackVIew?.alignment = .center
-        instructionsStackVIew?.spacing = 0
-         instructionsStackVIew?.anchor(top: self.view.topAnchor, left: self.view.leftAnchor, bottom: nil, right: self.view.rightAnchor, paddingTop: 10, paddingLeft: 70, paddingBottom: 0, paddingRight: 70, width: 0, height: 80)
+        view.addSubview(instructionsLabel)
+        instructionsLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
+            make.left.right.equalTo(view)
+        }
         
     }
     @objc func setupForgotPasswordScreen(){
@@ -168,21 +180,23 @@ class ForgotPasswordViewController: UIViewController {
          self.view.addSubview(stackView!)
         stackView?.distribution = .fillEqually
         stackView?.axis = .vertical
-        stackView?.spacing = 15.0
-        stackView?.anchor(top: self.instructionsStackVIew?.bottomAnchor, left: self.view.leftAnchor, bottom: nil, right: self.view.rightAnchor, paddingTop: 200, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, width: 0, height: 100)
+        stackView?.spacing = 20.0
+        stackView?.snp.makeConstraints({ (make) in
+            make.center.equalTo(view)
+            make.left.right.equalTo(view).inset(45)
+            make.height.equalTo(100)
+        })
         
     }
     
     @objc func setupReturnToLogin(){
-        let bottomView = UIView()
-        bottomView.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(bottomView)
-        NSLayoutConstraint.activateViewConstraints(bottomView, inSuperView: self.view, withLeading: 0.0, trailing: 0.0, top: nil, bottom: nil, width: nil, height: 20.0)
-        _ = NSLayoutConstraint.activateVerticalSpacingConstraint(withFirstView: bottomView, secondView: view.safeAreaLayoutGuide.bottomAnchor, andSeparation: 10.0)
         
-        bottomView.addSubview(self.signInButton)
+        view.addSubview(self.signInButton)
         self.signInButton.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activateViewConstraints(self.signInButton, inSuperView: bottomView, withLeading: 0.0, trailing: 0.0, top: 0.0, bottom: 0.0)
+        self.signInButton.snp.makeConstraints { (make) in
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(5)
+            make.left.right.equalTo(view)
+        }
     }
 
     override func viewDidLoad() {
