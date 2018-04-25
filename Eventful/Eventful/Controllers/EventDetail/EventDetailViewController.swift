@@ -106,7 +106,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
     //will ad the location marker to potentially bring up google maps
     lazy var LocationMarkerViewButton : UIButton = {
         let locationMarker = UIButton(type: .system)
-        locationMarker.setImage(#imageLiteral(resourceName: "icons8-marker-80 (1)").withRenderingMode(.alwaysOriginal), for: .normal)
+        locationMarker.setImage(UIImage(named: "icons8-marker-50 (1)")?.withRenderingMode(.alwaysOriginal), for: .normal)
         locationMarker.addTarget(self, action: #selector(openMaps), for: .touchUpInside)
         return locationMarker
     }()
@@ -164,14 +164,14 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
     
     lazy var commentsViewButton : UIButton = {
         let viewComments = UIButton(type: .system)
-        viewComments.setImage(#imageLiteral(resourceName: "commentBubble-1").withRenderingMode(.alwaysOriginal), for: .normal)
+        viewComments.setImage(#imageLiteral(resourceName: "icons8-chat-50").withRenderingMode(.alwaysOriginal), for: .normal)
         viewComments.layer.cornerRadius = 5
         viewComments.setTitle("Comments", for: .normal)
         viewComments.titleLabel?.font = UIFont(name: "GillSans", size: 15)
-        viewComments.setTitleColor(.black, for: .normal)
-        viewComments.backgroundColor = .white
-        viewComments.layer.borderWidth = 0.5
-        viewComments.layer.borderColor = UIColor.black.cgColor
+        viewComments.setTitleColor(.white, for: .normal)
+        viewComments.backgroundColor = UIColor.rgb(red: 44, green: 152, blue: 229)
+        viewComments.layer.borderWidth = 0.1
+        viewComments.layer.borderColor = UIColor.clear.cgColor
         viewComments.addTarget(self, action: #selector(presentComments), for: .touchUpInside)
         return viewComments
     }()
@@ -188,14 +188,14 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
     
     lazy var attendingButton: UIButton = {
         let attendButton = UIButton(type: .system)
-        attendButton.setImage(#imageLiteral(resourceName: "walkingNotFiled").withRenderingMode(.alwaysOriginal), for: .normal)
+        attendButton.setImage(#imageLiteral(resourceName: "icons8-walking-50").withRenderingMode(.alwaysOriginal), for: .normal)
         attendButton.layer.cornerRadius = 5
         attendButton.setTitle("Attending", for: .normal)
          attendButton.titleLabel?.font = UIFont(name: "GillSans", size: 15)
-        attendButton.setTitleColor(.black, for: .normal)
-        attendButton.backgroundColor = .white
-        attendButton.layer.borderWidth = 0.5
-        attendButton.layer.borderColor = UIColor.black.cgColor
+        attendButton.setTitleColor(.white, for: .normal)
+        attendButton.backgroundColor = UIColor.rgb(red: 44, green: 152, blue: 229)
+        attendButton.layer.borderWidth = 0.1
+        attendButton.layer.borderColor = UIColor.clear.cgColor
         attendButton.addTarget(self, action: #selector(handleAttend), for: .touchUpInside)
         return attendButton
     }()
@@ -242,7 +242,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
                 self.currentEvent?.isAttending = !((self.currentEvent!.isAttending))
                 
                 self.currentEvent?.currentAttendCount += !((self.currentEvent!.isAttending)) ? 1 : -1
-                self.attendingButton.setImage(#imageLiteral(resourceName: "walkingNotFiled").withRenderingMode(.alwaysOriginal), for: .normal)
+                self.attendingButton.setImage(#imageLiteral(resourceName: "icons8-walking-50").withRenderingMode(.alwaysOriginal), for: .normal)
             }
             
         }else{
@@ -261,7 +261,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
                 self.currentEvent?.isAttending = !((self.currentEvent!.isAttending))
                 
                 self.currentEvent?.currentAttendCount += !((self.currentEvent!.isAttending)) ? 1 : -1
-                self.attendingButton.setImage(#imageLiteral(resourceName: "walkingFilled").withRenderingMode(.alwaysOriginal), for: .normal)
+                self.attendingButton.setImage(#imageLiteral(resourceName: "icons8-walking-filled-50").withRenderingMode(.alwaysOriginal), for: .normal)
             }
             
         }
@@ -274,11 +274,11 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
             if let isAttending = snapshot.value as? Int, isAttending == 1 {
                 print("User is attending")
                 self.currentEvent?.isAttending = true
-                self.attendingButton.setImage(#imageLiteral(resourceName: "walkingFilled").withRenderingMode(.alwaysOriginal), for: .normal)
+                self.attendingButton.setImage(#imageLiteral(resourceName: "icons8-walking-filled-50").withRenderingMode(.alwaysOriginal), for: .normal)
             }else{
                 print("User is not attending")
                 self.currentEvent?.isAttending = false
-                self.attendingButton.setImage(#imageLiteral(resourceName: "walkingNotFiled").withRenderingMode(.alwaysOriginal), for: .normal)
+                self.attendingButton.setImage(#imageLiteral(resourceName: "icons8-walking-50").withRenderingMode(.alwaysOriginal), for: .normal)
             }
         }) { (err) in
             print("Failed to check if attending", err)
@@ -287,14 +287,14 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
     
     lazy var addToStoryButton : UIButton =  {
         let addToStory = UIButton(type: .system)
-        addToStory.setImage(#imageLiteral(resourceName: "photo-camera").withRenderingMode(.alwaysOriginal), for: .normal)
+        addToStory.setImage(#imageLiteral(resourceName: "icons8-screenshot-filled-50").withRenderingMode(.alwaysOriginal), for: .normal)
         addToStory.layer.cornerRadius = 5
         addToStory.titleLabel?.font = UIFont(name: "GillSans", size: 15)
         addToStory.setTitle("Add to Story", for: .normal)
-        addToStory.setTitleColor(.black, for: .normal)
-        addToStory.backgroundColor = .white
-        addToStory.layer.borderWidth = 0.5
-        addToStory.layer.borderColor = UIColor.black.cgColor
+        addToStory.setTitleColor(.white, for: .normal)
+        addToStory.backgroundColor = UIColor.rgb(red: 44, green: 152, blue: 229)
+        addToStory.layer.borderWidth = 0.1
+        addToStory.layer.borderColor = UIColor.clear.cgColor
         addToStory.addTarget(self, action: #selector(beginAddToStory), for: .touchUpInside)
         return addToStory
     }()
@@ -307,14 +307,14 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
     
     lazy var viewStoryButton : UIButton = {
         let viewStoryButton = UIButton(type: .system)
-        viewStoryButton.setImage(#imageLiteral(resourceName: "icons8-Logout Rounded Up-50").withRenderingMode(.alwaysOriginal), for: .normal)
+        viewStoryButton.setImage(#imageLiteral(resourceName: "icons8-next-50").withRenderingMode(.alwaysOriginal), for: .normal)
         viewStoryButton.layer.cornerRadius = 5
         viewStoryButton.setTitle("View Story", for: .normal)
         viewStoryButton.titleLabel?.font = UIFont(name: "GillSans", size: 15)
-        viewStoryButton.setTitleColor(.black, for: .normal)
-        viewStoryButton.backgroundColor = .white
-        viewStoryButton.layer.borderWidth = 0.50
-        viewStoryButton.layer.borderColor = UIColor.black.cgColor
+        viewStoryButton.setTitleColor(.white, for: .normal)
+        viewStoryButton.backgroundColor = UIColor.rgb(red: 44, green: 152, blue: 229)
+        viewStoryButton.layer.borderWidth = 0.1
+        viewStoryButton.layer.borderColor = UIColor.clear.cgColor
 //        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleViewStory))
 //        viewStoryButton.addGestureRecognizer(tapGesture)
         return viewStoryButton
@@ -432,7 +432,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
     }
         
     LocationMarkerViewButton.snp.makeConstraints { (make) in
-            make.top.equalTo(textContainer.snp.top).offset(2)
+            make.top.equalTo(textContainer.snp.top).offset(9)
             make.left.equalTo(textContainer.snp.left)
         }
         currentEventDate.snp.makeConstraints { (make) in
