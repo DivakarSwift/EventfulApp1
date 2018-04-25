@@ -49,6 +49,8 @@ class AlterProfileViewController: UIViewController, UIImagePickerControllerDeleg
         //Constraints for the text field that corresponds to the label
         saveProfileEdits.snp.makeConstraints { (make) in
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(10)
+            make.height.equalTo(30)
+            make.left.right.equalTo(view).inset(20)
         }
         ///////////////////////////////////////////////
         

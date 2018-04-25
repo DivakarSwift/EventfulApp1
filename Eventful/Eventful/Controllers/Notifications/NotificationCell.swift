@@ -53,7 +53,6 @@ class NotificationCell: UICollectionViewCell,NotificationCellDelegate {
         let iv = CustomImageView()
         iv.clipsToBounds = true
         iv.isUserInteractionEnabled = true
-        iv.isUserInteractionEnabled = true
         iv.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleProfileTransition)))
         iv.contentMode = .scaleAspectFill
         return iv

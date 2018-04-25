@@ -10,6 +10,9 @@ import UIKit
 import Firebase
 import FirebaseDatabase
 import SnapKit
+import GoogleMaps
+import CoreLocation
+import MapKit
 
 class EventDetailViewController: UIViewController,UIScrollViewDelegate {
     var imageURL: URL?
@@ -96,14 +99,68 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         currentAddressLabel.numberOfLines = 0
         currentAddressLabel.textColor = UIColor.lightGray
         currentAddressLabel.font = UIFont(name:"GillSans", size: 14.0)
+        currentAddressLabel.isUserInteractionEnabled = true
+        currentAddressLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(openMaps)))
         return currentAddressLabel
     }()
     //will ad the location marker to potentially bring up google maps
     lazy var LocationMarkerViewButton : UIButton = {
         let locationMarker = UIButton(type: .system)
         locationMarker.setImage(#imageLiteral(resourceName: "icons8-marker-80 (1)").withRenderingMode(.alwaysOriginal), for: .normal)
+        locationMarker.addTarget(self, action: #selector(openMaps), for: .touchUpInside)
         return locationMarker
     }()
+    
+    
+    @objc func openMaps() {
+        print("Trying to open a map")
+        guard let currentZip = currentEvent?.currentEventZip else{
+            return
+        }
+        let geoCoder = CLGeocoder()
+   
+        let addressString = (currentEvent?.currentEventStreetAddress)! + ", "+(currentEvent?.currentEventCity)! +  ", "+(currentEvent?.currentEventState)! + " "+String(describing: currentZip)
+        print(addressString)
+        geoCoder.geocodeAddressString(addressString) { (placeMark, err) in
+            guard let currentPlaceMark = placeMark?.first else{
+                return
+            }
+            guard let lat = currentPlaceMark.location?.coordinate.latitude else {
+                return
+            }
+            guard let long = currentPlaceMark.location?.coordinate.longitude else {
+                return
+            }
+            print(lat)
+            print(long)
+            if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
+                let addressParse = (self.currentEvent?.currentEventStreetAddress)!.components(separatedBy: " ")
+                print(addressParse[0])
+                print(addressParse[1])
+                 print(addressParse[2])
+                let directionsRequest = "comgooglemaps-x-callback://" +
+                    "?daddr=\(addressParse[0])+\(addressParse[1])+\(addressParse[2]),+\((self.currentEvent?.currentEventCity)!),+\((self.currentEvent?.currentEventState)!)+\(String(describing: currentZip))" +
+                "&x-success=sourceapp://?resume=true&x-source=Haipe"
+                
+                let directionsURL = URL(string: directionsRequest)!
+                UIApplication.shared.open(directionsURL, options: [:], completionHandler: nil)
+
+            } else {
+                print("Opening in Apple Map")
+                
+                let coordinate = CLLocationCoordinate2DMake(lat, long)
+                let region = MKCoordinateRegionMake(coordinate, MKCoordinateSpanMake(0.01, 0.02))
+                let placemark = MKPlacemark(coordinate: coordinate, addressDictionary: nil)
+                let mapItem = MKMapItem(placemark: placemark)
+                let options = [
+                    MKLaunchOptionsMapCenterKey: NSValue(mkCoordinate: region.center),
+                    MKLaunchOptionsMapSpanKey: NSValue(mkCoordinateSpan: region.span)]
+                mapItem.name = addressString
+                mapItem.openInMaps(launchOptions: options)
+            }
+//            print(currentPlaceMark)
+        }
+    }
     
     lazy var commentsViewButton : UIButton = {
         let viewComments = UIButton(type: .system)
