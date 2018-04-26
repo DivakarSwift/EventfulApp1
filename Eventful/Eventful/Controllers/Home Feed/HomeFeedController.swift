@@ -200,14 +200,15 @@ class HomeFeedController: UICollectionViewController {
                 self.allEvents2["Seize The Night"] = self.seizeTheNight
                 self.allEvents2["Seize The Day"] = self.seizeTheDay
                 self.allEvents2[ "21 & Up"] = self.twentyOne
+                print("ending in cacegory events")
+
                // print("Event count in PostService Closure:\(self.allEvents.count)")
             })
             
             PostService.showFeaturedEvent(for: currentLocation, completion: { [weak self] (events) in
                 self?.featuredEvents = events
                // print("Event count in Featured Events Closure is:\(self?.featuredEvents.count)")
-                DispatchQueue.main.async {
-                }
+                print("ending in Featured events")
             }
             )
             print("Latitude: \(currentLocation.coordinate.latitude)")
@@ -218,17 +219,30 @@ class HomeFeedController: UICollectionViewController {
     @objc func grabFriendsEvents(){
         print("Attempting to see where your friends are going")
         UserService.following { (user) in
+            let dispatchGroup = DispatchGroup()
             for following in user {
                 print(following.username as Any)
+                print("entering dispatch group")
+                dispatchGroup.enter()
+
                 PostService.showFollowingEvent(for: following.uid, completion: { (event) in
-                    self.friendsEvents.append(event)
+                    self.friendsEvents = event
                    // self.friendsEvents.append(contentsOf: event)
                     // leave here
                     self.friendsEvents = self.friendsEvents.removeDuplicates()
-                    self.collectionView?.reloadData()
+                    print("ending in friends events")
+                    dispatchGroup.leave()
+                    print("leaving dispatch group")
                 })
                 
             }  
+            
+            dispatchGroup.notify(queue: .main) {
+                // dismiss the revealing view
+                self.collectionView?.reloadData()
+                 NotificationCenter.default.post(name: heartAttackNotificationName, object: nil)
+                print("everything done")
+            }
             
         }
     }

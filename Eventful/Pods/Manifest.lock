@@ -94,6 +94,7 @@ PODS:
     - MarqueeLabel/Swift
     - SnapKit (~> 4.0)
   - Protobuf (3.5.0)
+  - RevealingSplashView (0.4.0)
   - SkeletonView (1.1.1)
   - SnapKit (4.0.0)
   - SVProgressHUD (2.2.5)
@@ -124,6 +125,7 @@ DEPENDENCIES:
   - IGListKit (from `https://github.com/Instagram/IGListKit.git`, branch `master`)
   - JTAppleCalendar
   - NotificationBannerSwift
+  - RevealingSplashView
   - SkeletonView
   - SVProgressHUD
   - SwiftLocation
@@ -182,6 +184,7 @@ SPEC CHECKSUMS:
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   NotificationBannerSwift: 4eceb2add9d5eaa0596c63d49690b4d6476e74ec
   Protobuf: 8a9838fba8dae3389230e1b7f8c104aa32389c03
+  RevealingSplashView: 72be158ad5e1bc72713e8f78383dc3e1803ce4d1
   SkeletonView: 041053e904504e7d8db83df166e599be75659fe1
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
@@ -190,6 +193,6 @@ SPEC CHECKSUMS:
   SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
   TextFieldEffects: 4ee41b5216e674d55fb6ac25107bf1af7629176f
 
-PODFILE CHECKSUM: 5f8a0b09c86049ec5162e6802899ee6d899febb0
+PODFILE CHECKSUM: dc99178911c557a2a4cb593c3e7facd4d4e8c628
 
 COCOAPODS: 1.4.0

@@ -13,9 +13,11 @@ import Crashlytics
 import UserNotifications
 import NotificationBannerSwift
 import GooglePlaces
+import RevealingSplashView
 
 
 typealias FIRUser = FirebaseAuth.User
+let heartAttackNotificationName = Notification.Name("heartAttack")
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
@@ -27,6 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
     var appRef : UIApplication!
     var notifBanner = NotifBannerView()
     let userProfileController = ProfileeViewController(collectionViewLayout: UICollectionViewFlowLayout())
+    let revealingSplashView = RevealingSplashView(iconImage:UIImage(named: "LogoWelcome")! , iconInitialSize: CGSize(width:123,height:123), backgroundImage:UIImage(named: "Ресурс 14")! )
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         Fabric.with([Crashlytics.self])
         self.appRef = application
@@ -99,6 +102,7 @@ extension AppDelegate {
        // print(Auth.auth().currentUser ?? "")
         let defaults = UserDefaults.standard
         var initialViewController: UIViewController
+            NotificationCenter.default.addObserver(self, selector: #selector(handleHeartAttack), name: heartAttackNotificationName, object: nil)
        // print(Auth.auth().currentUser ?? "")
         if Auth.auth().currentUser != nil,
             let userData = defaults.object(forKey: "currentUser") as? Data,
@@ -114,6 +118,15 @@ extension AppDelegate {
         }
         window?.rootViewController = initialViewController
         window?.makeKeyAndVisible()
+        revealingSplashView.animationType = .heartBeat
+        window?.addSubview(revealingSplashView)
+        revealingSplashView.startAnimation()
+        
+    }
+    
+    @objc func handleHeartAttack(){
+    print("Trying to handle heart attack")
+        revealingSplashView.heartAttack = true
     }
 }
 

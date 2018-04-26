@@ -19,7 +19,6 @@ protocol LoginViewControllerDelegate: class {
 
 class LoginViewController: UIViewController , LoginViewControllerDelegate {
     //Login Controller Instance
-    
    // var loginController: LoginViewController?
     weak var delegate : LoginViewControllerDelegate?
     let signUpTransition = SignUpViewController()
@@ -194,6 +193,7 @@ class LoginViewController: UIViewController , LoginViewControllerDelegate {
         stackView?.anchor(top: logoImageView.bottomAnchor, left: self.view.leftAnchor, bottom: nil, right: self.view.rightAnchor, paddingTop: 50, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, width: 0, height: 152)
         self.addBottomMostItems()
         self.addForgotPasswordItem()
+        NotificationCenter.default.post(name: heartAttackNotificationName, object: nil)
     }
     fileprivate func addForgotPasswordItem(){
         let midView = UIView()
