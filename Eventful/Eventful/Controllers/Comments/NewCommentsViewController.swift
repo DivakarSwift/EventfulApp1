@@ -63,7 +63,6 @@ class NewCommentsViewController: UIViewController, UITextFieldDelegate,CommentsS
         commentHandle = ChatService.observeMessages(forChatKey: eventKey) { (ref, newComments) in
             self.commentRer = ref
             self.comments.append(newComments!)
-            self.adapter.performUpdates(animated: true)
             self.adapter.performUpdates(animated: true, completion: { (finished) in
                 if finished {
                     let item = self.collectionView.numberOfItems(inSection: self.collectionView.numberOfSections - 1) - 1

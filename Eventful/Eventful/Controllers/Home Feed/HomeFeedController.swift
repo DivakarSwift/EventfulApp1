@@ -152,6 +152,7 @@ class HomeFeedController: UICollectionViewController {
                     self.allEvents2["Seize The Day"] = self.seizeTheDay
                     self.allEvents2[ "21 & Up"] = self.twentyOne
                     DispatchQueue.main.async {
+                        print("ends in category event")
                         self.collectionView?.reloadData()
                         SVProgressHUD.dismiss(withDelay: 1)
                     }
@@ -161,6 +162,7 @@ class HomeFeedController: UICollectionViewController {
 
                 PostService.showFeaturedEvent(for: currentLocation, completion: { [weak self] (events) in
                     self?.featuredEvents = events
+                    print("ends in featured events")
                     DispatchQueue.main.async {
                         self?.collectionView?.reloadData()
                         SVProgressHUD.dismiss(withDelay: 1)
@@ -201,8 +203,6 @@ class HomeFeedController: UICollectionViewController {
                 self.allEvents2["Seize The Day"] = self.seizeTheDay
                 self.allEvents2[ "21 & Up"] = self.twentyOne
                 print("ending in cacegory events")
-
-               // print("Event count in PostService Closure:\(self.allEvents.count)")
             })
             
             PostService.showFeaturedEvent(for: currentLocation, completion: { [weak self] (events) in
@@ -241,7 +241,6 @@ class HomeFeedController: UICollectionViewController {
                 // dismiss the revealing view
                 self.collectionView?.reloadData()
                  NotificationCenter.default.post(name: heartAttackNotificationName, object: nil)
-                print("everything done")
             }
             
         }

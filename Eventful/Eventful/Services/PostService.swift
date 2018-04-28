@@ -70,8 +70,8 @@ class PostService {
             print("Key '\(key)' entered the search area and is at location '\(location)'")
             dispatchGroup.enter()
             EventService.show(forEventKey: key, completion: { (event) in
-                dispatchGroup.leave()
                 currentEvents.append(event!)
+                dispatchGroup.leave()
             })
             dispatchGroup.notify(queue: .main, execute: {
                 completion(currentEvents)
