@@ -184,7 +184,7 @@ class NewCommentsViewController: UIViewController, UITextFieldDelegate,CommentsS
     
     @objc func GoBack(){
         print("BACK TAPPED")
-        self.dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewController(animated: true)
     }
     
     //look here

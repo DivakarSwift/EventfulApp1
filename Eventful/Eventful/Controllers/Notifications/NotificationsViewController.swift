@@ -14,6 +14,7 @@ private let reuseIdentifier = "Cell"
 
 class NotificationsViewController: UIViewController,NotificationsSectionDelegate,UIScrollViewDelegate {
     
+    
     var emptyLabel: UILabel?
     //array of notifications which will be loaded by a service function
     var notifs = [Notifications]()
@@ -64,6 +65,7 @@ class NotificationsViewController: UIViewController,NotificationsSectionDelegate
     override func viewWillAppear(_ animated: Bool) {
         //may have to do something here to make pag work properly
 //        self.fetchNotifs()
+        self.tabBarController?.tabBar.isHidden = false
     }
     
     deinit {
@@ -104,6 +106,45 @@ class NotificationsViewController: UIViewController,NotificationsSectionDelegate
     func NotificationsSectionUpdared(sectionController: NotificationsSectionController) {
         self.adapter.performUpdates(animated: true)
         
+    }
+    
+    func NotifVcTransition(notifCell: NotificationCell) {
+        print("function called")
+        print(notifCell.notification?.notiType)
+        guard let notiType = notifCell.notification?.notiType else {
+            return
+        }
+        
+        if notiType == "comment"{
+            guard let notifEventKey = notifCell.notification?.eventKey else {
+                return
+            }
+             let newCommentsController = NewCommentsViewController()
+            newCommentsController.eventKey = notifEventKey
+            newCommentsController.comments.removeAll()
+            newCommentsController.adapter.reloadData { (updated) in
+            }
+            self.tabBarController?.tabBar.isHidden = true
+            self.navigationController?.pushViewController(newCommentsController, animated: false)
+        }else if notiType == "follow" {
+            guard let sender = notifCell.notification?.sender else {
+                return
+            }
+ let userProfileController = ProfileeViewController(collectionViewLayout: UICollectionViewFlowLayout())
+            userProfileController.user = sender
+            userProfileController.navigationItem.title = sender.username
+            userProfileController.navigationItem.hidesBackButton = true
+            let backButton = UIBarButtonItem(image: UIImage(named: "icons8-Back-64"), style: .plain, target: self, action: #selector(self.GoBack))
+            userProfileController.navigationItem.leftBarButtonItem = backButton
+            self.tabBarController?.tabBar.isHidden = true
+            self.navigationController?.pushViewController(userProfileController, animated: true)
+        }else{
+            print("doing nothing")
+        }
+    }
+    
+    @objc func GoBack(){
+        self.navigationController?.popViewController(animated: true)
     }
     
     //    //will use this perform pagination

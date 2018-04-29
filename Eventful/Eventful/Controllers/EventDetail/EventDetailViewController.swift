@@ -178,12 +178,11 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
     
     @objc func presentComments(){
         let newCommentsController = NewCommentsViewController()
-        var navController = UINavigationController(rootViewController: newCommentsController)
         newCommentsController.eventKey = eventKey
         newCommentsController.comments.removeAll()
         newCommentsController.adapter.reloadData { (updated) in
         }
-        present(navController, animated: true, completion: nil)
+        self.navigationController?.pushViewController(newCommentsController, animated: true)
     }
     
     lazy var attendingButton: UIButton = {

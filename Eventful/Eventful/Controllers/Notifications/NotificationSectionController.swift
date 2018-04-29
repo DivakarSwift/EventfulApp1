@@ -10,6 +10,7 @@ import IGListKit
 import Firebase
 protocol NotificationsSectionDelegate: class {
     func NotificationsSectionUpdared(sectionController: NotificationsSectionController)
+    func NotifVcTransition(notifCell: NotificationCell)
 }
 class NotificationsSectionController: ListSectionController,NotificationCellDelegate {
     
@@ -26,6 +27,15 @@ class NotificationsSectionController: ListSectionController,NotificationCellDele
     // MARK: IGListSectionController Overrides
     override func numberOfItems() -> Int {
         return 1
+    }
+    override func didSelectItem(at index: Int) {
+        guard let cell = collectionContext?.dequeueReusableCell(of: NotificationCell.self, for: self, at: index) as? NotificationCell else {
+            fatalError()
+        }
+        cell.notification = notif
+        cell.delegate = self
+        delegate?.NotifVcTransition(notifCell: cell)
+    
     }
     
     override func sizeForItem(at index: Int) -> CGSize {
@@ -57,6 +67,8 @@ class NotificationsSectionController: ListSectionController,NotificationCellDele
         print("Tried to update")
         delegate?.NotificationsSectionUpdared(sectionController: self)
     }
+    
+    
     
     func handleProfileTransition(tapGesture: UITapGestureRecognizer) {
         let userProfileController = ProfileeViewController(collectionViewLayout: UICollectionViewFlowLayout())

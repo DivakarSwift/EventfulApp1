@@ -127,6 +127,7 @@ extension AppDelegate {
     @objc func handleHeartAttack(){
     print("Trying to handle heart attack")
         revealingSplashView.heartAttack = true
+        NotificationCenter.default.removeObserver(self, name: heartAttackNotificationName, object: nil)
     }
 }
 
