@@ -155,6 +155,7 @@ class LoginViewController: UIViewController , LoginViewControllerDelegate {
     
     override func viewDidLoad() {
         // Every view that I add is from the top down imagine a chandeler that you are just hanging things from
+        print("app begun")
         super.viewDidLoad()
         // will add each of the screen elements to the current view
         self.view.backgroundColor = UIColor.white
