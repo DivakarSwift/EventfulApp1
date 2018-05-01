@@ -135,7 +135,6 @@ class HomeFeedController: UICollectionViewController {
                 self.featuredEvents.removeAll()
 
                 PostService.showEvent(for: currentLocation, completion: { [unowned self](event) in
-                    print(event.key)
 
 
                     if event.category == "Seize The Night" {
@@ -307,7 +306,6 @@ class HomeFeedController: UICollectionViewController {
         print("Hello, titleWasTapped!")
         let searchController = PlacesSearchController()
         searchController.homeFeedController = self
-        let placesNavController = UINavigationController(rootViewController: searchController)
         self.navigationController?.pushViewController(searchController, animated: true)
     }
 
@@ -370,7 +368,6 @@ extension HomeFeedController {
     @objc func fetchEvents(currentLocation: CLLocation, selectedDate: Date){
         
         PostService.showEvent(for: currentLocation, completion: { [unowned self](event) in
-            print(event.key)
             
             
             if event.category == "Seize The Night" {

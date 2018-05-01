@@ -31,7 +31,7 @@ class CommentsSectionController: ListSectionController,CommentCellDelegate {
     }
     override func sizeForItem(at index: Int) -> CGSize {
         let frame = CGRect(x: 0, y: 0, width: collectionContext!.containerSize.width, height: 50)
-        var dummyCell = CommentCell(frame: frame)
+        let dummyCell = CommentCell(frame: frame)
         dummyCell.comment = comment
         dummyCell.layoutIfNeeded()
         let targetSize =  CGSize(width: collectionContext!.containerSize.width, height: 55)
@@ -140,7 +140,6 @@ class CommentsSectionController: ListSectionController,CommentCellDelegate {
         self.currentViewController.containerView.commentTextView.becomeFirstResponder()
         //sets the isReplyingVariable to know if I am replying to someones comment or not
         self.currentViewController.isReplying = true
-        print(self.comment?.commentID)
         UserService.show(forUID: (comment?.sender.uid)!) { (reciever) in
             self.currentViewController.notificationData = Notifications.init(eventKey: (self.comment?.eventKey)!, reciever: reciever!, content: User.current.username! + " has replied to your comment", type: "comment", commentId: (self.comment?.commentID)!)
         }

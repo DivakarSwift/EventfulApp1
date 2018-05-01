@@ -110,7 +110,6 @@ class NotificationsViewController: UIViewController,NotificationsSectionDelegate
     
     func NotifVcTransition(notifCell: NotificationCell) {
         print("function called")
-        print(notifCell.notification?.notiType)
         guard let notiType = notifCell.notification?.notiType else {
             return
         }
@@ -164,7 +163,6 @@ class NotificationsViewController: UIViewController,NotificationsSectionDelegate
                 sleep(2)
                 DispatchQueue.main.async {
                     self.loading = false
-                    let itemCount = self.notifs.count
                     print("attempting pagiantion")
                     //put true or false condition to stop pagination
                    // print("Last key is: \(self.notifs.last?.key)")

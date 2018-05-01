@@ -208,7 +208,7 @@ struct UserService {
             // 3
             let users =
                 snapshot
-                    .flatMap(User.init)
+                    .compactMap(User.init)
                     .filter { $0.uid != currentUser.uid }
             
             // 4

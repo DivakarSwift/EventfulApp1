@@ -88,24 +88,8 @@
 		07FF92B91F3627A300FC9716 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07FF92B81F3627A300FC9716 /* Post.swift */; };
 		07FF92C91F3B898C00FC9716 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07FF92C81F3B898C00FC9716 /* Comment.swift */; };
 		07FF92CB1F3B925800FC9716 /* ChatService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07FF92CA1F3B925800FC9716 /* ChatService.swift */; };
-		52D748CA1F84C17A00357DDF /* DynamoCollectionView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52D748C91F84C16E00357DDF /* DynamoCollectionView.framework */; };
-		52D748CB1F84C17A00357DDF /* DynamoCollectionView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 52D748C91F84C16E00357DDF /* DynamoCollectionView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F277E01C2A00DE5C23A3A9DD /* Pods_Eventful.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1746B55EBA2E6BE797E81DA6 /* Pods_Eventful.framework */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		52D748CC1F84C17A00357DDF /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				52D748CB1F84C17A00357DDF /* DynamoCollectionView.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0704C76B2061C75800C9E35A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = /Users/BandManFabo/Desktop/EventfulApp/EventfulApp1/Eventful/Assets.xcassets; sourceTree = "<absolute>"; };
@@ -204,7 +188,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F277E01C2A00DE5C23A3A9DD /* Pods_Eventful.framework in Frameworks */,
-				52D748CA1F84C17A00357DDF /* DynamoCollectionView.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -502,7 +485,6 @@
 				07437F141F267CA900CE728B /* Resources */,
 				DEBC6E9D19E14CC939269E2F /* [CP] Embed Pods Frameworks */,
 				FDF21954F6D4CFA39B24B91D /* [CP] Copy Pods Resources */,
-				52D748CC1F84C17A00357DDF /* Embed Frameworks */,
 				07A15D032008979200CA4309 /* ShellScript */,
 			);
 			buildRules = (
@@ -521,7 +503,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0820;
-				LastUpgradeCheck = 0900;
+				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = "Make School";
 				TargetAttributes = {
 					07437F151F267CA900CE728B = {
@@ -599,7 +581,7 @@
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GeoFire/GeoFire.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
-				"${BUILT_PRODUCTS_DIR}/Hero-iOS11.2/Hero.framework",
+				"${BUILT_PRODUCTS_DIR}/Hero/Hero.framework",
 				"${BUILT_PRODUCTS_DIR}/IGListKit/IGListKit.framework",
 				"${BUILT_PRODUCTS_DIR}/JTAppleCalendar/JTAppleCalendar.framework",
 				"${BUILT_PRODUCTS_DIR}/MarqueeLabel/MarqueeLabel.framework",
@@ -809,6 +791,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -816,6 +799,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -864,6 +848,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -871,6 +856,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;

@@ -136,8 +136,11 @@ class CameraViewController: SwiftyCamViewController {
         flipCameraButton.setImage(#imageLiteral(resourceName: "flipCamera"), for: UIControlState())
         flipCameraButton.addTarget(self, action: #selector(cameraSwitchAction(_:)), for: .touchUpInside)
         self.view.addSubview(flipCameraButton)
+        let partOne = (view.frame.width - (view.frame.width / 2 + 37.5))
+        let partTwo = (view.frame.width / 2)
+        let test = CGFloat(partOne + (partTwo - 37.5) - 9.0)
         
-        let test = CGFloat((view.frame.width - (view.frame.width / 2 + 37.5)) + ((view.frame.width / 2) - 37.5) - 9.0)
+        
         flashButton = UIButton(frame: CGRect(x: test, y: view.frame.height - 77.5, width: 18.0, height: 30.0))
         flashButton.setImage(#imageLiteral(resourceName: "flashOutline"), for: UIControlState())
         flashButton.addTarget(self, action: #selector(toggleFlashAction(_:)), for: .touchUpInside)

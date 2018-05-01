@@ -77,7 +77,7 @@ class ChatService {
     
     static func sendNotification(_ notification: Notifications, success: ((Bool) -> Void)? = nil) {
         var multiUpdateValue = [String : Any]()
-        let messagesRef = Database.database().reference().child("notifcations").child((notification.receiver?.uid)!)
+        _ = Database.database().reference().child("notifcations").child((notification.receiver?.uid)!)
         multiUpdateValue["notifications/\((notification.receiver?.uid)!)/\(notification.commentId ?? "")"] = notification.dictValue
         let rootRef = Database.database().reference()
         rootRef.updateChildValues(multiUpdateValue, withCompletionBlock: { (error, ref) in

@@ -36,15 +36,3 @@ target 'Eventful' do
     # Pods for Eventful
     
 end
-
-
-workspace 'Eventful'
-
-target 'DynamoCollectionView' do
-     project '/Users/BandManFabo/Desktop/EventfulApp/EventfulApp1/Eventful/DynamoCollectionView/DynamoCollectionView.xcodeproj'
-    # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
-    use_frameworks!
-    pod "Hero"
-    # Pods for Eventful
-    
-end

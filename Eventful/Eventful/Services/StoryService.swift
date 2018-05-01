@@ -23,7 +23,7 @@ struct StoryService {
             }
             print(snapshot)
             
-            let story: [Story] = snapshot.flatMap{
+            let story: [Story] = snapshot.compactMap{
                 guard let story1 = Story(snapshot: $0) else{
                     return nil
                 }

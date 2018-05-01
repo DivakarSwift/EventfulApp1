@@ -1,6 +1,0 @@
-framework module Hero {
-  umbrella header "Hero-iOS9.0-umbrella.h"
-
-  export *
-  module * { export * }
-}

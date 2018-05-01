@@ -22,7 +22,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
 
             DispatchQueue.main.async {
                 self.currentEventImage.af_setImage(withURL: self.imageURL!, placeholderImage: nil, filter: nil, progress: nil, progressQueue: .main, imageTransition: .crossDissolve(0.5), runImageTransitionIfCached: false, completion: { (response) in
-                    let image = response.result.value // UIImage Object
+                    _ = response.result.value // UIImage Object
                 })
             }
             //will pass the event description to the corresponding label
@@ -223,7 +223,6 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
     @objc func handleAttend(){
         // 2
         attendingButton.isUserInteractionEnabled = false
-        print(currentEvent?.isAttending)
        
         if (currentEvent?.isAttending)! {
             

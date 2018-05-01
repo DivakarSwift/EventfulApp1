@@ -37,9 +37,6 @@ struct FollowService {
         let currentUID = User.current.uid
         // Use NSNull() object instead of nil because updateChildValues expects type [Hashable : Any]
         // http://stackoverflow.com/questions/38462074/using-updatechildvalues-to-delete-from-firebase
-        
-        let messagesRef = Database.database().reference().child("notifcations").child(user.uid).child(currentUID)
-        let messageKey = messagesRef.key
 
         let followData = ["followers/\(user.uid)/\(currentUID)" : NSNull(),
                           "following/\(currentUID)/\(user.uid)" : NSNull(),

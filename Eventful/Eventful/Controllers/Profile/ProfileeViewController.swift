@@ -83,7 +83,7 @@
 
         
         @objc func profileSettingsTapped(){
-            var profileSetupTransition = AlterProfileViewController()
+            let profileSetupTransition = AlterProfileViewController()
             let navController = UINavigationController(rootViewController: profileSetupTransition)
             present(navController, animated: true, completion: nil)
             //        self.navigationController?.pushViewController(profileSetupTransition, animated: true)

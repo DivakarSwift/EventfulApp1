@@ -120,7 +120,7 @@ extension SideMenuLauncher: UICollectionViewDataSource {
     
     
     @objc func handleTap(_ recognizer:UITapGestureRecognizer) {
-        let footerView = recognizer.view
+        _ = recognizer.view
         print("footer tapped")
         
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {

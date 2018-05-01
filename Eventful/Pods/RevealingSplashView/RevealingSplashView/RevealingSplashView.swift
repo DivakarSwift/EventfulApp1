@@ -62,6 +62,7 @@ open class RevealingSplashView: UIView, SplashAnimatable{
              imageView?.frame = CGRect(x: 0, y: 0, width: iconInitialSize.width, height: iconInitialSize.height)
         }
     }
+    
     /// The image view containing the background Image
     open var backgroundImageView: UIImageView?
     
@@ -146,7 +147,6 @@ open class RevealingSplashView: UIView, SplashAnimatable{
         self.addSubview(imageView!)
         
     }
-    
 
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

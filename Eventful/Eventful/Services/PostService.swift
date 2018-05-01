@@ -34,7 +34,6 @@ class PostService {
     
     static func showEvent(for currentLocation: CLLocation,completion: @escaping (Event) -> Void) {
         //getting firebase root directory
-        var currentEvents: Event
         var geoFireRef: DatabaseReference?
         var geoFire:GeoFire?
         geoFireRef = Database.database().reference().child("eventsbylocation")

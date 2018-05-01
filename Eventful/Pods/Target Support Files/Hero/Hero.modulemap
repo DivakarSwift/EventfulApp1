@@ -1,5 +1,5 @@
 framework module Hero {
-  umbrella header "Hero-iOS11.2-umbrella.h"
+  umbrella header "Hero-umbrella.h"
 
   export *
   module * { export * }

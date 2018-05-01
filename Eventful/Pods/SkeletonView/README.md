@@ -4,12 +4,15 @@
     <a href="https://travis-ci.org/Juanpe/SkeletonView">
       <img src="https://img.shields.io/travis/Juanpe/SkeletonView.svg">
     </a>
-    <img src="https://img.shields.io/badge/Swift-4.0-orange.svg" />
+    <img src="https://img.shields.io/badge/Swift-4.1-orange.svg" />
     <a href="https://cocoapods.org/pods/SkeletonView">
         <img src="https://img.shields.io/cocoapods/v/SkeletonView.svg" alt="CocoaPods" />
     </a>
     <a href="https://github.com/Carthage/Carthage">
         <img src="https://img.shields.io/badge/carthage-compatible-4BC51D.svg?style=flat" alt="Carthage" />
+    </a>
+    <a href="https://cocoapods.org/pods/SkeletonView">
+        <img src="https://img.shields.io/cocoapods/dt/SkeletonView.svg?style=flat" alt="CocoaPods downloads" />
     </a>
     <a href="https://twitter.com/JuanpeCatalan">
         <img src="https://img.shields.io/badge/contact-@JuanpeCatalan-blue.svg?style=flat" alt="Twitter: @JuanpeCatalan" />
@@ -60,6 +63,7 @@ Enjoy it! 🙂
 ### 📋 Supported OS & SDK Versions
 
 * iOS 9.0+
+* tvOS 9.0+
 * Swift 4
 
 ### 🔮 Example
@@ -329,6 +333,7 @@ Coming soon...😅
 * [x] Add more gradient animations
 * [x] Supported resizable cells
 * [x] CollectionView compatible
+* [x] tvOS compatible
 * [ ] Add recovery state
 * [ ] Custom collections compatible
 * [ ] Add animations when it shows/hides the skeletons
