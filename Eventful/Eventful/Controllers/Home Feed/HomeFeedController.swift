@@ -134,48 +134,39 @@ class HomeFeedController: UICollectionViewController {
                 self.twentyOne.removeAll()
                 self.featuredEvents.removeAll()
 
-                PostService.showEvent(for: currentLocation, completion: { [unowned self](event) in
-
-
-                    if event.category == "Seize The Night" {
-                        self.seizeTheNight.append(event)
-                    }
-                    if event.category == "Seize The Day"{
-                        self.seizeTheDay.append(event)
-                    }
-                    if event.category == "21 & Up"{
-                        self.twentyOne.append(event)
-                    }
+                
+                PostService.showFeaturedEvent(for: currentLocation, completion: { [weak self] (event) in
+                    self?.featuredEvents = event
+                })
+                PostService.showEvent(for: currentLocation, completion: { [unowned self](events) in
                     
+                    for event in events {
+                        if event.category == "Seize The Night" {
+                            self.seizeTheNight.append(event)
+                        }
+                        if event.category == "Seize The Day"{
+                            self.seizeTheDay.append(event)
+                        }
+                        if event.category == "21 & Up"{
+                            self.twentyOne.append(event)
+                        }
+                    }
                     self.allEvents2["Seize The Night"] = self.seizeTheNight
                     self.allEvents2["Seize The Day"] = self.seizeTheDay
                     self.allEvents2[ "21 & Up"] = self.twentyOne
+                    print("ending in cacegory events")
                     DispatchQueue.main.async {
-                        print("ends in category event")
                         self.collectionView?.reloadData()
-                        SVProgressHUD.dismiss(withDelay: 1)
+                        print(self.featuredEvents.count)
+                        SVProgressHUD.dismiss(withDelay: 0.5)
                     }
+                    
                 })
                 
-                //featured events
-
-                PostService.showFeaturedEvent(for: currentLocation, completion: { [weak self] (events) in
-                    self?.featuredEvents = events
-                    print("ends in featured events")
-                    DispatchQueue.main.async {
-                        self?.collectionView?.reloadData()
-                        SVProgressHUD.dismiss(withDelay: 1)
-                    }
-                    }
-                )
-                
-                
-   
             }else {
                 print("No place details for \(placeID)")
             }
-            self.collectionView?.reloadData()
-            SVProgressHUD.dismiss(withDelay: 1)
+
         }
     }
     
@@ -188,16 +179,17 @@ class HomeFeedController: UICollectionViewController {
             
             PostService.showEvent(for: currentLocation, completion: { [unowned self](events) in
                 
-                    if events.category == "Seize The Night" {
-                        self.seizeTheNight.append(events)
+                for event in events {
+                    if event.category == "Seize The Night" {
+                        self.seizeTheNight.append(event)
                     }
-                    if events.category == "Seize The Day"{
-                        self.seizeTheDay.append(events)
+                    if event.category == "Seize The Day"{
+                        self.seizeTheDay.append(event)
                     }
-                    if events.category == "21 & Up"{
-                    self.twentyOne.append(events)
+                    if event.category == "21 & Up"{
+                        self.twentyOne.append(event)
                     }
-                
+                }
                 self.allEvents2["Seize The Night"] = self.seizeTheNight
                 self.allEvents2["Seize The Day"] = self.seizeTheDay
                 self.allEvents2[ "21 & Up"] = self.twentyOne
@@ -206,7 +198,6 @@ class HomeFeedController: UICollectionViewController {
             
             PostService.showFeaturedEvent(for: currentLocation, completion: { [weak self] (events) in
                 self?.featuredEvents = events
-               // print("Event count in Featured Events Closure is:\(self?.featuredEvents.count)")
                 print("ending in Featured events")
             }
             )
@@ -367,19 +358,18 @@ extension HomeFeedController: UICollectionViewDelegateFlowLayout {
 extension HomeFeedController {
     @objc func fetchEvents(currentLocation: CLLocation, selectedDate: Date){
         
-        PostService.showEvent(for: currentLocation, completion: { [unowned self](event) in
-            
-            
-            if event.category == "Seize The Night" {
-                self.seizeTheNight.append(event)
+        PostService.showEvent(for: currentLocation, completion: { [unowned self](events) in
+            for event in events {
+                if event.category == "Seize The Night" {
+                    self.seizeTheNight.append(event)
+                }
+                if event.category == "Seize The Day"{
+                    self.seizeTheDay.append(event)
+                }
+                if event.category == "21 & Up"{
+                    self.twentyOne.append(event)
+                }
             }
-            if event.category == "Seize The Day"{
-                self.seizeTheDay.append(event)
-            }
-            if event.category == "21 & Up"{
-                self.twentyOne.append(event)
-            }
-            
             self.allEvents2["Seize The Night"] = self.seizeTheNight
             self.allEvents2["Seize The Day"] = self.seizeTheDay
             self.allEvents2[ "21 & Up"] = self.twentyOne
@@ -393,10 +383,6 @@ extension HomeFeedController {
                             self.allEvents2[events.key] = self.allEvents2[events.key]?.filter({ $0 != currentEvents})
                         }
                     }
-                }
-                DispatchQueue.main.async {
-                    self.collectionView?.reloadData()
-                    //SVProgressHUD.dismiss(withDelay: 1)
                 }
             }
         })

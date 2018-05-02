@@ -17,7 +17,6 @@ class HomeFeedCell: UICollectionViewCell, UICollectionViewDataSource, UICollecti
     var featuredEvents: [Event]?{
         didSet {
             homeFeedCollectionView.reloadData()
-
         }
     }
     
@@ -26,9 +25,7 @@ class HomeFeedCell: UICollectionViewCell, UICollectionViewDataSource, UICollecti
             guard let titles = titles else {
             return
             }
-//            let attributedText = NSMutableAttributedString(string: titles, attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 100)])
             sectionNameLabel.text = titles
-//            sectionNameLabel.attributedText = attributedText
         }
     }
     override init(frame: CGRect) {
@@ -79,7 +76,6 @@ class HomeFeedCell: UICollectionViewCell, UICollectionViewDataSource, UICollecti
         homeFeedCollectionView.dataSource = self
         homeFeedCollectionView.showsHorizontalScrollIndicator = false
         homeFeedCollectionView.register(HomeFeedEventCell.self, forCellWithReuseIdentifier: cellId)
-        setTimer()
     }
     
   
@@ -135,52 +131,14 @@ class HomeFeedCell: UICollectionViewCell, UICollectionViewDataSource, UICollecti
         cell.event = featuredEvents?[indexPath.item]
         return cell
     }
-    
-    @objc func startTimer(theTimer: Timer){
-        UIView.animate(withDuration: 3.0, delay: 0, options: .curveEaseOut, animations: {
-            if let currentIndexPath = self.homeFeedCollectionView.indexPathsForVisibleItems.last{
-                
-                //Check visible cell is last cell of top collection view then set first index as visible
-                print(self.homeFeedCollectionView.numberOfItems(inSection: 0))
-                print(currentIndexPath)
-                print(currentIndexPath.item)
-                if self.x == self.homeFeedCollectionView.numberOfItems(inSection: 0)-1{
-                    self.x = 0
-                    let nextIndexPath = NSIndexPath(item: self.x, section: 0)
-                    //top collection view scroller in first item
-                    self.homeFeedCollectionView.scrollToItem(at: nextIndexPath as IndexPath, at: .centeredHorizontally, animated: false)
-                }else{
-                    //create next index path from current index path of the top collection view
-                    print(currentIndexPath.item)
-                    self.x = self.x + 1
-                    let nextIndexPath = NSIndexPath(item: self.x, section: 0)
-                    //top collection view scroller to next item
-                    self.homeFeedCollectionView.scrollToItem(at: nextIndexPath as IndexPath, at: .centeredHorizontally, animated: false)
-                }
-            }
-        }, completion: nil)
-    }
-    
-    @objc func setTimer(){
-        scrollTimer = Timer.scheduledTimer(timeInterval: 4.5, target: self, selector: #selector(self.startTimer(theTimer:)), userInfo: nil, repeats: true)
-    }
-    
-    func removeTimer() {
-        if self.scrollTimer != nil {
-            self.scrollTimer?.invalidate()
-        }
-        self.scrollTimer = nil
-    }
-    
+
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         self.homeFeedCollectionView.scrollToNearestVisibleCollectionViewCell()
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if !decelerate {
-            self.removeTimer()
             self.homeFeedCollectionView.scrollToNearestVisibleCollectionViewCell()
         }
     }
 }
-

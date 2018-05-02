@@ -16,7 +16,7 @@ class CalendarViewController: UIViewController, UICollectionViewDelegateFlowLayo
     let dateFormatterGet = DateFormatter()
     let dateFormatterPrint = DateFormatter()
     var selectedDate = Date()
-    var passedDate = Date()
+    var passedDate: Date?
     var homeFeedController: HomeFeedController?
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 100, height: 100)
@@ -154,9 +154,9 @@ class CalendarViewController: UIViewController, UICollectionViewDelegateFlowLayo
         calendarCollectionView.showsHorizontalScrollIndicator = false
         calendarCollectionView.showsVerticalScrollIndicator = false
         calendarCollectionView.register(CalendarCell.self, forCellWithReuseIdentifier: cellID)
-        if passedDate != nil {
-            calendarCollectionView.scrollToDate(passedDate, animateScroll: false)
-            calendarCollectionView.selectDates([passedDate])
+        if let curerntDate = passedDate {
+            calendarCollectionView.scrollToDate(curerntDate, animateScroll: false)
+            calendarCollectionView.selectDates([curerntDate])
         }else{
             calendarCollectionView.scrollToDate(Date(), animateScroll: false)
             calendarCollectionView.selectDates([Date()])

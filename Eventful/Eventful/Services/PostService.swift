@@ -32,24 +32,37 @@ class PostService {
         userRef.updateChildValues(dict)
     }
     
-    static func showEvent(for currentLocation: CLLocation,completion: @escaping (Event) -> Void) {
+    static func showEvent(for currentLocation: CLLocation,completion: @escaping ([Event]) -> Void) {
         //getting firebase root directory
+        var keys = [String]()
+        var currentEvents = [Event]()
         var geoFireRef: DatabaseReference?
         var geoFire:GeoFire?
         geoFireRef = Database.database().reference().child("eventsbylocation")
         geoFire = GeoFire(firebaseRef: geoFireRef!)
         let circleQuery = geoFire?.query(at: currentLocation, withRadius: 17.0)
         circleQuery?.observe(.keyEntered, with: { (key: String!, location: CLLocation!) in
-            let dispatchGroup = DispatchGroup()
-
             print("Key '\(key)' entered the search area and is at location '\(location)'")
-            dispatchGroup.enter()
-            EventService.show(forEventKey: key, completion: { (event) in
-                dispatchGroup.leave()
-                dispatchGroup.notify(queue: .main, execute: {
-                    completion(event!)
+            if let currentKey = key {
+                keys.append(currentKey)
+            }
+        })
+        
+        circleQuery?.observeReady({
+            let dispatchGroup = DispatchGroup()
+            for key in keys {
+                dispatchGroup.enter()
+                EventService.show(forEventKey: key, completion: { (event) in
+                    if let currentEvent = event {
+                        currentEvents.append(currentEvent)
+                    }
+                    dispatchGroup.leave()
                 })
-                
+            }
+            
+            dispatchGroup.notify(queue: .main, execute: {
+                print(currentEvents.count)
+                completion(currentEvents)
             })
 
         })
@@ -59,24 +72,38 @@ class PostService {
     static func showFeaturedEvent(for currentLocation: CLLocation,completion: @escaping ([Event]) -> Void) {
         //getting firebase root directory
         var currentEvents = [Event]()
+        var keys = [String]()
         var geoFireRef: DatabaseReference?
         var geoFire:GeoFire?
         geoFireRef = Database.database().reference().child("featuredeventsbylocation")
         geoFire = GeoFire(firebaseRef: geoFireRef!)
         let circleQuery = geoFire?.query(at: currentLocation, withRadius: 17.0)
         circleQuery?.observe(.keyEntered, with: { (key: String!, location: CLLocation!) in
-            let dispatchGroup = DispatchGroup()
             print("Key '\(key)' entered the search area and is at location '\(location)'")
-            dispatchGroup.enter()
-            EventService.show(forEventKey: key, completion: { (event) in
-                currentEvents.append(event!)
-                dispatchGroup.leave()
-            })
+            if let currentKey = key {
+                keys.append(currentKey)
+            }
+        })
+        
+        circleQuery?.observeReady({
+            let dispatchGroup = DispatchGroup()
+            for key in keys {
+                dispatchGroup.enter()
+                EventService.show(forEventKey: key, completion: { (event) in
+                    if let currentEvent = event {
+                        currentEvents.append(currentEvent)
+                    }
+                    dispatchGroup.leave()
+                })
+            }
+            
             dispatchGroup.notify(queue: .main, execute: {
-                completion(currentEvents)
+                print(currentEvents.count)
+                    completion(currentEvents)
             })
         })
         
+
     }
     
     static func showFollowingEvent(for followerKey: String,completion: @escaping ([Event]) -> Void) {
