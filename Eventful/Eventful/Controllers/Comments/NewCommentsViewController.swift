@@ -125,11 +125,10 @@ class NewCommentsViewController: UIViewController, UITextFieldDelegate,CommentsS
                     collectionView.scrollIndicatorInsets = contentInset
                 }
                 
-    
                 UIView.animate(withDuration: 0, delay: 0, options: UIViewAnimationOptions.curveEaseOut, animations: {
                     self.view.layoutIfNeeded()
                 }, completion: { (completion) in
-                    if self.comments.count > 0  && isKeyboardShowing {
+                    if self.collectionView.numberOfSections > 0  && isKeyboardShowing {
                         let item = self.collectionView.numberOfItems(inSection: self.collectionView.numberOfSections - 1) - 1
                         let lastItemIndex = IndexPath(item: item, section: self.collectionView.numberOfSections - 1)
                         self.collectionView.scrollToItem(at: lastItemIndex, at: UICollectionViewScrollPosition.top, animated: true)
@@ -138,6 +137,7 @@ class NewCommentsViewController: UIViewController, UITextFieldDelegate,CommentsS
             }
         }
     }
+
     
     override var inputAccessoryView: UIView? {
         get {
