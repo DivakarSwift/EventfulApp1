@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import SkeletonView
 
 class CategoryCell: UICollectionViewCell, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout,UIScrollViewDelegate {
     private let cellID = "cellID"
@@ -27,8 +26,8 @@ class CategoryCell: UICollectionViewCell, UICollectionViewDataSource, UICollecti
         return emptyLabel
     }()
     
-    lazy var iconImageView: UIImageView = {
-        let imageView = UIImageView()
+    lazy var iconImageView: CustomImageView = {
+        let imageView = CustomImageView()
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
@@ -171,9 +170,5 @@ extension UICollectionView {
 }
 
 
-extension CategoryCell: SkeletonCollectionViewDataSource {
-    func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> ReusableCellIdentifier {
-        return cellID
-    }
-}
+
 

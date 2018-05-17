@@ -76,7 +76,6 @@ PODS:
     - GoogleToolboxForMac/NSString+URLArguments (= 2.1.4)
   - GoogleToolboxForMac/NSString+URLArguments (2.1.4)
   - GTMSessionFetcher/Core (1.1.15)
-  - Hero (1.2.0)
   - IGListKit (3.3.0):
     - IGListKit/Default (= 3.3.0)
   - IGListKit/Default (3.3.0):
@@ -94,8 +93,8 @@ PODS:
     - MarqueeLabel/Swift
     - SnapKit (~> 4.0)
   - Protobuf (3.5.0)
+  - RecordButton (1.0.2)
   - RevealingSplashView (0.5.0)
-  - SkeletonView (1.2)
   - SnapKit (4.0.0)
   - SVProgressHUD (2.2.5)
   - SwiftLocation (3.2.3):
@@ -121,12 +120,11 @@ DEPENDENCIES:
   - GoogleMaps
   - GooglePlacePicker
   - GooglePlaces
-  - Hero
   - IGListKit (from `https://github.com/Instagram/IGListKit.git`, branch `master`)
   - JTAppleCalendar
   - NotificationBannerSwift
+  - RecordButton
   - RevealingSplashView
-  - SkeletonView
   - SVProgressHUD
   - SwiftLocation
   - SwiftyCam (from `https://github.com/Awalz/SwiftyCam.git`, branch `Swift4`)
@@ -176,7 +174,6 @@ SPEC CHECKSUMS:
   GooglePlaces: 3d06e6c99654545b4738ce49648745779c25f2ef
   GoogleToolboxForMac: 91c824d21e85b31c2aae9bb011c5027c9b4e738f
   GTMSessionFetcher: 5fa5b80fd20e439ef5f545fb2cb3ca6c6714caa2
-  Hero: 33dadf2cd1c98af71e213dcbc2902e6e03622a4e
   IGListKit: 71455d8fa95ff3d8594db667edd41c37db715c01
   JTAppleCalendar: 2d4f974f9f3c8b4964d51ca1f6e004883c031fbe
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
@@ -184,8 +181,8 @@ SPEC CHECKSUMS:
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   NotificationBannerSwift: 4eceb2add9d5eaa0596c63d49690b4d6476e74ec
   Protobuf: 8a9838fba8dae3389230e1b7f8c104aa32389c03
+  RecordButton: 76677be0f4b94f8a387454a23b4b64bd9b6c0e51
   RevealingSplashView: 0794eecad3a8983ac11a1fe474e9a9b51b926780
-  SkeletonView: d68962d45d1af038f6a110d2274b183df8f82752
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   SwiftLocation: a3c3bc2023118171ef3572188a31def94aa0892c
@@ -193,6 +190,6 @@ SPEC CHECKSUMS:
   SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
   TextFieldEffects: 4ee41b5216e674d55fb6ac25107bf1af7629176f
 
-PODFILE CHECKSUM: 8fb7887ebacd080ecdc73f7e06197b8ad8f44cff
+PODFILE CHECKSUM: f0a69e51ad31ebfc3c63fabafdc7090e8650eea6
 
 COCOAPODS: 1.4.0

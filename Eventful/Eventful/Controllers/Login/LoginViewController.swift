@@ -173,12 +173,12 @@ class LoginViewController: UIViewController , LoginViewControllerDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.observeKeyboardNotifications()
+        //self.observeKeyboardNotifications()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        self.removeObserveKeyboardNotifications()
+        //self.removeObserveKeyboardNotifications()
     }
     
     var stackView: UIStackView?

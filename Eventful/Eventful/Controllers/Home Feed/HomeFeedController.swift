@@ -41,10 +41,9 @@ class HomeFeedController: UICollectionViewController {
     var seizeTheDay = [Event]()
     var twentyOne = [Event]()
     var friendsEvents = [Event]()
-    var newLoadedEvents = [Event]()
     var placesClient = GMSPlacesClient()
     let dateFormatter = DateFormatter()
-    var lastSelectedDate = Date()
+    var lastSelectedDate: Date?
     private let cellID = "cellID"
     private let catergoryCellID = "catergoryCellID"
     var featuredEventsHeaderString = "Featured Events"
@@ -93,8 +92,8 @@ class HomeFeedController: UICollectionViewController {
     @objc func presentCalendar(){
         print("calendar tapped")
         let calendar = CalendarViewController()
-        if lastSelectedDate != nil {
-            calendar.passedDate = lastSelectedDate
+        if let lastDate = lastSelectedDate {
+            calendar.passedDate = lastDate
         }
         calendar.homeFeedController = self
         self.navigationController?.pushViewController(calendar, animated: false)
@@ -350,7 +349,7 @@ extension HomeFeedController: UICollectionViewDelegateFlowLayout {
         if section == 0 {
             return UIEdgeInsets(top: 5, left: 5, bottom: 10, right: 5)
         }
-        return UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
+        return UIEdgeInsets(top: 10, left: 8, bottom: 0, right: 8)
     }
 }
 

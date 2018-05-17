@@ -1,15 +1,52 @@
 import Foundation
 import SwiftyCam
 import UIKit
+import RecordButton
 
 class CameraViewController: SwiftyCamViewController {
     
     var eventKey = ""
-    var flipCameraButton: UIButton!
-    var flashButton: UIButton!
-    var captureButton: UIButton!
-    var cancelButton: UIButton!
     var timer: Timer?
+    
+    let captureButton : SwiftyRecordButton = {
+        let captureButton = SwiftyRecordButton()
+//        captureButton.setImage(#imageLiteral(resourceName: "Trigger"), for: .normal)
+//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(Tap))  //Tap function will call when user tap on button
+//        tapGesture.delegate = self
+//        let longGesture = UILongPressGestureRecognizer(target: self, action: #selector( captureAction(_:))) //Long function will call when user long press on button.
+//        longGesture.delegate = self
+//        tapGesture.numberOfTapsRequired = 1
+//        captureButton.addGestureRecognizer(tapGesture)
+//        captureButton.addGestureRecognizer(longGesture)
+        return captureButton
+    }()
+    
+    
+    
+    
+    
+    
+    lazy var cancelButton : UIButton = {
+        let cancelButton = UIButton()
+        cancelButton.setImage(#imageLiteral(resourceName: "Back"), for: UIControlState())
+        cancelButton.addTarget(self, action: #selector(cancel), for: .touchUpInside)
+        return cancelButton
+    }()
+    
+    lazy var flashButton : UIButton = {
+       let flashButton = UIButton()
+        flashButton.setImage(#imageLiteral(resourceName: "Torch"), for: UIControlState())
+        flashButton.addTarget(self, action: #selector(toggleFlashAction(_:)), for: .touchUpInside)
+        return flashButton
+    }()
+    
+    lazy var flipCameraButton : UIButton = {
+        let flipCameraButton = UIButton()
+        flipCameraButton.setImage(#imageLiteral(resourceName: "flip"), for: UIControlState())
+        flipCameraButton.addTarget(self, action: #selector(cameraSwitchAction(_:)), for: .touchUpInside)
+        return flipCameraButton
+    }()
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,19 +55,13 @@ class CameraViewController: SwiftyCamViewController {
         view.addGestureRecognizer(downSwipe)
         // Setting the camera delegate
         cameraDelegate = self
+        self.videoQuality = .high
         // Setting maximum duration for video
         maximumVideoDuration = 10.0
         shouldUseDeviceOrientation = true
         allowAutoRotate = false
         audioEnabled = true
         addButtons()
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(Tap))  //Tap function will call when user tap on button
-        tapGesture.delegate = self
-        let longGesture = UILongPressGestureRecognizer(target: self, action: #selector( captureAction(_:))) //Long function will call when user long press on button.
-        longGesture.delegate = self
-        tapGesture.numberOfTapsRequired = 1
-        captureButton.addGestureRecognizer(tapGesture)
-        captureButton.addGestureRecognizer(longGesture)
         
     }
     
@@ -77,7 +108,8 @@ class CameraViewController: SwiftyCamViewController {
         super.viewDidAppear(animated)
         self.navigationController?.isNavigationBarHidden = true
         self.tabBarController?.tabBar.isHidden = true
-        captureButton.isSelected = true
+        captureButton.delegate = self
+//        captureButton.isSelected = true
         //Hiding tab bar to allow the Camera view to be full screen
     }
     
@@ -93,63 +125,67 @@ class CameraViewController: SwiftyCamViewController {
         flashEnabled = !flashEnabled
         
         if flashEnabled == true {
-            flashButton.setImage(#imageLiteral(resourceName: "flash"), for: UIControlState())
+            flashButton.setImage(#imageLiteral(resourceName: "Torch2"), for: UIControlState())
         } else {
-            flashButton.setImage(#imageLiteral(resourceName: "flashOutline"), for: UIControlState())
+            flashButton.setImage(#imageLiteral(resourceName: "Torch"), for: UIControlState())
         }
     }
     
     // Function which controls the cancel button
     @objc private func cancel()
     {
-//        self.tabBarController?.tabBar.isHidden = false
-//        self.navigationController?.isNavigationBarHidden = false
         dismiss(animated: true, completion: nil)
-//        self.navigationController?.popViewController(animated: true)
     }
     
-    // Function which controls that capture button
-    @objc private func captureAction(_ sender: UIGestureRecognizer){
-        if sender.state == .began {
-            print("Long tap recognized")
-            startVideoRecording()
-            timer = Timer.scheduledTimer(timeInterval: 10.0, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
-        }else if sender.state == .ended {
-            stopVideoRecording()
-        }
-    }
+//    // Function which controls that capture button
+//    @objc private func captureAction(_ sender: UIGestureRecognizer){
+//        if sender.state == .began {
+//            print("Long tap recognized")
+//            startVideoRecording()
+//            timer = Timer.scheduledTimer(timeInterval: 10.0, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
+//        }else if sender.state == .ended {
+//            stopVideoRecording()
+//        }
+//    }
     
     
-    @objc func update()
-    {
-        stopVideoRecording()
-    }
+//    @objc func update()
+//    {
+//        stopVideoRecording()
+//    }
     // Adding buttons programatically to the Camera view
     private func addButtons() {
-        captureButton = UIButton(frame: CGRect(x: view.frame.midX - 37.5, y: view.frame.height - 100.0, width: 75.0, height: 75.0))
-        captureButton.setImage(#imageLiteral(resourceName: "Trigger"), for: .normal)
-        //  captureButton.addTarget(self, action: #selector(Long), for: .touchUpInside)
-        self.view.addSubview(captureButton)
-        //captureButton.delegate = self
-        
-        flipCameraButton = UIButton(frame: CGRect(x: (((view.frame.width / 2 - 37.5) / 2) - 15.0), y: view.frame.height - 74.0, width: 30.0, height: 23.0))
-        flipCameraButton.setImage(#imageLiteral(resourceName: "flipCamera"), for: UIControlState())
-        flipCameraButton.addTarget(self, action: #selector(cameraSwitchAction(_:)), for: .touchUpInside)
-        self.view.addSubview(flipCameraButton)
-        let partOne = (view.frame.width - (view.frame.width / 2 + 37.5))
-        let partTwo = (view.frame.width / 2)
-        let test = CGFloat(partOne + (partTwo - 37.5) - 9.0)
-        
-        
-        flashButton = UIButton(frame: CGRect(x: test, y: view.frame.height - 77.5, width: 18.0, height: 30.0))
-        flashButton.setImage(#imageLiteral(resourceName: "flashOutline"), for: UIControlState())
-        flashButton.addTarget(self, action: #selector(toggleFlashAction(_:)), for: .touchUpInside)
         self.view.addSubview(flashButton)
+        self.view.addSubview(captureButton)
+        self.view.addSubview(flipCameraButton)
+        self.view.addSubview(cancelButton)
+
+        flipCameraButton.snp.makeConstraints { (make) in
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(10)
+            make.left.equalTo(view.safeAreaLayoutGuide.snp.left).inset(15)
+            make.height.width.equalTo(40)
+            
+        }
         
-        cancelButton = UIButton(frame: CGRect(x: 10.0, y: 23.0, width: 25.0, height: 25.0))
-        cancelButton.setImage(#imageLiteral(resourceName: "icons8-delete-48"), for: UIControlState())
-        cancelButton.addTarget(self, action: #selector(cancel), for: .touchUpInside)
-        view.addSubview(cancelButton)
+        captureButton.snp.makeConstraints { (make) in
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(20)
+            make.centerX.equalTo(view.safeAreaLayoutGuide.snp.centerX)
+            make.height.width.equalTo(75)
+        }
+
+        flashButton.snp.makeConstraints { (make) in
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(10)
+            make.right.equalTo(view.safeAreaLayoutGuide.snp.right).inset(15)
+            make.height.width.equalTo(40)
+        }
+        
+        cancelButton.snp.makeConstraints { (make) in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(10)
+            make.left.equalTo(view.safeAreaLayoutGuide.snp.left).inset(15)
+            make.height.width.equalTo(40)
+        }
+        
+
     }
 }
 
@@ -169,8 +205,8 @@ extension CameraViewController : SwiftyCamViewControllerDelegate
     
     //Functin called when startVideoRecording() is called
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didBeginRecordingVideo camera: SwiftyCamViewController.CameraSelection) {
-        //print("Did Begin Recording")
-        // captureButton.growButton()
+        print("Did Begin Recording")
+        captureButton.growButton()
         UIView.animate(withDuration: 0.25, animations: {
             self.flashButton.alpha = 0.0
             self.flipCameraButton.alpha = 0.0
@@ -180,15 +216,16 @@ extension CameraViewController : SwiftyCamViewControllerDelegate
     
     // Function called when stopVideoRecording() is called
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishRecordingVideo camera: SwiftyCamViewController.CameraSelection) {
-        //print("Did finish Recording")
-        // captureButton.shrinkButton()
-        timer?.invalidate()
+        print("Did finish Recording")
+         captureButton.shrinkButton()
+//        timer?.invalidate()
         UIView.animate(withDuration: 0.25, animations: {
             self.flashButton.alpha = 1.0
             self.flipCameraButton.alpha = 1.0
             self.cancelButton.alpha = 1.0
         })
     }
+    //look here
     
     // Function called once recorded has stopped. The URL for the video gets returned here.
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishProcessVideoAt url: URL) {

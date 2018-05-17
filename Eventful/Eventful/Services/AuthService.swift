@@ -135,6 +135,7 @@ struct AuthService {
             let wrongPasswordAlert = UIAlertController(title: "Wrong Password", message:
                 "It seems like you have entered the wrong password.", preferredStyle: UIAlertControllerStyle.alert)
             wrongPasswordAlert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default,handler: nil))
+            SVProgressHUD.dismiss()
             controller.present(wrongPasswordAlert, animated: true, completion: nil)
             break;
         case "There is no user record corresponding to this identifier. The user may have been deleted.":

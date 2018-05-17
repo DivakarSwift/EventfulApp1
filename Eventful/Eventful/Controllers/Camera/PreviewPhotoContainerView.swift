@@ -20,7 +20,7 @@ class PreviewPhotoContainerView: UIView {
     
     let cancelButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setImage(#imageLiteral(resourceName: "icons8-delete-48").withRenderingMode(.alwaysOriginal), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "Back").withRenderingMode(.alwaysOriginal), for: .normal)
         button.addTarget(self, action: #selector(handleCancel), for: .touchUpInside)
         return button
     }()
@@ -106,9 +106,9 @@ class PreviewPhotoContainerView: UIView {
         }
         addSubview(cancelButton)
         cancelButton.snp.makeConstraints { (make) in
-            make.top.equalTo(self.safeAreaLayoutGuide.snp.top)
-            make.left.equalTo(self.safeAreaLayoutGuide.snp.left).offset(4)
-            make.size.greaterThanOrEqualTo(40)
+            make.top.equalTo(self.safeAreaLayoutGuide.snp.top).inset(10)
+            make.left.equalTo(self.safeAreaLayoutGuide.snp.left).inset(15)
+            make.height.width.equalTo(40)
         }
         addSubview(saveButton)
         saveButton.snp.makeConstraints { (make) in

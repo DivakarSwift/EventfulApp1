@@ -17,8 +17,8 @@ class CategoryEventCell: BaseRoundedCardCell {
         guard let currentEvent = event else {
             return
         }
-        guard let url = URL(string: currentEvent.currentEventImage) else { return }
-        backgroundImageView.af_setImage(withURL: url)
+        guard URL(string: currentEvent.currentEventImage) != nil else { return }
+        backgroundImageView.loadImage(urlString: currentEvent.currentEventImage)
         eventNameLabel.text = currentEvent.currentEventName.capitalized
     }
     }

@@ -298,8 +298,8 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
     }()
     
     @objc func beginAddToStory(){
-        let camera = CameraViewController()
-        camera.eventKey = self.eventKey
+        let camera = NewCameraController()
+       // camera.eventKey = self.eventKey
         present(camera, animated: true, completion: nil)
     }
     
@@ -349,7 +349,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
 //    infoText.text = text + text + text
     
     let imageContainer = UIView()
-    imageContainer.backgroundColor = .darkGray
+    imageContainer.backgroundColor = UIColor.rgb(red: 245, green: 255, blue: 250)
     
     textContainer.backgroundColor = .clear
     

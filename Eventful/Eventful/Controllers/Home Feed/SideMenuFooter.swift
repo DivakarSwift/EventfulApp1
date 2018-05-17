@@ -36,9 +36,20 @@ class SideMenuFooter: BaseCell {
     
     override func setupViews() {
         backgroundColor = .white
+        let currentUserDividerView = UIView()
+
         addSubview(iconImageView)
+        addSubview(currentUserDividerView)
+
+        currentUserDividerView.backgroundColor = UIColor.lightGray
+        currentUserDividerView.snp.makeConstraints { (make) in
+            make.left.right.equalTo(self)
+            make.top.equalTo(self.snp.top)
+            make.height.greaterThanOrEqualTo(0.75)
+        }
+        
         iconImageView.snp.makeConstraints { (make) in
-            make.top.equalTo(self.snp.top).offset(10)
+            make.top.equalTo(currentUserDividerView.snp.bottom).offset(10)
             make.left.equalTo(self.snp.left).inset(5)
         }
         addSubview(nameLabel)

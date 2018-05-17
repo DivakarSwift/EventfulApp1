@@ -32,7 +32,7 @@ class PlacesSearchController: UIViewController, UICollectionViewDelegateFlowLayo
     lazy var searchBar: UISearchBar = {
         let sb = UISearchBar()
         sb.sizeToFit()
-        sb.barTintColor = UIColor.clouds
+        sb.barTintColor = UIColor.clear
         sb.clipsToBounds = true
         sb.layer.cornerRadius = 2.0
         sb.placeholder = "Search"
