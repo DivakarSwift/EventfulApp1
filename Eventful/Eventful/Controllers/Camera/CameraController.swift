@@ -7,7 +7,8 @@ class CameraViewController: SwiftyCamViewController {
     
     var eventKey = ""
     var timer: Timer?
-    
+    var stackView: UIStackView?
+
     let captureButton : SwiftyRecordButton = {
         let captureButton = SwiftyRecordButton()
 //        captureButton.setImage(#imageLiteral(resourceName: "Trigger"), for: .normal)
@@ -137,34 +138,36 @@ class CameraViewController: SwiftyCamViewController {
         dismiss(animated: true, completion: nil)
     }
     
-//    // Function which controls that capture button
-//    @objc private func captureAction(_ sender: UIGestureRecognizer){
-//        if sender.state == .began {
-//            print("Long tap recognized")
-//            startVideoRecording()
-//            timer = Timer.scheduledTimer(timeInterval: 10.0, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
-//        }else if sender.state == .ended {
-//            stopVideoRecording()
-//        }
-//    }
+    // Function which controls that capture button
+    @objc private func captureAction(_ sender: UIGestureRecognizer){
+        if sender.state == .began {
+            print("Long tap recognized")
+            startVideoRecording()
+            timer = Timer.scheduledTimer(timeInterval: 10.0, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
+        }else if sender.state == .ended {
+            stopVideoRecording()
+        }
+    }
     
     
-//    @objc func update()
-//    {
-//        stopVideoRecording()
-//    }
+    @objc func update()
+    {
+        stopVideoRecording()
+    }
     // Adding buttons programatically to the Camera view
     private func addButtons() {
-        self.view.addSubview(flashButton)
         self.view.addSubview(captureButton)
-        self.view.addSubview(flipCameraButton)
-        self.view.addSubview(cancelButton)
-
-        flipCameraButton.snp.makeConstraints { (make) in
-            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(10)
-            make.left.equalTo(view.safeAreaLayoutGuide.snp.left).inset(15)
-            make.height.width.equalTo(40)
-            
+        
+        stackView = UIStackView(arrangedSubviews: [ cancelButton, flipCameraButton,flashButton])
+        stackView?.axis = .vertical
+        stackView?.distribution = .fillEqually
+        stackView?.spacing = 15.0
+        if let firstStackView = stackView{
+            self.view.addSubview(firstStackView)
+            firstStackView.snp.makeConstraints { (make) in
+                make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(15)
+                make.left.equalTo(view.safeAreaLayoutGuide.snp.left).inset(15)
+            }
         }
         
         captureButton.snp.makeConstraints { (make) in
@@ -173,17 +176,6 @@ class CameraViewController: SwiftyCamViewController {
             make.height.width.equalTo(75)
         }
 
-        flashButton.snp.makeConstraints { (make) in
-            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(10)
-            make.right.equalTo(view.safeAreaLayoutGuide.snp.right).inset(15)
-            make.height.width.equalTo(40)
-        }
-        
-        cancelButton.snp.makeConstraints { (make) in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(10)
-            make.left.equalTo(view.safeAreaLayoutGuide.snp.left).inset(15)
-            make.height.width.equalTo(40)
-        }
         
 
     }

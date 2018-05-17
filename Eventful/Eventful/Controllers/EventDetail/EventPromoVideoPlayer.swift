@@ -42,7 +42,7 @@ class EventPromoVideoPlayer: UIViewController {
         rightSwipe.direction = .right
         view.addGestureRecognizer(downSwipe)
         view.addGestureRecognizer(rightSwipe)
-
+        try! AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback, with: [])
         //Setting the video url of the AVPlayer
         player = AVPlayer(url: videoURL)
         playerController = AVPlayerViewController()

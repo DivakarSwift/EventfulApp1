@@ -67,7 +67,8 @@ class VideoViewController: UIViewController {
         downSwipe.direction = .down
         view.addGestureRecognizer(downSwipe)
 
-        
+        try! AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback, with: [])
+
         //Setting the video url of the AVPlayer
         player = AVPlayer(url: videoURL)
         playerController = AVPlayerViewController()
