@@ -298,8 +298,8 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
     }()
     
     @objc func beginAddToStory(){
-        let camera = CameraViewController()
-        camera.eventKey = self.eventKey
+        let camera = NewCameraController()
+      //  camera.eventKey = self.eventKey
         present(camera, animated: true, completion: nil)
     }
     

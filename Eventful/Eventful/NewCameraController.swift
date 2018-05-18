@@ -35,6 +35,13 @@ class NewCameraController: UIViewController {
         return captureButton
     }()
     
+    lazy var cancelButton : UIButton = {
+        let cancelButton = UIButton()
+        cancelButton.setImage(#imageLiteral(resourceName: "Back"), for: UIControlState())
+        cancelButton.addTarget(self, action: #selector(cancel), for: .touchUpInside)
+        return cancelButton
+    }()
+    
     lazy var capturePreviewView: UIView = {
         let capturePreviewView =  UIView()
         capturePreviewView.backgroundColor = .black
@@ -138,6 +145,12 @@ class NewCameraController: UIViewController {
             }
             
     }
+    }
+    
+    // Function which controls the cancel button
+    @objc private func cancel()
+    {
+        dismiss(animated: true, completion: nil)
     }
     
     //will take in a tap gesture and auto focus the camera
@@ -245,6 +258,13 @@ class NewCameraController: UIViewController {
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(10.5)
             make.centerX.equalTo(view.safeAreaLayoutGuide.snp.centerX)
             make.height.width.equalTo(65)
+        }
+        
+        view.addSubview(cancelButton)
+        cancelButton.snp.makeConstraints { (make) in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(10)
+            make.left.equalTo(view.safeAreaLayoutGuide.snp.left).inset(15)
+            make.height.width.equalTo(40)
         }
         //will allow the camera to be switched focused to a point on tap of the screen
         let singleTapGesture = UITapGestureRecognizer(target: self, action: #selector(self.singleTapGesture(_:)))

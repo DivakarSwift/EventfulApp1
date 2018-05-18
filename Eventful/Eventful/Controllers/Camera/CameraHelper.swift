@@ -23,13 +23,23 @@ class CameraHelper: NSObject{
     var frontCameraInput: AVCaptureDeviceInput?
     var rearCameraInput: AVCaptureDeviceInput?
     
-    //capture device outputs
+    //capture device outputs for photo
     var photoOutput: AVCapturePhotoOutput?
     //capture preview that will be displayed on the view
     var previewLayer: AVCaptureVideoPreviewLayer?
     //ability to enable and disable flashmode
     //default is off
     var flashMode = AVCaptureDevice.FlashMode.off
+    
+    //will control the zoom in and out feature
+    public var maxZoomScale = CGFloat.greatestFiniteMagnitude
+    /// Variable for storing current zoom scale
+    fileprivate var zoomScale = CGFloat(1.0)
+    /// Variable for storing initial zoom scale before Pinch to Zoom begins
+    fileprivate var beginZoomScale = CGFloat(1.0)
+    
+    /// Public access to Pinch Gesture
+    fileprivate(set) public var pinchGesture  : UIPinchGestureRecognizer!
     
     var photoCaptureCompletionBlock: ((UIImage?, Error?) -> Void)?
     
@@ -145,6 +155,10 @@ class CameraHelper: NSObject{
         self.previewLayer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
         self.previewLayer?.connection?.videoOrientation = .portrait
         
+        pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(zoomGesture(pinch:)))
+        pinchGesture.delegate = self
+        view.addGestureRecognizer(pinchGesture)
+        
         view.layer.insertSublayer(self.previewLayer!, at: 0)
         self.previewLayer?.frame = view.frame
         
@@ -217,6 +231,58 @@ class CameraHelper: NSObject{
         self.photoCaptureCompletionBlock = completion
     }
     
+    
+    /// Handle pinch gesture to zoom
+    
+    @objc  func zoomGesture(pinch: UIPinchGestureRecognizer) throws {
+        //5 ensures that we have a valid, running capture session before attempting to zoom. It also verifies that there is a camera that’s currently active.
+        guard let currentCameraPosition = currentCameraPosition, let captureSession = self.captureSession, captureSession.isRunning else { throw CameraControllerError.captureSessionIsMissing }
+        
+        switch currentCameraPosition {
+        case .front:
+            do {
+                
+                try self.frontCamera?.lockForConfiguration()
+                
+                zoomScale = min(maxZoomScale, max(1.0, min(beginZoomScale * pinch.scale,  (self.frontCamera?.activeFormat.videoMaxZoomFactor)!)))
+                
+                self.frontCamera?.videoZoomFactor = zoomScale
+                
+                // Call Delegate function with current zoom scale
+                DispatchQueue.main.async {
+                   // self.cameraDelegate?.swiftyCam(self, didChangeZoomLevel: self.zoomScale)
+                }
+                
+                self.frontCamera?.unlockForConfiguration()
+                
+            } catch {
+                print("[SwiftyCam]: Error locking configuration")
+            }
+            print("current cam is front position")
+        case .rear:
+            do {
+                
+                try self.rearCamera?.lockForConfiguration()
+                
+                zoomScale = min(maxZoomScale, max(1.0, min(beginZoomScale * pinch.scale,  (self.rearCamera?.activeFormat.videoMaxZoomFactor)!)))
+                
+                self.rearCamera?.videoZoomFactor = zoomScale
+                
+                // Call Delegate function with current zoom scale
+                DispatchQueue.main.async {
+                    // self.cameraDelegate?.swiftyCam(self, didChangeZoomLevel: self.zoomScale)
+                }
+                
+                self.rearCamera?.unlockForConfiguration()
+                
+            } catch {
+                print("[SwiftyCam]: Error locking configuration")
+            }
+            print("current cam is back position")
+
+        }
+    }
+    
 }
 //using this embedded type to manage the various errors we might encounter while creating a capture session:
 
@@ -256,5 +322,19 @@ extension CameraHelper: AVCapturePhotoCaptureDelegate {
     }
     
     
+}
+
+// MARK: UIGestureRecognizerDelegate
+
+extension CameraHelper : UIGestureRecognizerDelegate {
+    
+    /// Set beginZoomScale when pinch begins
+    
+    public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        if gestureRecognizer.isKind(of: UIPinchGestureRecognizer.self) {
+            beginZoomScale = zoomScale;
+        }
+        return true
+    }
 }
 
