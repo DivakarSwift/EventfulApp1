@@ -46,6 +46,13 @@ class CameraHelper: NSObject{
     /// Public access to Pinch Gesture
     fileprivate(set) public var pinchGesture  : UIPinchGestureRecognizer!
     
+    /// Sets wether the taken photo or video should be oriented according to the device orientation
+    public var shouldUseDeviceOrientation      = false
+    
+    /// Last changed orientation
+    
+    fileprivate var deviceOrientation            : UIDeviceOrientation?
+    
     var photoCaptureCompletionBlock: ((UIImage?, Error?) -> Void)?
     
     //prepares our capture session for use and calls a completion handler when it’s done.
@@ -248,6 +255,7 @@ class CameraHelper: NSObject{
         captureSession.commitConfiguration()
         
     }
+    
     func captureImage(completion: @escaping (UIImage?, Error?) -> Void) {
         guard let captureSession = captureSession, captureSession.isRunning else { completion(nil, CameraControllerError.captureSessionIsMissing); return }
         
@@ -437,12 +445,14 @@ extension CameraHelper: AVCapturePhotoCaptureDelegate {
         if let error = error { self.photoCaptureCompletionBlock?(nil, error) }
 
         let imageData = photo.fileDataRepresentation()
-        if let image = UIImage(data: imageData!) {
-
-            self.photoCaptureCompletionBlock?(image, nil)
-        }
         
-        else {
+        if let currentData = imageData {
+            
+            let dataProvider = CGDataProvider(data: currentData as CFData)
+            let cgImageRef = CGImage(jpegDataProviderSource: dataProvider!, decode: nil, shouldInterpolate: true, intent: CGColorRenderingIntent.defaultIntent)
+            let image = UIImage(cgImage: cgImageRef!, scale: 1.0, orientation: self.getImageOrientation(forCamera: self.currentCameraPosition!))
+            self.photoCaptureCompletionBlock?(image, nil)
+        }else {
             self.photoCaptureCompletionBlock?(nil, CameraControllerError.unknown)
         }
         
@@ -466,6 +476,42 @@ extension CameraHelper : UIGestureRecognizerDelegate {
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
+    }
+}
+
+
+extension CameraHelper {
+    /// Orientation management
+    
+    fileprivate func subscribeToDeviceOrientationChangeNotifications() {
+        self.deviceOrientation = UIDevice.current.orientation
+        NotificationCenter.default.addObserver(self, selector: #selector(deviceDidRotate), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+    }
+    
+    fileprivate func unsubscribeFromDeviceOrientationChangeNotifications() {
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+        self.deviceOrientation = nil
+    }
+    
+    @objc fileprivate func deviceDidRotate() {
+        if !UIDevice.current.orientation.isFlat {
+            self.deviceOrientation = UIDevice.current.orientation
+        }
+    }
+    
+    fileprivate func getImageOrientation(forCamera: CameraPosition) -> UIImageOrientation {
+        guard shouldUseDeviceOrientation, let deviceOrientation = self.deviceOrientation else { return forCamera == .rear ? .right : .leftMirrored }
+        
+        switch deviceOrientation {
+        case .landscapeLeft:
+            return forCamera == .rear ? .up : .downMirrored
+        case .landscapeRight:
+            return forCamera == .rear ? .down : .upMirrored
+        case .portraitUpsideDown:
+            return forCamera == .rear ? .left : .rightMirrored
+        default:
+            return forCamera == .rear ? .right : .leftMirrored
+        }
     }
 }
 
