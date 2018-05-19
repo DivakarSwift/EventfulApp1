@@ -153,72 +153,6 @@ class NewCameraController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
-    //will take in a tap gesture and auto focus the camera
-    @objc fileprivate func singleTapGesture(_ tap: UITapGestureRecognizer) {
-        guard tapToFocus == true else {
-            // Ignore taps
-            return
-        }
-    
-        let screenSize = capturePreviewView.bounds.size
-        let tapPoint = tap.location(in: capturePreviewView)
-        let x = tapPoint.y / screenSize.height
-        let y = 1.0 - tapPoint.x / screenSize.width
-        let focusPoint = CGPoint(x: x, y: y)
-        
-        switch cameraController.currentCameraPosition {
-        case .some(.front):
-            if let device = cameraController.frontCamera {
-                do {
-                    try device.lockForConfiguration()
-                    
-                    if device.isFocusPointOfInterestSupported == true {
-                        device.focusPointOfInterest = focusPoint
-                        device.focusMode = .autoFocus
-                    }
-                    device.exposurePointOfInterest = focusPoint
-                    device.exposureMode = AVCaptureDevice.ExposureMode.continuousAutoExposure
-                    device.unlockForConfiguration()
-                    //Call delegate function and pass in the location of the touch
-                    
-                    DispatchQueue.main.async {
-                        //self.cameraDelegate?.swiftyCam(self, didFocusAtPoint: tapPoint)
-                    }
-                }
-                catch {
-                    // just ignore
-                }
-            }
-            
-        case .some(.rear):
-            if let device = cameraController.rearCamera {
-                do {
-                    try device.lockForConfiguration()
-                    
-                    if device.isFocusPointOfInterestSupported == true {
-                        device.focusPointOfInterest = focusPoint
-                        device.focusMode = .autoFocus
-                    }
-                    device.exposurePointOfInterest = focusPoint
-                    device.exposureMode = AVCaptureDevice.ExposureMode.continuousAutoExposure
-                    device.unlockForConfiguration()
-                    //Call delegate function and pass in the location of the touch
-                    
-                    DispatchQueue.main.async {
-                        //self.cameraDelegate?.swiftyCam(self, didFocusAtPoint: tapPoint)
-                    }
-                }
-                catch {
-                    // just ignore
-                }
-            }
-            
-            
-        case .none:
-            return
-        }
-        
-    }
     
     override var prefersStatusBarHidden: Bool {
         return true
@@ -266,16 +200,9 @@ class NewCameraController: UIViewController {
             make.left.equalTo(view.safeAreaLayoutGuide.snp.left).inset(15)
             make.height.width.equalTo(40)
         }
-        //will allow the camera to be switched focused to a point on tap of the screen
-        let singleTapGesture = UITapGestureRecognizer(target: self, action: #selector(self.singleTapGesture(_:)))
-        singleTapGesture.numberOfTapsRequired = 1
-        capturePreviewView.addGestureRecognizer(singleTapGesture)
+
         
         
-        //will allow the camera to be switched from front to back with double tap of screen
-        let doubleTapGesture = UITapGestureRecognizer(target: self, action: #selector(cameraSwitchAction))
-        doubleTapGesture.numberOfTapsRequired = 2
-        capturePreviewView.addGestureRecognizer(doubleTapGesture)
         
         
     }

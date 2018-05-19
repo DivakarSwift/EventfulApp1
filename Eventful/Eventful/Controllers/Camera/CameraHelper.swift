@@ -30,6 +30,11 @@ class CameraHelper: NSObject{
     //ability to enable and disable flashmode
     //default is off
     var flashMode = AVCaptureDevice.FlashMode.off
+    //temporary UIView to use for other methods
+    var UIViewTemp: UIView?
+    
+    //allows tapToFocus fuctionality
+    var tapToFocus = true;
     
     //will control the zoom in and out feature
     public var maxZoomScale = CGFloat.greatestFiniteMagnitude
@@ -151,18 +156,40 @@ class CameraHelper: NSObject{
     func displayPreview(on view: UIView) throws {
         guard let captureSession = self.captureSession, captureSession.isRunning else { throw CameraControllerError.captureSessionIsMissing }
         
+        self.UIViewTemp = view;
+        
         self.previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
         self.previewLayer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
         self.previewLayer?.connection?.videoOrientation = .portrait
         
-        pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(zoomGesture(pinch:)))
-        pinchGesture.delegate = self
-        view.addGestureRecognizer(pinchGesture)
+        addGestureRecognizers(on: view)
         
         view.layer.insertSublayer(self.previewLayer!, at: 0)
         self.previewLayer?.frame = view.frame
         
     }
+    
+    func addGestureRecognizers(on view: UIView){
+        //will allow the camera to be focused to a point on tap of the screen
+        let singleTapGesture = UITapGestureRecognizer(target: self, action: #selector(self.singleTapGesture(_:)))
+        singleTapGesture.numberOfTapsRequired = 1
+        view.addGestureRecognizer(singleTapGesture)
+        
+        
+        //will allow the camera to be switched from front to back with double tap of screen
+        let doubleTapGesture = UITapGestureRecognizer(target: self, action: #selector(cameraSwitchAction(_:)))
+        doubleTapGesture.numberOfTapsRequired = 2
+        view.addGestureRecognizer(doubleTapGesture)
+        
+        singleTapGesture.require(toFail: doubleTapGesture)
+
+        
+        //will add a pinch gesture to enable pinch to zoom
+        pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(zoomGesture(pinch:)))
+        pinchGesture.delegate = self
+        view.addGestureRecognizer(pinchGesture)
+    }
+    
     
     //will control the switching of the camera
     func switchCameras() throws {
@@ -283,6 +310,106 @@ class CameraHelper: NSObject{
         }
     }
     
+    
+    
+    //will take in a tap gesture and auto focus the camera
+    @objc fileprivate func singleTapGesture(_ tap: UITapGestureRecognizer) throws {
+        //5 ensures that we have a valid, running capture session before attempting to focus. It also verifies that there is a camera that’s currently active.
+        guard let currentCameraPosition = currentCameraPosition, let captureSession = self.captureSession, captureSession.isRunning else { throw CameraControllerError.captureSessionIsMissing }
+        
+        guard tapToFocus == true else {
+            // Ignore taps
+            return
+        }
+        if let passedView = UIViewTemp {
+            
+            let screenSize = passedView.bounds.size
+            let tapPoint = tap.location(in: passedView)
+            let x = tapPoint.y / screenSize.height
+            let y = 1.0 - tapPoint.x / screenSize.width
+            let focusPoint = CGPoint(x: x, y: y)
+            
+            //adding animation for User/UI purposes
+             let focusView = UIImageView(image: #imageLiteral(resourceName: "focus"))
+            focusView.center = tapPoint
+            focusView.alpha = 0.0
+            passedView.addSubview(focusView)
+            
+            UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseInOut, animations: {
+                focusView.alpha = 1.0
+                focusView.transform = CGAffineTransform(scaleX: 1.25, y: 1.25)
+            }, completion: { (success) in
+                UIView.animate(withDuration: 0.15, delay: 0.5, options: .curveEaseInOut, animations: {
+                    focusView.alpha = 0.0
+                    focusView.transform = CGAffineTransform(translationX: 0.6, y: 0.6)
+                }, completion: { (success) in
+                    focusView.removeFromSuperview()
+                })
+            })
+            
+            ///////////////////end ui
+            
+            switch currentCameraPosition {
+            case (.front):
+                if let device = self.frontCamera {
+                    do {
+                        try device.lockForConfiguration()
+                        
+                        if device.isFocusPointOfInterestSupported == true {
+                            device.focusPointOfInterest = focusPoint
+                            device.focusMode = .autoFocus
+                        }
+                        device.exposurePointOfInterest = focusPoint
+                        device.exposureMode = AVCaptureDevice.ExposureMode.continuousAutoExposure
+                        device.unlockForConfiguration()
+                        //Call delegate function and pass in the location of the touch
+                        
+                        DispatchQueue.main.async {
+                            //self.cameraDelegate?.swiftyCam(self, didFocusAtPoint: tapPoint)
+                        }
+                    }
+                    catch {
+                        // just ignore
+                    }
+                }
+                
+            case (.rear):
+                if let device = self.rearCamera {
+                    do {
+                        try device.lockForConfiguration()
+                        
+                        if device.isFocusPointOfInterestSupported == true {
+                            device.focusPointOfInterest = focusPoint
+                            device.focusMode = .autoFocus
+                        }
+                        device.exposurePointOfInterest = focusPoint
+                        device.exposureMode = AVCaptureDevice.ExposureMode.continuousAutoExposure
+                        device.unlockForConfiguration()
+                        //Call delegate function and pass in the location of the touch
+                        
+                        DispatchQueue.main.async {
+                            //self.cameraDelegate?.swiftyCam(self, didFocusAtPoint: tapPoint)
+                        }
+                    }
+                    catch {
+                        // just ignore
+                    }
+                }
+                
+                
+            }
+        }
+        
+        
+    }
+    
+    @objc func cameraSwitchAction(_ tap: UITapGestureRecognizer){
+        //will switch the camera
+        try! switchCameras()
+    }
+    
+    
+    
 }
 //using this embedded type to manage the various errors we might encounter while creating a capture session:
 
@@ -334,6 +461,10 @@ extension CameraHelper : UIGestureRecognizerDelegate {
         if gestureRecognizer.isKind(of: UIPinchGestureRecognizer.self) {
             beginZoomScale = zoomScale;
         }
+        return true
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
 }
