@@ -281,6 +281,7 @@ class EventSearchController: UICollectionViewController, UISearchBarDelegate, UI
         // searchBar.text = ""
         self.collectionView?.reloadData()
         navigationController?.navigationBar.isHidden = true
+        tabBarController?.tabBar.isHidden = false
         filteredEvents.removeAll()
         filteredUsers.removeAll()
         //  searchBar.isHidden = false

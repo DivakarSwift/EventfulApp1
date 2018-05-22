@@ -47,7 +47,7 @@ class PlacesSearchController: UIViewController, UICollectionViewDelegateFlowLayo
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-
+self.navigationController?.interactivePopGestureRecognizer?.delegate = nil
         // Do any additional setup after loading the view.
     }
     

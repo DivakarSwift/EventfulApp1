@@ -39,6 +39,7 @@ class CategoryViewController: UICollectionViewController,UICollectionViewDelegat
     }
 
     @objc func setupViews(){
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = nil
         let backButton = UIBarButtonItem(image: UIImage(named: "icons8-Back-64"), style: .plain, target: self, action: #selector(GoBack))
         self.navigationItem.leftBarButtonItem = backButton
         self.collectionView?.backgroundColor = .white

@@ -76,11 +76,11 @@ PODS:
     - GoogleToolboxForMac/NSString+URLArguments (= 2.1.4)
   - GoogleToolboxForMac/NSString+URLArguments (2.1.4)
   - GTMSessionFetcher/Core (1.1.15)
-  - IGListKit (3.3.0):
-    - IGListKit/Default (= 3.3.0)
-  - IGListKit/Default (3.3.0):
+  - IGListKit (3.4.0):
+    - IGListKit/Default (= 3.4.0)
+  - IGListKit/Default (3.4.0):
     - IGListKit/Diffing
-  - IGListKit/Diffing (3.3.0)
+  - IGListKit/Diffing (3.4.0)
   - JTAppleCalendar (7.1.5)
   - leveldb-library (1.20)
   - MarqueeLabel/Swift (3.1.4)
@@ -89,7 +89,7 @@ PODS:
     - nanopb/encode (= 0.3.8)
   - nanopb/decode (0.3.8)
   - nanopb/encode (0.3.8)
-  - NotificationBannerSwift (1.6.2):
+  - NotificationBannerSwift (1.6.3):
     - MarqueeLabel/Swift
     - SnapKit (~> 4.0)
   - Protobuf (3.5.0)
@@ -146,7 +146,7 @@ CHECKOUT OPTIONS:
     :commit: dc408bcd4268cc5ec8831cda0000c23863767d42
     :git: https://github.com/firebase/geofire-objc.git
   IGListKit:
-    :commit: 3059c5e6f5aeac73f112375d032677ae5f38342a
+    :commit: b4c8ea180f3bbda8b7995da758fbec58bf7214a8
     :git: https://github.com/Instagram/IGListKit.git
   SwiftyCam:
     :commit: 85d713d643159cda72db2f3e230777af50cded94
@@ -174,12 +174,12 @@ SPEC CHECKSUMS:
   GooglePlaces: 3d06e6c99654545b4738ce49648745779c25f2ef
   GoogleToolboxForMac: 91c824d21e85b31c2aae9bb011c5027c9b4e738f
   GTMSessionFetcher: 5fa5b80fd20e439ef5f545fb2cb3ca6c6714caa2
-  IGListKit: 71455d8fa95ff3d8594db667edd41c37db715c01
+  IGListKit: 7a5d788e9fb746bcd402baa8e8b24bc3bd2a5a07
   JTAppleCalendar: 2d4f974f9f3c8b4964d51ca1f6e004883c031fbe
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   MarqueeLabel: bf768455fe88d427f71476ebb23f9092b660f40b
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
-  NotificationBannerSwift: 4eceb2add9d5eaa0596c63d49690b4d6476e74ec
+  NotificationBannerSwift: b231e4c3244848ef300e1c53ce027b9756b9b06f
   Protobuf: 8a9838fba8dae3389230e1b7f8c104aa32389c03
   RecordButton: 76677be0f4b94f8a387454a23b4b64bd9b6c0e51
   RevealingSplashView: 0794eecad3a8983ac11a1fe474e9a9b51b926780

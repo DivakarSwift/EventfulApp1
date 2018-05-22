@@ -51,7 +51,11 @@ class CameraHelper: NSObject{
     
     /// Last changed orientation
     
-    fileprivate var deviceOrientation            : UIDeviceOrientation?
+    fileprivate var deviceOrientation:UIDeviceOrientation?
+    
+    /// UIView for front facing flash
+    
+    fileprivate var flashView:UIView?
     
     var photoCaptureCompletionBlock: ((UIImage?, Error?) -> Void)?
     
@@ -180,14 +184,16 @@ class CameraHelper: NSObject{
         //will allow the camera to be focused to a point on tap of the screen
         let singleTapGesture = UITapGestureRecognizer(target: self, action: #selector(self.singleTapGesture(_:)))
         singleTapGesture.numberOfTapsRequired = 1
+        singleTapGesture.delegate = self
         view.addGestureRecognizer(singleTapGesture)
         
         
         //will allow the camera to be switched from front to back with double tap of screen
         let doubleTapGesture = UITapGestureRecognizer(target: self, action: #selector(cameraSwitchAction(_:)))
         doubleTapGesture.numberOfTapsRequired = 2
+        doubleTapGesture.delegate = self
         view.addGestureRecognizer(doubleTapGesture)
-        
+
         singleTapGesture.require(toFail: doubleTapGesture)
 
         
@@ -256,6 +262,7 @@ class CameraHelper: NSObject{
         
     }
     
+    //will capture an image when shutter but is pressed
     func captureImage(completion: @escaping (UIImage?, Error?) -> Void) {
         guard let captureSession = captureSession, captureSession.isRunning else { completion(nil, CameraControllerError.captureSessionIsMissing); return }
         
@@ -474,7 +481,10 @@ extension CameraHelper : UIGestureRecognizerDelegate {
         return true
     }
     
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        if touch.view is UIButton {
+            return false
+        }
         return true
     }
 }

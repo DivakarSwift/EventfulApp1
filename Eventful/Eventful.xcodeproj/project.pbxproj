@@ -82,6 +82,9 @@
 		0753E7D92043CF9E00B882E4 /* FollowNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0753E7D82043CF9E00B882E4 /* FollowNotification.swift */; };
 		077247D5206F2C42007E5C29 /* PreviewPhotoContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 077247D4206F2C42007E5C29 /* PreviewPhotoContainerView.swift */; };
 		077247D720720CE2007E5C29 /* SideMenuLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 077247D620720CE2007E5C29 /* SideMenuLauncher.swift */; };
+		07D26E0F20B3F7A3001110AC /* PreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D26E0C20B3F7A2001110AC /* PreviewView.swift */; };
+		07D26E1020B3F7A3001110AC /* PhotoCaptureDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D26E0D20B3F7A2001110AC /* PhotoCaptureDelegate.swift */; };
+		07D26E1120B3F7A3001110AC /* TempCameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D26E0E20B3F7A3001110AC /* TempCameraViewController.swift */; };
 		07D923A81F33C61D0069613D /* Storyboard+Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D923A71F33C61D0069613D /* Storyboard+Utility.swift */; };
 		07E271B62056354F007F0592 /* NotifBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E271B52056354F007F0592 /* NotifBannerView.swift */; };
 		07F3EC591F4A57C3005296EB /* PostService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F3EC581F4A57C3005296EB /* PostService.swift */; };
@@ -173,6 +176,9 @@
 		0753E7D82043CF9E00B882E4 /* FollowNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FollowNotification.swift; path = Models/FollowNotification.swift; sourceTree = "<group>"; };
 		077247D4206F2C42007E5C29 /* PreviewPhotoContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PreviewPhotoContainerView.swift; path = Controllers/Camera/PreviewPhotoContainerView.swift; sourceTree = "<group>"; };
 		077247D620720CE2007E5C29 /* SideMenuLauncher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SideMenuLauncher.swift; path = "Controllers/Home Feed/SideMenuLauncher.swift"; sourceTree = "<group>"; };
+		07D26E0C20B3F7A2001110AC /* PreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewView.swift; sourceTree = "<group>"; };
+		07D26E0D20B3F7A2001110AC /* PhotoCaptureDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoCaptureDelegate.swift; sourceTree = "<group>"; };
+		07D26E0E20B3F7A3001110AC /* TempCameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TempCameraViewController.swift; sourceTree = "<group>"; };
 		07D923A71F33C61D0069613D /* Storyboard+Utility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Storyboard+Utility.swift"; path = "Extensions/Storyboard+Utility.swift"; sourceTree = "<group>"; };
 		07E271B52056354F007F0592 /* NotifBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NotifBannerView.swift; path = Controllers/Notifications/NotifBannerView.swift; sourceTree = "<group>"; };
 		07F3EC581F4A57C3005296EB /* PostService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostService.swift; path = Services/PostService.swift; sourceTree = "<group>"; };
@@ -284,6 +290,7 @@
 		07437F2D1F267E1D00CE728B /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				07D26E0520B11723001110AC /* AppleCamera */,
 				07487146208453D50024635C /* Calendar */,
 				0724731D2078558D00DD285E /* Places */,
 				074290A0201ECE2000C1D68D /* Notifications */,
@@ -365,6 +372,16 @@
 				0748714920845BCF0024635C /* CalendarCell.swift */,
 			);
 			name = Calendar;
+			sourceTree = "<group>";
+		};
+		07D26E0520B11723001110AC /* AppleCamera */ = {
+			isa = PBXGroup;
+			children = (
+				07D26E0D20B3F7A2001110AC /* PhotoCaptureDelegate.swift */,
+				07D26E0C20B3F7A2001110AC /* PreviewView.swift */,
+				07D26E0E20B3F7A3001110AC /* TempCameraViewController.swift */,
+			);
+			path = AppleCamera;
 			sourceTree = "<group>";
 		};
 		07D923A01F2EEE4C0069613D /* Profile */ = {
@@ -725,6 +742,7 @@
 				074D75A0200C8E8C0044C3AD /* LocationService.swift in Sources */,
 				0704C7722062CE1D00C9E35A /* HomeFeedEventCell.swift in Sources */,
 				0747AA1F20375E0E00F725C7 /* EventSearchHeader.swift in Sources */,
+				07D26E0F20B3F7A3001110AC /* PreviewView.swift in Sources */,
 				0747AA3D20377A2900F725C7 /* NSLayoutConstraint.swift in Sources */,
 				0747AA0A20375D6E00F725C7 /* EventDetailViewController.swift in Sources */,
 				0747AA1420375D8500F725C7 /* CommentsSectionController.swift in Sources */,
@@ -735,6 +753,8 @@
 				07437F491F29167000CE728B /* UserService.swift in Sources */,
 				07FF92B91F3627A300FC9716 /* Post.swift in Sources */,
 				07F3EC5E1F4B7B28005296EB /* StoryService.swift in Sources */,
+				07D26E1120B3F7A3001110AC /* TempCameraViewController.swift in Sources */,
+				07D26E1020B3F7A3001110AC /* PhotoCaptureDelegate.swift in Sources */,
 				0747AA2920375E2A00F725C7 /* VideoViewController.swift in Sources */,
 				07363FAF20AD20FB00CDE2C3 /* NewCameraController.swift in Sources */,
 				0747A9F920375D2400F725C7 /* HomeFeedController.swift in Sources */,

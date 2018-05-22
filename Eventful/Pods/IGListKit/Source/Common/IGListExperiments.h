@@ -1,10 +1,8 @@
 /**
  * Copyright (c) 2016-present, Facebook, Inc.
- * All rights reserved.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
 
 #import <Foundation/Foundation.h>
@@ -28,6 +26,8 @@ typedef NS_OPTIONS (NSInteger, IGListExperiment) {
     IGListExperimentDedupeItemUpdates = 1 << 5,
     /// Test deferring object creation until just before diffing.
     IGListExperimentDeferredToObjectCreation = 1 << 6,
+    /// Test getting collection view at update time.
+    IGListExperimentGetCollectionViewAtUpdate = 1 << 7,
 };
 
 /**

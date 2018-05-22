@@ -93,6 +93,8 @@ class NewCameraController: UIViewController {
         configureCameraController()
     }
     
+    
+    
     // Function which controls the flash button
     @objc private func toggleFlashAction(_ sender: Any) {
         if cameraController.flashMode == .on {
@@ -129,7 +131,7 @@ class NewCameraController: UIViewController {
     }
     
     // Function which controls the taking of a picture
-    @objc private func captureAction(_ sender: Any) {
+    @objc private func captureAction(_ sender: UIButton) {
         cameraController.captureImage {(image, error) in
             guard let image = image else {
                 print(error ?? "Image capture error")

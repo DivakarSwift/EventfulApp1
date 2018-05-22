@@ -298,9 +298,9 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
     }()
     
     @objc func beginAddToStory(){
-        let camera = NewCameraController()
+        let camera = TempCameraViewController()
       //  camera.eventKey = self.eventKey
-        present(camera, animated: true, completion: nil)
+        present(camera, animated: false, completion: nil)
     }
     
     lazy var viewStoryButton : UIButton = {
@@ -327,6 +327,8 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = nil
+
        setupVc()
     }
     @objc func GoBack(){

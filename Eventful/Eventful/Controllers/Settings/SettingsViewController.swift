@@ -18,6 +18,7 @@ class SettingsViewController: UITableViewController {
     ]
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = nil
         setupVc()
     }
     

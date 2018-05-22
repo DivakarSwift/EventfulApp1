@@ -157,6 +157,7 @@ class NewCommentsViewController: UIViewController, UITextFieldDelegate,CommentsS
     }
     
     @objc func setupViews(){
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = nil
         collectionView.frame = CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height-40)
         view.addSubview(collectionView)
         collectionView.alwaysBounceVertical = true
