@@ -14,6 +14,7 @@ import UserNotifications
 import NotificationBannerSwift
 import GooglePlaces
 import RevealingSplashView
+import AVFoundation
 
 
 typealias FIRUser = FirebaseAuth.User
@@ -50,6 +51,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
         UITabBar.appearance().tintColor = .black
 
 
+        //will allow background audio in avrecording
+        let session = AVAudioSession.sharedInstance()
+        try? session.setCategory(AVAudioSessionCategoryPlayAndRecord, with: [AVAudioSessionCategoryOptions.mixWithOthers, AVAudioSessionCategoryOptions.defaultToSpeaker, AVAudioSessionCategoryOptions.allowBluetooth])
+        try? session.setActive(true)
+        UIApplication.shared.beginReceivingRemoteControlEvents()
+        
         // 4
         // here so firebase will work
         // Override point for customization after application launch.
@@ -66,6 +73,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
             self.hasNotification = true
         }
         return true
+        
+
+
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

@@ -222,9 +222,11 @@ extension CameraViewController : SwiftyCamViewControllerDelegate
     // Function called once recorded has stopped. The URL for the video gets returned here.
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishProcessVideoAt url: URL) {
         // I am passing the url to VideoViewController to show the video
-        let newVC = VideoViewController(videoURL: url)
-        newVC.eventKey = self.eventKey
-        present(newVC, animated: true, completion: nil)
+        let videoPlayBackVC = VideoViewController()
+        videoPlayBackVC.videoURL = url
+        present(videoPlayBackVC, animated: true, completion: nil)
+        videoPlayBackVC.eventKey = self.eventKey
+        present(videoPlayBackVC, animated: true, completion: nil)
     }
     
     // Function which allows you to zoom. Added animation for User/UI purposes

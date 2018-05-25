@@ -12,7 +12,7 @@
 
 @objc open class RecordButton : UIButton {
     
-    open var buttonColor: UIColor! = .blue{
+    open var buttonColor: UIColor! = .red{
         didSet {
             circleLayer.backgroundColor = buttonColor.cgColor
             circleBorder.borderColor = buttonColor.cgColor

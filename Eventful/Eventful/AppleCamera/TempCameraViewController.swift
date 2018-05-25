@@ -9,10 +9,9 @@
 import Foundation
 import UIKit
 import AVFoundation
-import Photos
+import RecordButton
 
 class TempCameraViewController: UIViewController {
-    // MARK: All Global Variables
     private let session = AVCaptureSession()
     private var isSessionRunning = false
     private let sessionQueue = DispatchQueue(label: "session queue") // Communicate with the session and other session objects on this queue.
@@ -49,6 +48,14 @@ class TempCameraViewController: UIViewController {
     
     private var backgroundRecordingID: UIBackgroundTaskIdentifier?
     
+    private var outputURL: URL!
+    
+    let recordButton = RecordButton(frame: CGRect(x: 0, y: 0, width: 70, height: 70))
+    var progressTimer : Timer!
+    var progress : CGFloat! = 0
+    
+    
+    
     /// Sets wether the taken photo or video should be oriented according to the device orientation
     public var shouldUseDeviceOrientation      = false
     
@@ -84,15 +91,7 @@ class TempCameraViewController: UIViewController {
     let resumeButton : UIButton = {
         let resumeButton = UIButton()
         resumeButton.setTitle("Resume", for: .normal)
-        //captureButton.addTarget(self, action: #selector(captureAction(_:)), for: .touchUpInside)
-        
-        //        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(Tap))  //Tap function will call when user tap on button
-        //        tapGesture.delegate = self
-        //        let longGesture = UILongPressGestureRecognizer(target: self, action: #selector( captureAction(_:))) //Long function will call when user long press on button.
-        //        longGesture.delegate = self
-        //        tapGesture.numberOfTapsRequired = 1
-        //        captureButton.addGestureRecognizer(tapGesture)
-        //        captureButton.addGestureRecognizer(longGesture)
+        resumeButton.addTarget(self, action: #selector(resumeInterruptedSession(_:)), for: .touchUpInside)
         return resumeButton
     }()
     
@@ -159,9 +158,11 @@ class TempCameraViewController: UIViewController {
     lazy var videoButton : UIButton = {
         let videoButton = UIButton()
         videoButton.setImage(#imageLiteral(resourceName: "icons8-documentary-filled-50"), for: UIControlState())
-        //        flipCameraButton.addTarget(self, action: #selector(cameraSwitchAction(_:)), for: .touchUpInside)
+        videoButton.addTarget(self, action: #selector(setupVideoRecord(_:)), for: .touchUpInside)
         return videoButton
     }()
+    
+
     // MARK: Status Bar Presence
     override var prefersStatusBarHidden: Bool {
         return true
@@ -236,7 +237,7 @@ class TempCameraViewController: UIViewController {
         }
         
         session.beginConfiguration()
-        
+        session.automaticallyConfiguresApplicationAudioSession = false
         /*
          We do not create an AVCaptureMovieFileOutput when setting up the session because the
          AVCaptureMovieFileOutput does not support movie recording with AVCaptureSession.Preset.Photo.
@@ -305,9 +306,9 @@ class TempCameraViewController: UIViewController {
         do {
             let audioDevice = AVCaptureDevice.default(for: .audio)
             let audioDeviceInput = try AVCaptureDeviceInput(device: audioDevice!)
-            
             if session.canAddInput(audioDeviceInput) {
                 session.addInput(audioDeviceInput)
+                
             } else {
                 print("Could not add audio device input to the session")
             }
@@ -475,6 +476,33 @@ class TempCameraViewController: UIViewController {
         }
     }
     
+    @objc private func resumeInterruptedSession(_ resumeButton: UIButton) {
+        sessionQueue.async {
+            /*
+             The session might fail to start running, e.g., if a phone or FaceTime call is still
+             using audio or video. A failure to start the session running will be communicated via
+             a session runtime error notification. To avoid repeatedly failing to start the session
+             running, we only try to restart the session running in the session runtime error handler
+             if we aren't trying to resume the session running.
+             */
+            self.session.startRunning()
+            self.isSessionRunning = self.session.isRunning
+            if !self.session.isRunning {
+                DispatchQueue.main.async {
+                    let message = NSLocalizedString("Unable to resume", comment: "Alert message when unable to resume the session running")
+                    let alertController = UIAlertController(title: "AVCam", message: message, preferredStyle: .alert)
+                    let cancelAction = UIAlertAction(title: NSLocalizedString("OK", comment: "Alert OK button"), style: .cancel, handler: nil)
+                    alertController.addAction(cancelAction)
+                    self.present(alertController, animated: true, completion: nil)
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.resumeButton.isHidden = true
+                }
+            }
+        }
+    }
+    
     
     @objc
     func sessionInterruptionEnded(notification: NSNotification) {
@@ -580,6 +608,9 @@ class TempCameraViewController: UIViewController {
         addGestureRecognizers(on: capturePreviewView)
         view.addSubview(capturePreviewView)
         capturePreviewView.addSubview(captureButton)
+        capturePreviewView.addSubview(recordButton)
+        capturePreviewView.addSubview(resumeButton)
+
         capturePreviewView.snp.makeConstraints { (make) in
             make.edges.equalTo(view)
         }
@@ -613,6 +644,19 @@ class TempCameraViewController: UIViewController {
             make.centerX.equalTo(view.safeAreaLayoutGuide.snp.centerX)
             make.height.width.equalTo(65)
         }
+        
+        recordButton.snp.makeConstraints { (make) in
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(10.5)
+            make.centerX.equalTo(view.safeAreaLayoutGuide.snp.centerX)
+            make.height.width.equalTo(65)
+        }
+        
+        recordButton.isHidden = true
+        
+        resumeButton.snp.makeConstraints { (make) in
+            make.center.equalTo(view.safeAreaLayoutGuide.snp.center)
+        }
+        resumeButton.isHidden = true
         
         view.addSubview(cancelButton)
         cancelButton.snp.makeConstraints { (make) in
@@ -821,6 +865,127 @@ extension TempCameraViewController {
         }
     }
     
+    @objc func setupVideoRecord(_ sender: Any){
+        
+        sessionQueue.async {
+            let movieFileOutput = AVCaptureMovieFileOutput()
+            
+            if self.session.canAddOutput(movieFileOutput) {
+                self.session.beginConfiguration()
+                self.session.addOutput(movieFileOutput)
+                self.session.sessionPreset = .high
+                if let connection = movieFileOutput.connection(with: .video) {
+                    if connection.isVideoStabilizationSupported {
+                        connection.preferredVideoStabilizationMode = .auto
+                    }
+                }
+                self.session.commitConfiguration()
+                
+                DispatchQueue.main.async {
+                    self.captureButton.isHidden = true
+                    self.recordButton.isHidden = false
+                }
+                
+                self.movieFileOutput = movieFileOutput
+                
+                DispatchQueue.main.async {
+                    self.recordButton.isEnabled = true
+                    self.recordButton.addTarget(self, action: #selector(self.record), for: .touchDown)
+                    self.recordButton.addTarget(self, action: #selector(self.stop), for: UIControlEvents.touchUpInside)
+                }
+            }
+        }
+    }
+    
+    @objc func record() {
+         self.progressTimer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(TempCameraViewController.updateProgress), userInfo: nil, repeats: true)
+        
+        guard let movieFileOutput = self.movieFileOutput else {
+            return
+        }
+        /*
+         Hide all buttons until recording finishes, and disable
+         the Record button until recording starts or finishes.
+         
+         See the AVCaptureFileOutputRecordingDelegate methods.
+         */
+        flipCameraButton.isHidden = true
+        flashButton.isHidden = true
+        cameraButton.isHidden = true
+        videoButton.isHidden = true
+        cancelButton.isHidden = true
+        
+        /*
+         Retrieve the video preview layer's video orientation on the main queue
+         before entering the session queue. We do this to ensure UI elements are
+         accessed on the main thread and session configuration is done on the session queue.
+         */
+        let videoPreviewLayerOrientation = capturePreviewView.videoPreviewLayer.connection?.videoOrientation
+        
+        
+        sessionQueue.async {
+            if !movieFileOutput.isRecording {
+                if UIDevice.current.isMultitaskingSupported {
+                    /*
+                     Setup background task.
+                     This is needed because the `capture(_:, didFinishRecordingToOutputFileAt:, fromConnections:, error:)`
+                     callback is not received until AVCam returns to the foreground unless you request background execution time.
+                     This also ensures that there will be time to write the file to the photo library when AVCam is backgrounded.
+                     To conclude this background execution, endBackgroundTask(_:) is called in
+                     `capture(_:, didFinishRecordingToOutputFileAt:, fromConnections:, error:)` after the recorded file has been saved.
+                     */
+                    self.backgroundRecordingID = UIApplication.shared.beginBackgroundTask(expirationHandler: nil)
+                }
+                
+                
+                // Update the orientation on the movie file output video connection before starting recording.
+                let movieFileOutputConnection = movieFileOutput.connection(with: .video)
+                movieFileOutputConnection?.videoOrientation = videoPreviewLayerOrientation!
+                
+                let availableVideoCodecTypes = movieFileOutput.availableVideoCodecTypes
+                
+                if availableVideoCodecTypes.contains(.hevc) {
+                    movieFileOutput.setOutputSettings([AVVideoCodecKey: AVVideoCodecType.hevc], for: movieFileOutputConnection!)
+                }
+                
+                // Start recording to a temporary file.
+                let outputFileName = NSUUID().uuidString
+                let outputFilePath = (NSTemporaryDirectory() as NSString).appendingPathComponent((outputFileName as NSString).appendingPathExtension("mov")!)
+                movieFileOutput.startRecording(to: URL(fileURLWithPath: outputFilePath), recordingDelegate: self)
+            } else {
+                movieFileOutput.stopRecording()
+            }
+        }
+        
+        
+       
+    }
+    
+   @objc func updateProgress() {
+        
+        let maxDuration = CGFloat(11) // max duration of the recordButton
+        
+        progress = progress + (CGFloat(0.05) / maxDuration)
+        recordButton.setProgress(progress)
+        
+        if progress >= 1 {
+            progressTimer.invalidate()
+        }
+        
+    }
+    
+    @objc func stop() {
+        self.progressTimer.invalidate()
+        if (movieFileOutput?.isRecording)! {
+            movieFileOutput?.stopRecording()
+            flipCameraButton.isHidden = false
+            flashButton.isHidden = false
+            cameraButton.isHidden = false
+            videoButton.isHidden = false
+            cancelButton.isHidden = false
+        }
+    }
+    
 }
 
 //will handle orientation
@@ -892,6 +1057,45 @@ extension TempCameraViewController: AVCapturePhotoCaptureDelegate {
     }
     
 
+}
+
+extension TempCameraViewController: AVCaptureFileOutputRecordingDelegate{
+    func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
+        
+        func cleanUp() {
+            let path = outputFileURL.path
+            if FileManager.default.fileExists(atPath: path) {
+                do {
+                    try FileManager.default.removeItem(atPath: path)
+                } catch {
+                    print("Could not remove file at url: \(outputFileURL)")
+                }
+            }
+            
+            if let currentBackgroundRecordingID = backgroundRecordingID {
+                backgroundRecordingID = UIBackgroundTaskInvalid
+                
+                if currentBackgroundRecordingID != UIBackgroundTaskInvalid {
+                    UIApplication.shared.endBackgroundTask(currentBackgroundRecordingID)
+                }
+            }
+        }
+        
+        
+        //will come here when video is done recording
+        print("done")
+        if let err = error {
+            print("Error recording movie:  \(err.localizedDescription)")
+        }else{
+            let videoPlayBackVC = VideoViewController()
+            videoPlayBackVC.videoURL = outputFileURL
+            present(videoPlayBackVC, animated: true, completion: nil)
+            //cleanUp()
+
+        }
+    }
+    
+    
 }
 
 //will add the gesture recognizers to the view and handle the corresponding functions
