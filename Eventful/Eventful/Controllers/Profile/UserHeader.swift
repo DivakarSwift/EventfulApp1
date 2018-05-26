@@ -112,6 +112,7 @@ class UserProfileHeader: UICollectionViewCell {
                     self.followButton.setTitle("Unfollow", for: .normal)
                     
                 } else {
+                    self.isFollowed = false
                     self.setupFollowStyle()
                 }
                 
