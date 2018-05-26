@@ -24,7 +24,7 @@ class UserProfileHeader: UICollectionViewCell {
     }
     var followNotificationData : Notifications!
     weak var profileViewController: ProfileeViewController!
-
+    var isFollowed: Bool?
     lazy var profileImage: UIImageView = {
         let profilePicture = UIImageView()
         profilePicture.layer.borderWidth = 1.0
@@ -108,7 +108,7 @@ class UserProfileHeader: UICollectionViewCell {
             Database.database().reference().child("following").child(currentLoggedInUser).child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
                 
                 if let isFollowing = snapshot.value as? Int, isFollowing == 1 {
-                    
+                    self.isFollowed = isFollowing == 1 ? true:false
                     self.followButton.setTitle("Unfollow", for: .normal)
                     
                 } else {
@@ -153,9 +153,9 @@ class UserProfileHeader: UICollectionViewCell {
         
         
         //will check if the user if being followed or not
-        if (followee?.isFollowed)! {
+        if (self.isFollowed)! {
             //will unfollow the user
-            FollowService.setIsFollowing(!(followee?.isFollowed)!, fromCurrentUserTo: followee!) { [unowned self] (success) in
+            FollowService.setIsFollowing((followee?.isFollowed)!, fromCurrentUserTo: followee!) { [unowned self] (success) in
                 defer {
                     self.followButton.isUserInteractionEnabled = true
                 }
@@ -165,6 +165,8 @@ class UserProfileHeader: UICollectionViewCell {
                 print(followee?.isFollowed ?? "true")
                 print("Successfully unfollowed user:", self.user?.username ?? "")
                 self.setupFollowStyle()
+                self.isFollowed = false
+                print(self.isFollowed)
             }
         }else{
             //will follow the user
@@ -186,6 +188,7 @@ class UserProfileHeader: UICollectionViewCell {
                 self.followButton.setTitle("Unfollow", for: .normal)
                 self.followButton.backgroundColor = .white
                 self.followButton.setTitleColor(.black, for: .normal)
+                self.isFollowed = true
             }
             
         }

@@ -13,8 +13,8 @@ import FirebaseAuth
 class SettingsViewController: UITableViewController {
     var authHandle: AuthStateDidChangeListenerHandle?
     let settingsCell = "settingsCell"
-    let settingsOptionsTwoDimArray = [
-    ["Logout"]
+    let settingsCell2 = "settingsCell2"
+    let settingsOptionsTwoDimArray = [["Logout"],["Make Profile Private"]
     ]
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +29,7 @@ class SettingsViewController: UITableViewController {
         let backButton = UIBarButtonItem(image: UIImage(named: "icons8-Back-64"), style: .plain, target: self, action: #selector(GoBack))
         self.navigationItem.leftBarButtonItem = backButton
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: settingsCell)
+        self.tableView.register(PrivateCell.self, forCellReuseIdentifier: settingsCell2)
         self.tableView.tableFooterView = UIView(frame: CGRect.zero)
         self.tabBarController?.tabBar.isHidden = true
         authHandle = AuthService.authListener(viewController: self)
@@ -49,12 +50,6 @@ class SettingsViewController: UITableViewController {
         print("BACK TAPPED")
         self.navigationController?.popViewController(animated: true)
     }
-    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let label = UILabel()
-        label.text = "   Support"
-        label.font = UIFont.boldSystemFont(ofSize: 16.0)
-        return label
-    }
     override func numberOfSections(in tableView: UITableView) -> Int {
         return settingsOptionsTwoDimArray.count
     }
@@ -63,11 +58,20 @@ class SettingsViewController: UITableViewController {
         return settingsOptionsTwoDimArray[section].count
     }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: settingsCell, for: indexPath) as UITableViewCell
-        let currentSetting = settingsOptionsTwoDimArray[indexPath.section][indexPath.row]
-        cell.textLabel?.text = currentSetting
-        cell.textLabel?.textAlignment = .justified
-        return cell
+        if[indexPath.section][indexPath.row] == [1][0]{
+            let cell = tableView.dequeueReusableCell(withIdentifier: settingsCell2, for: indexPath) as! PrivateCell
+            return cell
+        }else{
+            let cell = tableView.dequeueReusableCell(withIdentifier: settingsCell, for: indexPath) as UITableViewCell
+            let currentSetting = settingsOptionsTwoDimArray[indexPath.section][indexPath.row]
+            cell.textLabel?.text = currentSetting
+            cell.textLabel?.textAlignment = .left
+            return cell
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 50
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if [indexPath.section][indexPath.row] == [0][0]{

@@ -237,7 +237,7 @@ class TempCameraViewController: UIViewController {
         }
         
         session.beginConfiguration()
-        session.automaticallyConfiguresApplicationAudioSession = false
+        //session.automaticallyConfiguresApplicationAudioSession = false
         /*
          We do not create an AVCaptureMovieFileOutput when setting up the session because the
          AVCaptureMovieFileOutput does not support movie recording with AVCaptureSession.Preset.Photo.
@@ -983,6 +983,7 @@ extension TempCameraViewController {
             cameraButton.isHidden = false
             videoButton.isHidden = false
             cancelButton.isHidden = false
+            progress = 0;
         }
     }
     
@@ -1081,18 +1082,24 @@ extension TempCameraViewController: AVCaptureFileOutputRecordingDelegate{
             }
         }
         
+        var success = true
         
-        //will come here when video is done recording
-        print("done")
-        if let err = error {
-            print("Error recording movie:  \(err.localizedDescription)")
-        }else{
+        if error != nil {
+            print("Movie file finishing error: \(String(describing: error))")
+            success = (((error! as NSError).userInfo[AVErrorRecordingSuccessfullyFinishedKey] as AnyObject).boolValue)!
+        }
+        
+        if success {
             let videoPlayBackVC = VideoViewController()
             videoPlayBackVC.videoURL = outputFileURL
-            present(videoPlayBackVC, animated: true, completion: nil)
-            //cleanUp()
+            present(videoPlayBackVC, animated: true) {
+                cleanUp()
+            }
+        } else{
+            cleanUp()
 
         }
+  
     }
     
     
