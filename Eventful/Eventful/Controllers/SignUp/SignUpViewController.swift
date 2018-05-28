@@ -199,7 +199,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
                             print(profilePic)
                             print(username)
                             
-                            UserService.create(firUser, username: username, profilePic: profilePic, completion: { [unowned self](user) in
+                            UserService.create(firUser, username: username, profilePic: profilePic, isPrivate: false, completion: { [unowned self](user) in
                                 guard let user = user else {
                                     print("User not loaded into firebase db")
                                     return
@@ -208,6 +208,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
                                 // will set the current user for userdefaults to work
                                 print(user.profilePic ?? "")
                                 print(user.username ?? "")
+                                print(user.isPrivate ?? "")
                                 // self.delegate?.finishSigningUp()
                                 self.finishSigningUp()
                             })

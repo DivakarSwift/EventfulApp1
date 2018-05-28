@@ -63,7 +63,6 @@ class HomeFeedController: UICollectionViewController {
         SVProgressHUD.dismiss(withDelay: 0.5)
         grabUserLoc()
         setupBarButtonItems()
-        grabFriendsEvents()
         collectionView?.register(HomeFeedCell.self, forCellWithReuseIdentifier: cellID)
                 collectionView?.register(CategoryCell.self, forCellWithReuseIdentifier: catergoryCellID)
     }
@@ -198,6 +197,8 @@ class HomeFeedController: UICollectionViewController {
             PostService.showFeaturedEvent(for: currentLocation, completion: { [weak self] (events) in
                 self?.featuredEvents = events
                 print("ending in Featured events")
+                self?.grabFriendsEvents()
+
             }
             )
             print("Latitude: \(currentLocation.coordinate.latitude)")

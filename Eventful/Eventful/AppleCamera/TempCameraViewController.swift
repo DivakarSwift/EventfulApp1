@@ -151,7 +151,7 @@ class TempCameraViewController: UIViewController {
     lazy var cameraButton : UIButton = {
         let cameraButton = UIButton()
         cameraButton.setImage(#imageLiteral(resourceName: "icons8-instagram-filled-50"), for: UIControlState())
-        //        flipCameraButton.addTarget(self, action: #selector(cameraSwitchAction(_:)), for: .touchUpInside)
+        flipCameraButton.addTarget(self, action: #selector(setupPhotoSession(_:)), for: .touchUpInside)
         return cameraButton
     }()
     
@@ -878,6 +878,8 @@ extension TempCameraViewController {
                     if connection.isVideoStabilizationSupported {
                         connection.preferredVideoStabilizationMode = .auto
                     }
+                    connection.isVideoMirrored = true
+                    connection.videoOrientation = .portrait
                 }
                 self.session.commitConfiguration()
                 
@@ -894,6 +896,49 @@ extension TempCameraViewController {
                     self.recordButton.addTarget(self, action: #selector(self.stop), for: UIControlEvents.touchUpInside)
                 }
             }
+        }
+    }
+    
+    @objc func setupPhotoSession(_ sender: Any){
+        recordButton.isEnabled = false
+        recordButton.isHidden = true
+        captureButton.isHidden = false
+        
+        sessionQueue.async {
+            /*
+             Remove the AVCaptureMovieFileOutput from the session because movie recording is
+             not supported with AVCaptureSession.Preset.Photo. Additionally, Live Photo
+             capture is not supported when an AVCaptureMovieFileOutput is connected to the session.
+             */
+            self.session.beginConfiguration()
+            self.session.removeOutput(self.movieFileOutput!)
+            self.session.sessionPreset = .photo
+            
+            DispatchQueue.main.async {
+               // captureModeControl.isEnabled = true
+            }
+            
+            self.movieFileOutput = nil
+            
+            if self.photoOutput.isLivePhotoCaptureSupported {
+                self.photoOutput.isLivePhotoCaptureEnabled = true
+                
+                DispatchQueue.main.async {
+                //    self.livePhotoModeButton.isEnabled = true
+                  //  self.livePhotoModeButton.isHidden = false
+                }
+            }
+            
+            if self.photoOutput.isDepthDataDeliverySupported {
+                self.photoOutput.isDepthDataDeliveryEnabled = true
+                
+                DispatchQueue.main.async {
+                   // self.depthDataDeliveryButton.isHidden = false
+                    //self.depthDataDeliveryButton.isEnabled = true
+                }
+            }
+            
+            self.session.commitConfiguration()
         }
     }
     

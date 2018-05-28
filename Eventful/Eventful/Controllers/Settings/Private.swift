@@ -20,7 +20,7 @@ class PrivateCell: UITableViewCell {
     
     lazy var privateSwitch : UISwitch  = {
        let privateSwitch = UISwitch(frame:  CGRect(x: 0, y: 0, width: 70, height: 70))
-        privateSwitch.isOn = false
+        privateSwitch.isOn = User.current.isPrivate!
         privateSwitch.onTintColor = UIColor.rgb(red: 44, green: 152, blue: 229)
         privateSwitch.addTarget(self, action: #selector(switchToggled(_:)), for: UIControlEvents.valueChanged)
         return privateSwitch
@@ -30,8 +30,27 @@ class PrivateCell: UITableViewCell {
     @objc func switchToggled(_ sender: UISwitch) {
         if privateSwitch.isOn {
             print("switch turned on")
+            
+            SettingsService.setIsPrivate(true) { (success, user) in
+                if success {
+                    print("User is private")
+                    if let user = user {
+                        User.setCurrent(user, writeToUserDefaults: true)
+                    }
+                }
+            }
+
         }else{
             print("switch turned off")
+            SettingsService.setIsPrivate(false) { (success, user) in
+                if success {
+                    print("User is private")
+                    if let user = user {
+                        User.setCurrent(user, writeToUserDefaults: true)
+                    }
+                }
+            }
+
         }
     }
     @objc func setupViews(){

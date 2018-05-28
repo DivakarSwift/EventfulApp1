@@ -83,6 +83,8 @@
 		077247D5206F2C42007E5C29 /* PreviewPhotoContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 077247D4206F2C42007E5C29 /* PreviewPhotoContainerView.swift */; };
 		077247D720720CE2007E5C29 /* SideMenuLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 077247D620720CE2007E5C29 /* SideMenuLauncher.swift */; };
 		07C15E2420B7DA920046D8BC /* Private.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C15E2320B7DA920046D8BC /* Private.swift */; };
+		07C15E2620BA30670046D8BC /* SettingsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C15E2520BA30670046D8BC /* SettingsService.swift */; };
+		07C15E2820BA5F6B0046D8BC /* FriendService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C15E2720BA5F6B0046D8BC /* FriendService.swift */; };
 		07D26E0F20B3F7A3001110AC /* PreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D26E0C20B3F7A2001110AC /* PreviewView.swift */; };
 		07D26E1020B3F7A3001110AC /* PhotoCaptureDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D26E0D20B3F7A2001110AC /* PhotoCaptureDelegate.swift */; };
 		07D26E1120B3F7A3001110AC /* TempCameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D26E0E20B3F7A3001110AC /* TempCameraViewController.swift */; };
@@ -178,6 +180,8 @@
 		077247D4206F2C42007E5C29 /* PreviewPhotoContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PreviewPhotoContainerView.swift; path = Controllers/Camera/PreviewPhotoContainerView.swift; sourceTree = "<group>"; };
 		077247D620720CE2007E5C29 /* SideMenuLauncher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SideMenuLauncher.swift; path = "Controllers/Home Feed/SideMenuLauncher.swift"; sourceTree = "<group>"; };
 		07C15E2320B7DA920046D8BC /* Private.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Private.swift; path = Controllers/Settings/Private.swift; sourceTree = "<group>"; };
+		07C15E2520BA30670046D8BC /* SettingsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SettingsService.swift; path = Services/SettingsService.swift; sourceTree = "<group>"; };
+		07C15E2720BA5F6B0046D8BC /* FriendService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FriendService.swift; path = Services/FriendService.swift; sourceTree = "<group>"; };
 		07D26E0C20B3F7A2001110AC /* PreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewView.swift; sourceTree = "<group>"; };
 		07D26E0D20B3F7A2001110AC /* PhotoCaptureDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoCaptureDelegate.swift; sourceTree = "<group>"; };
 		07D26E0E20B3F7A3001110AC /* TempCameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TempCameraViewController.swift; sourceTree = "<group>"; };
@@ -362,6 +366,8 @@
 				07F3EC5D1F4B7B28005296EB /* StoryService.swift */,
 				074D759F200C8E8C0044C3AD /* LocationService.swift */,
 				0741702F204751DB006B236B /* NotificationService.swift */,
+				07C15E2520BA30670046D8BC /* SettingsService.swift */,
+				07C15E2720BA5F6B0046D8BC /* FriendService.swift */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -710,6 +716,7 @@
 				0747A9FF20375D3B00F725C7 /* ProfileeViewController.swift in Sources */,
 				072473182072C83700DD285E /* SideMenuHeader.swift in Sources */,
 				072473212078692600DD285E /* SearchPlacesCell.swift in Sources */,
+				07C15E2820BA5F6B0046D8BC /* FriendService.swift in Sources */,
 				07437F3D1F28D4C500CE728B /* Extensions.swift in Sources */,
 				0747AA3320375E7F00F725C7 /* EventService.swift in Sources */,
 				0704C7702062BB7C00C9E35A /* CategoryEventCell.swift in Sources */,
@@ -758,6 +765,7 @@
 				07F3EC5E1F4B7B28005296EB /* StoryService.swift in Sources */,
 				07D26E1120B3F7A3001110AC /* TempCameraViewController.swift in Sources */,
 				07D26E1020B3F7A3001110AC /* PhotoCaptureDelegate.swift in Sources */,
+				07C15E2620BA30670046D8BC /* SettingsService.swift in Sources */,
 				0747AA2920375E2A00F725C7 /* VideoViewController.swift in Sources */,
 				07363FAF20AD20FB00CDE2C3 /* NewCameraController.swift in Sources */,
 				0747A9F920375D2400F725C7 /* HomeFeedController.swift in Sources */,

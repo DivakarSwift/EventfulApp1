@@ -14,7 +14,7 @@ import  UIKit
 
 struct UserService {
     /// will create a user in the database
-    static func create(_ firUser: FIRUser, username: String,profilePic: String, completion: @escaping (User?) -> Void) {
+    static func create(_ firUser: FIRUser, username: String,profilePic: String,isPrivate: Bool, completion: @escaping (User?) -> Void) {
       //  print(profilePic)
      //   print(username)
         guard let fcmToken = Messaging.messaging().fcmToken else {
@@ -23,7 +23,7 @@ struct UserService {
         
         print("")
         let userAttrs = ["username": username,
-                         "profilePic": profilePic,"fcmToken":fcmToken] as [String : Any]
+                         "profilePic": profilePic,"fcmToken":fcmToken, "isPrivate": isPrivate] as [String : Any]
         //creats the path in the database where we want our user attributes to be created
         //Also sets the value at that point in the tree to the user Attributes array
         let ref = Database.database().reference().child("users").child(firUser.uid)

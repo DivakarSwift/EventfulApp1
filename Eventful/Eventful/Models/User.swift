@@ -13,16 +13,19 @@ class User : NSObject {
     let uid : String
     let username : String?
     let profilePic: String?
+    var isPrivate: Bool?
     var isFollowed = false
     var dictValue: [String : Any] {
         return ["username" : username as Any,
-                "profilePic" : profilePic as Any]
+                "profilePic" : profilePic as Any,
+                "isPrivate": isPrivate as Any]
     }
     //Standard User init()
-    init(uid: String, username: String, profilePic: String) {
+    init(uid: String, username: String, profilePic: String, isPrivate: Bool? = nil) {
         self.uid = uid
         self.username = username
         self.profilePic = profilePic
+        self.isPrivate = isPrivate
         super.init()
     }
     
@@ -33,28 +36,35 @@ class User : NSObject {
         print(dict)
         let profilePic = dict["profilePic"] as? String ?? ""
         let username = dict["username"] as? String ?? ""
+        let isPrivate = dict["isPrivate"] as? Bool ?? false
         self.uid = key
         self.profilePic = profilePic
         self.username = username
+        self.isPrivate = isPrivate
     }
     //User init using Firebase snapshots
     init?(snapshot: DataSnapshot) {
         guard let dict = snapshot.value as? [String : Any],
             let username = dict["username"] as? String,
-            let profilePic = dict["profilePic"] as? String
+            let profilePic = dict["profilePic"] as? String,
+            let isPrivate = dict["isPrivate"] as? Bool
             else { return nil }
         self.uid = snapshot.key
         self.username = username
         self.profilePic = profilePic
+        self.isPrivate = isPrivate
     }
     //UserDefaults
     required init?(coder aDecoder: NSCoder) {
         guard let uid = aDecoder.decodeObject(forKey: "uid") as? String,
             let username = aDecoder.decodeObject(forKey: "username") as? String,
-            let profilePic = aDecoder.decodeObject(forKey: "profilePic") as? String            else { return nil }
+            let profilePic = aDecoder.decodeObject(forKey: "profilePic") as? String,
+            let isPrivate = aDecoder.decodeObject(forKey: "isPrivate") as? Bool
+            else { return nil }
         self.uid = uid
         self.username = username
         self.profilePic = profilePic
+        self.isPrivate = isPrivate
         super.init()
     }
 
@@ -85,6 +95,8 @@ extension User: NSCoding {
     func encode(with aCoder: NSCoder) {
         aCoder.encode(uid, forKey: "uid")
         aCoder.encode(username, forKey: "username")
-        aCoder.encode(profilePic, forKey: "profilePic")        
+        aCoder.encode(profilePic, forKey: "profilePic")
+        aCoder.encode(isPrivate, forKey: "isPrivate")
+
     }
 }
