@@ -244,7 +244,7 @@ extension AppDelegate {
     
     @objc func vcTransition(from userInfo: [AnyHashable : Any]){
         
-        if userInfo["notiType"] as? String == "follow"{
+        if userInfo["notiType"] as? String == notiType.follow.rawValue{
             let userInfoDict = self.convertToDictionary(text: userInfo["repliedBy"] as! String)
             UserService.show(forUID: userInfoDict!["uid"] as! String, completion: { (user) in
                 self.userProfileController.user = user
@@ -261,7 +261,7 @@ extension AppDelegate {
             })
         }
         
-        if userInfo["notiType"] as? String == "comment"{
+        if userInfo["notiType"] as? String == notiType.comment.rawValue{
             print("comment came in")
             let eventKey = userInfo["eventKey"] as? String
             if let mainTabBarController = self.window?.rootViewController as? HomeViewController {

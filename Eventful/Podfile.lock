@@ -7,6 +7,7 @@ PODS:
   - BPStatusBarAlert (0.1.5)
   - Crashlytics (3.10.1):
     - Fabric (~> 1.7.5)
+  - DTPagerController (2.0.0)
   - Fabric (1.7.6)
   - FaceAware (1.2.0)
   - Firebase/Auth (4.13.0):
@@ -109,6 +110,7 @@ DEPENDENCIES:
   - AlamofireNetworkActivityIndicator
   - BPStatusBarAlert
   - Crashlytics
+  - DTPagerController
   - Fabric
   - FaceAware
   - Firebase/Auth
@@ -158,6 +160,7 @@ SPEC CHECKSUMS:
   AlamofireNetworkActivityIndicator: aeac50e6ecb78ec71a5f1f29098bcf4ec2962910
   BPStatusBarAlert: 0bc567e3a0f740189239f49c6c516bd61cb3c758
   Crashlytics: aee1a064cbbf99b32efa3f056a5f458d846bc8ff
+  DTPagerController: 19006ac502beea17dc08a54980a12da659f13292
   Fabric: f8d42c893bb187326a7968b62abe55c36a987a46
   FaceAware: 421436f9d16aacdb26ffcf8e5a39a1dd68630395
   Firebase: 5ec5e863d269d82d66b4bf56856726f8fb8f0fb3
@@ -190,6 +193,6 @@ SPEC CHECKSUMS:
   SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
   TextFieldEffects: 4ee41b5216e674d55fb6ac25107bf1af7629176f
 
-PODFILE CHECKSUM: f0a69e51ad31ebfc3c63fabafdc7090e8650eea6
+PODFILE CHECKSUM: 6d2fe15fe9feccc5c31990a7eb959da44333199a
 
 COCOAPODS: 1.4.0

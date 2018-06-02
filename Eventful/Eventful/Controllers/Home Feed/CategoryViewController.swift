@@ -20,7 +20,6 @@ class CategoryViewController: UICollectionViewController,UICollectionViewDelegat
     
     lazy var emptyLabel: UILabel = {
         let emptyLabel = UILabel()
-        emptyLabel.text = "Sorry We Currently Have No Events, \n In This Category Near You"
         emptyLabel.font = UIFont(name: "Avenir", size: 18)
         emptyLabel.numberOfLines = 0
         emptyLabel.textAlignment = .center

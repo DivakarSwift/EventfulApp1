@@ -32,6 +32,7 @@ target 'Eventful' do
     pod 'JTAppleCalendar'
     pod 'RevealingSplashView'
     pod "RecordButton"
+    pod 'DTPagerController'
     # Pods for Eventful
     
 end

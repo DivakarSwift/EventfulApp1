@@ -110,11 +110,11 @@ class NotificationsViewController: UIViewController,NotificationsSectionDelegate
     
     func NotifVcTransition(notifCell: NotificationCell) {
         print("function called")
-        guard let notiType = notifCell.notification?.notiType else {
+        guard let notiType1 = notifCell.notification?.notiType else {
             return
         }
         
-        if notiType == "comment"{
+        if notiType1 == notiType.comment{
             guard let notifEventKey = notifCell.notification?.eventKey else {
                 return
             }
@@ -125,7 +125,7 @@ class NotificationsViewController: UIViewController,NotificationsSectionDelegate
             }
             self.tabBarController?.tabBar.isHidden = true
             self.navigationController?.pushViewController(newCommentsController, animated: false)
-        }else if notiType == "follow" {
+        }else if notiType1 == notiType.follow {
             guard let sender = notifCell.notification?.sender else {
                 return
             }
@@ -222,7 +222,7 @@ extension NotificationsViewController: ListAdapterDataSource {
         paragraph.alignment = .center
         
         let attributes: [NSAttributedStringKey: Any] = [NSAttributedStringKey(rawValue: NSAttributedStringKey.font.rawValue): UIFont.systemFont(ofSize: 14.0), NSAttributedStringKey(rawValue: NSAttributedStringKey.foregroundColor.rawValue): UIColor.lightGray, NSAttributedStringKey(rawValue: NSAttributedStringKey.paragraphStyle.rawValue): paragraph]
-        let myAttrString = NSAttributedString(string:  "No Notifications to Show", attributes: attributes)
+        let myAttrString = NSAttributedString(string:  "No Activity to Show", attributes: attributes)
         emptyLabel.attributedText = myAttrString
         emptyLabel.textAlignment = .center
         view.addSubview(emptyLabel)

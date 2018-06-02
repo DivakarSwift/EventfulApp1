@@ -107,9 +107,10 @@ class HomeFeedController: UICollectionViewController {
         categoryVC.titleView.text = sideMenu.name.rawValue
         if sideMenu.name.rawValue == "Friends Events" {
             categoryVC.events = self.friendsEvents
+            categoryVC.emptyLabel.text = "Sorry, Your Friends Don't Seem to Be Attending Any Events"
         }else{
             categoryVC.events = self.allEvents2[sideMenu.name.rawValue]!
-
+            categoryVC.emptyLabel.text = "Sorry We Currently Have No Events, \n In This Category Near You"
         }
         navigationController?.pushViewController(categoryVC, animated: true)
     }

@@ -27,7 +27,6 @@ class SearchHeader: UICollectionViewCell {
         sb.setScopeBarButtonTitleTextAttributes([ NSAttributedStringKey.foregroundColor.rawValue : UIColor.black], for: .normal)
         let textFieldInsideUISearchBar = sb.value(forKey: "searchField") as? UITextField
         textFieldInsideUISearchBar?.font = UIFont.systemFont(ofSize: 14)
-        sb.scopeButtonTitles = ["Events", "Users"]
         sb.layer.borderColor = UIColor.lightGray.cgColor
         sb.layer.borderWidth = 0.3
         sb.layer.cornerRadius = 5

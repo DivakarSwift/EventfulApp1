@@ -25,6 +25,8 @@ class UserProfileHeader: UICollectionViewCell {
     var followNotificationData : Notifications!
     weak var profileViewController: ProfileeViewController!
     var isFollowed: Bool?
+    var isRequestPresent: Bool?
+    
     lazy var profileImage: UIImageView = {
         let profilePicture = UIImageView()
         profilePicture.layer.borderWidth = 1.0
@@ -48,14 +50,7 @@ class UserProfileHeader: UICollectionViewCell {
         statsLabel.textAlignment = .center
         return statsLabel
     }()
-
-    // will be the button that the user clicks to edit there profile settings
-    lazy var profileeSettings: UIButton = {
-        let profileSetup = UIButton(type: .system)
-        profileSetup.setImage(#imageLiteral(resourceName: "icons8-Edit-50").withRenderingMode(.alwaysOriginal), for: .normal)
-        profileSetup.setTitleColor(.black, for: .normal)
-        return profileSetup
-    }()
+  
     lazy var followButton: UIButton = {
         let button = UIButton(type: .system)
        // button.setTitle("Edit Profile", for: .normal)
@@ -67,11 +62,7 @@ class UserProfileHeader: UICollectionViewCell {
         button.addTarget(self, action: #selector(didTapFollowButton), for: .touchUpInside)
         return button
     }()
-    lazy var backButton: UIButton = {
-        let backButton = UIButton(type: .system)
-        backButton.setImage(UIImage(named: "icons8-Back-64"), for: .normal)
-        return backButton
-    }()
+
     var userStackView: UIStackView?
     var currentUserDividerView: UIView?
     var notCurrentUserDividerView: UIView?
@@ -84,7 +75,6 @@ class UserProfileHeader: UICollectionViewCell {
             return
         }
 
-        self.profileeSettings.removeFromSuperview()
         self.currentUserDividerView?.removeFromSuperview()
         self.notCurrentUserDividerView?.removeFromSuperview()
         self.followButton.removeFromSuperview()
@@ -102,34 +92,34 @@ class UserProfileHeader: UICollectionViewCell {
             addSubview(notCurrentUserDividerView!)
             notCurrentUserDividerView?.anchor(top: nil, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0.5)
             // check if following
-            Database.database().reference().child("following").child(currentLoggedInUser).child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
-                
-                if let isFollowing = snapshot.value as? Int, isFollowing == 1 {
-                    self.isFollowed = isFollowing == 1 ? true:false
-                    self.followButton.setTitle("Unfollow", for: .normal)
-                    
-                } else {
-                    self.isFollowed = false
-                    self.setupFollowStyle()
+            if let user = user {
+                FollowService.isUserFollowed(user) { (followStatus) in
+                    if followStatus{
+                        self.isFollowed = followStatus
+                        self.followButton.setTitle("Unfollow", for: .normal)
+                    } else {
+                        self.isFollowed = false
+                        //check if there is a request present
+                        //if so show request sent if not show the follow style
+                        FriendService.system.checkForRequest(uid, success: { (success) in
+                            //will return true if there is a request
+                            self.isRequestPresent = success
+                            if success{
+                                self.setupRequestStyle()
+                            }else{
+                                //if there is no request show regular follow style
+                                self.setupFollowStyle()
+                            }
+                        })
+                    }
                 }
-                
-            }, withCancel: { (err) in
-                print("Failed to check if following:", err)
-            })
+            }
             
         }
     }
     
     
     @objc func setupCurrentLoggedInUserView() {
-        addSubview(profileeSettings)
-        profileeSettings.snp.makeConstraints { (make) in
-            make.top.equalTo(self.snp.top)
-            make.left.equalTo(self.snp.left).offset(4)
-        }
-        
-      
-        
         currentUserDividerView = UIView()
         currentUserDividerView?.backgroundColor = UIColor.lightGray
         addSubview(currentUserDividerView!)
@@ -148,51 +138,78 @@ class UserProfileHeader: UICollectionViewCell {
         print("function handled")
         followButton.isUserInteractionEnabled = false
         let followee = user
-        
-        
-        //will check if the user if being followed or not
-        if (self.isFollowed)! {
-            //will unfollow the user
-            FollowService.setIsFollowing((followee?.isFollowed)!, fromCurrentUserTo: followee!) { [unowned self] (success) in
-                defer {
-                    self.followButton.isUserInteractionEnabled = true
+        if let followStatus = self.isFollowed {
+            if followStatus {
+                //if your following them and you tap the follow button unfollow the user
+                FollowService.setIsFollowing((followee?.isFollowed)!, fromCurrentUserTo: followee!) { [unowned self] (success) in
+                    defer {
+                        self.followButton.isUserInteractionEnabled = true
+                    }
+                    
+                    guard success else { return }
+                    followee?.isFollowed = !(followee?.isFollowed)!
+                    print(followee?.isFollowed ?? "true")
+                    print("Successfully unfollowed user:", self.user?.username ?? "")
+                    self.setupFollowStyle()
+                    self.isFollowed = false
                 }
                 
-                guard success else { return }
-                followee?.isFollowed = !(followee?.isFollowed)!
-                print(followee?.isFollowed ?? "true")
-                print("Successfully unfollowed user:", self.user?.username ?? "")
-                self.setupFollowStyle()
-                self.isFollowed = false
-            }
-        }else{
-            //will follow the user
-            FollowService.setIsFollowing(!(followee?.isFollowed)!, fromCurrentUserTo: followee!) { [unowned self] (success) in
-                defer {
-                    self.followButton.isUserInteractionEnabled = true
+            }else{
+                //first check if the user is private
+                if let privateStatus = user?.isPrivate {
+                    if privateStatus {
+                        //will first check if a request is present because if it is and you click it again it should delete the request
+                        if self.isRequestPresent! {
+                            if let followeeUID = followee?.uid{
+                                FriendService.system.removeFriendRequest(followeeUID)
+                                self.setupFollowStyle()
+                                self.followButton.isUserInteractionEnabled = true
+                                self.isRequestPresent = false
+                            }
+                        }else{
+                            //send the user a friend request because they want to make sure they know who they are following
+                            if let followeeUID = followee?.uid {
+                                //will send the user a friend request and wait for them to accept it
+                                FriendService.system.sendRequestToUser(followeeUID)
+                                self.isRequestPresent = true
+                                setupRequestStyle()
+                                self.followButton.isUserInteractionEnabled = true
+                            }
+                        }
+
+                    }else{
+                        //if they are not private you can just follow them because they don't care
+                        FollowService.setIsFollowing(!(followee?.isFollowed)!, fromCurrentUserTo: followee!) { [unowned self] (success) in
+                            defer {
+                                self.followButton.isUserInteractionEnabled = true
+                            }
+                            
+                            guard success else { return }
+                            print(followee?.isFollowed ?? "true")
+                            
+                            followee?.isFollowed = !(followee?.isFollowed)!
+                            print(followee?.isFollowed ?? "true")
+                            
+                            self.followNotificationData = Notifications.init(reciever: self.user!, content: User.current.username! + " has followed you", type: notiType.follow)
+                            
+                            FollowService.sendFollowNotification(self.followNotificationData)
+                            print("Successfully followed user: ", self.user?.username ?? "")
+                            self.followButton.setTitle("Unfollow", for: .normal)
+                            self.followButton.backgroundColor = .white
+                            self.followButton.setTitleColor(.black, for: .normal)
+                            self.isFollowed = true
+                        }
+                    }
                 }
-                
-                guard success else { return }
-                print(followee?.isFollowed ?? "true")
-                
-                followee?.isFollowed = !(followee?.isFollowed)!
-                print(followee?.isFollowed ?? "true")
-                
-                self.followNotificationData = Notifications.init(reciever: self.user!, content: User.current.username! + " has followed you", type: "follow")
-                
-                FollowService.sendFollowNotification(self.followNotificationData)
-                print("Successfully followed user: ", self.user?.username ?? "")
-                self.followButton.setTitle("Unfollow", for: .normal)
-                self.followButton.backgroundColor = .white
-                self.followButton.setTitleColor(.black, for: .normal)
-                self.isFollowed = true
             }
+        }
+        
             
         }
         
         
-    }
     
+    //will setup the style change for when you first enter the screen and you have to follow the user
     fileprivate func setupFollowStyle() {
         self.followButton.setTitle("Follow", for: .normal)
         self.followButton.backgroundColor = UIColor.rgb(red: 44, green: 152, blue: 229)
@@ -200,7 +217,13 @@ class UserProfileHeader: UICollectionViewCell {
         self.followButton.layer.borderColor = UIColor(white: 0, alpha: 0.2).cgColor
     }
     
-
+    //will setup the button style for when you send the friend request for the user
+    fileprivate func setupRequestStyle() {
+        self.followButton.setTitle("Request Sent", for: .normal)
+        self.followButton.backgroundColor = UIColor.rgb(red: 255, green: 255, blue: 255)
+        self.followButton.setTitleColor(.black, for: .normal)
+        self.followButton.layer.borderColor = UIColor(white: 0, alpha: 0.2).cgColor
+    }
     
     
     fileprivate func setupProfileImage() {
@@ -247,8 +270,6 @@ class UserProfileHeader: UICollectionViewCell {
         super.init(frame: frame)
         backgroundColor = UIColor.white
         profileImage.layer.cornerRadius = 125/2
-        
-       // setupToolBar()
         setupProfileStack()
     }
     required init?(coder aDecoder: NSCoder) {

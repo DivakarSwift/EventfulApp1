@@ -141,7 +141,7 @@ class CommentsSectionController: ListSectionController,CommentCellDelegate {
         //sets the isReplyingVariable to know if I am replying to someones comment or not
         self.currentViewController.isReplying = true
         UserService.show(forUID: (comment?.sender.uid)!) { (reciever) in
-            self.currentViewController.notificationData = Notifications.init(eventKey: (self.comment?.eventKey)!, reciever: reciever!, content: User.current.username! + " has replied to your comment", type: "comment", commentId: (self.comment?.commentID)!)
+            self.currentViewController.notificationData = Notifications.init(eventKey: (self.comment?.eventKey)!, reciever: reciever!, content: User.current.username! + " has replied to your comment", type: notiType.comment, commentId: (self.comment?.commentID)!)
         }
     }
     

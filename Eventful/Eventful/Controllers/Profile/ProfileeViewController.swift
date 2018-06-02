@@ -7,16 +7,10 @@
 //
     
 import UIKit
-import SwiftyJSON
-import AlamofireImage
-import Alamofire
-import AlamofireNetworkActivityIndicator
 import Foundation
 import Firebase
-import FirebaseDatabase
-import FirebaseStorage
-import SnapKit
 
+    
 class ProfileeViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
         var profileHandle: DatabaseHandle = 0
         var profileRef: DatabaseReference?
@@ -26,20 +20,22 @@ class ProfileeViewController: UICollectionViewController, UICollectionViewDelega
         var user: User?
         var emptyLabel: UILabel?
         let emptyView = UIView()
-        var isFollowing = false
+        var isFollowed: Bool?
         
         lazy var noFriendLabel: UILabel = {
             let noFriendLabel = UILabel()
-            noFriendLabel.text = "This Account Is Private"
-            noFriendLabel.font = UIFont(name: "Avenir", size: 14)
+            noFriendLabel.text = "This User Is Private"
+            noFriendLabel.font = UIFont(name: "Avenir", size: 20)
             noFriendLabel.numberOfLines = 0
             noFriendLabel.textAlignment = .center
             return noFriendLabel
         }()
+    
+    
     lazy var noFriendLabel2: UILabel = {
         let noFriendLabel2 = UILabel()
         noFriendLabel2.text = "Follow this user to connect and see what events there going to"
-        noFriendLabel2.font = UIFont(name: "Avenir", size: 8)
+        noFriendLabel2.font = UIFont(name: "Avenir", size: 14)
         noFriendLabel2.numberOfLines = 0
         noFriendLabel2.textAlignment = .center
         return noFriendLabel2
@@ -57,30 +53,72 @@ class ProfileeViewController: UICollectionViewController, UICollectionViewDelega
         override func viewDidLoad() {
             super.viewDidLoad()
             collectionView?.backgroundColor = UIColor.white
-            user = self.user ?? User.current
-           //will check if your following the current user
-        Database.database().reference().child("following").child((user?.uid)!).child(User.current.uid).observeSingleEvent(of: .value, with: { (snapshot) in
-                
-                if let isFollowing = snapshot.value as? Int, isFollowing == 1 {
-                  //will enter here if you are following user so you can see there info
+            setupVC()
+
+           
+
+        }
+        
+        deinit {
+            profileRef?.removeObserver(withHandle: profileHandle)
+            print("removed from memory")
+        }
+    
+    
+    
+    
+    @objc func setupVC(){
+        user = self.user ?? User.current
+        if let user = user {
+            checkFollowStatus(user: user)
+            setupBarButtons(user: user)
+        }
+        
+        self.collectionView?.contentInset = UIEdgeInsetsMake(20, 0, 0, 0)
+        navigationItem.title = user?.username
+        collectionView?.register(UserProfileHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "headerID")
+    
+        collectionView?.register(EventsAttendingCell.self, forCellWithReuseIdentifier: cellID)
+        collectionView?.alwaysBounceVertical = true
+        
+  
+
+    }
+    
+    @objc func setupBarButtons(user: User){
+        if user == User.current {
+            let viewFriendRequestButton = UIBarButtonItem(image: UIImage(named: "icons8-friends-50")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(showFollowers))
+            let editProfileButton = UIBarButtonItem(image: UIImage(named: "icons8-Edit-50")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(editProfile))
+            
+            self.navigationItem.rightBarButtonItem = viewFriendRequestButton
+            self.navigationItem.leftBarButtonItem = editProfileButton
+        }
+    }
+    
+    @objc func checkFollowStatus(user: User){
+            FollowService.isUserFollowed(user) { (success) in
+                if success {
+                    //will enter here if the user is followed
                     self.profileHandle = UserService.observeProfile(for: self.user!) { [unowned self](ref, user, events) in
                         self.profileRef = ref
                         self.user = user
                         self.userEvents = events
-                        self.isFollowing = isFollowing == 1 ? true:false
+                        self.isFollowed = true
+                        DispatchQueue.main.async {
+                            self.collectionView?.reloadData()
+                        }
+                    }
+                }else{
+                    //will go here if your not following the user and there private and there not you
+                    self.isFollowed = false
+                    if (self.user?.isPrivate)! && self.isFollowed == false && self.user != User.current{
+                        //show nothing because you have to add them first
                         DispatchQueue.main.async {
                             self.collectionView?.reloadData()
                         }
                         
-                    }
-                    
-                } else {
-                    self.isFollowing = false
-                    //will go here if your not following the user, they aren't you, and there private
-                    if (self.user?.isPrivate)! && self.user != User.current && self.isFollowing == false {
-                        //show nothing because you have to add them first
                     }else{
-                        //if they aren't private or they are you show it anyway because they dont care
+                        //if they aren't private or there you show it anyway because they dont care
                         self.profileHandle = UserService.observeProfile(for: self.user!) { [unowned self](ref, user, events) in
                             self.profileRef = ref
                             self.user = user
@@ -92,46 +130,34 @@ class ProfileeViewController: UICollectionViewController, UICollectionViewDelega
                         }
                     }
                 }
-                
-            }, withCancel: { (err) in
-                print("Failed to check if following:", err)
-            })
-            
-            self.collectionView?.contentInset = UIEdgeInsetsMake(20, 0, 0, 0)
-            navigationItem.title = user?.username
-            collectionView?.register(UserProfileHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "headerID")
-            collectionView?.register(EventsAttendingCell.self, forCellWithReuseIdentifier: cellID)
-            collectionView?.alwaysBounceVertical = true
-        }
+            }
         
-        deinit {
-            profileRef?.removeObserver(withHandle: profileHandle)
-            print("removed from memory")
-        }
+    }
+    
+
+    @objc func editProfile(){
+        let profileSetupTransition = AlterProfileViewController()
+        let navController = UINavigationController(rootViewController: profileSetupTransition)
+        present(navController, animated: true, completion: nil)
+    }
+    
+    @objc func showFollowers(){
+        let followVC = FollowersViewController()
+        self.navigationController?.pushViewController(followVC, animated: true)
+    }
         
         
         override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
             let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "headerID", for: indexPath) as! UserProfileHeader
-            header.profileeSettings.addTarget(self, action: #selector(profileSettingsTapped), for: .touchUpInside)
             header.profileViewController = self
             header.user = self.user
-            header.backButton.addTarget(self, action: #selector(GoBack), for: .touchUpInside)
             return header
         }
         
-        @objc func GoBack(){
-            dismiss(animated: true, completion: nil)
-            
-        }
-        
+ 
 
         
-        @objc func profileSettingsTapped(){
-            let profileSetupTransition = AlterProfileViewController()
-            let navController = UINavigationController(rootViewController: profileSetupTransition)
-            present(navController, animated: true, completion: nil)
-            //        self.navigationController?.pushViewController(profileSetupTransition, animated: true)
-        }
+    
         
         func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
             return CGSize(width: view.frame.width, height: 195)
@@ -140,18 +166,41 @@ class ProfileeViewController: UICollectionViewController, UICollectionViewDelega
         override func viewWillAppear(_ animated: Bool) {
             super.viewWillAppear(animated)
             //self.navigationController?.isNavigationBarHidden = true
-            
+            self.tabBarController?.tabBar.isHidden = false
             self.collectionView?.reloadData()
         }
         
         
         
         override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-            //userEvents.isEmpty == false
-            //(user?.isPrivate)! && self.isFollowing == false
             
-            if (user?.isPrivate)! && self.isFollowing == false {
-                //will go here if they are private and your not following them
+            //if the user has events and your following them or it is current user profile show it
+            if userEvents.isEmpty == false && (self.isFollowed == true || user == User.current) {
+                self.collectionView?.backgroundView = nil
+                return userEvents.count
+                
+            }else if userEvents.isEmpty == true && (self.isFollowed == true || user == User.current){
+                //will nil out any previous backgroundview
+                self.collectionView?.backgroundView = nil
+
+                //will go here if there are no events at all
+                //must also be following them or be you
+                emptyLabel = UILabel(frame: CGRect(x: 0, y: 0, width: self.view.bounds.size.width, height: self.view.bounds.size.height))
+                let paragraph = NSMutableParagraphStyle()
+                paragraph.lineBreakMode = .byWordWrapping
+                paragraph.alignment = .center
+                
+                let attributes: [NSAttributedStringKey: Any] = [NSAttributedStringKey(rawValue: NSAttributedStringKey.font.rawValue): UIFont.systemFont(ofSize: 14.0), NSAttributedStringKey(rawValue: NSAttributedStringKey.foregroundColor.rawValue): UIColor.lightGray, NSAttributedStringKey(rawValue: NSAttributedStringKey.paragraphStyle.rawValue): paragraph]
+                let myAttrString = NSAttributedString(string:  "Go Attend Some Events", attributes: attributes)
+
+                emptyLabel?.attributedText = myAttrString
+                emptyLabel?.textAlignment = .center
+                self.collectionView?.backgroundView = emptyLabel
+                return userEvents.count
+            }else if userEvents.isEmpty == true && (user?.isPrivate)! && self.isFollowed == false && user != User.current{
+                //will go here if the user has no events and there private and your not following
+                //there will be no events because you were not following them so thats implied
+                //also has to not be you
                 emptyView.backgroundColor = .clear
                 emptyView.addSubview(privateIconImageView)
                 privateIconImageView.image = UIImage(named: "icons8-secure-50")
@@ -165,37 +214,19 @@ class ProfileeViewController: UICollectionViewController, UICollectionViewDelega
                     make.left.right.equalTo(emptyView)
                 }
                 emptyView.addSubview(noFriendLabel2)
-                emptyLabel?.snp.makeConstraints { (make) in
-                    make.bottom.equalTo(noFriendLabel.snp.bottom).offset(10)
+                noFriendLabel2.snp.makeConstraints { (make) in
+                    make.bottom.equalTo(noFriendLabel.snp.bottom).offset(50)
                     make.left.right.equalTo(emptyView)
                 }
                 self.collectionView?.backgroundView = emptyView
-                return userEvents.count
                 
-            } else if userEvents.isEmpty == false{
-                //will go here if they or you have events to display
-                //will assume that your following them or that your the current user
-                //will also go here if there private and you are following them because it means you got the events
+                return userEvents.count;
+            }else{
+                //will go here if they aren't private or they are you becasue if they are you want to show them anwyway
                 self.collectionView?.backgroundView = nil
                 return userEvents.count
-            }else{
-                //will go here if they or you as the current user has no events to display
-                emptyLabel = UILabel(frame: CGRect(x: 0, y: 0, width: self.view.bounds.size.width, height: self.view.bounds.size.height))
-                let paragraph = NSMutableParagraphStyle()
-                paragraph.lineBreakMode = .byWordWrapping
-                paragraph.alignment = .center
-                
-                let attributes: [NSAttributedStringKey: Any] = [NSAttributedStringKey(rawValue: NSAttributedStringKey.font.rawValue): UIFont.systemFont(ofSize: 14.0), NSAttributedStringKey(rawValue: NSAttributedStringKey.foregroundColor.rawValue): UIColor.lightGray, NSAttributedStringKey(rawValue: NSAttributedStringKey.paragraphStyle.rawValue): paragraph]
-                let myAttrString = NSAttributedString(string:  "Go Attend Some Events", attributes: attributes)
-
-                emptyLabel?.attributedText = myAttrString
-                emptyLabel?.textAlignment = .center
-                self.collectionView?.backgroundView = emptyLabel
-                return 0
             }
         }
-    
-
     
     
         

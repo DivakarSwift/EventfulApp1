@@ -21,6 +21,11 @@ struct FollowService {
         // 2
         //We write our new relationship to Firebase.
         let ref = Database.database().reference()
+        
+        //will remove the friend request because it was accepted
+        FriendService.system.removeFriendRequest(user.uid)
+        
+        //then will update tree
         ref.updateChildValues(followData) { (error, _) in
             if let error = error {
                 assertionFailure(error.localizedDescription)
