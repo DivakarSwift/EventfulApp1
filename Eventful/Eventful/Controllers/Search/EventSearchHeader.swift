@@ -10,11 +10,22 @@ import Foundation
 import UIKit
 
 class SearchHeader: UICollectionViewCell {
+   let dividerView = UIView()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = UIColor.white
         addSubview(searchBar)
-        searchBar.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        searchBar.snp.makeConstraints { (make) in
+            make.left.right.top.bottom.equalTo(self)
+        }
+        dividerView.backgroundColor = UIColor.lightGray
+        addSubview(dividerView)
+        dividerView.snp.makeConstraints { (make) in
+            make.bottom.equalTo(searchBar.snp.bottom)
+            make.left.right.equalTo(self)
+            make.height.equalTo(1.1)
+        }
     }
     
 
@@ -27,13 +38,14 @@ class SearchHeader: UICollectionViewCell {
         sb.setScopeBarButtonTitleTextAttributes([ NSAttributedStringKey.foregroundColor.rawValue : UIColor.black], for: .normal)
         let textFieldInsideUISearchBar = sb.value(forKey: "searchField") as? UITextField
         textFieldInsideUISearchBar?.font = UIFont.systemFont(ofSize: 14)
-        sb.layer.borderColor = UIColor.lightGray.cgColor
-        sb.layer.borderWidth = 0.3
-        sb.layer.cornerRadius = 5
-        sb.layer.masksToBounds = true
+        sb.scopeButtonTitles = ["Events", "Users"]
         sb.barTintColor = UIColor.white
-        sb.tintColor = UIColor.rgb(red: 24, green: 136, blue: 211)
+        sb.tintColor = UIColor.lightText
+        sb.showsCancelButton = true
         UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).backgroundColor = UIColor.rgb(red: 230, green: 230, blue: 230)
+        UIBarButtonItem.appearance(whenContainedInInstancesOf: [UISearchBar.self]).setTitleTextAttributes([NSAttributedStringKey(rawValue: NSAttributedStringKey.foregroundColor.rawValue): UIColor.black], for: .normal)
+        sb.setScopeBarButtonTitleTextAttributes([NSAttributedStringKey(NSAttributedStringKey.font.rawValue).rawValue: UIFont(name: "Avenir-Heavy", size: 15) as Any,NSAttributedStringKey(rawValue: NSAttributedStringKey.foregroundColor.rawValue).rawValue: UIColor.black as Any], for: .selected)
+        sb.setScopeBarButtonTitleTextAttributes([NSAttributedStringKey(rawValue: NSAttributedStringKey.foregroundColor.rawValue).rawValue: UIColor.lightGray as Any], for: .normal)
         //  sb.delegate = self
         return sb
     }()

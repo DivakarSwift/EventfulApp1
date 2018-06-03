@@ -91,9 +91,6 @@
 		07C15E4320C10D760046D8BC /* PreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C15E4020C10D760046D8BC /* PreviewView.swift */; };
 		07C15E4D20C112DB0046D8BC /* RequestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C15E4B20C112DB0046D8BC /* RequestViewController.swift */; };
 		07C15E4E20C112DB0046D8BC /* FriendRequestCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C15E4C20C112DB0046D8BC /* FriendRequestCell.swift */; };
-		07C15E5020C27F310046D8BC /* NewSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C15E4F20C27F310046D8BC /* NewSearchViewController.swift */; };
-		07C15E5220C2860F0046D8BC /* EventSearchCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C15E5120C2860F0046D8BC /* EventSearchCollectionView.swift */; };
-		07C15E5420C2869D0046D8BC /* UserSearchCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C15E5320C2869D0046D8BC /* UserSearchCollectionView.swift */; };
 		07D923A81F33C61D0069613D /* Storyboard+Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D923A71F33C61D0069613D /* Storyboard+Utility.swift */; };
 		07E271B62056354F007F0592 /* NotifBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E271B52056354F007F0592 /* NotifBannerView.swift */; };
 		07F3EC591F4A57C3005296EB /* PostService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F3EC581F4A57C3005296EB /* PostService.swift */; };
@@ -194,9 +191,6 @@
 		07C15E4020C10D760046D8BC /* PreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreviewView.swift; path = Eventful/Controllers/AppleCamera/PreviewView.swift; sourceTree = SOURCE_ROOT; };
 		07C15E4B20C112DB0046D8BC /* RequestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RequestViewController.swift; path = Controllers/FriendRequest/RequestViewController.swift; sourceTree = "<group>"; };
 		07C15E4C20C112DB0046D8BC /* FriendRequestCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FriendRequestCell.swift; path = Controllers/FriendRequest/FriendRequestCell.swift; sourceTree = "<group>"; };
-		07C15E4F20C27F310046D8BC /* NewSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NewSearchViewController.swift; path = Controllers/Search/NewSearchViewController.swift; sourceTree = "<group>"; };
-		07C15E5120C2860F0046D8BC /* EventSearchCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EventSearchCollectionView.swift; path = Controllers/Search/EventSearchCollectionView.swift; sourceTree = "<group>"; };
-		07C15E5320C2869D0046D8BC /* UserSearchCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UserSearchCollectionView.swift; path = Controllers/Search/UserSearchCollectionView.swift; sourceTree = "<group>"; };
 		07D923A71F33C61D0069613D /* Storyboard+Utility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Storyboard+Utility.swift"; path = "Extensions/Storyboard+Utility.swift"; sourceTree = "<group>"; };
 		07E271B52056354F007F0592 /* NotifBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NotifBannerView.swift; path = Controllers/Notifications/NotifBannerView.swift; sourceTree = "<group>"; };
 		07F3EC581F4A57C3005296EB /* PostService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostService.swift; path = Services/PostService.swift; sourceTree = "<group>"; };
@@ -245,9 +239,6 @@
 				0747AA1A20375E0D00F725C7 /* EventSearchHeader.swift */,
 				0747AA1D20375E0E00F725C7 /* SearchViewController.swift */,
 				0747AA1B20375E0D00F725C7 /* UserSearchCell.swift */,
-				07C15E4F20C27F310046D8BC /* NewSearchViewController.swift */,
-				07C15E5120C2860F0046D8BC /* EventSearchCollectionView.swift */,
-				07C15E5320C2869D0046D8BC /* UserSearchCollectionView.swift */,
 			);
 			name = Search;
 			sourceTree = "<group>";
@@ -795,7 +786,6 @@
 				0747AA1420375D8500F725C7 /* CommentsSectionController.swift in Sources */,
 				071C9E101F415E680021D5A3 /* AttendService.swift in Sources */,
 				0747AA3A203779D900F725C7 /* Event.swift in Sources */,
-				07C15E5220C2860F0046D8BC /* EventSearchCollectionView.swift in Sources */,
 				0747AA0920375D6E00F725C7 /* EventPromoVideoPlayer.swift in Sources */,
 				0747A9E320375CD800F725C7 /* HomeViewController.swift in Sources */,
 				07437F491F29167000CE728B /* UserService.swift in Sources */,
@@ -804,7 +794,6 @@
 				07C15E4220C10D760046D8BC /* TempCameraViewController.swift in Sources */,
 				07C15E4E20C112DB0046D8BC /* FriendRequestCell.swift in Sources */,
 				07C15E2620BA30670046D8BC /* SettingsService.swift in Sources */,
-				07C15E5420C2869D0046D8BC /* UserSearchCollectionView.swift in Sources */,
 				0747AA2920375E2A00F725C7 /* VideoViewController.swift in Sources */,
 				07363FAF20AD20FB00CDE2C3 /* NewCameraController.swift in Sources */,
 				0747A9F920375D2400F725C7 /* HomeFeedController.swift in Sources */,
@@ -812,7 +801,6 @@
 				07363FAD20AC07B000CDE2C3 /* SwiftyRecordButton.swift in Sources */,
 				0747AA2220375E0E00F725C7 /* SearchViewController.swift in Sources */,
 				07C15E4320C10D760046D8BC /* PreviewView.swift in Sources */,
-				07C15E5020C27F310046D8BC /* NewSearchViewController.swift in Sources */,
 				077247D720720CE2007E5C29 /* SideMenuLauncher.swift in Sources */,
 				07E271B62056354F007F0592 /* NotifBannerView.swift in Sources */,
 				0747AA1620375D8500F725C7 /* NewCommentsViewController.swift in Sources */,

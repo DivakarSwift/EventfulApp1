@@ -24,13 +24,11 @@
         profileViewNavController.tabBarItem.title = "Profile"
         profileViewNavController.tabBarItem.selectedImage = UIImage(named: "icons8-User Filled-50")?.withRenderingMode(.alwaysOriginal)
 
-//        let searchController = EventSearchController(collectionViewLayout: UICollectionViewFlowLayout())
-//        let searchNavController = UINavigationController(rootViewController: searchController)
-        let newSearchController = NewSearchViewController()
-        
-        newSearchController.tabBarItem.image =  UIImage(named: "icons8-search-50")?.withRenderingMode(.alwaysOriginal)
-        newSearchController.tabBarItem.selectedImage =  UIImage(named: "icons8-search-filled-50")?.withRenderingMode(.alwaysOriginal)
-        newSearchController.tabBarItem.title = "Search"
+        let searchController = EventSearchController(collectionViewLayout: UICollectionViewFlowLayout())
+        let searchNavController = UINavigationController(rootViewController: searchController)
+        searchNavController.tabBarItem.image =  UIImage(named: "icons8-search-50")?.withRenderingMode(.alwaysOriginal)
+        searchNavController.tabBarItem.selectedImage =  UIImage(named: "icons8-search-filled-50")?.withRenderingMode(.alwaysOriginal)
+        searchNavController.tabBarItem.title = "Search"
         
         let requestVC = RequestViewController()
         let notificationView = NotificationsViewController()
@@ -51,7 +49,7 @@
         notificationNavController.tabBarItem.title = "Notifications"
     
         return [navController
-            ,newSearchController,notificationNavController,profileViewNavController]
+            ,searchNavController,notificationNavController,profileViewNavController]
     }()
 
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
