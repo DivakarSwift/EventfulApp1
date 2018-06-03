@@ -189,8 +189,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         let attendButton = UIButton(type: .system)
         attendButton.setImage(#imageLiteral(resourceName: "icons8-walking-50").withRenderingMode(.alwaysOriginal), for: .normal)
         attendButton.layer.cornerRadius = 5
-        attendButton.setTitle("Attending", for: .normal)
-         attendButton.titleLabel?.font = UIFont(name: "GillSans", size: 15)
+        attendButton.titleLabel?.font = UIFont(name: "GillSans", size: 15)
         attendButton.setTitleColor(.white, for: .normal)
         attendButton.backgroundColor = UIColor.rgb(red: 44, green: 152, blue: 229)
         attendButton.layer.borderWidth = 0.1
@@ -241,6 +240,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
                 
                 self.currentEvent?.currentAttendCount += !((self.currentEvent!.isAttending)) ? 1 : -1
                 self.attendingButton.setImage(#imageLiteral(resourceName: "icons8-walking-50").withRenderingMode(.alwaysOriginal), for: .normal)
+                self.attendingButton.setTitle("Not Attending", for: .normal)
             }
             
         }else{
@@ -260,6 +260,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
                 
                 self.currentEvent?.currentAttendCount += !((self.currentEvent!.isAttending)) ? 1 : -1
                 self.attendingButton.setImage(#imageLiteral(resourceName: "icons8-walking-filled-50").withRenderingMode(.alwaysOriginal), for: .normal)
+                self.attendingButton.setTitle("Attending", for: .normal)
             }
             
         }
@@ -273,10 +274,13 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
                 print("User is attending")
                 self.currentEvent?.isAttending = true
                 self.attendingButton.setImage(#imageLiteral(resourceName: "icons8-walking-filled-50").withRenderingMode(.alwaysOriginal), for: .normal)
+                self.attendingButton.setTitle("Attending", for: .normal)
             }else{
                 print("User is not attending")
                 self.currentEvent?.isAttending = false
                 self.attendingButton.setImage(#imageLiteral(resourceName: "icons8-walking-50").withRenderingMode(.alwaysOriginal), for: .normal)
+                self.attendingButton.setTitle("Not Attending", for: .normal)
+
             }
         }) { (err) in
             print("Failed to check if attending", err)

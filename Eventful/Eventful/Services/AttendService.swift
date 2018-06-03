@@ -21,7 +21,7 @@ struct AttendService {
             return
         }
         let attendData = ["attending/\(key)/\(uid)" : true,
-                          "users/\(uid)/\("Attending")/\(key)" : true]
+                          "users/\(uid)/\("attending")/\(key)" : true]
         
         // 2
         let ref = Database.database().reference()
@@ -83,7 +83,7 @@ struct AttendService {
         guard let uid = Auth.auth().currentUser?.uid else{
             return
         }
-        let attendData = ["Attending/\(key)/\(uid)" : NSNull(),
+        let attendData = ["attending/\(key)/\(uid)" : NSNull(),
                           "users/\(uid)/\("attending")/\(key)" : NSNull()]
           Database.database().reference().updateChildValues(attendData){ (error, _) in
             if let error = error {

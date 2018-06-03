@@ -12,7 +12,7 @@ import Firebase
 import FirebaseDatabase
 import FirebaseAuth
 
-class EventSearchController: UICollectionViewController, UISearchBarDelegate, UICollectionViewDelegateFlowLayout{
+class EventSearchController: UICollectionViewController, UICollectionViewDelegateFlowLayout{
     
     //resue identifier for the cell that you are constructing
     let cellId = "cellID"
@@ -84,32 +84,7 @@ class EventSearchController: UICollectionViewController, UISearchBarDelegate, UI
         }
     }
 
-    //detects when search bar text is done editing
-    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-      //  print("Stopped Editing")
-      //  print(searchBar.text ?? "")
-        guard let searchText = searchBar.text else{
-            return
-        }
-        let lowerText = searchText.lowercased()
-        
-        if scopeIndex == 0 {
-            fetchEvents(searchString: lowerText)
-        }else if scopeIndex == 1{
-            fetchUsers(stringValue: lowerText)
-        }
-        
-        
-    }
-    
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String)
-    {
-        if searchBar.text?.isEmpty == true
-        {
-            filteredEvents.removeAll()
-            self.collectionView?.reloadData()
-        }
-    }
+ 
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: view.frame.width, height: 90)
@@ -120,31 +95,7 @@ class EventSearchController: UICollectionViewController, UISearchBarDelegate, UI
         header.searchBar.delegate = self
         return header
     }
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        //Changes the first responder to the search bar
-        searchBar.resignFirstResponder()
-    }
 
-    func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
-        switch selectedScope {
-        case 0:
-            searchBar.text = ""
-            self.scopeIndex = selectedScope
-            self.filteredEvents.removeAll()
-            self.filteredUsers.removeAll()
-            self.collectionView?.reloadData()
-            break
-        case 1:
-            searchBar.text = ""
-            self.scopeIndex = selectedScope
-            self.filteredUsers.removeAll()
-            self.filteredEvents.removeAll()
-            self.collectionView?.reloadData()
-            break
-        default:
-            break
-        }
-    }
     
     // this function will detect change in the search bar and filter out the results returned based off what is entered in the search bar
 
@@ -237,8 +188,6 @@ class EventSearchController: UICollectionViewController, UISearchBarDelegate, UI
     
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        //        searchBar.isHidden = true
-        //        searchBar.resignFirstResponder()
         switch scopeIndex {
         case 0:
             let event = filteredEvents[indexPath.item]
@@ -278,13 +227,11 @@ class EventSearchController: UICollectionViewController, UISearchBarDelegate, UI
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        // searchBar.text = ""
         self.collectionView?.reloadData()
         navigationController?.navigationBar.isHidden = true
         tabBarController?.tabBar.isHidden = false
         filteredEvents.removeAll()
         filteredUsers.removeAll()
-        //  searchBar.isHidden = false
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -310,4 +257,69 @@ class EventSearchController: UICollectionViewController, UISearchBarDelegate, UI
         return CGSize(width: view.frame.width, height: 66)
     }
     
+}
+
+// MARK: UISearchBarDelegate
+
+extension EventSearchController: UISearchBarDelegate {
+    //detects when search bar text is done editing
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+
+        guard let searchText = searchBar.text else{
+            return
+        }
+        let lowerText = searchText.lowercased()
+        
+        if scopeIndex == 0 {
+            fetchEvents(searchString: lowerText)
+        }else if scopeIndex == 1{
+            fetchUsers(stringValue: lowerText)
+        }
+        
+        
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String)
+    {
+        if searchBar.text?.isEmpty == true
+        {
+            filteredEvents.removeAll()
+            self.collectionView?.reloadData()
+        }
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        //Changes the first responder to the search bar
+        searchBar.resignFirstResponder()
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
+        switch selectedScope {
+        case 0:
+            searchBar.text = ""
+            self.scopeIndex = selectedScope
+            self.filteredEvents.removeAll()
+            self.filteredUsers.removeAll()
+            self.collectionView?.reloadData()
+            break
+        case 1:
+            searchBar.text = ""
+            self.scopeIndex = selectedScope
+            self.filteredUsers.removeAll()
+            self.filteredEvents.removeAll()
+            self.collectionView?.reloadData()
+            break
+        default:
+            break
+        }
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        // Stop doing the search stuff
+        // and clear the text in the search bar
+        searchBar.text = ""
+        // Hide the cancel button
+//        searchBar.showsCancelButton = false
+        // You could also change the position, frame etc of the searchBar
+    }
 }
