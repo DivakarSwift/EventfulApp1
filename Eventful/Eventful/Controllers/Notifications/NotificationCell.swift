@@ -36,7 +36,7 @@ class NotificationCell: UICollectionViewCell,NotificationCellDelegate {
             
             label.attributedText = attributedText
             
-            if notification.notiType == notiType.follow{
+            if notification.notiType == notiType.follow.rawValue{
                 //setupUserInteraction()
             }
         }

@@ -114,7 +114,7 @@ class NotificationsViewController: UIViewController,NotificationsSectionDelegate
             return
         }
         
-        if notiType1 == notiType.comment{
+        if notiType1 == notiType.comment.rawValue{
             guard let notifEventKey = notifCell.notification?.eventKey else {
                 return
             }
@@ -125,7 +125,7 @@ class NotificationsViewController: UIViewController,NotificationsSectionDelegate
             }
             self.tabBarController?.tabBar.isHidden = true
             self.navigationController?.pushViewController(newCommentsController, animated: false)
-        }else if notiType1 == notiType.follow {
+        }else if notiType1 == notiType.follow.rawValue {
             guard let sender = notifCell.notification?.sender else {
                 return
             }

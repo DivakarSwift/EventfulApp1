@@ -190,7 +190,7 @@ class UserProfileHeader: UICollectionViewCell {
                             followee?.isFollowed = !(followee?.isFollowed)!
                             print(followee?.isFollowed ?? "true")
                             
-                            self.followNotificationData = Notifications.init(reciever: self.user!, content: User.current.username! + " has followed you", type: notiType.follow)
+                            self.followNotificationData = Notifications.init(reciever: self.user!, content: User.current.username! + " has followed you", type: notiType.follow.rawValue)
                             
                             FollowService.sendFollowNotification(self.followNotificationData)
                             print("Successfully followed user: ", self.user?.username ?? "")

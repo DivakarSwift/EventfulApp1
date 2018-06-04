@@ -61,6 +61,8 @@ class FriendRequestCell: UITableViewCell {
         //will accept the users friend request
         print("accept tapped")
         let followee = user
+        FriendService.system.removeFriendRequest((user?.uid)!)
+
         FollowService.setIsFollowing(!(followee?.isFollowed)!, fromCurrentUserTo: followee!) { (success) in
             if success {
                 //will remove the request once finished and send follow notif
@@ -68,7 +70,7 @@ class FriendRequestCell: UITableViewCell {
                 //will remove the request
                 
                 //will create the notification to send the user
-                self.followNotificationData = Notifications.init(reciever: self.user!, content: User.current.username! + " has followed you", type: notiType.follow)
+                self.followNotificationData = Notifications.init(reciever: self.user!, content: User.current.username! + " has followed you", type: notiType.follow.rawValue)
                //will make sure the user gets the notifcation
                 FollowService.sendFollowNotification(self.followNotificationData)
                 
@@ -102,10 +104,11 @@ class FriendRequestCell: UITableViewCell {
         addSubview(userNameLabel)
         addSubview(stackView!)
         userImageView.snp.makeConstraints { (make) in
-            make.height.width.equalTo(50)
+            make.height.width.equalTo(45)
+            make.centerY.equalTo(self.safeAreaLayoutGuide.snp.centerY)
             make.left.equalTo(self.safeAreaLayoutGuide.snp.left).offset(10)
         }
-        userImageView.layer.cornerRadius = 50/2
+        userImageView.layer.cornerRadius = 45/2
         
         userNameLabel.snp.makeConstraints { (make) in
             make.left.equalTo(userImageView.snp.right).offset(10)

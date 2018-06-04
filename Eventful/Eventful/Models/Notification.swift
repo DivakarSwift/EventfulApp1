@@ -20,12 +20,12 @@ class Notifications: NSObject {
     var key : String?
     var commentId : String?
     var profilePic : String?
-    var notiType: notiType?
+    var notiType: notiType.RawValue?
     let sender: User
     let receiver: User?
 
     //init for comment notif
-    init(eventKey: String,reciever: User, content: String, type: notiType,commentId:String){
+    init(eventKey: String,reciever: User, content: String, type: notiType.RawValue,commentId:String){
         self.content = content
         self.creationDate = Date().timeIntervalSince1970
         self.eventKey = eventKey
@@ -37,7 +37,7 @@ class Notifications: NSObject {
     }
     
     //init for follow notif
-    init(reciever: User, content: String, type: notiType){
+    init(reciever: User, content: String, type: notiType.RawValue){
         self.content = content
         self.notiType = type
         self.receiver = reciever
@@ -61,7 +61,7 @@ class Notifications: NSObject {
             let receiverUid = receiverDict["uid"] as? String,
             let receiverUsername = receiverDict["username"] as? String,
             let receiverProfilePic = receiverDict["profilePic"] as? String,
-            let notiType = dict["notiType"] as? notiType
+            let notiType = dict["notiType"] as? notiType.RawValue
             
             else { return nil }
         
@@ -89,7 +89,7 @@ class Notifications: NSObject {
             let receiverUid = receiverDict["uid"] as? String,
             let receiverUsername = receiverDict["username"] as? String,
             let receiverProfilePic = receiverDict["profilePic"] as? String,
-            let notiType = dict["notiType"] as? notiType
+            let notiType = dict["notiType"] as? notiType.RawValue
             else { return nil }
         
         self.key = followSnapshot.key

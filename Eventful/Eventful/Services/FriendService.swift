@@ -46,7 +46,7 @@ class FriendService{
     }
     
     func removeFriendRequest(_ userID: String){
-        if userID == CURRENT_USER_ID {
+        if userID != CURRENT_USER_ID {
             BASE_REQUESTS_REF.child(userID).removeValue()
         }else{
             BASE_REQUESTS_REF2.child(userID).child(CURRENT_USER_ID).removeValue()
