@@ -14,27 +14,25 @@ import SwiftyJSON
 
 class NotifBannerView: UIView {
 
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
-    }
-    */
-    //profilePic
-    //content:
     var userInfoForNotif: [AnyHashable : Any]?{
         didSet{
             guard let currentUserNotif = userInfoForNotif else {
                 return
             }
-//            let json = JSON(dictionaryLiteral:)
             
-            let userInfo = currentUserNotif["repliedBy"] as! String
-            let userInfoDict = convertToDictionary(text: userInfo)
-            profileImageView.loadImage(urlString: userInfoDict!["profilePic"] as! String)
-            let attributedText = NSMutableAttributedString(string: currentUserNotif["content"] as! String, attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 10)])
-            label.attributedText = attributedText
+            //will handle the notif banner for reply
+            if let userInfo = currentUserNotif["repliedBy"] as? String{
+                let userInfoDict = convertToDictionary(text: userInfo)
+                profileImageView.loadImage(urlString: userInfoDict!["profilePic"] as! String)
+                let attributedText = NSMutableAttributedString(string: currentUserNotif["content"] as! String, attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 10)])
+                label.attributedText = attributedText
+            }
+            //will handle the notif banner for friend request
+            if currentUserNotif["notiType"] as? String == notiType.friendRequest.rawValue{
+                profileImageView.loadImage(urlString: currentUserNotif["profilePic"] as! String)
+                let attributedText = NSMutableAttributedString(string: currentUserNotif["content"] as! String, attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 10)])
+                label.attributedText = attributedText
+            }
 
         }
     }

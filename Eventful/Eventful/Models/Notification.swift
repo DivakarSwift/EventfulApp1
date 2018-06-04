@@ -165,5 +165,6 @@ extension Notifications: ListDiffable{
 enum notiType: String {
     case follow = "follow"
     case comment = "comment"
+    case friendRequest = "friendRequest"
 }
 

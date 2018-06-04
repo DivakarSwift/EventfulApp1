@@ -193,10 +193,12 @@ extension AppDelegate{
     }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        print(userInfo)
+        
         notifBanner.userInfoForNotif = userInfo
         if application.applicationState == .active{
             let banner = NotificationBanner(customView: notifBanner)
-            banner.bannerHeight = 40
+            banner.bannerHeight = 50
             banner.show()
             banner.onTap = {
                 self.vcTransition(from: userInfo)
@@ -278,6 +280,17 @@ extension AppDelegate {
             }
             
         }
+        
+        //will handle recieving of friend request
+        if userInfo["notiType"] as? String == notiType.friendRequest.rawValue{
+            print("friend request recieved")
+            if let mainTabBarController = self.window?.rootViewController as? HomeViewController {
+                mainTabBarController.selectedIndex = 2
+                mainTabBarController.presentedViewController?.dismiss(animated: true, completion: nil)
+            }
+        }
+        
+        
     }
 
     
