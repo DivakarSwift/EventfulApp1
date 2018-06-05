@@ -39,20 +39,29 @@ class AlterProfileViewController: UIViewController, UIImagePickerControllerDeleg
         view.addSubview(saveProfileEdits)
         ///Constraints for all views will go here
         //Constraints for the profile image
-        _ = selectProfileImage.anchor(top: view.centerYAnchor, left: nil, bottom: nil, right: nil, paddingTop: -265, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 100, height: 100)
-        selectProfileImage.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        selectProfileImage.snp.makeConstraints { (make) in
+            make.height.width.equalTo(100)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(20)
+            make.centerX.equalTo(view.safeAreaLayoutGuide.snp.centerX)
+        }
+        changeProfilePicture.snp.makeConstraints { (make) in
+            make.top.equalTo(selectProfileImage.snp.bottom).offset(30)
+            make.left.right.equalTo(view.safeAreaLayoutGuide).inset(75)
+            make.height.equalTo(35)
+        }
         
-        //Constraints for the change profile picture button
-        _ = changeProfilePicture.anchor(top: selectProfileImage.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 30, paddingLeft: 70, paddingBottom: 0, paddingRight: 70, width: 0, height: 35)
-        //Constraints for the text field that corresponds to the user name
-        _ = changeUsername.anchor(top: changeProfilePicture.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 15, paddingLeft: 32, paddingBottom: 0, paddingRight: 32, width: 0, height: 35)
+        changeUsername.snp.makeConstraints { (make) in
+            make.top.equalTo(changeProfilePicture.snp.bottom).offset(15)
+            make.left.right.equalTo(view.safeAreaLayoutGuide).inset(30)
+            make.height.equalTo(35)
+
+        }
         //Constraints for the text field that corresponds to the label
         saveProfileEdits.snp.makeConstraints { (make) in
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(10)
             make.height.equalTo(30)
             make.left.right.equalTo(view).inset(20)
         }
-        ///////////////////////////////////////////////
         
         
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(AlterProfileViewController.dismissKeyboard))
