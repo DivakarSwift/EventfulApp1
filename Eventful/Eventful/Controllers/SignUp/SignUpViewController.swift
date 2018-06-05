@@ -17,11 +17,7 @@ import GeoFire
 
 class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     var selectedImageFromPicker: UIImage?
-    //creating a variable of type geofire
-    var geoFire: GeoFire!
-    var geoFireRef: DatabaseReference!
     // creates a signup UILabel
-    var userLocation:String?
     let plusPhotoButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "camblack").withRenderingMode(.alwaysOriginal), for: .normal)
@@ -280,38 +276,24 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
     }
     
     
-    // will properly show keyboard
-    @objc func keyboardWillShow(sender: NSNotification) {
-        let keyboardInfo = sender.userInfo
-        let keyboardFrameBegin = keyboardInfo?[UIKeyboardFrameEndUserInfoKey]
-        let keyboardFrameBeginRect = (keyboardFrameBegin as! NSValue).cgRectValue
-        let keyboardHeight = keyboardFrameBeginRect.size.height
-        var extraPadding:CGFloat?
-        if self.activeTextField != nil {
-            let textBottom = self.activeTextField!.frame.origin.y + self.activeTextField!.bounds.size.height
-            let totalHeight = self.scrollViewContent.bounds.size.height
-            if totalHeight < (textBottom + keyboardHeight) {
-                extraPadding = textBottom + keyboardHeight - totalHeight + 30.0
-            }
-        }
-        DispatchQueue.main.async {
-            if extraPadding != nil {
-                self.contentScrollView.setContentOffset(CGPoint(x: 0, y: extraPadding!), animated: true)
-            }
-            self.bottomPadding.constant = keyboardHeight + 30.0
-            UIView.animate(withDuration: 0.2, animations: {
-                self.view.layoutIfNeeded()
-            })
-        }
+  
+  //will properly show keyboard
+    @objc func keyboardWillShow(notification:NSNotification){
+        
+        var userInfo = notification.userInfo!
+        var keyboardFrame:CGRect = (userInfo[UIKeyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
+        keyboardFrame = self.view.convert(keyboardFrame, from: nil)
+        
+        var contentInset:UIEdgeInsets = self.contentScrollView.contentInset
+        contentInset.bottom = keyboardFrame.size.height
+        contentScrollView.contentInset = contentInset
     }
     
-    // will properly hide keyboard
-    @objc func keyboardWillHide(sender: NSNotification) {
-        DispatchQueue.main.async {
-            UIView.animate(withDuration: 0.2, animations: {
-                self.bottomPadding.constant = 30.0
-            })
-        }
+    //will properly hide keyboard
+    @objc func keyboardWillHide(notification:NSNotification){
+        
+        let contentInset:UIEdgeInsets = UIEdgeInsets.zero
+        contentScrollView.contentInset = contentInset
     }
     
     //Calls this function when the tap is recognized.
@@ -321,20 +303,21 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-//        self.bgGradientLayer.frame = self.view.layer.bounds
-//        self.view.layer.addSublayer(self.bgGradientLayer)
+       setupVC()
+    }
+    
+    @objc func setupVC(){
         view.backgroundColor = .white
+       self.addTapGestures()
+        self.addScrollView()
+     //   self.addBottomMostItems()
+        
+    }
+    
+    @objc func addTapGestures(){
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         tap.cancelsTouchesInView = false
-        let ref = Database.database().reference()
-        geoFireRef = ref.child("userlocations")
-        geoFire = GeoFire(firebaseRef: geoFireRef)
         view.addGestureRecognizer(tap)
-        self.addScrollView()
-        self.insertViewsInScrollView()
-        self.addBottomMostItems()
-
-
     }
     
 
@@ -358,8 +341,6 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
     
     //MARK:- View Builder
     fileprivate var contentScrollView:UIScrollView!
-    fileprivate var scrollViewContent:UIView!
-    fileprivate var bottomPadding:NSLayoutConstraint!
     fileprivate var activeTextField:UITextField?
     
     //creatas a UILabel
@@ -380,111 +361,83 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         button.addTarget(self, action: #selector(handleCancel), for: .touchUpInside)
         return button
     }()
-    
     fileprivate func addScrollView() {
-        
-        let pseudoView = UIView()
-        pseudoView.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(pseudoView)
-        NSLayoutConstraint.activateViewConstraints(pseudoView, inSuperView: self.view, withLeading: 0.0, trailing: 0.0, top: nil, bottom: nil)
-        _ = NSLayoutConstraint.activateVerticalSpacingConstraint(withFirstView: self.topLayoutGuide, secondView: pseudoView, andSeparation: 0.0)
-        _ = NSLayoutConstraint.activateVerticalSpacingConstraint(withFirstView: pseudoView, secondView: self.bottomLayoutGuide, andSeparation: 0.0)
-        
+       
         self.contentScrollView = UIScrollView()
         self.contentScrollView.translatesAutoresizingMaskIntoConstraints = false
-        pseudoView.addSubview(self.contentScrollView)
-        NSLayoutConstraint.activateViewConstraints(self.contentScrollView, inSuperView: pseudoView, withLeading: 0.0, trailing: 0.0, top: 0.0, bottom: 0.0)
-        
-        self.scrollViewContent = UIView()
-        self.scrollViewContent.translatesAutoresizingMaskIntoConstraints = false
-        self.contentScrollView.addSubview(self.scrollViewContent)
-        NSLayoutConstraint.activateViewConstraints(self.scrollViewContent, inSuperView: self.contentScrollView, withLeading: 0.0, trailing: 0.0, top: 0.0, bottom: 0.0)
-        _ = NSLayoutConstraint.activateEqualWidthConstraint(withView: self.scrollViewContent, referenceView: pseudoView)
-        let cons = NSLayoutConstraint.addEqualHeightConstraint(withView: self.scrollViewContent, referenceView: pseudoView)
-        cons.priority = UILayoutPriority.defaultLow
-        NSLayoutConstraint.activate([cons])
-    }
-    
-    fileprivate func insertViewsInScrollView() {
+        view.addSubview(self.contentScrollView)
+        contentScrollView.snp.makeConstraints { (make) in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(20)
+            make.left.right.equalTo(view.safeAreaLayoutGuide).inset(20)
+            make.height.equalTo(view.bounds.height / 1.2)
+        }
         self.plusPhotoButton.translatesAutoresizingMaskIntoConstraints = false
-        self.scrollViewContent.addSubview(self.plusPhotoButton)
-        NSLayoutConstraint.activateViewConstraints(self.plusPhotoButton, inSuperView: self.scrollViewContent, withLeading: nil, trailing: nil, top: 50.0, bottom: nil, width: 140.0, height: 140.0)
-        _ = NSLayoutConstraint.activateCentreXConstraint(withView: self.plusPhotoButton, superView: self.scrollViewContent)
-        
-        
-        let textFieldHeight:CGFloat = 47.5
-        
+        self.contentScrollView.addSubview(plusPhotoButton)
+        plusPhotoButton.snp.makeConstraints { (make) in
+            make.top.equalTo(contentScrollView.snp.top).inset(50)
+            make.height.width.equalTo(100)
+            make.centerX.equalTo(contentScrollView.snp.centerX)
+        }
+        //username
         self.nameTextField.translatesAutoresizingMaskIntoConstraints = false
         self.nameTextField.delegate = self
-        self.scrollViewContent.addSubview(self.nameTextField)
-        _ = NSLayoutConstraint.activateVerticalSpacingConstraint(withFirstView: self.plusPhotoButton, secondView: self.nameTextField, andSeparation: 40.0)
-        NSLayoutConstraint.activateViewConstraints(self.nameTextField, inSuperView: self.scrollViewContent, withLeading: 40.0, trailing: -40.0, top: nil, bottom: nil, width: nil, height: textFieldHeight)
-        
+        self.contentScrollView.addSubview(nameTextField)
+        nameTextField.snp.makeConstraints { (make) in
+            make.top.equalTo(plusPhotoButton.snp.top).offset(120)
+            make.height.equalTo(47.5)
+            make.left.right.equalTo(view.safeAreaLayoutGuide).inset(40)
+        }
+        //email
         self.emailTextField.translatesAutoresizingMaskIntoConstraints = false
         self.emailTextField.delegate = self
-        self.scrollViewContent.addSubview(self.emailTextField)
-        _ = NSLayoutConstraint.activateVerticalSpacingConstraint(withFirstView: self.nameTextField, secondView: self.emailTextField, andSeparation: 10.0)
-        NSLayoutConstraint.activateViewConstraints(self.emailTextField, inSuperView: self.scrollViewContent, withLeading: 40.0, trailing: -40.0, top: nil, bottom: nil, width: nil, height: textFieldHeight)
-        
+        self.contentScrollView.addSubview(emailTextField)
+        emailTextField.snp.makeConstraints { (make) in
+            make.top.equalTo(nameTextField.snp.top).offset(60)
+            make.height.equalTo(47.5)
+            make.left.right.equalTo(view.safeAreaLayoutGuide).inset(40)
+        }
+        //pw
         self.passwordTextField.translatesAutoresizingMaskIntoConstraints = false
         self.passwordTextField.delegate = self
-        self.scrollViewContent.addSubview(self.passwordTextField)
-        _ = NSLayoutConstraint.activateVerticalSpacingConstraint(withFirstView: self.emailTextField, secondView: self.passwordTextField, andSeparation: 10.0)
-        NSLayoutConstraint.activateViewConstraints(self.passwordTextField, inSuperView: self.scrollViewContent, withLeading: 40.0, trailing: -40.0, top: nil, bottom: nil, width: nil, height: textFieldHeight)
+        self.contentScrollView.addSubview(passwordTextField)
+        passwordTextField.snp.makeConstraints { (make) in
+            make.top.equalTo(emailTextField.snp.top).offset(60)
+            make.height.equalTo(47.5)
+            make.left.right.equalTo(view.safeAreaLayoutGuide).inset(40)
+        }
         
+        //confirm pw
         self.confirmPasswordTextField.translatesAutoresizingMaskIntoConstraints = false
         self.confirmPasswordTextField.delegate = self
-        self.scrollViewContent.addSubview(self.confirmPasswordTextField)
-        _ = NSLayoutConstraint.activateVerticalSpacingConstraint(withFirstView: self.passwordTextField, secondView: self.confirmPasswordTextField, andSeparation: 10.0)
-        NSLayoutConstraint.activateViewConstraints(self.confirmPasswordTextField, inSuperView: self.scrollViewContent, withLeading: 40.0, trailing: -40.0, top: nil, bottom: nil, width: nil, height: textFieldHeight)
-        
+        self.contentScrollView.addSubview(confirmPasswordTextField)
+        confirmPasswordTextField.snp.makeConstraints { (make) in
+            make.top.equalTo(passwordTextField.snp.top).offset(60)
+            make.height.equalTo(47.5)
+            make.left.right.equalTo(view.safeAreaLayoutGuide).inset(40)
+        }
         self.signupButton.translatesAutoresizingMaskIntoConstraints = false
-        self.scrollViewContent.addSubview(self.signupButton)
-        _ = NSLayoutConstraint.activateVerticalSpacingConstraint(withFirstView: self.confirmPasswordTextField, secondView: self.signupButton, andSeparation: 20.0)
-        NSLayoutConstraint.activateViewConstraints(self.signupButton, inSuperView: self.scrollViewContent, withLeading: 40.0, trailing: -40.0, top: nil, bottom: nil, width: nil, height: textFieldHeight)
-        
-        
+        self.contentScrollView.addSubview(signupButton)
+        signupButton.snp.makeConstraints { (make) in
+            make.top.equalTo(confirmPasswordTextField.snp.top).offset(80)
+//            make.height.equalTo(47.5)
+            make.left.right.equalTo(view.safeAreaLayoutGuide).inset(40)
+        }
+        self.signInLabel.translatesAutoresizingMaskIntoConstraints = false
+        self.signInButton.translatesAutoresizingMaskIntoConstraints = false
+        let stackView = UIStackView(arrangedSubviews: [signInLabel,signInButton])
+        stackView.axis = .horizontal
+        stackView.spacing = 5.0
+        self.contentScrollView.addSubview(stackView)
+        stackView.snp.makeConstraints({ (make) in
+            make.bottom.equalTo(signupButton.snp.bottom).offset(35)
+            make.centerX.equalTo(contentScrollView.snp.centerX)
+        })
+
     }
     
-    fileprivate func addBottomMostItems() {
-        let bottomView = UIView()
-        bottomView.translatesAutoresizingMaskIntoConstraints = false
-        self.scrollViewContent.addSubview(bottomView)
-        NSLayoutConstraint.activateViewConstraints(bottomView, inSuperView: self.scrollViewContent, withLeading: 0.0, trailing: 0.0, top: nil, bottom: nil, width: nil, height: 20.0)
-        _ = NSLayoutConstraint.activateVerticalSpacingConstraint(withFirstView: self.signupButton, secondView: bottomView, andSeparation: 10.0)
-        
-        let pseudoView1 = UIView()
-        pseudoView1.translatesAutoresizingMaskIntoConstraints = false
-        bottomView.addSubview(pseudoView1)
-        NSLayoutConstraint.activateViewConstraints(pseudoView1, inSuperView: bottomView, withLeading: 0.0, trailing: nil, top: 0.0, bottom: 0.0)
-        
-        self.signInLabel.translatesAutoresizingMaskIntoConstraints = false
-        bottomView.addSubview(self.signInLabel)
-        NSLayoutConstraint.activateViewConstraints(self.signInLabel, inSuperView: bottomView, withLeading: nil, trailing: nil, top: 0.0, bottom: 0.0)
-        _ = NSLayoutConstraint.activateHorizontalSpacingConstraint(withFirstView: pseudoView1, secondView: self.signInLabel, andSeparation: 0.0)
-        _ = NSLayoutConstraint.activateWidthConstraint(view: self.signInLabel, withWidth: 1.0, andRelation: .greaterThanOrEqual)
-        
-        self.signInButton.translatesAutoresizingMaskIntoConstraints = false
-        bottomView.addSubview(self.signInButton)
-        NSLayoutConstraint.activateViewConstraints(self.signInButton, inSuperView: bottomView, withLeading: nil, trailing: nil, top: 0.0, bottom: 0.0)
-        _ = NSLayoutConstraint.activateHorizontalSpacingConstraint(withFirstView: self.signInLabel, secondView: self.signInButton, andSeparation: 5.0)
-        _ = NSLayoutConstraint.activateWidthConstraint(view: self.signInButton, withWidth: 1.0, andRelation: .greaterThanOrEqual)
-        
-        let pseudoView2 = UIView()
-        pseudoView2.translatesAutoresizingMaskIntoConstraints = false
-        bottomView.addSubview(pseudoView2)
-        NSLayoutConstraint.activateViewConstraints(pseudoView2, inSuperView: bottomView, withLeading: nil, trailing: 0.0, top: 0.0, bottom: 0.0)
-        _ = NSLayoutConstraint.activateHorizontalSpacingConstraint(withFirstView: self.signInButton, secondView: pseudoView2, andSeparation: 0.0)
-        _ = NSLayoutConstraint.activateEqualWidthConstraint(withView: pseudoView2, referenceView: pseudoView1)
-        
-        let pseudoView3 = UIView()
-        pseudoView3.translatesAutoresizingMaskIntoConstraints = false
-        self.scrollViewContent.addSubview(pseudoView3)
-        NSLayoutConstraint.activateViewConstraints(pseudoView3, inSuperView: self.scrollViewContent, withLeading: 0.0, trailing: 0.0, top: nil, bottom: 0.0)
-        _ = NSLayoutConstraint.activateVerticalSpacingConstraint(withFirstView: bottomView, secondView: pseudoView3, andSeparation: 0.0)
-        self.bottomPadding = NSLayoutConstraint.addHeightConstraint(view: pseudoView3, withHeight: 30.0)
-        NSLayoutConstraint.activate([self.bottomPadding])
-    }
+ 
+    
+
     
 }
 

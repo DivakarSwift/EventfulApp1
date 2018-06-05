@@ -23,7 +23,8 @@ class LoginViewController: UIViewController , LoginViewControllerDelegate {
     weak var delegate : LoginViewControllerDelegate?
     let signUpTransition = SignUpViewController()
     let forgotPasswordTransition = ForgotPasswordViewController()
-
+    fileprivate var contentScrollView:UIScrollView!
+    fileprivate var activeTextField:UITextField?
     lazy var logoImageView: CustomImageView = {
         let iv = CustomImageView()
         iv.clipsToBounds = true
@@ -173,74 +174,78 @@ class LoginViewController: UIViewController , LoginViewControllerDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //self.observeKeyboardNotifications()
+        self.observeKeyboardNotifications()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        //self.removeObserveKeyboardNotifications()
+        self.removeObserveKeyboardNotifications()
     }
     
     var stackView: UIStackView?
+    var stackView2: UIStackView?
     fileprivate func setupLoginScreen(){
         self.view.addSubview(logoImageView)
-        logoImageView.anchor(top: view.safeTopAnchor, left: view.safeLeftAnchor, bottom: nil, right: view.safeRightAnchor, paddingTop: view.bounds.height / 5, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, width: 0, height: 0)
+        
+        logoImageView.snp.makeConstraints { (make) in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(82)
+            make.centerX.equalTo(view.safeAreaLayoutGuide.snp.centerX)
+        }
+        
+        self.contentScrollView = UIScrollView()
+        view.addSubview(self.contentScrollView)
+        contentScrollView.snp.makeConstraints { (make) in
+            make.top.equalTo(logoImageView.snp.bottom).offset(75)
+            make.left.right.equalTo(view.safeAreaLayoutGuide).inset(20)
+            make.height.equalTo(view.bounds.height / 1.2)
+        }
+        
+        self.emailTextField.translatesAutoresizingMaskIntoConstraints = false
+        self.emailTextField.delegate = self
+        self.contentScrollView.addSubview(emailTextField)
+        emailTextField.snp.makeConstraints { (make) in
+            make.top.equalTo(contentScrollView.snp.top).offset(60)
+            make.height.equalTo(47.5)
+            make.left.right.equalTo(view.safeAreaLayoutGuide).inset(40)
+        }
+        self.passwordTextField.translatesAutoresizingMaskIntoConstraints = false
+        self.passwordTextField.delegate = self
+        self.contentScrollView.addSubview(passwordTextField)
+        passwordTextField.snp.makeConstraints { (make) in
+            make.top.equalTo(emailTextField.snp.top).offset(60)
+            make.height.equalTo(47.5)
+            make.left.right.equalTo(view.safeAreaLayoutGuide).inset(40)
+        }
+        
+        self.loginButton.translatesAutoresizingMaskIntoConstraints = false
+        self.contentScrollView.addSubview(loginButton)
+        loginButton.snp.makeConstraints { (make) in
+            make.top.equalTo(passwordTextField.snp.top).offset(80)
+            //            make.height.equalTo(47.5)
+            make.left.right.equalTo(view.safeAreaLayoutGuide).inset(40)
+        }
        
-        stackView = UIStackView(arrangedSubviews: [ emailTextField, passwordTextField,loginButton])
-        self.view.addSubview(stackView!)
-        stackView?.distribution = .fillEqually
-        stackView?.axis = .vertical
-        stackView?.spacing = 15.0
-        stackView?.anchor(top: logoImageView.bottomAnchor, left: self.view.leftAnchor, bottom: nil, right: self.view.rightAnchor, paddingTop: 50, paddingLeft: 40, paddingBottom: 0, paddingRight: 40, width: 0, height: 152)
-        self.addBottomMostItems()
-        self.addForgotPasswordItem()
-        NotificationCenter.default.post(name: heartAttackNotificationName, object: nil)
-    }
-    fileprivate func addForgotPasswordItem(){
-        let midView = UIView()
-        midView.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(midView)
-        NSLayoutConstraint.activateViewConstraints(midView, inSuperView: self.view, withLeading: 0.0, trailing: 0.0, top: nil, bottom: nil, width: nil, height: 20.0)
-                _ = NSLayoutConstraint.activateVerticalSpacingConstraint(withFirstView: self.loginButton, secondView:midView , andSeparation: 9.0)
-        midView.addSubview(self.forgotPasswordButton)
-        self.forgotPasswordButton.translatesAutoresizingMaskIntoConstraints = false
-         NSLayoutConstraint.activateViewConstraints(self.forgotPasswordButton, inSuperView: midView, withLeading: 6.0, trailing: 6.0, top: 0.0, bottom: 0.0)
 
-        
+        self.view.addSubview(forgotPasswordButton)
+        forgotPasswordButton.snp.makeConstraints { (make) in
+            make.top.equalTo(loginButton.snp.bottom).offset(5)
+            make.centerX.equalTo(view.safeAreaLayoutGuide.snp.centerX)
+        }
+        stackView2 = UIStackView(arrangedSubviews: [ signUpLabel, signUpButton])
+        stackView2?.axis = .horizontal
+        stackView2?.spacing = 5.0
+        self.view.addSubview(stackView2!)
+        stackView2?.snp.makeConstraints({ (make) in
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(5)
+            make.centerX.equalTo(view.safeAreaLayoutGuide.snp.centerX)
+        })
+
+
+       NotificationCenter.default.post(name: heartAttackNotificationName, object: nil)
     }
+ 
     
-    fileprivate func addBottomMostItems() {
-        //UIView that explicitly contains the label and button for signing up a user that is placed at the bottom
-        let bottomView = UIView()
-        bottomView.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(bottomView)
-        NSLayoutConstraint.activateViewConstraints(bottomView, inSuperView: self.view, withLeading: 0.0, trailing: 0.0, top: nil, bottom: nil, width: nil, height: 20.0)
-        _ = NSLayoutConstraint.activateVerticalSpacingConstraint(withFirstView: bottomView, secondView: self.bottomLayoutGuide, andSeparation: 10.0)
-        
-        let pseudoView1 = UIView()
-        pseudoView1.translatesAutoresizingMaskIntoConstraints = false
-        bottomView.addSubview(pseudoView1)
-        NSLayoutConstraint.activateViewConstraints(pseudoView1, inSuperView: bottomView, withLeading: 0.0, trailing: nil, top: 0.0, bottom: 0.0)
-        
-        self.signUpLabel.translatesAutoresizingMaskIntoConstraints = false
-        bottomView.addSubview(self.signUpLabel)
-        NSLayoutConstraint.activateViewConstraints(self.signUpLabel, inSuperView: bottomView, withLeading: nil, trailing: nil, top: 0.0, bottom: 0.0)
-        _ = NSLayoutConstraint.activateHorizontalSpacingConstraint(withFirstView: pseudoView1, secondView: self.signUpLabel, andSeparation: 0.0)
-        _ = NSLayoutConstraint.activateWidthConstraint(view: self.signUpLabel, withWidth: 1.0, andRelation: .greaterThanOrEqual)
-        
-        self.signUpButton.translatesAutoresizingMaskIntoConstraints = false
-        bottomView.addSubview(self.signUpButton)
-        NSLayoutConstraint.activateViewConstraints(self.signUpButton, inSuperView: bottomView, withLeading: nil, trailing: nil, top: 0.0, bottom: 0.0)
-        _ = NSLayoutConstraint.activateHorizontalSpacingConstraint(withFirstView: self.signUpLabel, secondView: self.signUpButton, andSeparation: 5.0)
-        _ = NSLayoutConstraint.activateWidthConstraint(view: self.signUpButton, withWidth: 1.0, andRelation: .greaterThanOrEqual)
-        
-        let pseudoView2 = UIView()
-        pseudoView2.translatesAutoresizingMaskIntoConstraints = false
-        bottomView.addSubview(pseudoView2)
-        NSLayoutConstraint.activateViewConstraints(pseudoView2, inSuperView: bottomView, withLeading: nil, trailing: 0.0, top: 0.0, bottom: 0.0)
-        _ = NSLayoutConstraint.activateHorizontalSpacingConstraint(withFirstView: self.signUpButton, secondView: pseudoView2, andSeparation: 0.0)
-        _ = NSLayoutConstraint.activateEqualWidthConstraint(withView: pseudoView2, referenceView: pseudoView1)
-    }
+  
     
     //Calls this function when the tap is recognized.
     @objc func dismissKeyboard() {
@@ -272,22 +277,25 @@ class LoginViewController: UIViewController , LoginViewControllerDelegate {
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
-    @objc func keyboardWillShow(sender: NSNotification) {
-        if let keyboardSize = (sender.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            let keyboardHeight = keyboardSize.height
-            UIView.animate(withDuration: 0.2, animations: {
-                self.view.frame.origin.y = -keyboardHeight
-            })
-        }
+    //will properly show keyboard
+    @objc func keyboardWillShow(notification:NSNotification){
+        
+        var userInfo = notification.userInfo!
+        var keyboardFrame:CGRect = (userInfo[UIKeyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
+        keyboardFrame = self.view.convert(keyboardFrame, from: nil)
+        
+        var contentInset:UIEdgeInsets = self.contentScrollView.contentInset
+        contentInset.bottom = keyboardFrame.size.height
+        contentScrollView.contentInset = contentInset
     }
     
-    
-    // will properly hide keyboard
-    @objc func keyboardWillHide(sender: NSNotification) {
-        UIView.animate(withDuration: 0.2, animations: {
-            self.view.frame.origin.y = 0
-        })
+    //will properly hide keyboard
+    @objc func keyboardWillHide(notification:NSNotification){
+        
+        let contentInset:UIEdgeInsets = UIEdgeInsets.zero
+        contentScrollView.contentInset = contentInset
     }
+    
     
 }
 
@@ -311,4 +319,13 @@ class LeftPaddedTextField: UITextField {
     }
 }
 
+extension LoginViewController: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        self.activeTextField = textField
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        self.activeTextField = nil
+    }
+}
 
