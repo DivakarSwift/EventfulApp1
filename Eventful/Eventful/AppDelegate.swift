@@ -289,7 +289,23 @@ extension AppDelegate {
                 mainTabBarController.presentedViewController?.dismiss(animated: true, completion: nil)
             }
         }
-        
+        //will handle shareevent notification
+        if userInfo["notiType"] as? String == notiType.share.rawValue{
+            print("friend request recieved")
+            if let mainTabBarController = self.window?.rootViewController as? HomeViewController {
+                mainTabBarController.selectedIndex = 0
+                mainTabBarController.presentedViewController?.dismiss(animated: true, completion: nil)
+                if let homeNavController = mainTabBarController.viewControllerList.first as? UINavigationController {
+                    EventService.show(forEventKey: userInfo["eventKey"] as! String) { (event) in
+                        let eventDetailVC = EventDetailViewController()
+                        eventDetailVC.currentEvent = event
+                        homeNavController.tabBarController?.tabBar.isHidden = true
+                        homeNavController.pushViewController(eventDetailVC, animated: true)
+                    }
+                  
+                }
+            }
+        }
         
     }
 

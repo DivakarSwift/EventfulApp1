@@ -65,6 +65,7 @@ struct FollowService {
         let messageKey = messagesRef.key
         
         multiUpdateValue["notifications/\((notification.receiver?.uid)!)/\(messageKey)"] = notification.followDictValue
+        print(notification.followDictValue)
         
         let rootRef = Database.database().reference()
         rootRef.updateChildValues(multiUpdateValue, withCompletionBlock: { (error, ref) in

@@ -91,6 +91,9 @@
 		07C15E4320C10D760046D8BC /* PreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C15E4020C10D760046D8BC /* PreviewView.swift */; };
 		07C15E4D20C112DB0046D8BC /* RequestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C15E4B20C112DB0046D8BC /* RequestViewController.swift */; };
 		07C15E4E20C112DB0046D8BC /* FriendRequestCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C15E4C20C112DB0046D8BC /* FriendRequestCell.swift */; };
+		07C15E5820C5073A0046D8BC /* FollowingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C15E5720C5073A0046D8BC /* FollowingViewController.swift */; };
+		07C15E5A20C5A5BF0046D8BC /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C15E5920C5A5BF0046D8BC /* ShareViewController.swift */; };
+		07C15E5C20C5AEBF0046D8BC /* ShareCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C15E5B20C5AEBF0046D8BC /* ShareCell.swift */; };
 		07D923A81F33C61D0069613D /* Storyboard+Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D923A71F33C61D0069613D /* Storyboard+Utility.swift */; };
 		07E271B62056354F007F0592 /* NotifBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E271B52056354F007F0592 /* NotifBannerView.swift */; };
 		07F3EC591F4A57C3005296EB /* PostService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F3EC581F4A57C3005296EB /* PostService.swift */; };
@@ -191,6 +194,9 @@
 		07C15E4020C10D760046D8BC /* PreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreviewView.swift; path = Eventful/Controllers/AppleCamera/PreviewView.swift; sourceTree = SOURCE_ROOT; };
 		07C15E4B20C112DB0046D8BC /* RequestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RequestViewController.swift; path = Controllers/FriendRequest/RequestViewController.swift; sourceTree = "<group>"; };
 		07C15E4C20C112DB0046D8BC /* FriendRequestCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FriendRequestCell.swift; path = Controllers/FriendRequest/FriendRequestCell.swift; sourceTree = "<group>"; };
+		07C15E5720C5073A0046D8BC /* FollowingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FollowingViewController.swift; path = Controllers/Followers/FollowingViewController.swift; sourceTree = "<group>"; };
+		07C15E5920C5A5BF0046D8BC /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ShareViewController.swift; path = Controllers/EventDetail/ShareViewController.swift; sourceTree = "<group>"; };
+		07C15E5B20C5AEBF0046D8BC /* ShareCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ShareCell.swift; path = Controllers/EventDetail/ShareCell.swift; sourceTree = "<group>"; };
 		07D923A71F33C61D0069613D /* Storyboard+Utility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Storyboard+Utility.swift"; path = "Extensions/Storyboard+Utility.swift"; sourceTree = "<group>"; };
 		07E271B52056354F007F0592 /* NotifBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NotifBannerView.swift; path = Controllers/Notifications/NotifBannerView.swift; sourceTree = "<group>"; };
 		07F3EC581F4A57C3005296EB /* PostService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostService.swift; path = Services/PostService.swift; sourceTree = "<group>"; };
@@ -395,6 +401,7 @@
 			children = (
 				07C15E3920C10D550046D8BC /* FollowerCell.swift */,
 				07C15E3A20C10D550046D8BC /* FollowersViewController.swift */,
+				07C15E5720C5073A0046D8BC /* FollowingViewController.swift */,
 			);
 			name = Followers;
 			sourceTree = "<group>";
@@ -497,6 +504,8 @@
 				0747AA0620375D6D00F725C7 /* EventDetailViewController.swift */,
 				0747AA0520375D6D00F725C7 /* EventPromoVideoPlayer.swift */,
 				0747AA0720375D6E00F725C7 /* VideoLauncher.swift */,
+				07C15E5920C5A5BF0046D8BC /* ShareViewController.swift */,
+				07C15E5B20C5AEBF0046D8BC /* ShareCell.swift */,
 			);
 			name = "Event Detail";
 			sourceTree = "<group>";
@@ -754,6 +763,7 @@
 				0748714A20845BCF0024635C /* CalendarCell.swift in Sources */,
 				07F76C82208B05DA00EEBD58 /* SideMenuFooter.swift in Sources */,
 				0753E7D72041E2AF00B882E4 /* Notification.swift in Sources */,
+				07C15E5C20C5AEBF0046D8BC /* ShareCell.swift in Sources */,
 				07363FB120AD32E200CDE2C3 /* CameraHelper.swift in Sources */,
 				077247D5206F2C42007E5C29 /* PreviewPhotoContainerView.swift in Sources */,
 				0747A9F620375D2400F725C7 /* HomeFeedCell.swift in Sources */,
@@ -766,6 +776,7 @@
 				0724731A2072D48800DD285E /* SideMenu.swift in Sources */,
 				0747AA0320375D5E00F725C7 /* SettingsViewController.swift in Sources */,
 				07FF92CB1F3B925800FC9716 /* ChatService.swift in Sources */,
+				07C15E5820C5073A0046D8BC /* FollowingViewController.swift in Sources */,
 				0747A9DD20375C7D00F725C7 /* LoginViewController.swift in Sources */,
 				0747AA1820375D8500F725C7 /* CommentInputTextView.swift in Sources */,
 				07C15E4D20C112DB0046D8BC /* RequestViewController.swift in Sources */,
@@ -778,6 +789,7 @@
 				0704C7742062DC4300C9E35A /* EventSectionHeader.swift in Sources */,
 				0747A9E120375C9500F725C7 /* ForgotPasswordViewController.swift in Sources */,
 				0748714C20845C320024635C /* BaseCell.swift in Sources */,
+				07C15E5A20C5A5BF0046D8BC /* ShareViewController.swift in Sources */,
 				074D75A0200C8E8C0044C3AD /* LocationService.swift in Sources */,
 				0704C7722062CE1D00C9E35A /* HomeFeedEventCell.swift in Sources */,
 				0747AA1F20375E0E00F725C7 /* EventSearchHeader.swift in Sources */,

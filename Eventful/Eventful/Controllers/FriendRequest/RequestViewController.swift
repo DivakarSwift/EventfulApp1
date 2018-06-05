@@ -48,6 +48,7 @@ class RequestViewController: UITableViewController {
         self.tableView.allowsSelection = false
         self.tabBarController?.tabBar.isHidden = true
         self.tableView.register(FriendRequestCell.self, forCellReuseIdentifier: requestCell)
+        NotificationCenter.default.post(name: heartAttackNotificationName, object: nil)
     }
     
     deinit {
@@ -75,8 +76,7 @@ class RequestViewController: UITableViewController {
             emptyView.addSubview(noFriendLabel)
             noFriendLabel.snp.makeConstraints { (make) in
                 make.bottom.equalTo(iconImageView.snp.bottom).offset(50)
-                make.left.right.equalTo(emptyView)
-            }
+make.left.right.equalTo(emptyView).inset(5)            }
             self.tableView.backgroundView = emptyView
             return FriendService.system.requestList.count
         }else{

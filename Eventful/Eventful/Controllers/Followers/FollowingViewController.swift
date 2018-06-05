@@ -1,17 +1,16 @@
 //
-//  FollowersViewController.swift
+//  FollowingViewController.swift
 //  Eventful
 //
-//  Created by Shawn Miller on 6/1/18.
+//  Created by Shawn Miller on 6/4/18.
 //  Copyright © 2018 Make School. All rights reserved.
 //
 
 import Foundation
 import UIKit
-import IGListKit
 
-class FollowingViewController: UITableViewController  {
-    let friendCell = "friendCell"
+class FollowersViewController: UITableViewController  {
+    let friendCell1 = "friendCell1"
     let emptyView = UIView()
     lazy var iconImageView: UIImageView = {
         let imageView = UIImageView()
@@ -20,31 +19,31 @@ class FollowingViewController: UITableViewController  {
     }()
     lazy var noFriendLabel: UILabel = {
         let noFriendLabel = UILabel()
-        noFriendLabel.text = "You Are Currently Following No One"
+        noFriendLabel.text = "Sorry,You Currently Have No Followers"
         noFriendLabel.font = UIFont(name: "Avenir", size: 20)
         noFriendLabel.numberOfLines = 0
         noFriendLabel.textAlignment = .center
         return noFriendLabel
     }()
     
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupVc()
-        FriendService.system.addFollowingObserver {
+        FriendService.system.addFriendObserver {
             self.tableView.reloadData()
         }
     }
     @objc func setupVc(){
         view.backgroundColor = UIColor.white
-        navigationItem.title = "Following"
+        navigationItem.title = "Followers"
         let backButton = UIBarButtonItem(image: UIImage(named: "icons8-Back-64"), style: .plain, target: self, action: #selector(GoBack))
         self.navigationItem.leftBarButtonItem = backButton
         self.navigationController?.interactivePopGestureRecognizer?.delegate = nil
-         self.tableView.tableFooterView = UIView(frame: CGRect.zero)
-
-        self.tableView.register(FollowerCell.self, forCellReuseIdentifier: friendCell)
-       
+        self.tableView.tableFooterView = UIView(frame: CGRect.zero)
+        
+        self.tableView.register(FollowerCell.self, forCellReuseIdentifier: friendCell1)
+        
     }
     //will leave the VC
     @objc func GoBack(){
@@ -57,8 +56,8 @@ class FollowingViewController: UITableViewController  {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: friendCell, for: indexPath) as! FollowerCell
-        cell.user = FriendService.system.followingList[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: friendCell1, for: indexPath) as! FollowerCell
+        cell.user = FriendService.system.friendList[indexPath.row]
         return cell
     }
     
@@ -76,11 +75,11 @@ class FollowingViewController: UITableViewController  {
                 make.bottom.equalTo(iconImageView.snp.bottom).offset(50)
 make.left.right.equalTo(emptyView).inset(5)            }
             self.tableView.backgroundView = emptyView
-            return FriendService.system.followingList.count
-
+            return FriendService.system.friendList.count
+            
         }else{
             self.tableView.backgroundView = nil
-            return FriendService.system.followingList.count
+            return FriendService.system.friendList.count
         }
     }
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -93,5 +92,3 @@ make.left.right.equalTo(emptyView).inset(5)            }
     }
     
 }
-
-

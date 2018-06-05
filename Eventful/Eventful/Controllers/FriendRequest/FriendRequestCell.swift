@@ -56,27 +56,14 @@ class FriendRequestCell: UITableViewCell {
         FriendService.system.removeFriendRequest((user?.uid)!)
     }
     
-    
     @objc func acceptTapped(){
         //will accept the users friend request
         print("accept tapped")
-        let followee = user
+        FriendService.system.acceptFriendRequest((user?.uid)!)
+        self.followNotificationData = Notifications.init(reciever: User.current, content: (self.user?.username!)! + " has followed you", type: notiType.follow.rawValue)
+        //will make sure the user gets the notifcation
+        FollowService.sendFollowNotification(self.followNotificationData)
         FriendService.system.removeFriendRequest((user?.uid)!)
-
-        FollowService.setIsFollowing(!(followee?.isFollowed)!, fromCurrentUserTo: followee!) { (success) in
-            if success {
-                //will remove the request once finished and send follow notif
-                
-                //will remove the request
-                
-                //will create the notification to send the user
-                self.followNotificationData = Notifications.init(reciever: self.user!, content: User.current.username! + " has followed you", type: notiType.follow.rawValue)
-               //will make sure the user gets the notifcation
-                FollowService.sendFollowNotification(self.followNotificationData)
-                
-                print("Successfully followed user: ", self.user?.username ?? "")
-            }
-        }
     }
     
     lazy var userImageView: CustomImageView = {

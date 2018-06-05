@@ -214,9 +214,6 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         self.titleView.font = UIFont(name: "Futura-CondensedMedium", size: 18)
         self.titleView.adjustsFontSizeToFitWidth = true
         
-//        let recognizer = UITapGestureRecognizer(target: self, action: #selector(YourViewController.titleWasTapped))
-//        titleView.userInteractionEnabled = true
-//        titleView.addGestureRecognizer(recognizer)
     }
 
     @objc func handleAttend(){
@@ -340,19 +337,29 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         self.navigationController?.popViewController(animated: true)
     }
     
+    @objc func shareWithFollowers(){
+        print("Attempting to share with friends")
+        let share = ShareViewController()
+        print(eventKey)
+        share.eventKey = eventKey
+        self.navigationController?.pushViewController(share, animated: true)
+    }
+    
     @objc func setupVc(){
         self.navigationController?.navigationBar.isTranslucent = false
 
     let backButton = UIBarButtonItem(image: UIImage(named: "icons8-Back-64"), style: .plain, target: self, action: #selector(GoBack))
-        self.navigationItem.leftBarButtonItem = backButton
+        
+    let shareButton = UIBarButtonItem(image: UIImage(named: "icons8-upload-50")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(shareWithFollowers))
+    self.navigationItem.leftBarButtonItem = backButton
+    self.navigationItem.rightBarButtonItem = shareButton
+
+        
     view.backgroundColor = .white
     
     scrollView.contentInsetAdjustmentBehavior = .never
     scrollView.delegate = self
     scrollView.showsVerticalScrollIndicator = false
-    
-    
-//    infoText.text = text + text + text
     
     let imageContainer = UIView()
     imageContainer.backgroundColor = UIColor.rgb(red: 245, green: 255, blue: 250)

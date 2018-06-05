@@ -27,7 +27,7 @@ class NotificationCell: UICollectionViewCell,NotificationCellDelegate {
             guard let notification = notification else{
                 return
             }
-            profileImageView.loadImage(urlString: notification.profilePic!)
+            profileImageView.loadImage(urlString: notification.sender.profilePic!)
             
             let attributedText = NSMutableAttributedString(string: notification.content, attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 14)])
             attributedText.append(NSAttributedString(string: "\n\n", attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 4)]))

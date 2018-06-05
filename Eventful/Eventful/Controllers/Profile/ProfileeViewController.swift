@@ -20,7 +20,7 @@ class ProfileeViewController: UICollectionViewController, UICollectionViewDelega
         var user: User?
         var emptyLabel: UILabel?
         let emptyView = UIView()
-        var isFollowed: Bool?
+        var isFollowed = false
         
         lazy var noFriendLabel: UILabel = {
             let noFriendLabel = UILabel()
@@ -175,11 +175,11 @@ class ProfileeViewController: UICollectionViewController, UICollectionViewDelega
         override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
             
             //if the user has events and your following them or it is current user profile show it
-            if userEvents.isEmpty == false && (self.isFollowed == true || user == User.current) {
+            if userEvents.isEmpty == false && (self.isFollowed == true || user?.uid == User.current.uid) {
                 self.collectionView?.backgroundView = nil
                 return userEvents.count
                 
-            }else if userEvents.isEmpty == true && (self.isFollowed == true || user == User.current){
+            }else if userEvents.isEmpty == true && (self.isFollowed == true || user?.uid == User.current.uid){
                 //will nil out any previous backgroundview
                 self.collectionView?.backgroundView = nil
 
@@ -197,7 +197,7 @@ class ProfileeViewController: UICollectionViewController, UICollectionViewDelega
                 emptyLabel?.textAlignment = .center
                 self.collectionView?.backgroundView = emptyLabel
                 return userEvents.count
-            }else if userEvents.isEmpty == true && (user?.isPrivate)! && self.isFollowed == false && user != User.current{
+            }else if userEvents.isEmpty == true && (user?.isPrivate)! && self.isFollowed == false && user?.uid != User.current.uid{
                 //will go here if the user has no events and there private and your not following
                 //there will be no events because you were not following them so thats implied
                 //also has to not be you

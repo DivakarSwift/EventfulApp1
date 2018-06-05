@@ -131,6 +131,7 @@ class NotificationsViewController: UIViewController,NotificationsSectionDelegate
             }
  let userProfileController = ProfileeViewController(collectionViewLayout: UICollectionViewFlowLayout())
             userProfileController.user = sender
+            print(sender.isPrivate)
             userProfileController.navigationItem.title = sender.username
             userProfileController.navigationItem.hidesBackButton = true
             let backButton = UIBarButtonItem(image: UIImage(named: "icons8-Back-64"), style: .plain, target: self, action: #selector(self.GoBack))

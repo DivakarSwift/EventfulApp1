@@ -19,7 +19,6 @@ class Notifications: NSObject {
     var eventKey : String?
     var key : String?
     var commentId : String?
-    var profilePic : String?
     var notiType: notiType.RawValue?
     let sender: User
     let receiver: User?
@@ -44,6 +43,18 @@ class Notifications: NSObject {
         self.sender = User.current
         self.creationDate = Date().timeIntervalSince1970
     }
+    
+    //int for share notif
+    
+    init(reciever: User, content: String,type: notiType.RawValue,eventKey: String) {
+        self.content = content
+        self.receiver = reciever
+        self.content = content
+        self.notiType = type
+        self.sender = User.current
+        self.eventKey = eventKey
+        self.creationDate = Date().timeIntervalSince1970
+    }
 
     
     //snapshot for comment notif
@@ -54,11 +65,13 @@ class Notifications: NSObject {
             let eventKey = dict["eventKey"] as? String,
             let commentId = dict["commentId"] as? String,
             let senderDict = dict["sender"] as? [String : Any],
+            let isPrivateForSender = senderDict["isPrivate"] as? Bool,
             let uid = senderDict["uid"] as? String,
             let username = senderDict["username"] as? String,
             let profilePic = senderDict["profilePic"] as? String,
             let receiverDict = dict["receiver"] as? [String : Any],
             let receiverUid = receiverDict["uid"] as? String,
+            let isPrivateForReciever = receiverDict["isPrivate"] as? Bool,
             let receiverUsername = receiverDict["username"] as? String,
             let receiverProfilePic = receiverDict["profilePic"] as? String,
             let notiType = dict["notiType"] as? notiType.RawValue
@@ -70,10 +83,9 @@ class Notifications: NSObject {
         self.timeStamp = Date(timeIntervalSince1970: timestamp)
         self.eventKey = eventKey
         self.commentId = commentId
-        self.profilePic = profilePic
         self.notiType = notiType
-        self.sender = User(uid: uid, username: username,profilePic: profilePic)
-        self.receiver = User(uid: receiverUid, username: receiverUsername,profilePic: receiverProfilePic)
+        self.sender = User(uid: uid, username: username,profilePic: profilePic, isPrivate: isPrivateForSender)
+        self.receiver = User(uid: receiverUid, username: receiverUsername,profilePic: receiverProfilePic, isPrivate: isPrivateForReciever)
     }
     
     //snapshot for follow notif
@@ -85,8 +97,10 @@ class Notifications: NSObject {
         let uid = senderDict["uid"] as? String,
         let username = senderDict["username"] as? String,
         let profilePic = senderDict["profilePic"] as? String,
+            let isPrivateForSender = senderDict["isPrivate"] as? Bool,
             let receiverDict = dict["receiver"] as? [String : Any],
             let receiverUid = receiverDict["uid"] as? String,
+            let isPrivateForReciever = receiverDict["isPrivate"] as? Bool,
             let receiverUsername = receiverDict["username"] as? String,
             let receiverProfilePic = receiverDict["profilePic"] as? String,
             let notiType = dict["notiType"] as? notiType.RawValue
@@ -95,20 +109,50 @@ class Notifications: NSObject {
         self.key = followSnapshot.key
         self.content = content
         self.timeStamp = Date(timeIntervalSince1970: timestamp)
-        self.profilePic = profilePic
         self.notiType = notiType
-        self.sender = User(uid: uid, username: username,profilePic: profilePic)
-        self.receiver = User(uid: receiverUid, username: receiverUsername,profilePic: receiverProfilePic)
+        self.sender = User(uid: uid, username: username,profilePic: profilePic, isPrivate: isPrivateForSender)
+        self.receiver = User(uid: receiverUid, username: receiverUsername,profilePic: receiverProfilePic, isPrivate: isPrivateForReciever)
     }
     
-    var dictValue: [String : Any] {
-        let userDict = ["username" : sender.username,
-                        "uid" : sender.uid,
-                        "profilePic": sender.profilePic]
+    //snapshot for share notif
+    init?(shareSnapShot: DataSnapshot) {
+        guard let dict = shareSnapShot.value as? [String : Any],
+            let content = dict["content"] as? String,
+            let eventKey = dict["eventKey"] as? String,
+            let timestamp = dict["creationDate"] as? TimeInterval,
+            let senderDict = dict["sender"] as? [String : Any],
+            let uid = senderDict["uid"] as? String,
+            let username = senderDict["username"] as? String,
+            let profilePic = senderDict["profilePic"] as? String,
+            let isPrivateForSender = senderDict["isPrivate"] as? Bool,
+            let receiverDict = dict["receiver"] as? [String : Any],
+            let receiverUid = receiverDict["uid"] as? String,
+            let isPrivateForReciever = receiverDict["isPrivate"] as? Bool,
+            let receiverUsername = receiverDict["username"] as? String,
+            let receiverProfilePic = receiverDict["profilePic"] as? String,
+            let notiType = dict["notiType"] as? notiType.RawValue
+            else { return nil }
         
-        let receiverDict = ["username" : receiver?.username,
-                            "uid" : receiver?.uid,
-                            "profilePic": receiver?.profilePic]
+        self.key = shareSnapShot.key
+        self.content = content
+        self.timeStamp = Date(timeIntervalSince1970: timestamp)
+        self.notiType = notiType
+        self.sender = User(uid: uid, username: username,profilePic: profilePic, isPrivate: isPrivateForSender)
+        self.receiver = User(uid: receiverUid, username: receiverUsername,profilePic: receiverProfilePic, isPrivate: isPrivateForReciever)
+        self.eventKey = eventKey
+    }
+    
+    //dictvalue for comment
+    var dictValue: [String : Any] {
+        let userDict = ["username" : sender.username as Any,
+                        "uid" : sender.uid,
+                        "profilePic": sender.profilePic as Any,
+                        "isPrivate": sender.isPrivate as Any]
+        
+        let receiverDict = ["username" : receiver?.username as Any,
+                            "uid" : receiver?.uid as Any,
+                            "profilePic": receiver?.profilePic as Any,
+                             "isPrivate": sender.isPrivate as Any]
         
         
         return ["eventKey" : eventKey  as Any,
@@ -119,24 +163,46 @@ class Notifications: NSObject {
                 "receiver" : receiverDict,
                 "notiType" : notiType as Any]
     }
-    
+    // dict value for follow notif
     var followDictValue: [String : Any] {
-        let userDict = ["username" : sender.username,
+        let userDict = ["username" : sender.username as Any,
                         "uid" : sender.uid,
-                        "profilePic": sender.profilePic]
+                        "profilePic": sender.profilePic as Any,
+                        "isPrivate": sender.isPrivate as Any]
         
-        let receiverDict = ["username" : receiver?.username,
-                            "uid" : receiver?.uid,
-                            "profilePic": receiver?.profilePic]
+        let receiverDict = ["username" : receiver?.username as Any,
+                            "uid" : receiver?.uid as Any,
+                            "profilePic": receiver?.profilePic as Any,
+                            "isPrivate": sender.isPrivate as Any]
         
         return [
             "content": content,
             "creationDate": creationDate,
-            "profilePic" : profilePic as Any,
             "sender" : userDict,
             "receiver" : receiverDict,
             "notiType" : notiType as Any]
     }
+    //dict value for share notif
+    var shareDictValue: [String : Any] {
+        let userDict = ["username" : sender.username as Any,
+                        "uid" : sender.uid,
+                        "profilePic": sender.profilePic as Any,
+                        "isPrivate": sender.isPrivate as Any]
+        
+        let receiverDict = ["username" : receiver?.username as Any,
+                            "uid" : receiver?.uid as Any,
+                            "profilePic": receiver?.profilePic as Any,
+                            "isPrivate": sender.isPrivate as Any]
+        
+        
+        return ["eventKey" : eventKey  as Any,
+                "content": content,
+                "creationDate": creationDate,
+                "sender" : userDict,
+                "receiver" : receiverDict,
+                "notiType" : notiType as Any]
+    }
+    
 }
 extension Notifications{
     static public func  ==(rhs: Notifications, lhs: Notifications) ->Bool{
@@ -166,5 +232,7 @@ enum notiType: String {
     case follow = "follow"
     case comment = "comment"
     case friendRequest = "friendRequest"
+    case share = "share"
+
 }
 

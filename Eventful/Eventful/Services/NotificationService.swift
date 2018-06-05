@@ -55,6 +55,11 @@ class NotificationService {
                     currentNotif = Notifications(followSnapshot: userNotifs)
                     currentNotifsArray.append(currentNotif)
                 }
+                if userNotifs.childrenCount == 6 {
+                    print(userNotifs.children.allObjects)
+                    currentNotif = Notifications(shareSnapShot: userNotifs)
+                    currentNotifsArray.append(currentNotif)
+                }
                 // print(userNotifs.childrenCount)
             }
             if currentNotifsArray.count == allUserNotifs.count && !isFinishedPagingTemp{
@@ -72,14 +77,20 @@ class NotificationService {
         let messagesRef = Database.database().reference().child("notifications").child(user.uid)
         
         return messagesRef.queryOrdered(byChild: "creationDate").queryStarting(atValue: Date().timeIntervalSince1970).observe(.childAdded, with: { snapshot in
-            if snapshot.childrenCount == 8{
+            if snapshot.childrenCount == 7{
                 guard let notif = Notifications(snapshot: snapshot) else {
                     return completion(messagesRef, nil)
                 }
                 completion(messagesRef, notif)
             }
-            if snapshot.childrenCount == 6{
+            if snapshot.childrenCount == 5{
                 guard let notif = Notifications(followSnapshot: snapshot) else {
+                    return completion(messagesRef, nil)
+                }
+                completion(messagesRef, notif)
+            }
+            if snapshot.childrenCount == 6{
+                guard let notif = Notifications(shareSnapShot: snapshot) else {
                     return completion(messagesRef, nil)
                 }
                 completion(messagesRef, notif)
@@ -87,5 +98,26 @@ class NotificationService {
             
         })
         
+    }
+    
+    static func sendShareNotification(_ notification: Notifications, success: ((Bool) -> Void)? = nil) {
+        
+        var multiUpdateValue = [String : Any]()
+        
+        let messagesRef = Database.database().reference().child("notifcations").child((notification.receiver?.uid)!).childByAutoId()
+        let messageKey = messagesRef.key
+        
+        multiUpdateValue["notifications/\((notification.receiver?.uid)!)/\(messageKey)"] = notification.shareDictValue
+        print(notification.shareDictValue)
+        
+        let rootRef = Database.database().reference()
+        rootRef.updateChildValues(multiUpdateValue, withCompletionBlock: { (error, ref) in
+            if let error = error {
+                assertionFailure(error.localizedDescription)
+                success?(false)
+                return
+            }
+            success?(true)
+        })
     }
 }
