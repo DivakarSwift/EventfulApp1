@@ -48,7 +48,7 @@ class RequestViewController: UITableViewController {
         self.tableView.allowsSelection = false
         self.tabBarController?.tabBar.isHidden = true
         self.tableView.register(FriendRequestCell.self, forCellReuseIdentifier: requestCell)
-        NotificationCenter.default.post(name: heartAttackNotificationName, object: nil)
+        //NotificationCenter.default.post(name: heartAttackNotificationName, object: nil)
     }
     
     deinit {

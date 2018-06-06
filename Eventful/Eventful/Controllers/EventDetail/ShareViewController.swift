@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import SVProgressHUD
 
 class ShareViewController: UITableViewController  {
     var shareNotificationData : Notifications!
@@ -74,12 +75,17 @@ class ShareViewController: UITableViewController  {
         print("Attempting to Send To Selected Friends")
 
         //for loop to go thorugh all of the users/followers selected
+        SVProgressHUD.show(withStatus: "Sending invites")
         for recievingUsers in peopleToShareWith {
             print(self.eventKey)
             self.shareNotificationData = Notifications.init(reciever: recievingUsers, content: (User.current.username!) + " has shared an event with you", type: notiType.share.rawValue, eventKey: self.eventKey)
             NotificationService.sendShareNotification(self.shareNotificationData)
         }
-        self.navigationController?.popViewController(animated: true)
+        SVProgressHUD.dismiss(withDelay: 1) {
+            self.navigationController?.popViewController(animated: true)
+
+        }
+
     }
     //will leave the VC
     @objc func GoBack(){

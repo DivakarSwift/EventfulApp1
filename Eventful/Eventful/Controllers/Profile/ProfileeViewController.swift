@@ -160,7 +160,7 @@ class ProfileeViewController: UICollectionViewController, UICollectionViewDelega
     
         
         func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-            return CGSize(width: view.frame.width, height: 195)
+            return CGSize(width: view.frame.width, height: view.bounds.height / 5)
         }
         
         override func viewWillAppear(_ animated: Bool) {

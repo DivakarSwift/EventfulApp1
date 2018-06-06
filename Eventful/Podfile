@@ -33,6 +33,7 @@ target 'Eventful' do
     pod 'RevealingSplashView'
     pod "RecordButton"
     pod 'DTPagerController'
+    pod 'SimpleImageViewer', '~> 1.1.1'
     # Pods for Eventful
     
 end

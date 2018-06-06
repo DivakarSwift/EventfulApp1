@@ -13,6 +13,8 @@ import SnapKit
 import GoogleMaps
 import CoreLocation
 import MapKit
+import SimpleImageViewer
+
 
 class EventDetailViewController: UIViewController,UIScrollViewDelegate {
     var imageURL: URL?
@@ -78,13 +80,30 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         currentEvent.translatesAutoresizingMaskIntoConstraints = false
         currentEvent.contentMode = .scaleToFill
         currentEvent.layer.masksToBounds = true
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handlePromoVid))
+        let singleTap = UITapGestureRecognizer(target: self, action: #selector(handlePromoVid))
+        singleTap.numberOfTapsRequired = 1
+
         currentEvent.isUserInteractionEnabled = true
-        currentEvent.addGestureRecognizer(tapGestureRecognizer)
+        currentEvent.addGestureRecognizer(singleTap)
+        let doubleTap =  UITapGestureRecognizer(target: self, action: #selector(handleImageZoom))
+        doubleTap.numberOfTapsRequired = 2
+        currentEvent.addGestureRecognizer(doubleTap)
+        singleTap.require(toFail: doubleTap)
         return currentEvent
     }()
     fileprivate func extractedFunc(_ url: URL?) -> EventPromoVideoPlayer {
         return EventPromoVideoPlayer(videoURL: url!)
+    }
+    
+    @objc func handleImageZoom(){
+        print("double tap recognized")
+        let configuration = ImageViewerConfiguration { config in
+            config.imageView = currentEventImage
+        }
+        let imageViewerController = ImageViewerController(configuration: configuration)
+        present(imageViewerController, animated: true)
+
+
     }
     
     @objc func handlePromoVid(){

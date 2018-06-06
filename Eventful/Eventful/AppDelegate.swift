@@ -51,12 +51,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
         UITabBar.appearance().tintColor = .black
 
 
-        //will allow background audio in avrecording
-        let session = AVAudioSession.sharedInstance()
-        try? session.setCategory(AVAudioSessionCategoryPlayAndRecord, with: [AVAudioSessionCategoryOptions.mixWithOthers, AVAudioSessionCategoryOptions.defaultToSpeaker, AVAudioSessionCategoryOptions.allowBluetooth])
-        try? session.setActive(true)
-        UIApplication.shared.beginReceivingRemoteControlEvents()
-        
+//        //will allow background audio in avrecording
+//        let session = AVAudioSession.sharedInstance()
+//        try? session.setCategory(AVAudioSessionCategoryPlayAndRecord, with: [AVAudioSessionCategoryOptions.mixWithOthers, AVAudioSessionCategoryOptions.defaultToSpeaker, AVAudioSessionCategoryOptions.allowBluetooth])
+//        try? session.setActive(true)
+//        UIApplication.shared.beginReceivingRemoteControlEvents()
+//        
         // 4
         // here so firebase will work
         // Override point for customization after application launch.
