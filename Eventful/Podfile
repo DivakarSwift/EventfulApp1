@@ -29,7 +29,7 @@ target 'Eventful' do
     pod 'GooglePlaces'
     pod 'GooglePlacePicker'
     pod 'GoogleMaps'
-    pod 'JTAppleCalendar'
+    pod 'JTAppleCalendar', :git => 'https://github.com/patchthecode/JTAppleCalendar.git', :branch => 'master'
     pod 'RevealingSplashView'
     pod "RecordButton"
     pod 'DTPagerController'

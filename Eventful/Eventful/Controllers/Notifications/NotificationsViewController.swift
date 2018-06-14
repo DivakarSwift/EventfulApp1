@@ -131,13 +131,22 @@ class NotificationsViewController: UIViewController,NotificationsSectionDelegate
             }
  let userProfileController = ProfileeViewController(collectionViewLayout: UICollectionViewFlowLayout())
             userProfileController.user = sender
-            print(sender.isPrivate)
             userProfileController.navigationItem.title = sender.username
             userProfileController.navigationItem.hidesBackButton = true
             let backButton = UIBarButtonItem(image: UIImage(named: "icons8-Back-64"), style: .plain, target: self, action: #selector(self.GoBack))
             userProfileController.navigationItem.leftBarButtonItem = backButton
             self.tabBarController?.tabBar.isHidden = true
             self.navigationController?.pushViewController(userProfileController, animated: true)
+        }else if notiType1 == notiType.share.rawValue{
+            guard let eventKey = notifCell.notification?.eventKey else {
+                return
+            }
+            EventService.show(forEventKey: eventKey) { (event) in
+                let eventDetailVC = EventDetailViewController()
+                eventDetailVC.currentEvent = event
+                self.navigationController?.pushViewController(eventDetailVC, animated: true)
+            }
+          
         }else{
             print("doing nothing")
         }

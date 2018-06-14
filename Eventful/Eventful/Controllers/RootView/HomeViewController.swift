@@ -18,7 +18,7 @@
         //        let navController = ScrollingNavigationController(rootViewController: homeFeedController)
 
         
-        let profileView = ProfileeViewController(collectionViewLayout: UICollectionViewFlowLayout())
+        let profileView = NewProfileVC()
         let profileViewNavController = UINavigationController(rootViewController: profileView)
         profileViewNavController.tabBarItem.image = UIImage(named: "icons8-User-50")?.withRenderingMode(.alwaysOriginal)
         profileViewNavController.tabBarItem.title = "Profile"

@@ -36,8 +36,6 @@ extension JTAppleCalendarView: UIScrollViewDelegate {
     open func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         guard let theCurrentSection = currentSection() else { return }
         
-        let cachedDecelerationRate = decelerationRate
-        
         let contentSizeEndOffset: CGFloat
         var contentOffset: CGFloat = 0,
         theTargetContentOffset: CGFloat = 0,
@@ -225,7 +223,7 @@ extension JTAppleCalendarView: UIScrollViewDelegate {
         }
         saveLastContentOffset(CGPoint(x: targetContentOffset.pointee.x, y: targetContentOffset.pointee.y))
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
-            self.decelerationRate = cachedDecelerationRate
+            self.decelerationRate = self.decelerationRateMatchingScrollingMode
         }
         
         DispatchQueue.main.async {
@@ -243,8 +241,11 @@ extension JTAppleCalendarView: UIScrollViewDelegate {
             scrollViewDidEndDecelerating(scrollView)
             triggerScrollToDateDelegate = nil
         }
-        executeDelayedTasks(.scroll)
-        saveLastContentOffset(scrollView.contentOffset)
+        
+        DispatchQueue.main.async { // https://github.com/patchthecode/JTAppleCalendar/issues/778
+            self.executeDelayedTasks(.scroll)
+            self.saveLastContentOffset(scrollView.contentOffset)
+        }
     }
     
     /// Tells the delegate that the scroll view has

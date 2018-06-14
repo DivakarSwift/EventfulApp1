@@ -12,6 +12,7 @@ import SVProgressHUD
 
 class CalendarViewController: UIViewController, UICollectionViewDelegateFlowLayout {
     let cellID = "cellID"
+    let eventCellID = "eventCellID"
     let formatter = DateFormatter()
     let dateFormatterGet = DateFormatter()
     let dateFormatterPrint = DateFormatter()
@@ -33,7 +34,7 @@ class CalendarViewController: UIViewController, UICollectionViewDelegateFlowLayo
     }()
     let monthLabel : UILabel =  {
         let monthLabel = UILabel()
-        monthLabel.font = UIFont(name:"HelveticaNeue", size: 30.5)
+        monthLabel.font = UIFont(name:"HelveticaNeue", size: 20.5)
         monthLabel.textAlignment = .center
         return monthLabel
     }()
@@ -92,14 +93,22 @@ class CalendarViewController: UIViewController, UICollectionViewDelegateFlowLayo
     
     let calendarCollectionView: JTAppleCalendarView = {
         let cv = JTAppleCalendarView(frame: .zero)
-        cv.scrollDirection = .vertical
+        cv.scrollDirection = .horizontal
         cv.allowsSelection = true
         cv.backgroundColor = UIColor.rgb(red: 255, green: 255, blue: 255)
-//        cv.allowsMultipleSelection = true
         cv.minimumInteritemSpacing = 0
         cv.minimumLineSpacing = 0
         cv.scrollingMode = .stopAtEachCalendarFrame
         return cv
+    }()
+    
+    let eventsTableView: UITableView = {
+       let eventsTableView = UITableView(frame: CGRect.zero, style: .grouped)
+        eventsTableView.allowsSelection = false
+        eventsTableView.backgroundColor = .white
+        eventsTableView.separatorStyle = .none
+        eventsTableView.showsVerticalScrollIndicator = false
+        return eventsTableView
     }()
     
     override func viewDidLoad() {
@@ -133,20 +142,29 @@ class CalendarViewController: UIViewController, UICollectionViewDelegateFlowLayo
         dayStackView?.distribution = .fillEqually
         dayStackView?.axis = .horizontal
         yearAndMonthStackView = UIStackView(arrangedSubviews: [monthLabel])
-        yearAndMonthStackView?.layoutMargins = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0)
-//        yearAndMonthStackView?.isLayoutMarginsRelativeArrangement = true
         yearAndMonthStackView?.axis = .horizontal
         yearAndMonthStackView?.distribution = .fillEqually
         yearAndMonthStackView?.alignment = .center
-        stackView.addArrangedSubview(yearAndMonthStackView!)
-        stackView.addArrangedSubview(dayStackView!)
-        stackView.addArrangedSubview(calendarCollectionView)
-        stackView.axis = .vertical
+
         
+        view.addSubview(yearAndMonthStackView!)
+        yearAndMonthStackView?.snp.makeConstraints({ (make) in
+            make.left.right.equalTo(view.safeAreaLayoutGuide)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+        })
         
-        view.addSubview(stackView)
-        stackView.snp.makeConstraints { (make) in
-            make.edges.equalTo(view)
+        view.addSubview(dayStackView!)
+        dayStackView?.snp.makeConstraints { (make) in
+            make.top.equalTo((yearAndMonthStackView?.snp.bottom)!)
+            make.left.right.equalTo(view.safeAreaLayoutGuide)
+            
+        }
+        view.addSubview(calendarCollectionView)
+        calendarCollectionView.snp.makeConstraints { (make) in
+            make.top.equalTo((dayStackView?.snp.bottom)!)
+            make.centerX.equalTo(view.safeAreaLayoutGuide.snp.centerX)
+            make.left.right.equalTo(view.safeAreaLayoutGuide)
+            make.height.equalTo(view.bounds.height/2)
         }
         calendarCollectionView.isPagingEnabled = true
         calendarCollectionView.calendarDataSource = self
@@ -160,6 +178,16 @@ class CalendarViewController: UIViewController, UICollectionViewDelegateFlowLayo
         }else{
             calendarCollectionView.scrollToDate(Date(), animateScroll: false)
             calendarCollectionView.selectDates([Date()])
+        }
+        
+        view.addSubview(eventsTableView)
+        eventsTableView.delegate = self
+        eventsTableView.dataSource = self
+        eventsTableView.register(SelectionCell.self, forCellReuseIdentifier: eventCellID)
+        eventsTableView.snp.makeConstraints { (make) in
+            make.top.equalTo(calendarCollectionView.snp.bottom)
+            make.left.right.equalTo(view.safeAreaLayoutGuide)
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
         
     }
@@ -192,6 +220,10 @@ class CalendarViewController: UIViewController, UICollectionViewDelegateFlowLayo
 
 extension CalendarViewController:JTAppleCalendarViewDataSource {
     func calendar(_ calendar: JTAppleCalendarView, willDisplay cell: JTAppleCell, forItemAt date: Date, cellState: CellState, indexPath: IndexPath) {
+        let cell1 = cell as! CalendarCell
+        cell1.sectionNameLabel.text = cellState.text
+        handleCellSelected(view: cell1, cellState: cellState)
+        handleCellTextColor(view: cell1, cellState: cellState)
         print("displayed")
     }
     func configureCalendar(_ calendar: JTAppleCalendarView) -> ConfigurationParameters {
@@ -200,7 +232,6 @@ extension CalendarViewController:JTAppleCalendarViewDataSource {
         navigationItem.title = "\(year) Calendar"
         let firstOfYear = Calendar.current.date(from: DateComponents(year: year, month: 1, day: 1))
         let lastOfYear = Calendar.current.date(from: DateComponents(year: year, month: 12, day: 13))
-//        let parameter = ConfigurationParameters(startDate: firstOfYear!, endDate: lastOfYear!)
         let parameter = ConfigurationParameters(startDate: firstOfYear!, endDate: lastOfYear!, numberOfRows: 5, calendar: Calendar.current, generateInDates: .forAllMonths, generateOutDates: .off, firstDayOfWeek: .sunday, hasStrictBoundaries: true)
         return parameter
     }
@@ -213,7 +244,7 @@ extension CalendarViewController: JTAppleCalendarViewDelegate {
         guard let validCell = view as? CalendarCell else {
             return
         }
-        if validCell.isSelected {
+        if cellState.isSelected {
             validCell.daySelectionOverlay.isHidden = false
         }else {
             validCell.daySelectionOverlay.isHidden = true
@@ -225,7 +256,7 @@ extension CalendarViewController: JTAppleCalendarViewDelegate {
         guard let validCell = view as? CalendarCell else {
             return
         }
-        if validCell.isSelected {
+        if cellState.isSelected {
             validCell.sectionNameLabel.textColor = UIColor.white
         }else {
             if cellState.dateBelongsTo == .thisMonth{
@@ -252,6 +283,8 @@ extension CalendarViewController: JTAppleCalendarViewDelegate {
         handleCellTextColor(view: cell, cellState: cellState)
         return cell
     }
+    
+    
     func calendar(_ calendar: JTAppleCalendarView, didSelectDate date: Date, cell: JTAppleCell?, cellState: CellState) {
         guard let validCell = cell as? CalendarCell else {
             return
@@ -271,3 +304,46 @@ extension CalendarViewController: JTAppleCalendarViewDelegate {
         handleCellTextColor(view: validCell, cellState: cellState)
     }
 }
+
+extension CalendarViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 5
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: eventCellID, for: indexPath) as! SelectionCell
+        return cell
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 50
+    }
+    
+    
+}
+
+extension CalendarViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view = UIView(frame: CGRect.zero)
+        view.backgroundColor = .white
+        let label = UILabel()
+        label.text = "Events For Selected Day"
+        label.font = UIFont(name:"HelveticaNeue", size: 16)
+        label.textAlignment = .center
+        view.addSubview(label)
+        label.snp.makeConstraints { (make) in
+            make.centerX.equalTo(view.safeAreaLayoutGuide.snp.centerX)
+        }
+        return view
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 40
+    }
+}
+

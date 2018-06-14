@@ -78,6 +78,7 @@ class ShareViewController: UITableViewController  {
         SVProgressHUD.show(withStatus: "Sending invites")
         for recievingUsers in peopleToShareWith {
             print(self.eventKey)
+            print(recievingUsers.isPrivate)
             self.shareNotificationData = Notifications.init(reciever: recievingUsers, content: (User.current.username!) + " has shared an event with you", type: notiType.share.rawValue, eventKey: self.eventKey)
             NotificationService.sendShareNotification(self.shareNotificationData)
         }

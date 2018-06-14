@@ -59,30 +59,10 @@ class NotificationCell: UICollectionViewCell,NotificationCellDelegate {
     }()
     
     
-    lazy var followButton: UIButton = {
-        let button = UIButton(type: .system)
-        // button.setTitle("Edit Profile", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
-        button.layer.borderColor = UIColor.lightGray.cgColor
-        button.layer.borderWidth = 1
-        button.layer.cornerRadius = 3
-        
-     button.addTarget(self, action: #selector(didTapFollowButton), for: .touchUpInside)
-        return button
-    }()
-    
-    @objc func didTapFollowButton(){
-    print("follow button tapped")
-        
-    }
+
     fileprivate func setupUserInteraction (){
         print("Attempting to add follow button")
         print(notification?.receiver?.username as Any)
-        addSubview(self.followButton)
-        self.followButton.setTitle("Follow", for: .normal)
-        followButton.anchor(top: topAnchor, left: label.rightAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 20, paddingLeft: 20, paddingBottom: 25, paddingRight: 20, width: 0, height: 0)
-        
         
             }
     
