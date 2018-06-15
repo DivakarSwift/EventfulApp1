@@ -27,6 +27,7 @@ class NewProfileVC: UIViewController,UIScrollViewDelegate {
     
     lazy var currentImage : UIImageView = {
         let currentImage = UIImageView()
+        currentImage.setCellShadow()
         currentImage.clipsToBounds = true
         currentImage.translatesAutoresizingMaskIntoConstraints = false
         currentImage.contentMode = .scaleToFill
@@ -84,8 +85,8 @@ class NewProfileVC: UIViewController,UIScrollViewDelegate {
         self.navigationController?.navigationBar.isTranslucent = false
         view.addSubview(currentImage)
         currentImage.snp.makeConstraints { (make) in
-            make.left.right.equalTo(view.safeAreaLayoutGuide)
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            make.left.right.equalTo(view.safeAreaLayoutGuide).inset(5)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(5)
             make.height.equalTo(view.bounds.height / 3)
         }
         view.addSubview(myCollectionView)
@@ -120,12 +121,12 @@ extension NewProfileVC: UICollectionViewDataSource, UICollectionViewDelegate,UIC
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let kWhateverHeightYouWant = 149
-        return CGSize(width: collectionView.bounds.size.width - 60, height: CGFloat(kWhateverHeightYouWant))
+        let kWhateverHeightYouWant = 169
+        return CGSize(width: collectionView.bounds.size.width - 30, height: CGFloat(kWhateverHeightYouWant))
     }
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-//        return CGSize(width: view.frame.width/6, height: 100)
-//    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: collectionView.bounds.size.width - 30, height: 100)
+    }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerID, for: indexPath) as! NewUserHeader
