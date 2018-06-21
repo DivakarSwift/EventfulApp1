@@ -31,16 +31,16 @@ class TempCameraViewController: UIViewController {
     
     /// Public access to Pinch Gesture
     fileprivate(set) public var pinchGesture  : UIPinchGestureRecognizer!
-
+    
     // MARK: Capturing Photos
     
     private let photoOutput = AVCapturePhotoOutput()
     
-
+    
     private var depthDataDeliveryMode: DepthDataDeliveryMode = .off
     
     private var photoData: Data?
-
+    
     
     // MARK: Recording Movies
     
@@ -69,7 +69,7 @@ class TempCameraViewController: UIViewController {
     
     private var keyValueObservations = [NSKeyValueObservation]()
     
-   
+    
     
     var stackView: UIStackView?
     var stackView2: UIStackView?
@@ -78,13 +78,6 @@ class TempCameraViewController: UIViewController {
         captureButton.setImage(#imageLiteral(resourceName: "Trigger"), for: .normal)
         captureButton.addTarget(self, action: #selector(capturePhoto(_:)), for: .touchUpInside)
         
-        //        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(Tap))  //Tap function will call when user tap on button
-        //        tapGesture.delegate = self
-        //        let longGesture = UILongPressGestureRecognizer(target: self, action: #selector( captureAction(_:))) //Long function will call when user long press on button.
-        //        longGesture.delegate = self
-        //        tapGesture.numberOfTapsRequired = 1
-        //        captureButton.addGestureRecognizer(tapGesture)
-        //        captureButton.addGestureRecognizer(longGesture)
         return captureButton
     }()
     
@@ -151,7 +144,7 @@ class TempCameraViewController: UIViewController {
     lazy var cameraButton : UIButton = {
         let cameraButton = UIButton()
         cameraButton.setImage(#imageLiteral(resourceName: "icons8-instagram-filled-50"), for: UIControlState())
-        flipCameraButton.addTarget(self, action: #selector(setupPhotoSession(_:)), for: .touchUpInside)
+        cameraButton.addTarget(self, action: #selector(setupPhotoSession(_:)), for: .touchUpInside)
         return cameraButton
     }()
     
@@ -162,7 +155,7 @@ class TempCameraViewController: UIViewController {
         return videoButton
     }()
     
-
+    
     // MARK: Status Bar Presence
     override var prefersStatusBarHidden: Bool {
         return true
@@ -342,7 +335,6 @@ class TempCameraViewController: UIViewController {
                 // Only enable the ability to change camera if the device has more than one camera.
                 self.cameraButton.isEnabled = isSessionRunning && self.videoDeviceDiscoverySession.uniqueDevicePositionsCount > 1
                 self.captureButton.isEnabled = isSessionRunning
-                self.cameraButton.isEnabled = isSessionRunning
                 self.flipCameraButton.isEnabled = isSessionRunning
                 self.flashButton.isEnabled = isSessionRunning
                 self.videoButton.isEnabled = isSessionRunning
@@ -527,7 +519,7 @@ class TempCameraViewController: UIViewController {
             )
         }
     }
-
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -574,7 +566,7 @@ class TempCameraViewController: UIViewController {
                 }
             }
         }
-
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -604,13 +596,13 @@ class TempCameraViewController: UIViewController {
     }
     
     
-    @objc func setupVC(){
+    func setupVC(){
         addGestureRecognizers(on: capturePreviewView)
         view.addSubview(capturePreviewView)
         capturePreviewView.addSubview(captureButton)
         capturePreviewView.addSubview(recordButton)
         capturePreviewView.addSubview(resumeButton)
-
+        
         capturePreviewView.snp.makeConstraints { (make) in
             make.edges.equalTo(view)
         }
@@ -683,7 +675,7 @@ extension TempCameraViewController {
         case movie = 1
     }
     
-
+    
     
     private enum DepthDataDeliveryMode {
         case on
@@ -728,6 +720,7 @@ extension AVCaptureDevice.DiscoverySession {
 }
 
 //will hold most of the camera operations
+// MARK: Camera Operations
 extension TempCameraViewController {
     
     @IBAction private func changeCamera(_ sender: Any) {
@@ -736,7 +729,7 @@ extension TempCameraViewController {
         flipCameraButton.isEnabled = false
         cameraButton.isEnabled = false
         videoButton.isEnabled = false
-
+        
         sessionQueue.async {
             let currentVideoDevice = self.videoDeviceInput.device
             let currentPosition = currentVideoDevice.position
@@ -779,6 +772,7 @@ extension TempCameraViewController {
                         NotificationCenter.default.addObserver(self, selector: #selector(self.subjectAreaDidChange), name: .AVCaptureDeviceSubjectAreaDidChange, object: videoDeviceInput.device)
                         
                         self.session.addInput(videoDeviceInput)
+                        
                         self.videoDeviceInput = videoDeviceInput
                     } else {
                         self.session.addInput(self.videoDeviceInput)
@@ -844,7 +838,7 @@ extension TempCameraViewController {
             if !photoSettings.__availablePreviewPhotoPixelFormatTypes.isEmpty {
                 photoSettings.previewPhotoFormat = [kCVPixelBufferPixelFormatTypeKey as String: photoSettings.__availablePreviewPhotoPixelFormatTypes.first!]
             }
-
+            
             
             if self.depthDataDeliveryMode == .on && self.photoOutput.isDepthDataDeliverySupported {
                 photoSettings.isDepthDataDeliveryEnabled = true
@@ -853,7 +847,7 @@ extension TempCameraViewController {
             }
             
             
-
+            
             
             /*
              The Photo Output keeps a weak reference to the photo capture delegate so
@@ -861,7 +855,7 @@ extension TempCameraViewController {
              until the capture is completed.
              */
             self.photoOutput.capturePhoto(with: photoSettings, delegate: self)
-
+            
         }
     }
     
@@ -892,8 +886,8 @@ extension TempCameraViewController {
                 
                 DispatchQueue.main.async {
                     self.recordButton.isEnabled = true
-                    self.recordButton.addTarget(self, action: #selector(self.record), for: .touchDown)
-                    self.recordButton.addTarget(self, action: #selector(self.stop), for: UIControlEvents.touchUpInside)
+                    self.recordButton.addTarget(self, action: #selector(self.record), for: .touchUpInside)
+                    //                    self.recordButton.addTarget(self, action: #selector(self.stop), for: UIControlEvents.touchUpInside)
                 }
             }
         }
@@ -910,40 +904,42 @@ extension TempCameraViewController {
              not supported with AVCaptureSession.Preset.Photo. Additionally, Live Photo
              capture is not supported when an AVCaptureMovieFileOutput is connected to the session.
              */
-            self.session.beginConfiguration()
-            self.session.removeOutput(self.movieFileOutput!)
-            self.session.sessionPreset = .photo
-            
-            DispatchQueue.main.async {
-               // captureModeControl.isEnabled = true
-            }
-            
-            self.movieFileOutput = nil
-            
-            if self.photoOutput.isLivePhotoCaptureSupported {
-                self.photoOutput.isLivePhotoCaptureEnabled = true
+            if self.movieFileOutput != nil {
+                self.session.beginConfiguration()
+                self.session.removeOutput(self.movieFileOutput!)
+                self.session.sessionPreset = .photo
                 
                 DispatchQueue.main.async {
-                //    self.livePhotoModeButton.isEnabled = true
-                  //  self.livePhotoModeButton.isHidden = false
+                    // captureModeControl.isEnabled = true
                 }
-            }
-            
-            if self.photoOutput.isDepthDataDeliverySupported {
-                self.photoOutput.isDepthDataDeliveryEnabled = true
                 
-                DispatchQueue.main.async {
-                   // self.depthDataDeliveryButton.isHidden = false
-                    //self.depthDataDeliveryButton.isEnabled = true
+                self.movieFileOutput = nil
+                
+                if self.photoOutput.isLivePhotoCaptureSupported {
+                    self.photoOutput.isLivePhotoCaptureEnabled = true
+                    
+                    DispatchQueue.main.async {
+                        //    self.livePhotoModeButton.isEnabled = true
+                        //  self.livePhotoModeButton.isHidden = false
+                    }
                 }
+                
+                if self.photoOutput.isDepthDataDeliverySupported {
+                    self.photoOutput.isDepthDataDeliveryEnabled = true
+                    
+                    DispatchQueue.main.async {
+                        // self.depthDataDeliveryButton.isHidden = false
+                        //self.depthDataDeliveryButton.isEnabled = true
+                    }
+                }
+                
+                self.session.commitConfiguration()
             }
-            
-            self.session.commitConfiguration()
         }
     }
     
     @objc func record() {
-         self.progressTimer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(TempCameraViewController.updateProgress), userInfo: nil, repeats: true)
+        self.progressTimer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(TempCameraViewController.updateProgress), userInfo: nil, repeats: true)
         
         guard let movieFileOutput = self.movieFileOutput else {
             return
@@ -954,7 +950,7 @@ extension TempCameraViewController {
          
          See the AVCaptureFileOutputRecordingDelegate methods.
          */
-        flipCameraButton.isHidden = true
+        //        flipCameraButton.isHidden = true
         flashButton.isHidden = true
         cameraButton.isHidden = true
         videoButton.isHidden = true
@@ -999,29 +995,26 @@ extension TempCameraViewController {
                 movieFileOutput.startRecording(to: URL(fileURLWithPath: outputFilePath), recordingDelegate: self)
             } else {
                 movieFileOutput.stopRecording()
+                
+                self.progressTimer.invalidate()
+                
+                print("====> Stopped")
+                DispatchQueue.main.async {
+                    self.flipCameraButton.isHidden = false
+                    self.flashButton.isHidden = false
+                    self.cameraButton.isHidden = false
+                    self.videoButton.isHidden = false
+                    self.cancelButton.isHidden = false
+                    self.progress = 0;
+                }
             }
         }
-        
-        
-       
-    }
-    
-   @objc func updateProgress() {
-        
-        let maxDuration = CGFloat(11) // max duration of the recordButton
-        
-        progress = progress + (CGFloat(0.05) / maxDuration)
-        recordButton.setProgress(progress)
-        
-        if progress >= 1 {
-            progressTimer.invalidate()
-        }
-        
     }
     
     @objc func stop() {
         self.progressTimer.invalidate()
         if (movieFileOutput?.isRecording)! {
+            print("====> Stop pressed")
             movieFileOutput?.stopRecording()
             flipCameraButton.isHidden = false
             flashButton.isHidden = false
@@ -1032,11 +1025,26 @@ extension TempCameraViewController {
         }
     }
     
+    @objc func updateProgress() {
+        
+        let maxDuration = CGFloat(15) // max duration of the recordButton
+        
+        progress = progress + (CGFloat(0.05) / maxDuration)
+        recordButton.setProgress(progress)
+        
+        if progress >= 1 {
+            progressTimer.invalidate()
+            self.stop()
+        }
+        
+    }
+    
 }
 
+
 //will handle orientation
+// MARK: Orientation management
 extension TempCameraViewController {
-    /// Orientation management
     
     fileprivate func subscribeToDeviceOrientationChangeNotifications() {
         self.deviceOrientation = UIDevice.current.orientation
@@ -1054,9 +1062,9 @@ extension TempCameraViewController {
         }
     }
     
-     func getImageOrientation(forCamera: AVCaptureDevice.Position) -> UIImageOrientation {
+    func getImageOrientation(forCamera: AVCaptureDevice.Position) -> UIImageOrientation {
         guard shouldUseDeviceOrientation, let deviceOrientation = self.deviceOrientation else { return forCamera == .back ? .right : .leftMirrored }
-
+        
         
         switch deviceOrientation {
         case .landscapeLeft:
@@ -1071,7 +1079,7 @@ extension TempCameraViewController {
     }
 }
 
-
+// MARK: AVCapturePhotoCaptureDelegate
 extension TempCameraViewController: AVCapturePhotoCaptureDelegate {
     /*
      This extension includes all the delegate callbacks for AVCapturePhotoCaptureDelegate protocol
@@ -1101,9 +1109,9 @@ extension TempCameraViewController: AVCapturePhotoCaptureDelegate {
             
         }
     }
-    
-
 }
+
+// MARK: AVCaptureFileOutputRecordingDelegate
 
 extension TempCameraViewController: AVCaptureFileOutputRecordingDelegate{
     func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
@@ -1142,15 +1150,16 @@ extension TempCameraViewController: AVCaptureFileOutputRecordingDelegate{
             }
         } else{
             cleanUp()
-
+            
         }
-  
+        
     }
     
     
 }
 
 //will add the gesture recognizers to the view and handle the corresponding functions
+// MARK: Adding Gestures
 
 extension TempCameraViewController {
     func addGestureRecognizers(on view: UIView){
@@ -1181,85 +1190,85 @@ extension TempCameraViewController {
     @objc fileprivate func singleTapGesture(_ tap: UITapGestureRecognizer) throws {
         let device = self.videoDeviceInput.device
         let currentPosition =  self.videoDeviceInput.device.position
-
-
+        
+        
         guard tapToFocus == true else {
             // Ignore taps
             return
         }
-            
-            let screenSize = capturePreviewView.bounds.size
-            let tapPoint = tap.location(in: capturePreviewView)
-            let x = tapPoint.y / screenSize.height
-            let y = 1.0 - tapPoint.x / screenSize.width
-            let focusPoint = CGPoint(x: x, y: y)
-            
-            //adding animation for User/UI purposes
-            let focusView = UIImageView(image: #imageLiteral(resourceName: "focus"))
-            focusView.center = tapPoint
-            focusView.alpha = 0.0
-            capturePreviewView.addSubview(focusView)
-            
-            UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseInOut, animations: {
-                focusView.alpha = 1.0
-                focusView.transform = CGAffineTransform(scaleX: 1.25, y: 1.25)
+        
+        let screenSize = capturePreviewView.bounds.size
+        let tapPoint = tap.location(in: capturePreviewView)
+        let x = tapPoint.y / screenSize.height
+        let y = 1.0 - tapPoint.x / screenSize.width
+        let focusPoint = CGPoint(x: x, y: y)
+        
+        //adding animation for User/UI purposes
+        let focusView = UIImageView(image: #imageLiteral(resourceName: "focus"))
+        focusView.center = tapPoint
+        focusView.alpha = 0.0
+        capturePreviewView.addSubview(focusView)
+        
+        UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseInOut, animations: {
+            focusView.alpha = 1.0
+            focusView.transform = CGAffineTransform(scaleX: 1.25, y: 1.25)
+        }, completion: { (success) in
+            UIView.animate(withDuration: 0.15, delay: 0.5, options: .curveEaseInOut, animations: {
+                focusView.alpha = 0.0
+                focusView.transform = CGAffineTransform(translationX: 0.6, y: 0.6)
             }, completion: { (success) in
-                UIView.animate(withDuration: 0.15, delay: 0.5, options: .curveEaseInOut, animations: {
-                    focusView.alpha = 0.0
-                    focusView.transform = CGAffineTransform(translationX: 0.6, y: 0.6)
-                }, completion: { (success) in
-                    focusView.removeFromSuperview()
-                })
+                focusView.removeFromSuperview()
             })
-            
-            ///////////////////end ui
-            
+        })
+        
+        ///////////////////end ui
+        
         switch currentPosition {
-            case (.front):
-                    do {
-                        try device.lockForConfiguration()
-                        
-                        if device.isFocusPointOfInterestSupported == true {
-                            device.focusPointOfInterest = focusPoint
-                            device.focusMode = .autoFocus
-                        }
-                        device.exposurePointOfInterest = focusPoint
-                        device.exposureMode = AVCaptureDevice.ExposureMode.continuousAutoExposure
-                        device.unlockForConfiguration()
-                        //Call delegate function and pass in the location of the touch
-                        
-                        DispatchQueue.main.async {
-                            //self.cameraDelegate?.swiftyCam(self, didFocusAtPoint: tapPoint)
-                        }
-                    }
-                    catch {
-                        // just ignore
-                    }
+        case (.front):
+            do {
+                try device.lockForConfiguration()
                 
+                if device.isFocusPointOfInterestSupported == true {
+                    device.focusPointOfInterest = focusPoint
+                    device.focusMode = .autoFocus
+                }
+                device.exposurePointOfInterest = focusPoint
+                device.exposureMode = AVCaptureDevice.ExposureMode.continuousAutoExposure
+                device.unlockForConfiguration()
+                //Call delegate function and pass in the location of the touch
                 
-            case (.back):
-                    do {
-                        try device.lockForConfiguration()
-                        
-                        if device.isFocusPointOfInterestSupported == true {
-                            device.focusPointOfInterest = focusPoint
-                            device.focusMode = .autoFocus
-                        }
-                        device.exposurePointOfInterest = focusPoint
-                        device.exposureMode = AVCaptureDevice.ExposureMode.continuousAutoExposure
-                        device.unlockForConfiguration()
-                        //Call delegate function and pass in the location of the touch
-                        
-                        DispatchQueue.main.async {
-                            //self.cameraDelegate?.swiftyCam(self, didFocusAtPoint: tapPoint)
-                        }
-                    }
-                    catch {
-                        // just ignore
-                    }
+                DispatchQueue.main.async {
+                    //self.cameraDelegate?.swiftyCam(self, didFocusAtPoint: tapPoint)
+                }
+            }
+            catch {
+                // just ignore
+            }
+            
+            
+        case (.back):
+            do {
+                try device.lockForConfiguration()
                 
+                if device.isFocusPointOfInterestSupported == true {
+                    device.focusPointOfInterest = focusPoint
+                    device.focusMode = .autoFocus
+                }
+                device.exposurePointOfInterest = focusPoint
+                device.exposureMode = AVCaptureDevice.ExposureMode.continuousAutoExposure
+                device.unlockForConfiguration()
+                //Call delegate function and pass in the location of the touch
                 
-                
+                DispatchQueue.main.async {
+                    //self.cameraDelegate?.swiftyCam(self, didFocusAtPoint: tapPoint)
+                }
+            }
+            catch {
+                // just ignore
+            }
+            
+            
+            
         case .unspecified:
             print("nothing could be done")
         }
@@ -1272,10 +1281,10 @@ extension TempCameraViewController {
     /// Handle pinch gesture to zoom
     
     @objc  func zoomGesture(pinch: UIPinchGestureRecognizer) throws {
-
+        
         let device = self.videoDeviceInput.device
         let currentPosition =  self.videoDeviceInput.device.position
-
+        
         switch currentPosition {
         case .front:
             do {
@@ -1346,5 +1355,6 @@ extension TempCameraViewController : UIGestureRecognizerDelegate {
         return true
     }
 }
+
 
 

@@ -107,6 +107,7 @@ struct UserService {
             // 4
             Events(for: user, completion: { events in
                 // 5
+                print(events)
                 completion(userRef, user, events)
             })
         })
@@ -118,7 +119,7 @@ struct UserService {
         var currentEvents = [Event]()
 
         //Getting firebase root directory
-        let ref = Database.database().reference().child("users").child(user.uid).child("Attending")
+        let ref = Database.database().reference().child("users").child(user.uid).child("attending")
         
    
         ref.observe(.value, with: { (snapshot) in
@@ -132,12 +133,15 @@ struct UserService {
             eventDictionary.forEach({ (key,value) in
                 dispatchGroup.enter()
                 EventService.show(forEventKey: key , completion: { (event) in
+                    
                     AttendService.isEventAttended(event, byCurrentUserWithCompletion: { (isAttended) in
                         event?.isAttending = isAttended
                         dispatchGroup.leave()
 
                     })
-                     currentEvents.append(.init(currentEventKey: key , dictionary: (event?.eventDictionary)!))
+                    if let event = event {
+                        currentEvents.append(event)
+                    }
                 })
             })
 

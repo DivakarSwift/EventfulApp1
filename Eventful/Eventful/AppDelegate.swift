@@ -14,7 +14,7 @@ import UserNotifications
 import NotificationBannerSwift
 import GooglePlaces
 import RevealingSplashView
-import AVFoundation
+import IQKeyboardManagerSwift
 
 
 typealias FIRUser = FirebaseAuth.User
@@ -32,6 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
     let userProfileController = ProfileeViewController(collectionViewLayout: UICollectionViewFlowLayout())
     let revealingSplashView = RevealingSplashView(iconImage:UIImage(named: "LogoWelcome")! , iconInitialSize: CGSize(width:123,height:123), backgroundImage:UIImage(named: "Ресурс 14")! )
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+       IQKeyboardManager.shared.enable = true
         Fabric.with([Crashlytics.self])
         self.appRef = application
         //1 Configure app for firebase
@@ -51,12 +52,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
         UITabBar.appearance().tintColor = .black
 
 
-//        //will allow background audio in avrecording
-//        let session = AVAudioSession.sharedInstance()
-//        try? session.setCategory(AVAudioSessionCategoryPlayAndRecord, with: [AVAudioSessionCategoryOptions.mixWithOthers, AVAudioSessionCategoryOptions.defaultToSpeaker, AVAudioSessionCategoryOptions.allowBluetooth])
-//        try? session.setActive(true)
-//        UIApplication.shared.beginReceivingRemoteControlEvents()
-//        
+
         // 4
         // here so firebase will work
         // Override point for customization after application launch.

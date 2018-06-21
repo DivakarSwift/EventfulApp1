@@ -85,13 +85,13 @@
 		07C15E2620BA30670046D8BC /* SettingsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C15E2520BA30670046D8BC /* SettingsService.swift */; };
 		07C15E2820BA5F6B0046D8BC /* FriendService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C15E2720BA5F6B0046D8BC /* FriendService.swift */; };
 		07C15E3C20C10D550046D8BC /* FollowerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C15E3920C10D550046D8BC /* FollowerCell.swift */; };
-		07C15E3D20C10D550046D8BC /* FollowersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C15E3A20C10D550046D8BC /* FollowersViewController.swift */; };
+		07C15E3D20C10D550046D8BC /* FollowingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C15E3A20C10D550046D8BC /* FollowingViewController.swift */; };
 		07C15E4120C10D760046D8BC /* PhotoCaptureDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C15E3E20C10D760046D8BC /* PhotoCaptureDelegate.swift */; };
 		07C15E4220C10D760046D8BC /* TempCameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C15E3F20C10D760046D8BC /* TempCameraViewController.swift */; };
 		07C15E4320C10D760046D8BC /* PreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C15E4020C10D760046D8BC /* PreviewView.swift */; };
 		07C15E4D20C112DB0046D8BC /* RequestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C15E4B20C112DB0046D8BC /* RequestViewController.swift */; };
 		07C15E4E20C112DB0046D8BC /* FriendRequestCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C15E4C20C112DB0046D8BC /* FriendRequestCell.swift */; };
-		07C15E5820C5073A0046D8BC /* FollowingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C15E5720C5073A0046D8BC /* FollowingViewController.swift */; };
+		07C15E5820C5073A0046D8BC /* FollowersOViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C15E5720C5073A0046D8BC /* FollowersOViewController.swift */; };
 		07C15E5A20C5A5BF0046D8BC /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C15E5920C5A5BF0046D8BC /* ShareViewController.swift */; };
 		07C15E5C20C5AEBF0046D8BC /* ShareCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C15E5B20C5AEBF0046D8BC /* ShareCell.swift */; };
 		07C15E5E20D0CBEC0046D8BC /* SelectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C15E5D20D0CBEC0046D8BC /* SelectionCell.swift */; };
@@ -192,13 +192,13 @@
 		07C15E2520BA30670046D8BC /* SettingsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SettingsService.swift; path = Services/SettingsService.swift; sourceTree = "<group>"; };
 		07C15E2720BA5F6B0046D8BC /* FriendService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FriendService.swift; path = Services/FriendService.swift; sourceTree = "<group>"; };
 		07C15E3920C10D550046D8BC /* FollowerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FollowerCell.swift; path = Controllers/Followers/FollowerCell.swift; sourceTree = "<group>"; };
-		07C15E3A20C10D550046D8BC /* FollowersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FollowersViewController.swift; path = Controllers/Followers/FollowersViewController.swift; sourceTree = "<group>"; };
+		07C15E3A20C10D550046D8BC /* FollowingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FollowingViewController.swift; path = Controllers/Followers/FollowingViewController.swift; sourceTree = "<group>"; };
 		07C15E3E20C10D760046D8BC /* PhotoCaptureDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PhotoCaptureDelegate.swift; path = Eventful/Controllers/AppleCamera/PhotoCaptureDelegate.swift; sourceTree = SOURCE_ROOT; };
 		07C15E3F20C10D760046D8BC /* TempCameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TempCameraViewController.swift; path = Eventful/Controllers/AppleCamera/TempCameraViewController.swift; sourceTree = SOURCE_ROOT; };
 		07C15E4020C10D760046D8BC /* PreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreviewView.swift; path = Eventful/Controllers/AppleCamera/PreviewView.swift; sourceTree = SOURCE_ROOT; };
 		07C15E4B20C112DB0046D8BC /* RequestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RequestViewController.swift; path = Controllers/FriendRequest/RequestViewController.swift; sourceTree = "<group>"; };
 		07C15E4C20C112DB0046D8BC /* FriendRequestCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FriendRequestCell.swift; path = Controllers/FriendRequest/FriendRequestCell.swift; sourceTree = "<group>"; };
-		07C15E5720C5073A0046D8BC /* FollowingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FollowingViewController.swift; path = Controllers/Followers/FollowingViewController.swift; sourceTree = "<group>"; };
+		07C15E5720C5073A0046D8BC /* FollowersOViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FollowersOViewController.swift; path = Controllers/Followers/FollowersOViewController.swift; sourceTree = "<group>"; };
 		07C15E5920C5A5BF0046D8BC /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ShareViewController.swift; path = Controllers/EventDetail/ShareViewController.swift; sourceTree = "<group>"; };
 		07C15E5B20C5AEBF0046D8BC /* ShareCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ShareCell.swift; path = Controllers/EventDetail/ShareCell.swift; sourceTree = "<group>"; };
 		07C15E5D20D0CBEC0046D8BC /* SelectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SelectionCell.swift; path = Controllers/Calendar/SelectionCell.swift; sourceTree = "<group>"; };
@@ -409,8 +409,8 @@
 			isa = PBXGroup;
 			children = (
 				07C15E3920C10D550046D8BC /* FollowerCell.swift */,
-				07C15E3A20C10D550046D8BC /* FollowersViewController.swift */,
-				07C15E5720C5073A0046D8BC /* FollowingViewController.swift */,
+				07C15E3A20C10D550046D8BC /* FollowingViewController.swift */,
+				07C15E5720C5073A0046D8BC /* FollowersOViewController.swift */,
 			);
 			name = Followers;
 			sourceTree = "<group>";
@@ -664,6 +664,7 @@
 				"${BUILT_PRODUCTS_DIR}/GeoFire/GeoFire.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/IGListKit/IGListKit.framework",
+				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/JTAppleCalendar/JTAppleCalendar.framework",
 				"${BUILT_PRODUCTS_DIR}/MarqueeLabel/MarqueeLabel.framework",
 				"${BUILT_PRODUCTS_DIR}/NotificationBannerSwift/NotificationBannerSwift.framework",
@@ -692,6 +693,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GeoFire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IGListKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JTAppleCalendar.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MarqueeLabel.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NotificationBannerSwift.framework",
@@ -793,7 +795,7 @@
 				0724731A2072D48800DD285E /* SideMenu.swift in Sources */,
 				0747AA0320375D5E00F725C7 /* SettingsViewController.swift in Sources */,
 				07FF92CB1F3B925800FC9716 /* ChatService.swift in Sources */,
-				07C15E5820C5073A0046D8BC /* FollowingViewController.swift in Sources */,
+				07C15E5820C5073A0046D8BC /* FollowersOViewController.swift in Sources */,
 				0747A9DD20375C7D00F725C7 /* LoginViewController.swift in Sources */,
 				0747AA1820375D8500F725C7 /* CommentInputTextView.swift in Sources */,
 				07C15E4D20C112DB0046D8BC /* RequestViewController.swift in Sources */,
@@ -837,7 +839,7 @@
 				0747A9DB20375C6600F725C7 /* NotificationsViewController.swift in Sources */,
 				07C15E2420B7DA920046D8BC /* Private.swift in Sources */,
 				073AFDC51F45E4FB009D4773 /* FollowService.swift in Sources */,
-				07C15E3D20C10D550046D8BC /* FollowersViewController.swift in Sources */,
+				07C15E3D20C10D550046D8BC /* FollowingViewController.swift in Sources */,
 				0724731F2078562700DD285E /* PlacesSearchController.swift in Sources */,
 				07F3EC591F4A57C3005296EB /* PostService.swift in Sources */,
 				072473162072C34A00DD285E /* SideMenuCell.swift in Sources */,

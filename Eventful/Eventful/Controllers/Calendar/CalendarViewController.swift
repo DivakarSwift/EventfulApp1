@@ -9,10 +9,13 @@
 import UIKit
 import JTAppleCalendar
 import SVProgressHUD
+import SwiftLocation
+import CoreLocation
 
 class CalendarViewController: UIViewController, UICollectionViewDelegateFlowLayout {
     let cellID = "cellID"
     let eventCellID = "eventCellID"
+    var savedLocation1: CLLocation?
     let formatter = DateFormatter()
     let dateFormatterGet = DateFormatter()
     let dateFormatterPrint = DateFormatter()
@@ -22,6 +25,8 @@ class CalendarViewController: UIViewController, UICollectionViewDelegateFlowLayo
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 100, height: 100)
     }
+    var allEvents = [Event]()
+
     var dayStackView: UIStackView?
     var stackView = UIStackView()
     var yearAndMonthStackView: UIStackView?
@@ -133,6 +138,7 @@ class CalendarViewController: UIViewController, UICollectionViewDelegateFlowLayo
 
     
     @objc func setupVC(){
+        print(savedLocation1?.description)
         setupNavBar()
         calendarCollectionView.visibleDates { (visibleDates) in
             self.setupViewsOfCalendar(from: visibleDates)
@@ -346,4 +352,5 @@ extension CalendarViewController: UITableViewDelegate {
         return 40
     }
 }
+
 

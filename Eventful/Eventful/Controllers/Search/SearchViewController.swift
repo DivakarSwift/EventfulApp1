@@ -50,7 +50,7 @@ class EventSearchController: UICollectionViewController, UICollectionViewDelegat
               //  print(snapshot.value ?? "")
                 return
             }
-          //  print(snapshot.value ?? "")
+            print(snapshot.value ?? "")
             dictionary.forEach({ (key,value) in
                // print(key,value)
                 guard let eventDictionary = value as? [String: Any] else{
@@ -205,7 +205,7 @@ class EventSearchController: UICollectionViewController, UICollectionViewDelegat
             navigationController?.navigationBar.isHidden = false
             let user = filteredUsers[indexPath.item]
            // print(user.username ?? "")
-            let userProfileController = ProfileeViewController(collectionViewLayout: UICollectionViewFlowLayout())
+            let userProfileController = NewProfileVC()
             userProfileController.user = user
             userProfileController.navigationItem.title = user.username
             userProfileController.navigationItem.hidesBackButton = true

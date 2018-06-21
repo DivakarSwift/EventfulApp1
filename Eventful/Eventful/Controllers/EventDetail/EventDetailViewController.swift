@@ -76,6 +76,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
     
     lazy var currentEventImage : UIImageView = {
         let currentEvent = UIImageView()
+        currentEvent.setCellShadow()
         currentEvent.clipsToBounds = true
         currentEvent.translatesAutoresizingMaskIntoConstraints = false
         currentEvent.contentMode = .scaleToFill
@@ -183,6 +184,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
     
     lazy var commentsViewButton : UIButton = {
         let viewComments = UIButton(type: .system)
+        viewComments.setCellShadow()
         viewComments.setImage(#imageLiteral(resourceName: "icons8-chat-50").withRenderingMode(.alwaysOriginal), for: .normal)
         viewComments.layer.cornerRadius = 5
         viewComments.setTitle("Comments", for: .normal)
@@ -206,6 +208,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
     
     lazy var attendingButton: UIButton = {
         let attendButton = UIButton(type: .system)
+        attendButton.setCellShadow()
         attendButton.setImage(#imageLiteral(resourceName: "icons8-walking-50").withRenderingMode(.alwaysOriginal), for: .normal)
         attendButton.layer.cornerRadius = 5
         attendButton.titleLabel?.font = UIFont(name: "GillSans", size: 15)
@@ -305,6 +308,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
     
     lazy var addToStoryButton : UIButton =  {
         let addToStory = UIButton(type: .system)
+        addToStory.setCellShadow()
         addToStory.setImage(#imageLiteral(resourceName: "icons8-screenshot-filled-50").withRenderingMode(.alwaysOriginal), for: .normal)
         addToStory.layer.cornerRadius = 5
         addToStory.titleLabel?.font = UIFont(name: "GillSans", size: 15)
@@ -325,6 +329,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
     
     lazy var viewStoryButton : UIButton = {
         let viewStoryButton = UIButton(type: .system)
+        viewStoryButton.setCellShadow()
         viewStoryButton.setImage(#imageLiteral(resourceName: "icons8-next-50").withRenderingMode(.alwaysOriginal), for: .normal)
         viewStoryButton.layer.cornerRadius = 5
         viewStoryButton.setTitle("View Story", for: .normal)
@@ -348,6 +353,10 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.interactivePopGestureRecognizer?.delegate = nil
+        if let start = currentEvent?.startTime, let end = currentEvent?.endTime {
+            print(start)
+            print(end)
+        }
 
        setupVc()
     }
@@ -533,34 +542,6 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         return (dayElement, monthElement)
     }
     
-    //MARK: - Scroll View Delegate
-    
-    private var previousStatusBarHidden = false
-    
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if previousStatusBarHidden != shouldHideStatusBar {
-            
-            UIView.animate(withDuration: 0.2, animations: {
-                self.setNeedsStatusBarAppearanceUpdate()
-            })
-            
-            previousStatusBarHidden = shouldHideStatusBar
-        }
-    }
-    
-    //MARK: - Status Bar Appearance
-    
-    override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
-        return .slide
-    }
-    
-    override var prefersStatusBarHidden: Bool {
-        return shouldHideStatusBar
-    }
-    
-    private var shouldHideStatusBar: Bool {
-        let frame = textContainer.convert(textContainer.bounds, to: nil)
-        return frame.minY < view.safeAreaInsets.top
-    }
+
  
 }

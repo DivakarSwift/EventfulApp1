@@ -54,6 +54,7 @@ class UserProfileHeader: UICollectionViewCell {
     lazy var followButton: UIButton = {
         let button = UIButton(type: .system)
        // button.setTitle("Edit Profile", for: .normal)
+        button.setCellShadow()
         button.setTitleColor(.black, for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
         button.layer.borderColor = UIColor.lightGray.cgColor
@@ -227,11 +228,6 @@ class UserProfileHeader: UICollectionViewCell {
     
     
     fileprivate func setupProfileImage() {
-        
-        
-        print("Did set username \(user?.username ?? "")")
-        
-        
         guard let profileImageUrl = user?.profilePic else {return }
         
         guard let url = URL(string: profileImageUrl) else { return }

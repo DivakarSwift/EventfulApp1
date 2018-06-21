@@ -31,10 +31,8 @@ class HomeFeedController: UICollectionViewController {
     
     let dispatchGroup = DispatchGroup()
     var savedLocation: CLLocation?
-    var isFinishedPaging = false
     var userLocation: CLLocation?
     var allEvents = [Event]()
-    var eventKeys = [String]()
     var featuredEvents = [Event]()
     var allEvents2 = [String:[Event]]()
     var seizeTheNight = [Event]()
@@ -95,7 +93,10 @@ class HomeFeedController: UICollectionViewController {
             calendar.passedDate = lastDate
         }
         calendar.homeFeedController = self
-        self.navigationController?.pushViewController(calendar, animated: false)
+        LocationService.getUserLocation { (location) in
+            calendar.savedLocation1 = location
+            self.navigationController?.pushViewController(calendar, animated: false)
+        }
     }
     
     @objc func presentSideMenu(){
@@ -359,7 +360,7 @@ extension HomeFeedController: UICollectionViewDelegateFlowLayout {
 extension HomeFeedController {
     @objc func fetchEvents(currentLocation: CLLocation, selectedDate: Date){
         
-        PostService.showEvent(for: currentLocation, completion: { [unowned self](events) in
+        PostService.showEvent(passedDate: selectedDate,for: currentLocation, completion: { [unowned self](events) in
             for event in events {
                 if event.category == "Seize The Night" {
                     self.seizeTheNight.append(event)
@@ -374,31 +375,14 @@ extension HomeFeedController {
             self.allEvents2["Seize The Night"] = self.seizeTheNight
             self.allEvents2["Seize The Day"] = self.seizeTheDay
             self.allEvents2[ "21 & Up"] = self.twentyOne
-            
-            for events in self.allEvents2 {
-                for currentEvents in events.value {
-                    if let date = self.dateFormatter.date(from: currentEvents.currentEventDate!){
-                        print(date.description)
-                        if date.compare(selectedDate) == ComparisonResult.orderedAscending{
-                            print("happens earlier")
-                            self.allEvents2[events.key] = self.allEvents2[events.key]?.filter({ $0 != currentEvents})
-                        }
-                    }
-                }
+            DispatchQueue.main.async {
+                self.collectionView?.reloadData()
             }
         })
         
-        PostService.showFeaturedEvent(for: currentLocation, completion: { [weak self] (events) in
+        PostService.showFeaturedEvent(passedDate: selectedDate,for: currentLocation, completion: { [weak self] (events) in
             self?.featuredEvents = events
-            for events in (self?.featuredEvents)! {
-                if let date = self?.dateFormatter.date(from: events.currentEventDate!){
-                    print(date.description)
-                    if date.compare(selectedDate) == ComparisonResult.orderedAscending{
-                        print("happens earlier")
-                        self?.featuredEvents = (self?.featuredEvents.filter({ $0 != events}))!
-                    }
-                }
-            }
+
             DispatchQueue.main.async {
                 self?.collectionView?.reloadData()
                 SVProgressHUD.dismiss(withDelay: 1)

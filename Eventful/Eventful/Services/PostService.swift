@@ -32,7 +32,7 @@ class PostService {
         userRef.updateChildValues(dict)
     }
     
-    static func showEvent(for currentLocation: CLLocation,completion: @escaping ([Event]) -> Void) {
+    static func showEvent(passedDate: Date? = nil,for currentLocation: CLLocation,completion: @escaping ([Event]) -> Void) {
         //getting firebase root directory
         var keys = [String]()
         var currentEvents = [Event]()
@@ -49,27 +49,47 @@ class PostService {
         })
         
         circleQuery?.observeReady({
-            let dispatchGroup = DispatchGroup()
-            for key in keys {
-                dispatchGroup.enter()
-                EventService.show(forEventKey: key, completion: { (event) in
-                    if let currentEvent = event {
-                        currentEvents.append(currentEvent)
-                    }
-                    dispatchGroup.leave()
+            if passedDate == nil {
+                let dispatchGroup = DispatchGroup()
+                for key in keys {
+                    dispatchGroup.enter()
+                    EventService.show(forEventKey: key, completion: { (event) in
+                        if let currentEvent = event {
+                            currentEvents.append(currentEvent)
+                        }
+                        dispatchGroup.leave()
+                    })
+                }
+                
+                dispatchGroup.notify(queue: .main, execute: {
+                    completion(currentEvents)
                 })
+            }else{
+                
+                let dispatchGroup = DispatchGroup()
+                for key in keys {
+                    dispatchGroup.enter()
+                    EventService.show(passedDate: passedDate, forEventKey: key, completion: { (event) in
+                        if let currentEvent = event {
+                            currentEvents.append(currentEvent)
+                        }
+                        dispatchGroup.leave()
+                    })
+                }
+                
+                dispatchGroup.notify(queue: .main, execute: {
+                    print(currentEvents.count)
+                    completion(currentEvents)
+                })
+                
             }
-            
-            dispatchGroup.notify(queue: .main, execute: {
-                print(currentEvents.count)
-                completion(currentEvents)
-            })
+
 
         })
 
     }
     
-    static func showFeaturedEvent(for currentLocation: CLLocation,completion: @escaping ([Event]) -> Void) {
+    static func showFeaturedEvent(passedDate: Date? = nil,for currentLocation: CLLocation,completion: @escaping ([Event]) -> Void) {
         //getting firebase root directory
         var currentEvents = [Event]()
         var keys = [String]()
@@ -85,22 +105,45 @@ class PostService {
             }
         })
         
+        
         circleQuery?.observeReady({
-            let dispatchGroup = DispatchGroup()
-            for key in keys {
-                dispatchGroup.enter()
-                EventService.show(forEventKey: key, completion: { (event) in
-                    if let currentEvent = event {
-                        currentEvents.append(currentEvent)
-                    }
-                    dispatchGroup.leave()
+            if passedDate == nil {
+                let dispatchGroup = DispatchGroup()
+                for key in keys {
+                    dispatchGroup.enter()
+                    EventService.show(forEventKey: key, completion: { (event) in
+                        if let currentEvent = event {
+                            currentEvents.append(currentEvent)
+                        }
+                        dispatchGroup.leave()
+                    })
+                }
+                
+                dispatchGroup.notify(queue: .main, execute: {
+                    print(currentEvents.count)
+                    completion(currentEvents)
                 })
+            }else{
+                
+                let dispatchGroup = DispatchGroup()
+                for key in keys {
+                    dispatchGroup.enter()
+                    EventService.show(passedDate: passedDate, forEventKey: key, completion: { (event) in
+                        if let currentEvent = event {
+                            currentEvents.append(currentEvent)
+                        }
+                        dispatchGroup.leave()
+                    })
+                }
+                
+                dispatchGroup.notify(queue: .main, execute: {
+                    print(currentEvents.count)
+                    completion(currentEvents)
+                })
+                
             }
             
-            dispatchGroup.notify(queue: .main, execute: {
-                print(currentEvents.count)
-                    completion(currentEvents)
-            })
+            
         })
         
 

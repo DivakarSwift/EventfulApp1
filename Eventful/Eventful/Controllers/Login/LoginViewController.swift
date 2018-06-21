@@ -23,10 +23,10 @@ class LoginViewController: UIViewController , LoginViewControllerDelegate {
     weak var delegate : LoginViewControllerDelegate?
     let signUpTransition = SignUpViewController()
     let forgotPasswordTransition = ForgotPasswordViewController()
-    fileprivate var contentScrollView:UIScrollView!
     fileprivate var activeTextField:UITextField?
     lazy var logoImageView: CustomImageView = {
         let iv = CustomImageView()
+        iv.setCellShadow()
         iv.clipsToBounds = true
         iv.isUserInteractionEnabled = true
         iv.contentMode = .scaleAspectFit
@@ -79,6 +79,7 @@ class LoginViewController: UIViewController , LoginViewControllerDelegate {
         let button = UIButton(type: .system)
         button.setTitle("LOGIN", for: .normal)
         button.setTitleColor(.white, for: .normal)
+        button.setCellShadow()
         button.layer.cornerRadius = 5
         button.titleLabel?.font = UIFont(name: "Futura", size: 14)
         button.addTarget(self, action: #selector(handleLogin), for: .touchUpInside)
@@ -174,12 +175,12 @@ class LoginViewController: UIViewController , LoginViewControllerDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.observeKeyboardNotifications()
+        //self.observeKeyboardNotifications()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        self.removeObserveKeyboardNotifications()
+        //self.removeObserveKeyboardNotifications()
     }
     
     var stackView: UIStackView?
@@ -192,39 +193,33 @@ class LoginViewController: UIViewController , LoginViewControllerDelegate {
             make.centerX.equalTo(view.safeAreaLayoutGuide.snp.centerX)
         }
         
-        self.contentScrollView = UIScrollView()
-        view.addSubview(self.contentScrollView)
-        contentScrollView.snp.makeConstraints { (make) in
-            make.top.equalTo(logoImageView.snp.bottom).offset(75)
-            make.left.right.equalTo(view.safeAreaLayoutGuide).inset(20)
-            make.height.equalTo(view.bounds.height / 1.2)
-        }
+       
         
         self.emailTextField.translatesAutoresizingMaskIntoConstraints = false
         self.emailTextField.delegate = self
-        self.contentScrollView.addSubview(emailTextField)
+        view.addSubview(emailTextField)
         emailTextField.snp.makeConstraints { (make) in
-            make.top.equalTo(contentScrollView.snp.top).offset(60)
+            make.centerY.equalTo(view.safeAreaLayoutGuide.snp.centerY).offset(40)
             make.height.equalTo(47.5)
             make.left.right.equalTo(view.safeAreaLayoutGuide).inset(40)
         }
         self.passwordTextField.translatesAutoresizingMaskIntoConstraints = false
         self.passwordTextField.delegate = self
-        self.contentScrollView.addSubview(passwordTextField)
+        view.addSubview(passwordTextField)
         passwordTextField.snp.makeConstraints { (make) in
-            make.top.equalTo(emailTextField.snp.top).offset(60)
+            make.top.equalTo(emailTextField.snp.top).offset(50)
             make.height.equalTo(47.5)
             make.left.right.equalTo(view.safeAreaLayoutGuide).inset(40)
         }
-        
+
         self.loginButton.translatesAutoresizingMaskIntoConstraints = false
-        self.contentScrollView.addSubview(loginButton)
+        view.addSubview(loginButton)
         loginButton.snp.makeConstraints { (make) in
             make.top.equalTo(passwordTextField.snp.top).offset(80)
             //            make.height.equalTo(47.5)
             make.left.right.equalTo(view.safeAreaLayoutGuide).inset(40)
         }
-       
+
 
         self.view.addSubview(forgotPasswordButton)
         forgotPasswordButton.snp.makeConstraints { (make) in
@@ -266,35 +261,35 @@ class LoginViewController: UIViewController , LoginViewControllerDelegate {
     
     // Will move the UI Up on login Screen when keyboard appears
     
-    fileprivate func  observeKeyboardNotifications(){
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-        
-    }
+//    fileprivate func  observeKeyboardNotifications(){
+//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+//
+//    }
     
     fileprivate func  removeObserveKeyboardNotifications(){
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
-    
-    //will properly show keyboard
-    @objc func keyboardWillShow(notification:NSNotification){
-        
-        var userInfo = notification.userInfo!
-        var keyboardFrame:CGRect = (userInfo[UIKeyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
-        keyboardFrame = self.view.convert(keyboardFrame, from: nil)
-        
-        var contentInset:UIEdgeInsets = self.contentScrollView.contentInset
-        contentInset.bottom = keyboardFrame.size.height
-        contentScrollView.contentInset = contentInset
-    }
-    
-    //will properly hide keyboard
-    @objc func keyboardWillHide(notification:NSNotification){
-        
-        let contentInset:UIEdgeInsets = UIEdgeInsets.zero
-        contentScrollView.contentInset = contentInset
-    }
+//
+//    //will properly show keyboard
+//    @objc func keyboardWillShow(notification:NSNotification){
+//
+//        var userInfo = notification.userInfo!
+//        var keyboardFrame:CGRect = (userInfo[UIKeyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
+//        keyboardFrame = self.view.convert(keyboardFrame, from: nil)
+//
+//        var contentInset:UIEdgeInsets = self.contentScrollView.contentInset
+//        contentInset.bottom = keyboardFrame.size.height
+//        contentScrollView.contentInset = contentInset
+//    }
+//
+//    //will properly hide keyboard
+//    @objc func keyboardWillHide(notification:NSNotification){
+//
+//        let contentInset:UIEdgeInsets = UIEdgeInsets.zero
+//        contentScrollView.contentInset = contentInset
+//    }
     
     
 }

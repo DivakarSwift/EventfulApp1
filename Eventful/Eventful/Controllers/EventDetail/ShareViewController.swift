@@ -54,7 +54,7 @@ class ShareViewController: UITableViewController  {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupVc()
-        FriendService.system.addFriendObserver {
+        FriendService.system.addFriendObserver(userID: User.current.uid) {
             self.tableView.reloadData()
         }
     }
@@ -100,12 +100,12 @@ class ShareViewController: UITableViewController  {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: shareCell, for: indexPath) as! ShareCell
-        cell.user = FriendService.system.friendList[indexPath.row]
+        cell.user = FriendService.system.followerList[indexPath.row]
         return cell
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if FriendService.system.friendList.count == 0 {
+        if FriendService.system.followerList.count == 0 {
             emptyView.backgroundColor = .clear
             emptyView.addSubview(iconImageView)
             iconImageView.image = UIImage(named: "icons8-friends-51")
@@ -119,11 +119,11 @@ class ShareViewController: UITableViewController  {
                 make.left.right.equalTo(emptyView).inset(5)
             }
             self.tableView.backgroundView = emptyView
-            return FriendService.system.friendList.count
+            return FriendService.system.followerList.count
             
         }else{
             self.tableView.backgroundView = nil
-            return FriendService.system.friendList.count
+            return FriendService.system.followerList.count
         }
     }
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

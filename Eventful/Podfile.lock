@@ -82,6 +82,7 @@ PODS:
   - IGListKit/Default (3.4.0):
     - IGListKit/Diffing
   - IGListKit/Diffing (3.4.0)
+  - IQKeyboardManagerSwift (6.0.3)
   - JTAppleCalendar (7.1.5)
   - leveldb-library (1.20)
   - MarqueeLabel/Swift (3.1.4)
@@ -124,6 +125,7 @@ DEPENDENCIES:
   - GooglePlacePicker
   - GooglePlaces
   - IGListKit (from `https://github.com/Instagram/IGListKit.git`, branch `master`)
+  - IQKeyboardManagerSwift
   - JTAppleCalendar (from `https://github.com/patchthecode/JTAppleCalendar.git`, branch `master`)
   - NotificationBannerSwift
   - RecordButton
@@ -186,6 +188,7 @@ SPEC CHECKSUMS:
   GoogleToolboxForMac: 91c824d21e85b31c2aae9bb011c5027c9b4e738f
   GTMSessionFetcher: 5fa5b80fd20e439ef5f545fb2cb3ca6c6714caa2
   IGListKit: 7a5d788e9fb746bcd402baa8e8b24bc3bd2a5a07
+  IQKeyboardManagerSwift: 04e8679f85e496bb2c474eeb9284052f1b3c391c
   JTAppleCalendar: df0df2b055ba4c6d5940ef4f40a0f4270ea021ac
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   MarqueeLabel: bf768455fe88d427f71476ebb23f9092b660f40b
@@ -202,6 +205,6 @@ SPEC CHECKSUMS:
   SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
   TextFieldEffects: 4ee41b5216e674d55fb6ac25107bf1af7629176f
 
-PODFILE CHECKSUM: b069fe572f2f7ee3bc96fd26e7edb0f32ff5f585
+PODFILE CHECKSUM: 1d40f18630290c3ec43f63c6dbd045736645ee8b
 
 COCOAPODS: 1.4.0

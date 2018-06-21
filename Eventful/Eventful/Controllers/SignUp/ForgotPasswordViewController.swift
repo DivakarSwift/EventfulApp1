@@ -57,6 +57,7 @@ class ForgotPasswordViewController: UIViewController {
     // creates a UIButton that will sign up the user
     let sendResetEmail: UIButton  = {
         let button = UIButton(type: .system)
+        button.setCellShadow()
         button.setTitle("SEND RESET LINK", for: .normal)
         button.titleLabel?.font = UIFont(name: "Futura", size: 14)
         button.setTitleColor(.white, for: .normal)

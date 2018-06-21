@@ -24,6 +24,8 @@ class Event:NSObject{
     let currentEventEndDate: String?
     let currentEventTime: String?
     let currentEventEndTime: String?
+    let endTime: Date
+    let startTime: Date
     let currentEventZip: Int
     var category: String
     //nested properties stop
@@ -33,11 +35,12 @@ class Event:NSObject{
         
         
         let dateDict = ["start:date":currentEventDate, "start:time": currentEventTime,"end:time":currentEventEndTime, "end:date": currentEventEndDate]
+        let timeDict = ["end":endTime, "start": startTime]
         
         return ["event:name":currentEventName,"event:imageURL" : currentEventImage,
                 "event:description": currentEventDescription, "attend:count": currentAttendCount,
                 "event:street:address": currentEventStreetAddress,"event:zip": currentEventZip,
-                "event:state": currentEventState, "event:city": currentEventCity, "event:promo": currentEventPromo ?? "", "event:date": dateDict, "event:category":category]
+                "event:state": currentEventState, "event:city": currentEventCity, "event:promo": currentEventPromo ?? "", "event:date": dateDict, "event:category":category,"event:datetime": timeDict]
     }
     
     init(currentEventKey: String, dictionary: [String:Any]) {
@@ -53,6 +56,13 @@ class Event:NSObject{
         self.currentEventCity = dictionary["event:city"] as? String ?? ""
         self.currentEventState = dictionary["event:state"] as? String ?? ""
         self.currentEventZip = dictionary["event:zip"] as? Int ?? 0
+        //////
+        let eventTime = dictionary["event:datetime"] as? [String: Any]
+        let startInSeconds = eventTime!["start"] as? Double
+        let endInSeconds = eventTime!["end"] as? Double
+        self.startTime = Date(timeIntervalSince1970: startInSeconds!)
+        self.endTime = Date(timeIntervalSince1970: endInSeconds!)
+        ////////
         let eventDate = dictionary["event:date"] as? [String: Any]
         self.currentEventDate = eventDate?["start:date"] as? String ?? ""
         self.currentEventTime = eventDate?["start:time"] as? String ?? ""
@@ -60,6 +70,9 @@ class Event:NSObject{
         self.currentEventEndDate = eventDate?["end:date"] as? String ?? ""
         
     }
+    
+
+   
     
     init?(snapshot: DataSnapshot) {
         guard let dict = snapshot.value as? [String : Any],
@@ -73,11 +86,16 @@ class Event:NSObject{
             let currentEventState = dict["event:state"] as? String,
             let currentEventZip = dict["event:zip"] as? Int,
             let currentAttendCount = dict["attend:count"] as? Int,
+            //////
             let eventDate = dict["event:date"] as? [String: Any],
             let currentEventDate = eventDate["start:date"] as? String,
             let currentEventEndDate = eventDate["end:date"] as? String,
             let currentEventTime = eventDate["start:time"] as? String,
-            let currentEventEndTime = eventDate["end:time"] as? String
+            let currentEventEndTime = eventDate["end:time"] as? String,
+            /////
+            let eventTime = dict["event:datetime"] as? [String: Any],
+            let startInSeconds = eventTime["start"] as? Double,
+            let endInSeconds = eventTime["end"] as? Double
             else { return nil }
         self.key = snapshot.key
         self.currentEventName = currentEventName
@@ -94,6 +112,8 @@ class Event:NSObject{
         self.currentEventEndTime = currentEventEndTime
         self.category = category
         self.currentEventEndDate = currentEventEndDate
+        self.endTime = Date(timeIntervalSince1970: endInSeconds)
+        self.startTime = Date(timeIntervalSince1970: startInSeconds)
     }
     
     override func isEqual(_ object: Any?) -> Bool {

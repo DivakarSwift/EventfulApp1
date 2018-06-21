@@ -36,13 +36,13 @@ class FriendService{
         return id
     }
     /** The Firebase reference to the followers  tree for the current user */
-    var CURRENT_USER_FRIENDS_REF: DatabaseReference {
-        return BASE_REF.child("followers").child(CURRENT_USER_ID)
+    var BASE_USER_FOLLOWER_REF: DatabaseReference {
+        return BASE_REF.child("followers")
     }
     
     /** The Firebase reference to the current user's following tree */
-    var CURRENT_USER_FRIENDS_REF2: DatabaseReference {
-        return BASE_REF.child("following").child(CURRENT_USER_ID)
+    var BASE_USER_FOLLOWING_REF: DatabaseReference {
+        return BASE_REF.child("following")
     }
 
      /** Sends a friend request to the user with the specified id */
@@ -80,16 +80,17 @@ class FriendService{
     
     // MARK: - All friends
     /** The list of all friends of the current user. */
-    var friendList = [User]()
+    var followerList = [User]()
     /** Adds a friend observer. The completion function will run every time this list changes, allowing you
      to update your UI. */
-    func addFriendObserver(_ update: @escaping () -> Void) {
-        CURRENT_USER_FRIENDS_REF.observe(.value, with: { (snapshot) in
-            self.friendList.removeAll()
+    func addFriendObserver(userID: String,_ update: @escaping () -> Void) {
+        print(userID)
+        BASE_USER_FOLLOWER_REF.child(userID).observe(.value, with: { (snapshot) in
+            self.followerList.removeAll()
             for child in snapshot.children.allObjects as! [DataSnapshot] {
                 let id = child.key
                 UserService.show(forUID: id, completion: { (user) in
-                    self.friendList.append(user!)
+                    self.followerList.append(user!)
                     update()
                 })
             }
@@ -101,7 +102,7 @@ class FriendService{
     }
     /** Removes the friend observer. This should be done when leaving the view that uses the observer. */
     func removeFriendObserver() {
-        CURRENT_USER_FRIENDS_REF.removeAllObservers()
+        BASE_USER_FOLLOWER_REF.removeAllObservers()
     }
     
     // MARK: - All following
@@ -109,13 +110,14 @@ class FriendService{
     var followingList = [User]()
     /** Adds a friend observer. The completion function will run every time this list changes, allowing you
      to update your UI. */
-    func addFollowingObserver(_ update: @escaping () -> Void) {
-        CURRENT_USER_FRIENDS_REF2.observe(.value, with: { (snapshot) in
-            self.friendList.removeAll()
+    func addFollowingObserver(userID: String,_ update: @escaping () -> Void) {
+        print(userID)
+        BASE_USER_FOLLOWING_REF.child(userID).observe(.value, with: { (snapshot) in
+            self.followingList.removeAll()
             for child in snapshot.children.allObjects as! [DataSnapshot] {
                 let id = child.key
                 UserService.show(forUID: id, completion: { (user) in
-                    self.friendList.append(user!)
+                    self.followingList.append(user!)
                     update()
                 })
             }
@@ -128,7 +130,7 @@ class FriendService{
     
     /** Removes the following observer. This should be done when leaving the view that uses the observer. */
     func removeFollowingObserver() {
-        CURRENT_USER_FRIENDS_REF2.removeAllObservers()
+        BASE_USER_FOLLOWING_REF.removeAllObservers()
     }
 
     

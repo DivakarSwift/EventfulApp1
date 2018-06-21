@@ -11,7 +11,6 @@ import Foundation
 import SVProgressHUD
 import TextFieldEffects
 import Firebase
-import GeoFire
 
 
 
@@ -20,6 +19,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
     // creates a signup UILabel
     let plusPhotoButton: UIButton = {
         let button = UIButton(type: .system)
+        button.setCellShadow()
         button.setImage(#imageLiteral(resourceName: "camblack").withRenderingMode(.alwaysOriginal), for: .normal)
         button.addTarget(self, action: #selector(handlePlusPhoto), for: .touchUpInside)
         return button
@@ -120,6 +120,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
     let signupButton: UIButton  = {
         let button = UIButton(type: .system)
         button.setTitle("SIGN UP", for: .normal)
+        button.setCellShadow()
         button.titleLabel?.font = UIFont(name: "Futura", size: 14)
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 5
@@ -144,7 +145,10 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
             !password.isEmpty,
             !confirmPassword.isEmpty
             else {
-                print("Required fields are not all filled!")
+                let alertController = UIAlertController(title: "", message: "Please Make Sure You Have Filled in All Required Fields Before Pressing Sign Up", preferredStyle: .alert)
+                let defaultAction = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
+                alertController.addAction(defaultAction)
+                self.present(alertController, animated: true, completion: nil)
                 return
         }
         if self.validateEmail(enteredEmail:email) != true{
@@ -177,7 +181,6 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
             AuthService.checkUserNameAlreadyExist(newUserName: username, completion: { [unowned self] (isUnique) in
                 if isUnique {
                     //username exists so user has to try again
-                    print("Login already exist")
                     self.showAlertThatLoginAlreadyExists()
                 }else{
                     //username does not exist and will authenticate user
@@ -197,7 +200,6 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
                             
                             UserService.create(firUser, username: username, profilePic: profilePic, isPrivate: false, completion: { [unowned self](user) in
                                 guard let user = user else {
-                                    print("User not loaded into firebase db")
                                     return
                                 }
                                 User.setCurrent(user, writeToUserDefaults: true)
@@ -228,8 +230,6 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
     }
     
     func finishSigningUp() {
-        print("Finish signing up from signup view controller")
-        print("Attempting to return to root view controller")
         let homeController = HomeViewController()
         //should change the root view controller to the homecontroller when done signing up
         self.view.window?.rootViewController = homeController
@@ -263,39 +263,10 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         self.dismiss(animated: true, completion: nil)
     }
 
-    // Will move the UI Up on login Screen when keyboard appears
-    
-    fileprivate func observeKeyboardNotifications() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-    }
-    
-    fileprivate func removeKeyboardNotifications() {
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-    }
-    
+ 
     
   
-  //will properly show keyboard
-    @objc func keyboardWillShow(notification:NSNotification){
-        
-        var userInfo = notification.userInfo!
-        var keyboardFrame:CGRect = (userInfo[UIKeyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
-        keyboardFrame = self.view.convert(keyboardFrame, from: nil)
-        
-        var contentInset:UIEdgeInsets = self.contentScrollView.contentInset
-        contentInset.bottom = keyboardFrame.size.height
-        contentScrollView.contentInset = contentInset
-    }
-    
-    //will properly hide keyboard
-    @objc func keyboardWillHide(notification:NSNotification){
-        
-        let contentInset:UIEdgeInsets = UIEdgeInsets.zero
-        contentScrollView.contentInset = contentInset
-    }
-    
+
     //Calls this function when the tap is recognized.
     @objc func dismissKeyboard() {
         //Causes the view (or one of its embedded text fields) to resign the first responder status.
@@ -321,16 +292,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
     }
     
 
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.observeKeyboardNotifications()
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        self.removeKeyboardNotifications()
-    }
+
     
     
     override func viewDidAppear(_ animated: Bool) {
@@ -363,62 +325,54 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
     }()
     fileprivate func addScrollView() {
        
-        self.contentScrollView = UIScrollView()
-        self.contentScrollView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(self.contentScrollView)
-        contentScrollView.snp.makeConstraints { (make) in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(20)
-            make.left.right.equalTo(view.safeAreaLayoutGuide).inset(20)
-            make.height.equalTo(view.bounds.height / 1.2)
-        }
         self.plusPhotoButton.translatesAutoresizingMaskIntoConstraints = false
-        self.contentScrollView.addSubview(plusPhotoButton)
+        view.addSubview(plusPhotoButton)
         plusPhotoButton.snp.makeConstraints { (make) in
-            make.top.equalTo(contentScrollView.snp.top).inset(50)
+            make.top.equalTo(view.snp.top).inset(65)
             make.height.width.equalTo(100)
-            make.centerX.equalTo(contentScrollView.snp.centerX)
+            make.centerX.equalTo(view.snp.centerX)
         }
-        //username
+//        //username
         self.nameTextField.translatesAutoresizingMaskIntoConstraints = false
         self.nameTextField.delegate = self
-        self.contentScrollView.addSubview(nameTextField)
+        view.addSubview(nameTextField)
         nameTextField.snp.makeConstraints { (make) in
-            make.top.equalTo(plusPhotoButton.snp.top).offset(120)
-            make.height.equalTo(47.5)
+            make.top.equalTo(plusPhotoButton.snp.top).offset(130)
+            make.height.equalTo(49.5)
             make.left.right.equalTo(view.safeAreaLayoutGuide).inset(40)
         }
         //email
         self.emailTextField.translatesAutoresizingMaskIntoConstraints = false
         self.emailTextField.delegate = self
-        self.contentScrollView.addSubview(emailTextField)
+        view.addSubview(emailTextField)
         emailTextField.snp.makeConstraints { (make) in
             make.top.equalTo(nameTextField.snp.top).offset(60)
-            make.height.equalTo(47.5)
+            make.height.equalTo(49.5)
             make.left.right.equalTo(view.safeAreaLayoutGuide).inset(40)
         }
-        //pw
+//        //pw
         self.passwordTextField.translatesAutoresizingMaskIntoConstraints = false
         self.passwordTextField.delegate = self
-        self.contentScrollView.addSubview(passwordTextField)
+        view.addSubview(passwordTextField)
         passwordTextField.snp.makeConstraints { (make) in
             make.top.equalTo(emailTextField.snp.top).offset(60)
-            make.height.equalTo(47.5)
+            make.height.equalTo(49.5)
             make.left.right.equalTo(view.safeAreaLayoutGuide).inset(40)
         }
-        
-        //confirm pw
+//
+//        //confirm pw
         self.confirmPasswordTextField.translatesAutoresizingMaskIntoConstraints = false
         self.confirmPasswordTextField.delegate = self
-        self.contentScrollView.addSubview(confirmPasswordTextField)
+        view.addSubview(confirmPasswordTextField)
         confirmPasswordTextField.snp.makeConstraints { (make) in
             make.top.equalTo(passwordTextField.snp.top).offset(60)
-            make.height.equalTo(47.5)
+            make.height.equalTo(49.5)
             make.left.right.equalTo(view.safeAreaLayoutGuide).inset(40)
         }
         self.signupButton.translatesAutoresizingMaskIntoConstraints = false
-        self.contentScrollView.addSubview(signupButton)
+        view.addSubview(signupButton)
         signupButton.snp.makeConstraints { (make) in
-            make.top.equalTo(confirmPasswordTextField.snp.top).offset(80)
+            make.top.equalTo(confirmPasswordTextField.snp.top).offset(90)
 //            make.height.equalTo(47.5)
             make.left.right.equalTo(view.safeAreaLayoutGuide).inset(40)
         }
@@ -427,10 +381,10 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         let stackView = UIStackView(arrangedSubviews: [signInLabel,signInButton])
         stackView.axis = .horizontal
         stackView.spacing = 5.0
-        self.contentScrollView.addSubview(stackView)
+        view.addSubview(stackView)
         stackView.snp.makeConstraints({ (make) in
             make.bottom.equalTo(signupButton.snp.bottom).offset(35)
-            make.centerX.equalTo(contentScrollView.snp.centerX)
+            make.centerX.equalTo(view.snp.centerX)
         })
 
     }
