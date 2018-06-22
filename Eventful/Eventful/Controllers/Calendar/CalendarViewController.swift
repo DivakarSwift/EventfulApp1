@@ -25,7 +25,7 @@ class CalendarViewController: UIViewController, UICollectionViewDelegateFlowLayo
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 100, height: 100)
     }
-    var allEvents = [Event]()
+    var allEvents:[Date:[Event]] = [:]
 
     var dayStackView: UIStackView?
     var stackView = UIStackView()
@@ -104,6 +104,7 @@ class CalendarViewController: UIViewController, UICollectionViewDelegateFlowLayo
         cv.minimumInteritemSpacing = 0
         cv.minimumLineSpacing = 0
         cv.scrollingMode = .stopAtEachCalendarFrame
+        cv.setCellShadow()
         return cv
     }()
     
@@ -138,7 +139,7 @@ class CalendarViewController: UIViewController, UICollectionViewDelegateFlowLayo
 
     
     @objc func setupVC(){
-        print(savedLocation1?.description)
+        getDatesFromServer()
         setupNavBar()
         calendarCollectionView.visibleDates { (visibleDates) in
             self.setupViewsOfCalendar(from: visibleDates)
@@ -207,12 +208,10 @@ class CalendarViewController: UIViewController, UICollectionViewDelegateFlowLayo
     }
     
     @objc func GoBack(){
-        print("BACK TAPPED")
         self.navigationController?.popViewController(animated: true)
     }
     
     @objc func beginDateFilter(){
-        print("Done Pressed")
         self.homeFeedController?.getSelectedDateFromCal(from: self.selectedDate)
         self.navigationController?.popViewController(animated: true)
         SVProgressHUD.dismiss(withDelay: 2)
@@ -230,7 +229,6 @@ extension CalendarViewController:JTAppleCalendarViewDataSource {
         cell1.sectionNameLabel.text = cellState.text
         handleCellSelected(view: cell1, cellState: cellState)
         handleCellTextColor(view: cell1, cellState: cellState)
-        print("displayed")
     }
     func configureCalendar(_ calendar: JTAppleCalendarView) -> ConfigurationParameters {
         // Get the current year
@@ -275,6 +273,13 @@ extension CalendarViewController: JTAppleCalendarViewDelegate {
         
     }
     
+    func handleCellEvents(view: JTAppleCell, cellState: CellState){
+        guard let validCell = view as? CalendarCell else {
+            return
+        }
+        validCell.eventDotView.isHidden = !allEvents.contains{$0.key == cellState.date}
+        
+    }
     func calendar(_ calendar: JTAppleCalendarView, didScrollToDateSegmentWith visibleDates: DateSegmentInfo) {
         setupViewsOfCalendar(from: visibleDates)
     }
@@ -287,6 +292,7 @@ extension CalendarViewController: JTAppleCalendarViewDelegate {
         cell.sectionNameLabel.text = cellState.text
         handleCellSelected(view: cell, cellState: cellState)
         handleCellTextColor(view: cell, cellState: cellState)
+        handleCellEvents(view: cell, cellState: cellState)
         return cell
     }
     
@@ -353,4 +359,25 @@ extension CalendarViewController: UITableViewDelegate {
     }
 }
 
+extension CalendarViewController{
+    @objc func getDatesFromServer(){
+        if let passedLocation = savedLocation1 {
+            PostService.showEvent(for: passedLocation) { (event) in
+                for events in event{
+                    if self.allEvents[events.startTime] == nil {
+                        self.allEvents[events.startTime] = []
+                    }
+                    if var arr = self.allEvents[events.startTime] {
+                        arr.append(events)
+                        self.allEvents[events.startTime] = arr
+                        print( self.allEvents[events.startTime]![0])
+                    }
+                    
+                }
+            }
+        }
+        
+    }
+    
+}
 

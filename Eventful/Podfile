@@ -35,6 +35,7 @@ target 'Eventful' do
     pod 'DTPagerController'
     pod 'SimpleImageViewer', '~> 1.1.1'
     pod 'IQKeyboardManagerSwift'
+    pod 'SwiftVideoGenerator'
     # Pods for Eventful
     
 end

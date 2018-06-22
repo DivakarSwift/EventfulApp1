@@ -10,6 +10,8 @@ import Foundation
 import UIKit
 import AVFoundation
 import RecordButton
+import SwiftVideoGenerator
+
 
 class TempCameraViewController: UIViewController {
     private let session = AVCaptureSession()
@@ -17,6 +19,8 @@ class TempCameraViewController: UIViewController {
     private let sessionQueue = DispatchQueue(label: "session queue") // Communicate with the session and other session objects on this queue.
     private var setupResult: SessionSetupResult = .success
     var videoDeviceInput: AVCaptureDeviceInput!
+    var videoURLArr = [URL]()
+    var isRecordingStopped: Bool = true
     
     var flashMode = AVCaptureDevice.FlashMode.off
     
@@ -35,19 +39,14 @@ class TempCameraViewController: UIViewController {
     // MARK: Capturing Photos
     
     private let photoOutput = AVCapturePhotoOutput()
-    
-    
     private var depthDataDeliveryMode: DepthDataDeliveryMode = .off
-    
     private var photoData: Data?
     
     
     // MARK: Recording Movies
     
     private var movieFileOutput: AVCaptureMovieFileOutput?
-    
     private var backgroundRecordingID: UIBackgroundTaskIdentifier?
-    
     private var outputURL: URL!
     
     let recordButton = RecordButton(frame: CGRect(x: 0, y: 0, width: 70, height: 70))
@@ -525,6 +524,7 @@ class TempCameraViewController: UIViewController {
         super.viewWillAppear(animated)
         
         
+        recordButton.buttonState = .idle
         sessionQueue.async {
             switch self.setupResult {
             case .success:
@@ -675,8 +675,6 @@ extension TempCameraViewController {
         case movie = 1
     }
     
-    
-    
     private enum DepthDataDeliveryMode {
         case on
         case off
@@ -723,12 +721,99 @@ extension AVCaptureDevice.DiscoverySession {
 // MARK: Camera Operations
 extension TempCameraViewController {
     
+    @objc func setupVideoRecord(_ sender: Any){
+        
+        sessionQueue.async {
+            let movieFileOutput = AVCaptureMovieFileOutput()
+            
+            if self.session.canAddOutput(movieFileOutput) {
+                self.session.beginConfiguration()
+                self.session.addOutput(movieFileOutput)
+                self.session.sessionPreset = .high
+                if let connection = movieFileOutput.connection(with: .video) {
+                    if connection.isVideoStabilizationSupported {
+                        connection.preferredVideoStabilizationMode = .auto
+                    }
+                    connection.isVideoMirrored = true
+                    connection.videoOrientation = .portrait
+                }
+                self.session.commitConfiguration()
+                
+                DispatchQueue.main.async {
+                    self.captureButton.isHidden = true
+                    self.recordButton.isHidden = false
+                }
+                
+                self.movieFileOutput = movieFileOutput
+                
+                DispatchQueue.main.async {
+                    self.recordButton.isEnabled = true
+                    self.recordButton.addTarget(self, action: #selector(self.record), for: .touchDown)
+                    self.recordButton.addTarget(self, action: #selector(self.stop), for: UIControlEvents.touchUpInside)
+                }
+            }
+        }
+    }
+    
+    @objc func setupPhotoSession(_ sender: Any){
+        recordButton.isEnabled = false
+        recordButton.isHidden = true
+        captureButton.isHidden = false
+        
+        sessionQueue.async {
+            /*
+             Remove the AVCaptureMovieFileOutput from the session because movie recording is
+             not supported with AVCaptureSession.Preset.Photo. Additionally, Live Photo
+             capture is not supported when an AVCaptureMovieFileOutput is connected to the session.
+             */
+            if self.movieFileOutput != nil {
+                self.session.beginConfiguration()
+                self.session.removeOutput(self.movieFileOutput!)
+                self.session.sessionPreset = .photo
+                
+                DispatchQueue.main.async {
+                    // captureModeControl.isEnabled = true
+                }
+                
+                self.movieFileOutput = nil
+                
+                if self.photoOutput.isLivePhotoCaptureSupported {
+                    self.photoOutput.isLivePhotoCaptureEnabled = true
+                    
+                    DispatchQueue.main.async {
+                        //    self.livePhotoModeButton.isEnabled = true
+                        //  self.livePhotoModeButton.isHidden = false
+                    }
+                }
+                
+                if self.photoOutput.isDepthDataDeliverySupported {
+                    self.photoOutput.isDepthDataDeliveryEnabled = true
+                    
+                    DispatchQueue.main.async {
+                        // self.depthDataDeliveryButton.isHidden = false
+                        //self.depthDataDeliveryButton.isEnabled = true
+                    }
+                }
+                
+                self.session.commitConfiguration()
+            }
+        }
+    }
+    
+    
     @IBAction private func changeCamera(_ sender: Any) {
         captureButton.isEnabled = false
         flashButton.isEnabled = false
         flipCameraButton.isEnabled = false
         cameraButton.isEnabled = false
         videoButton.isEnabled = false
+        
+        if let movieFileOutput = self.movieFileOutput {
+            if movieFileOutput.isRecording {
+                movieFileOutput.stopRecording()
+            }
+        }
+        
         
         sessionQueue.async {
             let currentVideoDevice = self.videoDeviceInput.device
@@ -798,6 +883,7 @@ extension TempCameraViewController {
                 }
             }
             
+            
             DispatchQueue.main.async {
                 self.captureButton.isEnabled = true
                 self.flashButton.isEnabled = true
@@ -859,84 +945,7 @@ extension TempCameraViewController {
         }
     }
     
-    @objc func setupVideoRecord(_ sender: Any){
-        
-        sessionQueue.async {
-            let movieFileOutput = AVCaptureMovieFileOutput()
-            
-            if self.session.canAddOutput(movieFileOutput) {
-                self.session.beginConfiguration()
-                self.session.addOutput(movieFileOutput)
-                self.session.sessionPreset = .high
-                if let connection = movieFileOutput.connection(with: .video) {
-                    if connection.isVideoStabilizationSupported {
-                        connection.preferredVideoStabilizationMode = .auto
-                    }
-                    connection.isVideoMirrored = true
-                    connection.videoOrientation = .portrait
-                }
-                self.session.commitConfiguration()
-                
-                DispatchQueue.main.async {
-                    self.captureButton.isHidden = true
-                    self.recordButton.isHidden = false
-                }
-                
-                self.movieFileOutput = movieFileOutput
-                
-                DispatchQueue.main.async {
-                    self.recordButton.isEnabled = true
-                    self.recordButton.addTarget(self, action: #selector(self.record), for: .touchUpInside)
-                    //                    self.recordButton.addTarget(self, action: #selector(self.stop), for: UIControlEvents.touchUpInside)
-                }
-            }
-        }
-    }
     
-    @objc func setupPhotoSession(_ sender: Any){
-        recordButton.isEnabled = false
-        recordButton.isHidden = true
-        captureButton.isHidden = false
-        
-        sessionQueue.async {
-            /*
-             Remove the AVCaptureMovieFileOutput from the session because movie recording is
-             not supported with AVCaptureSession.Preset.Photo. Additionally, Live Photo
-             capture is not supported when an AVCaptureMovieFileOutput is connected to the session.
-             */
-            if self.movieFileOutput != nil {
-                self.session.beginConfiguration()
-                self.session.removeOutput(self.movieFileOutput!)
-                self.session.sessionPreset = .photo
-                
-                DispatchQueue.main.async {
-                    // captureModeControl.isEnabled = true
-                }
-                
-                self.movieFileOutput = nil
-                
-                if self.photoOutput.isLivePhotoCaptureSupported {
-                    self.photoOutput.isLivePhotoCaptureEnabled = true
-                    
-                    DispatchQueue.main.async {
-                        //    self.livePhotoModeButton.isEnabled = true
-                        //  self.livePhotoModeButton.isHidden = false
-                    }
-                }
-                
-                if self.photoOutput.isDepthDataDeliverySupported {
-                    self.photoOutput.isDepthDataDeliveryEnabled = true
-                    
-                    DispatchQueue.main.async {
-                        // self.depthDataDeliveryButton.isHidden = false
-                        //self.depthDataDeliveryButton.isEnabled = true
-                    }
-                }
-                
-                self.session.commitConfiguration()
-            }
-        }
-    }
     
     @objc func record() {
         self.progressTimer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(TempCameraViewController.updateProgress), userInfo: nil, repeats: true)
@@ -950,7 +959,7 @@ extension TempCameraViewController {
          
          See the AVCaptureFileOutputRecordingDelegate methods.
          */
-        //        flipCameraButton.isHidden = true
+        flipCameraButton.isHidden = true
         flashButton.isHidden = true
         cameraButton.isHidden = true
         videoButton.isHidden = true
@@ -966,6 +975,7 @@ extension TempCameraViewController {
         
         sessionQueue.async {
             if !movieFileOutput.isRecording {
+                
                 if UIDevice.current.isMultitaskingSupported {
                     /*
                      Setup background task.
@@ -993,36 +1003,29 @@ extension TempCameraViewController {
                 let outputFileName = NSUUID().uuidString
                 let outputFilePath = (NSTemporaryDirectory() as NSString).appendingPathComponent((outputFileName as NSString).appendingPathExtension("mov")!)
                 movieFileOutput.startRecording(to: URL(fileURLWithPath: outputFilePath), recordingDelegate: self)
+                self.isRecordingStopped = false
+                self.videoURLArr.removeAll()
             } else {
                 movieFileOutput.stopRecording()
                 
-                self.progressTimer.invalidate()
-                
-                print("====> Stopped")
-                DispatchQueue.main.async {
-                    self.flipCameraButton.isHidden = false
-                    self.flashButton.isHidden = false
-                    self.cameraButton.isHidden = false
-                    self.videoButton.isHidden = false
-                    self.cancelButton.isHidden = false
-                    self.progress = 0;
-                }
             }
         }
     }
     
     @objc func stop() {
         self.progressTimer.invalidate()
-        if (movieFileOutput?.isRecording)! {
-            print("====> Stop pressed")
-            movieFileOutput?.stopRecording()
-            flipCameraButton.isHidden = false
-            flashButton.isHidden = false
-            cameraButton.isHidden = false
-            videoButton.isHidden = false
-            cancelButton.isHidden = false
-            progress = 0;
-        }
+        //        if (movieFileOutput?.isRecording)! {
+        print("====> Stop pressed")
+        movieFileOutput?.stopRecording()
+        isRecordingStopped = true
+        
+        flipCameraButton.isHidden = false
+        flashButton.isHidden = false
+        cameraButton.isHidden = false
+        videoButton.isHidden = false
+        cancelButton.isHidden = false
+        progress = 0;
+        //        }
     }
     
     @objc func updateProgress() {
@@ -1036,9 +1039,7 @@ extension TempCameraViewController {
             progressTimer.invalidate()
             self.stop()
         }
-        
     }
-    
 }
 
 
@@ -1102,7 +1103,6 @@ extension TempCameraViewController: AVCapturePhotoCaptureDelegate {
             let containerView = PreviewPhotoContainerView()
             self.view.addSubview(containerView)
             containerView.previewImageView.image =  image
-            //            containerView.eventKey = eventKey
             containerView.snp.makeConstraints { (make) in
                 make.edges.equalTo(self.view)
             }
@@ -1117,14 +1117,15 @@ extension TempCameraViewController: AVCaptureFileOutputRecordingDelegate{
     func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
         
         func cleanUp() {
-            let path = outputFileURL.path
-            if FileManager.default.fileExists(atPath: path) {
-                do {
-                    try FileManager.default.removeItem(atPath: path)
-                } catch {
-                    print("Could not remove file at url: \(outputFileURL)")
-                }
-            }
+            //            let path = outputFileURL.path
+            //            if FileManager.default.fileExists(atPath: path) {
+            //                do {
+            //                    try FileManager.default.removeItem(atPath: path)
+            //                } catch {
+            //                    print("Could not remove file at url: \(outputFileURL)")
+            //                }
+            //                print("after url===>\(outputFileURL.path)")
+            //            }
             
             if let currentBackgroundRecordingID = backgroundRecordingID {
                 backgroundRecordingID = UIBackgroundTaskInvalid
@@ -1137,25 +1138,43 @@ extension TempCameraViewController: AVCaptureFileOutputRecordingDelegate{
         
         var success = true
         
+        print("video output===>\(outputFileURL.path)")
         if error != nil {
             print("Movie file finishing error: \(String(describing: error))")
             success = (((error! as NSError).userInfo[AVErrorRecordingSuccessfullyFinishedKey] as AnyObject).boolValue)!
         }
         
         if success {
-            let videoPlayBackVC = VideoViewController()
-            videoPlayBackVC.videoURL = outputFileURL
-            present(videoPlayBackVC, animated: true) {
-                cleanUp()
-            }
-        } else{
-            cleanUp()
+            videoURLArr.append(outputFileURL)
             
+            if isRecordingStopped == false {
+                
+                if let movieFileOutput = self.movieFileOutput {
+                    let outputFileName = NSUUID().uuidString
+                    let outputFilePath = (NSTemporaryDirectory() as NSString).appendingPathComponent((outputFileName as NSString).appendingPathExtension("mov")!)
+                    movieFileOutput.startRecording(to: URL(fileURLWithPath: outputFilePath), recordingDelegate: self)
+                }
+            }
+            else {
+                print("Asset arr===>\(videoURLArr)")
+                
+                cleanUp()
+                VideoGenerator.mergeMovies(videoURLs: videoURLArr, andFileName: "finalOutput", success: { (videoURL) in
+                    
+                    print(videoURL)
+                    
+                    let videoPlayBackVC = VideoViewController()
+                    videoPlayBackVC.videoURL = videoURL
+                    self.present(videoPlayBackVC, animated: true) {
+                        
+                    }
+                    
+                }) { (error) in
+                    print(error)
+                }
+            }
         }
-        
     }
-    
-    
 }
 
 //will add the gesture recognizers to the view and handle the corresponding functions
@@ -1267,14 +1286,9 @@ extension TempCameraViewController {
                 // just ignore
             }
             
-            
-            
         case .unspecified:
             print("nothing could be done")
         }
-        
-        
-        
     }
     
     
@@ -1288,11 +1302,8 @@ extension TempCameraViewController {
         switch currentPosition {
         case .front:
             do {
-                
                 try device.lockForConfiguration()
-                
                 zoomScale = min(maxZoomScale, max(1.0, min(beginZoomScale * pinch.scale,  (device.activeFormat.videoMaxZoomFactor))))
-                
                 device.videoZoomFactor = zoomScale
                 
                 // Call Delegate function with current zoom scale
@@ -1308,11 +1319,8 @@ extension TempCameraViewController {
             print("current cam is front position")
         case .back:
             do {
-                
                 try device.lockForConfiguration()
-                
                 zoomScale = min(maxZoomScale, max(1.0, min(beginZoomScale * pinch.scale,  (device.activeFormat.videoMaxZoomFactor))))
-                
                 device.videoZoomFactor = zoomScale
                 
                 // Call Delegate function with current zoom scale
@@ -1331,7 +1339,6 @@ extension TempCameraViewController {
             print("")
         }
     }
-    
 }
 
 
@@ -1355,6 +1362,5 @@ extension TempCameraViewController : UIGestureRecognizerDelegate {
         return true
     }
 }
-
 
 

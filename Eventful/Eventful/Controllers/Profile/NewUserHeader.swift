@@ -134,7 +134,6 @@ class NewUserHeader: UICollectionViewCell {
             make.top.equalTo(cellView.snp.top).offset(5)
             make.height.equalTo(250)
         }
-        currentImage.backgroundColor = .red
         
         cellView.addSubview(editFollowButton)
 

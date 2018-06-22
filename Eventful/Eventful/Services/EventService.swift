@@ -20,7 +20,7 @@ struct EventService {
         //pull everything
         
         ref.observeSingleEvent(of: .value, andPreviousSiblingKeyWith: { (snapshot,eventKey) in
-           print(snapshot.value ?? "")
+          // print(snapshot.value ?? "")
 
             guard let event = Event(snapshot: snapshot) else {
                 return completion(nil)
@@ -30,6 +30,7 @@ struct EventService {
                 if event.endTime > Date(){
                     completion(event)
                 }else{
+                    completion(nil)
                 }
             }else{
                 if let date = passedDate{

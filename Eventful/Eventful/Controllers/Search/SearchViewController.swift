@@ -18,7 +18,23 @@ class EventSearchController: UICollectionViewController, UICollectionViewDelegat
     let cellId = "cellID"
     var scopeIndex: Int = 0
     let cellID2 = "newCellID"
-    var emptyLabel: UILabel?
+    let emptyView = UIView()
+
+    lazy var emptyLabel: UILabel = {
+        let emptyLabel = UILabel()
+        emptyLabel.text = "Search For Users and Events Near You"
+        emptyLabel.font = UIFont(name: "Avenir", size: 14)
+        emptyLabel.numberOfLines = 0
+        emptyLabel.textAlignment = .center
+        return emptyLabel
+    }()
+    
+    lazy var iconImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "icons8-face-100")
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -170,17 +186,18 @@ class EventSearchController: UICollectionViewController, UICollectionViewDelegat
             }
         } else
         {
-            // var emptyLabel = UILabel(frame: CGRect(0, 0, self.view.bounds.size.width, self.view.bounds.size.height))
-            emptyLabel = UILabel(frame: CGRect(x: 0, y: 0, width: self.view.bounds.size.width, height: self.view.bounds.size.height))
-            let paragraph = NSMutableParagraphStyle()
-            paragraph.lineBreakMode = .byWordWrapping
-            paragraph.alignment = .center
+            emptyView.backgroundColor = .clear
+            emptyView.addSubview(iconImageView)
+            iconImageView.image = UIImage(named: "icons8-search-filled-50")
+            iconImageView.snp.makeConstraints { (make) in
+                make.center.equalTo(emptyView)
+            }
             
-            let attributes: [NSAttributedStringKey: Any] = [NSAttributedStringKey(rawValue: NSAttributedStringKey.font.rawValue): UIFont.systemFont(ofSize: 14.0), NSAttributedStringKey(rawValue: NSAttributedStringKey.foregroundColor.rawValue): UIColor.lightGray, NSAttributedStringKey(rawValue: NSAttributedStringKey.paragraphStyle.rawValue): paragraph]
-            let myAttrString = NSAttributedString(string:  "Search For Events And Users Near You", attributes: attributes)
-            emptyLabel?.attributedText = myAttrString
-            emptyLabel?.textAlignment = .center
-            self.collectionView?.backgroundView = emptyLabel
+            emptyView.addSubview(emptyLabel)
+            emptyLabel.snp.makeConstraints { (make) in
+                make.bottom.equalTo(iconImageView.snp.bottom).offset(50)
+                make.left.right.equalTo(emptyView).inset(5)            }
+            self.collectionView?.backgroundView = emptyView
             
             return 0
         }
