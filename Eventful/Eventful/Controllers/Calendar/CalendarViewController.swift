@@ -11,90 +11,42 @@ import JTAppleCalendar
 import SVProgressHUD
 import SwiftLocation
 import CoreLocation
+import SwipeCellKit
+import GoogleMaps
+import MapKit
 
 class CalendarViewController: UIViewController, UICollectionViewDelegateFlowLayout {
     let cellID = "cellID"
+    let headerID = "headerID"
     let eventCellID = "eventCellID"
     var savedLocation1: CLLocation?
     let formatter = DateFormatter()
     let dateFormatterGet = DateFormatter()
     let dateFormatterPrint = DateFormatter()
     var selectedDate = Date()
+    let emptyView = UIView()
     var passedDate: Date?
     var homeFeedController: HomeFeedController?
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 100, height: 100)
     }
-    var allEvents:[Date:[Event]] = [:]
+    var allEvents:[String:[Event]] = [:]
 
-    var dayStackView: UIStackView?
-    var stackView = UIStackView()
     var yearAndMonthStackView: UIStackView?
     //day labels for calendar
     let yearLabel : UILabel =  {
         let yearLabel = UILabel()
         yearLabel.font = UIFont(name:"HelveticaNeue", size: 30.5)
-        yearLabel.textAlignment = .left
+        yearLabel.textColor = UIColor.lightGray
         return yearLabel
     }()
     let monthLabel : UILabel =  {
         let monthLabel = UILabel()
-        monthLabel.font = UIFont(name:"HelveticaNeue", size: 20.5)
-        monthLabel.textAlignment = .center
+        monthLabel.font = UIFont(name:"HelveticaNeue", size: 30.5)
         return monthLabel
     }()
     
-    let sunLabel : UILabel =  {
-        let sunLabel = UILabel()
-        sunLabel.text = "Sun"
-        sunLabel.font = UIFont(name:"HelveticaNeue", size: 16.5)
-        sunLabel.textAlignment = .center
-        return sunLabel
-    }()
-    
-    let monLabel : UILabel =  {
-        let monLabel = UILabel()
-        monLabel.text = "Mon"
-        monLabel.font = UIFont(name:"HelveticaNeue", size: 16.5)
-        monLabel.textAlignment = .center
-        return monLabel
-    }()
-    
-    let tuesLabel : UILabel =  {
-        let tuesLabel = UILabel()
-        tuesLabel.text = "Tue"
-        tuesLabel.font = UIFont(name:"HelveticaNeue", size: 16.5)
-        tuesLabel.textAlignment = .center
-        return tuesLabel
-    }()
-    let wedsLabel : UILabel =  {
-        let wedsLabel = UILabel()
-        wedsLabel.text = "Wed"
-        wedsLabel.font = UIFont(name:"HelveticaNeue", size: 16.5)
-        wedsLabel.textAlignment = .center
-        return wedsLabel
-    }()
-    let thursLabel : UILabel =  {
-        let thursLabel = UILabel()
-        thursLabel.text = "Thu"
-        thursLabel.font = UIFont(name:"HelveticaNeue", size: 16.5)
-        thursLabel.textAlignment = .center
-        return thursLabel
-    }()
-    let friLabel : UILabel =  {
-        let friLabel = UILabel()
-        friLabel.text = "Fri"
-        friLabel.font = UIFont(name:"HelveticaNeue", size: 16.5)
-        friLabel.textAlignment = .center
-        return friLabel
-    }()
-    let satLabel : UILabel =  {
-        let satLabel = UILabel()
-        satLabel.text = "Sat"
-        satLabel.font = UIFont(name:"HelveticaNeue", size: 16.5)
-        satLabel.textAlignment = .center
-        return satLabel
-    }()
+
     
     let calendarCollectionView: JTAppleCalendarView = {
         let cv = JTAppleCalendarView(frame: .zero)
@@ -104,7 +56,6 @@ class CalendarViewController: UIViewController, UICollectionViewDelegateFlowLayo
         cv.minimumInteritemSpacing = 0
         cv.minimumLineSpacing = 0
         cv.scrollingMode = .stopAtEachCalendarFrame
-        cv.setCellShadow()
         return cv
     }()
     
@@ -116,6 +67,22 @@ class CalendarViewController: UIViewController, UICollectionViewDelegateFlowLayo
         eventsTableView.showsVerticalScrollIndicator = false
         return eventsTableView
     }()
+    
+    lazy var noEventsLabel: UILabel = {
+        let noEventsLabel = UILabel()
+        noEventsLabel.text = "No Events For The Selected Day"
+        noEventsLabel.font = UIFont(name: "Avenir", size: 16)
+        noEventsLabel.numberOfLines = 0
+        noEventsLabel.textAlignment = .center
+        return noEventsLabel
+    }()
+    
+    lazy var iconImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }()
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -145,30 +112,19 @@ class CalendarViewController: UIViewController, UICollectionViewDelegateFlowLayo
             self.setupViewsOfCalendar(from: visibleDates)
 
         }
-        dayStackView = UIStackView(arrangedSubviews: [sunLabel,monLabel,tuesLabel,wedsLabel,thursLabel,friLabel,satLabel])
-        dayStackView?.distribution = .fillEqually
-        dayStackView?.axis = .horizontal
-        yearAndMonthStackView = UIStackView(arrangedSubviews: [monthLabel])
-        yearAndMonthStackView?.axis = .horizontal
-        yearAndMonthStackView?.distribution = .fillEqually
-        yearAndMonthStackView?.alignment = .center
-
-        
-        view.addSubview(yearAndMonthStackView!)
-        yearAndMonthStackView?.snp.makeConstraints({ (make) in
-            make.left.right.equalTo(view.safeAreaLayoutGuide)
+        view.addSubview(yearLabel)
+        view.addSubview(monthLabel)
+        monthLabel.snp.makeConstraints({ (make) in
+            make.left.equalTo(view.safeAreaLayoutGuide.snp.left).offset(5)
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
         })
-        
-        view.addSubview(dayStackView!)
-        dayStackView?.snp.makeConstraints { (make) in
-            make.top.equalTo((yearAndMonthStackView?.snp.bottom)!)
-            make.left.right.equalTo(view.safeAreaLayoutGuide)
-            
-        }
+        yearLabel.snp.makeConstraints({ (make) in
+            make.left.equalTo(monthLabel.snp.right).offset(5)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+        })
         view.addSubview(calendarCollectionView)
         calendarCollectionView.snp.makeConstraints { (make) in
-            make.top.equalTo((dayStackView?.snp.bottom)!)
+            make.top.equalTo(monthLabel.snp.bottom)
             make.centerX.equalTo(view.safeAreaLayoutGuide.snp.centerX)
             make.left.right.equalTo(view.safeAreaLayoutGuide)
             make.height.equalTo(view.bounds.height/2)
@@ -179,6 +135,7 @@ class CalendarViewController: UIViewController, UICollectionViewDelegateFlowLayo
         calendarCollectionView.showsHorizontalScrollIndicator = false
         calendarCollectionView.showsVerticalScrollIndicator = false
         calendarCollectionView.register(CalendarCell.self, forCellWithReuseIdentifier: cellID)
+        calendarCollectionView.register(CalendarHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerID)
         if let curerntDate = passedDate {
             calendarCollectionView.scrollToDate(curerntDate, animateScroll: false)
             calendarCollectionView.selectDates([curerntDate])
@@ -200,10 +157,12 @@ class CalendarViewController: UIViewController, UICollectionViewDelegateFlowLayo
     }
     
     func setupViewsOfCalendar(from visibleDates: DateSegmentInfo){
-        let date = visibleDates.monthDates.first!.date
+        guard let date = visibleDates.monthDates.first?.date else {
+            return
+        }
         self.formatter.dateFormat = "yyyy"
         self.yearLabel.text = self.formatter.string(from: date)
-        self.formatter.dateFormat = "MMMM"
+        self.formatter.dateFormat = "MMM"
         self.monthLabel.text = self.formatter.string(from: date)
     }
     
@@ -233,7 +192,7 @@ extension CalendarViewController:JTAppleCalendarViewDataSource {
     func configureCalendar(_ calendar: JTAppleCalendarView) -> ConfigurationParameters {
         // Get the current year
         let year = Calendar.current.component(.year, from: Date())
-        navigationItem.title = "\(year) Calendar"
+        navigationItem.title = "Event Calendar"
         let firstOfYear = Calendar.current.date(from: DateComponents(year: year, month: 1, day: 1))
         let lastOfYear = Calendar.current.date(from: DateComponents(year: year, month: 12, day: 13))
         let parameter = ConfigurationParameters(startDate: firstOfYear!, endDate: lastOfYear!, numberOfRows: 5, calendar: Calendar.current, generateInDates: .forAllMonths, generateOutDates: .off, firstDayOfWeek: .sunday, hasStrictBoundaries: true)
@@ -277,7 +236,8 @@ extension CalendarViewController: JTAppleCalendarViewDelegate {
         guard let validCell = view as? CalendarCell else {
             return
         }
-        validCell.eventDotView.isHidden = !allEvents.contains{$0.key == cellState.date}
+        validCell.eventDotView.isHidden = !allEvents.contains{$0.key == cellState.date.getFormattedDate(string: cellState.date.description)
+}
         
     }
     func calendar(_ calendar: JTAppleCalendarView, didScrollToDateSegmentWith visibleDates: DateSegmentInfo) {
@@ -306,6 +266,7 @@ extension CalendarViewController: JTAppleCalendarViewDelegate {
         print(date.description)
         handleCellSelected(view: validCell, cellState: cellState)
         handleCellTextColor(view: validCell, cellState: cellState)
+        self.eventsTableView.reloadData()
     }
     
     func calendar(_ calendar: JTAppleCalendarView, didDeselectDate date: Date, cell: JTAppleCell?, cellState: CellState) {
@@ -315,15 +276,42 @@ extension CalendarViewController: JTAppleCalendarViewDelegate {
         handleCellSelected(view: validCell, cellState: cellState)
         handleCellTextColor(view: validCell, cellState: cellState)
     }
+    
+    func calendar(_ calendar: JTAppleCalendarView, headerViewForDateRange range: (start: Date, end: Date), at indexPath: IndexPath) -> JTAppleCollectionReusableView {
+        let header = calendar.dequeueReusableJTAppleSupplementaryView(withReuseIdentifier: headerID, for: indexPath) as! CalendarHeader
+        return header
+    }
+    func calendarSizeForMonths(_ calendar: JTAppleCalendarView?) -> MonthSize? {
+        return MonthSize(defaultSize: 50)
+    }
 }
 
 extension CalendarViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        guard let currentCount = self.allEvents[selectedDate.getFormattedDate(string: selectedDate.description)]?.count else {
+            emptyView.backgroundColor = .clear
+            emptyView.addSubview(iconImageView)
+            iconImageView.image = UIImage(named: "icons8-the-toast-64")
+            iconImageView.snp.makeConstraints { (make) in
+                make.center.equalTo(emptyView)
+            }
+            
+            emptyView.addSubview(noEventsLabel)
+            noEventsLabel.snp.makeConstraints { (make) in
+                make.bottom.equalTo(iconImageView.snp.bottom).offset(50)
+                make.left.right.equalTo(emptyView).inset(5)            }
+            self.eventsTableView.backgroundView = emptyView
+            return 0
+        }
+        self.eventsTableView.backgroundView = nil
+        return currentCount
     }
+    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: eventCellID, for: indexPath) as! SelectionCell
+        cell.event = self.allEvents[selectedDate.getFormattedDate(string: selectedDate.description)]?[indexPath.row]
+        cell.delegate = self
         return cell
     }
     
@@ -332,9 +320,121 @@ extension CalendarViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 50
+        return 75
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+            let event = self.allEvents[selectedDate.getFormattedDate(string: selectedDate.description)]![indexPath.row]
+        let eventDetailVC = EventDetailViewController()
+        eventDetailVC.currentEvent = event
+        self.navigationController?.pushViewController(eventDetailVC, animated: true)
+    }
+    
+    
+}
+
+extension CalendarViewController: SwipeTableViewCellDelegate {
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
+        guard orientation == .right else { return nil }
+        
+     let event = self.allEvents[selectedDate.getFormattedDate(string: selectedDate.description)]![indexPath.row]
+        print(event.currentEventName)
+        let commentAction = SwipeAction(style: .destructive, title: "Comment") { action, indexPath in
+            // handle action by updating model with deletion
+            print("navigating to comments screen for event")
+            let newCommentsController = NewCommentsViewController()
+            newCommentsController.eventKey = event.key!
+            newCommentsController.comments.removeAll()
+            newCommentsController.adapter.reloadData { (updated) in
+            }
+            self.tabBarController?.tabBar.isHidden = true
+            self.navigationController?.pushViewController(newCommentsController, animated: false)
+        }
+        
+        let viewStoryAction = SwipeAction(style: .destructive, title: "Story") { action, indexPath in
+            // handle action by updating model with view story
+            print("navigating to story screen for event")
+        }
+        
+        
+        let locationAction = SwipeAction(style: .destructive, title: "Location") { action, indexPath in
+            // handle action by updating model with location
+            print("navigating to googlemap for event")
+            print("Trying to open a map")
+             let currentZip = event.currentEventZip
+            let geoCoder = CLGeocoder()
+            
+            let addressString = (event.currentEventStreetAddress) + ", "+(event.currentEventCity) +  ", "+(event.currentEventState) + " "+String(describing: currentZip)
+            print(addressString)
+            geoCoder.geocodeAddressString(addressString) { (placeMark, err) in
+                guard let currentPlaceMark = placeMark?.first else{
+                    return
+                }
+                guard let lat = currentPlaceMark.location?.coordinate.latitude else {
+                    return
+                }
+                guard let long = currentPlaceMark.location?.coordinate.longitude else {
+                    return
+                }
+                print(lat)
+                print(long)
+                if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
+                    let addressParse = (event.currentEventStreetAddress).components(separatedBy: " ")
+                    print(addressParse[0])
+                    print(addressParse[1])
+                    print(addressParse[2])
+                    let directionsRequest = "comgooglemaps-x-callback://" +
+                        "?daddr=\(addressParse[0])+\(addressParse[1])+\(addressParse[2]),+\((event.currentEventCity)),+\((event.currentEventState))+\(String(describing: currentZip))" +
+                    "&x-success=sourceapp://?resume=true&x-source=Haipe"
+                    
+                    let directionsURL = URL(string: directionsRequest)!
+                    UIApplication.shared.open(directionsURL, options: [:], completionHandler: nil)
+                    
+                } else {
+                    print("Opening in Apple Map")
+                    
+                    let coordinate = CLLocationCoordinate2DMake(lat, long)
+                    let region = MKCoordinateRegionMake(coordinate, MKCoordinateSpanMake(0.01, 0.02))
+                    let placemark = MKPlacemark(coordinate: coordinate, addressDictionary: nil)
+                    let mapItem = MKMapItem(placemark: placemark)
+                    let options = [
+                        MKLaunchOptionsMapCenterKey: NSValue(mkCoordinate: region.center),
+                        MKLaunchOptionsMapSpanKey: NSValue(mkCoordinateSpan: region.span)]
+                    mapItem.name = addressString
+                    mapItem.openInMaps(launchOptions: options)
+                }
+                //            print(currentPlaceMark)
+            }
+        }
+        
+        
+        // customize the action appearance
+        locationAction.backgroundColor = .white
+        viewStoryAction.backgroundColor = .white
+        commentAction.backgroundColor = .white
+
+        locationAction.image = UIImage(named: "icons8-marker-48")
+        locationAction.font = UIFont(name:"HelveticaNeue", size: 10.5)
+        locationAction.textColor = .black
+        // customize the action appearance
+        viewStoryAction.image = UIImage(named: "icons8-documentary-40")
+        viewStoryAction.font = UIFont(name:"HelveticaNeue", size: 10.5)
+        viewStoryAction.textColor = .black
+
+        // customize the action appearance
+        commentAction.image = UIImage(named: "icons8-speech-bubble-40")
+        commentAction.font = UIFont(name:"HelveticaNeue", size: 10.5)
+        commentAction.textColor = .black
+
+        return [commentAction,viewStoryAction,locationAction]
+    }
+    
+     func tableView(_ tableView: UITableView, editActionsOptionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeTableOptions {
+        var options = SwipeTableOptions()
+        options.expansionStyle = .selection
+        options.transitionStyle = .border
+        return options
+    }
     
 }
 
@@ -350,6 +450,24 @@ extension CalendarViewController: UITableViewDelegate {
         view.addSubview(label)
         label.snp.makeConstraints { (make) in
             make.centerX.equalTo(view.safeAreaLayoutGuide.snp.centerX)
+            make.centerY.equalTo(view.safeAreaLayoutGuide.snp.centerY)
+        }
+        let lineSeparatorView = UIView()
+        lineSeparatorView.backgroundColor = UIColor.rgb(red: 230, green: 230, blue: 230)
+        view.addSubview(lineSeparatorView)
+        lineSeparatorView.snp.makeConstraints { (make) in
+            make.left.right.equalTo(view.safeAreaLayoutGuide)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            make.height.equalTo(3)
+        }
+        
+        let lineSeparatorView2 = UIView()
+        lineSeparatorView2.backgroundColor = UIColor.rgb(red: 230, green: 230, blue: 230)
+        view.addSubview(lineSeparatorView2)
+        lineSeparatorView2.snp.makeConstraints { (make) in
+            make.left.right.equalTo(view.safeAreaLayoutGuide)
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+            make.height.equalTo(1)
         }
         return view
     }
@@ -357,6 +475,7 @@ extension CalendarViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 40
     }
+    
 }
 
 extension CalendarViewController{
@@ -364,13 +483,16 @@ extension CalendarViewController{
         if let passedLocation = savedLocation1 {
             PostService.showEvent(for: passedLocation) { (event) in
                 for events in event{
-                    if self.allEvents[events.startTime] == nil {
-                        self.allEvents[events.startTime] = []
+                    print(events.startTime.getFormattedDate(string: events.startTime.description))
+                    if self.allEvents[events.startTime.getFormattedDate(string: events.startTime.description)] == nil {
+                        self.allEvents[events.startTime.getFormattedDate(string: events.startTime.description)] = []
                     }
-                    if var arr = self.allEvents[events.startTime] {
+                    if var arr = self.allEvents[events.startTime.getFormattedDate(string: events.startTime.description)] {
                         arr.append(events)
-                        self.allEvents[events.startTime] = arr
-                        print( self.allEvents[events.startTime]![0])
+                        self.allEvents[events.startTime.getFormattedDate(string: events.startTime.description)] = arr
+                        print( self.allEvents[events.startTime.getFormattedDate(string: events.startTime.description)]![0].startTime)
+                        self.calendarCollectionView.reloadData()
+                        self.eventsTableView.reloadData()
                     }
                     
                 }

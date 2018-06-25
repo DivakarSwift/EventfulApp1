@@ -105,6 +105,7 @@ PODS:
   - SwiftVideoGenerator (1.1.6)
   - SwiftyCam (2.7.0)
   - SwiftyJSON (4.0.0)
+  - SwipeCellKit (2.3.2)
   - TextFieldEffects (1.4.0)
 
 DEPENDENCIES:
@@ -137,6 +138,7 @@ DEPENDENCIES:
   - SwiftVideoGenerator
   - SwiftyCam (from `https://github.com/Awalz/SwiftyCam.git`, branch `Swift4`)
   - SwiftyJSON
+  - SwipeCellKit
   - TextFieldEffects
 
 EXTERNAL SOURCES:
@@ -206,8 +208,9 @@ SPEC CHECKSUMS:
   SwiftVideoGenerator: cc01213d03fcea0fd030c05a3b504a3883109e55
   SwiftyCam: 7c826b73a5b208677aee29390582c771bf748661
   SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
+  SwipeCellKit: 52b160ea820245eb972b2eca270cb3a6f68e33af
   TextFieldEffects: 4ee41b5216e674d55fb6ac25107bf1af7629176f
 
-PODFILE CHECKSUM: f218e74072f781ca21e6673cf8d47d669c7ff9c8
+PODFILE CHECKSUM: dfe34f17947f5ed937af3e55265c8be02460cf9d
 
 COCOAPODS: 1.4.0

@@ -36,6 +36,7 @@ target 'Eventful' do
     pod 'SimpleImageViewer', '~> 1.1.1'
     pod 'IQKeyboardManagerSwift'
     pod 'SwiftVideoGenerator'
+    pod 'SwipeCellKit'
     # Pods for Eventful
     
 end

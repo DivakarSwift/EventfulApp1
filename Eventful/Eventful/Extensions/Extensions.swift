@@ -289,6 +289,17 @@ extension Date {
     static func equalTo(a: Date, b: Date) -> Bool {
         return a.compare(b) == ComparisonResult.orderedSame
     }
+    
+     func getFormattedDate(string: String) -> String{
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss +zzzz" // This formate is input formated .
+        
+        let formateDate = dateFormatter.date(from:string)!
+        dateFormatter.dateFormat = "yyyy MM dd" // Output Formated
+        
+        //print ("Print :\(dateFormatter.string(from: formateDate))")//Print :02-02-2018
+        return dateFormatter.string(from: formateDate)
+    }
 }
 
 extension Double

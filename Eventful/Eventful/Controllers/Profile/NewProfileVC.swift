@@ -19,6 +19,7 @@ class NewProfileVC: UIViewController,UIScrollViewDelegate {
     var userId: String?
     var user: User?
     var isFollowed = false
+    var emptyView = UIView()
 
     lazy var myCollectionView : UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -27,9 +28,44 @@ class NewProfileVC: UIViewController,UIScrollViewDelegate {
         cv.showsVerticalScrollIndicator = false
         cv.delegate = self
         cv.dataSource = self
-        cv.backgroundColor = .white
+        cv.backgroundColor = .clear
         return cv
     }()
+    
+    lazy var iconImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }()
+    
+    lazy var emptyLabel: UILabel = {
+        let emptyLabel = UILabel()
+        emptyLabel.text = "Go Attend Some Events"
+        emptyLabel.font = UIFont(name: "Avenir", size: 14)
+        emptyLabel.numberOfLines = 0
+        emptyLabel.textAlignment = .center
+        return emptyLabel
+    }()
+    
+    lazy var noFriendLabel: UILabel = {
+        let noFriendLabel = UILabel()
+        noFriendLabel.text = "This User Is Private"
+        noFriendLabel.font = UIFont(name: "Avenir", size: 20)
+        noFriendLabel.numberOfLines = 0
+        noFriendLabel.textAlignment = .center
+        return noFriendLabel
+    }()
+    
+    
+    lazy var noFriendLabel2: UILabel = {
+        let noFriendLabel2 = UILabel()
+        noFriendLabel2.text = "Follow this user to connect \nand see what events there going to"
+        noFriendLabel2.font = UIFont(name: "Avenir", size: 14)
+        noFriendLabel2.numberOfLines = 0
+        noFriendLabel2.textAlignment = .center
+        return noFriendLabel2
+    }()
+    
     
 
     let titleView = UILabel()
@@ -155,7 +191,70 @@ extension NewProfileVC: UICollectionViewDataSource, UICollectionViewDelegate,UIC
         return 1
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return userEvents.count
+        //if the user has events and your following them or it is current user profile show it
+        if userEvents.isEmpty == false && (self.isFollowed == true || user?.uid == User.current.uid) {
+            emptyView.isHidden = true
+            return userEvents.count
+            
+        }else if userEvents.isEmpty == true && (self.isFollowed == true || user?.uid == User.current.uid){
+            //will nil out any previous backgroundview
+            //will go here if there are no events at all
+            //must also be following them or be you
+            self.myCollectionView.addSubview(emptyView)
+
+            emptyView.snp.makeConstraints { (make) in
+                make.centerY.equalTo(self.myCollectionView.snp.centerY).offset(160)
+                make.centerX.equalTo(self.myCollectionView.snp.centerX)
+
+            }
+            emptyView.backgroundColor = .clear
+            emptyView.addSubview(iconImageView)
+            iconImageView.image = UIImage(named: "icons8-the-toast-64")
+            iconImageView.snp.makeConstraints { (make) in
+                make.center.equalTo(emptyView)
+            }
+            
+            emptyView.addSubview(emptyLabel)
+            emptyLabel.snp.makeConstraints { (make) in
+                make.bottom.equalTo(iconImageView.snp.bottom).offset(30)
+                make.left.right.equalTo(emptyView)
+            }
+            return userEvents.count
+        }else if userEvents.isEmpty == true && (user?.isPrivate)! && self.isFollowed == false && user?.uid != User.current.uid{
+            //will go here if the user has no events and there private and your not following
+            //there will be no events because you were not following them so thats implied
+            //also has to not be you
+            self.myCollectionView.addSubview(emptyView)
+            
+            emptyView.snp.makeConstraints { (make) in
+                make.centerY.equalTo(self.myCollectionView.snp.centerY).offset(160)
+                make.centerX.equalTo(self.myCollectionView.snp.centerX)
+                
+            }
+            emptyView.backgroundColor = .clear
+            emptyView.addSubview(iconImageView)
+            iconImageView.image = UIImage(named: "icons8-secure-50")
+            iconImageView.snp.makeConstraints { (make) in
+                make.center.equalTo(emptyView)
+            }
+            
+            emptyView.addSubview(noFriendLabel)
+            noFriendLabel.snp.makeConstraints { (make) in
+                make.bottom.equalTo(iconImageView.snp.bottom).offset(20)
+                make.left.right.equalTo(emptyView)
+            }
+            emptyView.addSubview(noFriendLabel2)
+            noFriendLabel2.snp.makeConstraints { (make) in
+                make.bottom.equalTo(noFriendLabel.snp.bottom).offset(45)
+                make.left.right.equalTo(emptyView).inset(10)
+            }
+            
+            return userEvents.count;
+        }else{
+            //will go here if they aren't private or they are you becasue if they are you want to show them anwyway
+            emptyView.isHidden = true
+            return userEvents.count
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

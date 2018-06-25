@@ -7,8 +7,19 @@
 //
 
 import UIKit
+import SwipeCellKit
 
-class SelectionCell: UITableViewCell {
+class SelectionCell: SwipeTableViewCell {
+    var event: Event?{
+        didSet{
+            if let currentEvent = event {
+                eventImageView.loadImage(urlString: currentEvent.currentEventImage)
+                eventNameLabel.text = currentEvent.currentEventName.capitalized
+                eventTimeLabel.text = currentEvent.currentEventTime
+            }
+        }
+    }
+    
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupViews()
@@ -24,7 +35,7 @@ class SelectionCell: UITableViewCell {
     
     lazy var eventImageView: CustomImageView = {
         let iv = CustomImageView()
-        iv.contentMode = .scaleAspectFit
+        iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
         return iv
     }()
@@ -32,14 +43,12 @@ class SelectionCell: UITableViewCell {
     lazy var eventNameLabel : UILabel = {
         let label = UILabel()
         label.font =  UIFont(name:"HelveticaNeue", size: 12)
-        label.text = "some name"
         return label
     }()
     
     lazy var eventTimeLabel : UILabel = {
         let label = UILabel()
         label.font = UIFont(name:"HelveticaNeue", size: 12)
-        label.text = "some time"
         return label
     }()
     
@@ -60,7 +69,6 @@ class SelectionCell: UITableViewCell {
             make.centerY.equalTo(cellView.snp.centerY)
             make.height.width.equalTo(40)
         }
-        eventImageView.backgroundColor = .red
         
         cellView.addSubview(eventNameLabel)
         eventNameLabel.snp.makeConstraints { (make) in
@@ -74,6 +82,17 @@ class SelectionCell: UITableViewCell {
             make.centerY.equalTo(cellView.snp.centerY)
         }
         
+    }
+    fileprivate func getDayAndMonthFromEvent(_ event:Event) -> (String, String) {
+        let apiDateFormat = "MM/dd/yyyy"
+        let df = DateFormatter()
+        df.dateFormat = apiDateFormat
+        let eventDate = df.date(from: event.currentEventDate!)!
+        df.dateFormat = "dd"
+        let dayElement = df.string(from: eventDate)
+        df.dateFormat = "MMM"
+        let monthElement = df.string(from: eventDate)
+        return (dayElement, monthElement)
     }
   
     

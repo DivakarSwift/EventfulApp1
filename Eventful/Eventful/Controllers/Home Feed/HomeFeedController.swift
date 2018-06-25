@@ -8,8 +8,6 @@
 
 import Foundation
 import UIKit
-import Alamofire
-import AlamofireNetworkActivityIndicator
 import SwiftLocation
 import CoreLocation
 import FirebaseDatabase
@@ -93,10 +91,16 @@ class HomeFeedController: UICollectionViewController {
             calendar.passedDate = lastDate
         }
         calendar.homeFeedController = self
-        LocationService.getUserLocation { (location) in
-            calendar.savedLocation1 = location
+        if self.userLocation == nil{
+            LocationService.getUserLocation { (location) in
+                calendar.savedLocation1 = location
+                self.navigationController?.pushViewController(calendar, animated: false)
+            }
+        }else{
+            calendar.savedLocation1 = self.userLocation
             self.navigationController?.pushViewController(calendar, animated: false)
         }
+
     }
     
     @objc func presentSideMenu(){

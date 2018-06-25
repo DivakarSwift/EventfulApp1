@@ -143,6 +143,7 @@ class NotificationsViewController: UIViewController,NotificationsSectionDelegate
             }
             EventService.show(forEventKey: eventKey) { (event) in
                 let eventDetailVC = EventDetailViewController()
+                print(event?.currentEventImage)
                 eventDetailVC.currentEvent = event
                 self.navigationController?.pushViewController(eventDetailVC, animated: true)
             }

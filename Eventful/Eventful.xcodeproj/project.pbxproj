@@ -24,6 +24,7 @@
 		07363FB120AD32E200CDE2C3 /* CameraHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07363FB020AD32E200CDE2C3 /* CameraHelper.swift */; };
 		07370C841F4A4CC8006DC7A2 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07370C831F4A4CC8006DC7A2 /* StorageService.swift */; };
 		0738DD391F3DC1340093F51B /* CustomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0738DD381F3DC1340093F51B /* CustomImageView.swift */; };
+		073A3D8020E0BCCF0045024D /* CalendarHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073A3D7F20E0BCCF0045024D /* CalendarHeader.swift */; };
 		073AFDC51F45E4FB009D4773 /* FollowService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073AFDC41F45E4FB009D4773 /* FollowService.swift */; };
 		0741702C20468A1F006B236B /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0741702B20468A1F006B236B /* NotificationCell.swift */; };
 		0741702E20474D12006B236B /* NotificationSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0741702D20474D12006B236B /* NotificationSectionController.swift */; };
@@ -128,6 +129,7 @@
 		07363FB020AD32E200CDE2C3 /* CameraHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CameraHelper.swift; path = Controllers/Camera/CameraHelper.swift; sourceTree = "<group>"; };
 		07370C831F4A4CC8006DC7A2 /* StorageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StorageService.swift; path = Services/StorageService.swift; sourceTree = "<group>"; };
 		0738DD381F3DC1340093F51B /* CustomImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomImageView.swift; path = Models/CustomImageView.swift; sourceTree = "<group>"; };
+		073A3D7F20E0BCCF0045024D /* CalendarHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CalendarHeader.swift; path = Controllers/Calendar/CalendarHeader.swift; sourceTree = "<group>"; };
 		073AFDC41F45E4FB009D4773 /* FollowService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FollowService.swift; path = Services/FollowService.swift; sourceTree = "<group>"; };
 		0741702B20468A1F006B236B /* NotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NotificationCell.swift; path = Controllers/Notifications/NotificationCell.swift; sourceTree = "<group>"; };
 		0741702D20474D12006B236B /* NotificationSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NotificationSectionController.swift; path = Controllers/Notifications/NotificationSectionController.swift; sourceTree = "<group>"; };
@@ -401,6 +403,7 @@
 				07487147208454AA0024635C /* CalendarViewController.swift */,
 				0748714920845BCF0024635C /* CalendarCell.swift */,
 				07C15E5D20D0CBEC0046D8BC /* SelectionCell.swift */,
+				073A3D7F20E0BCCF0045024D /* CalendarHeader.swift */,
 			);
 			name = Calendar;
 			sourceTree = "<group>";
@@ -678,6 +681,7 @@
 				"${BUILT_PRODUCTS_DIR}/SwiftVideoGenerator/SwiftVideoGenerator.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyCam/SwiftyCam.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+				"${BUILT_PRODUCTS_DIR}/SwipeCellKit/SwipeCellKit.framework",
 				"${BUILT_PRODUCTS_DIR}/TextFieldEffects/TextFieldEffects.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
@@ -708,6 +712,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftVideoGenerator.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyCam.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwipeCellKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TextFieldEffects.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
@@ -814,6 +819,7 @@
 				074D75A0200C8E8C0044C3AD /* LocationService.swift in Sources */,
 				0704C7722062CE1D00C9E35A /* HomeFeedEventCell.swift in Sources */,
 				0747AA1F20375E0E00F725C7 /* EventSearchHeader.swift in Sources */,
+				073A3D8020E0BCCF0045024D /* CalendarHeader.swift in Sources */,
 				0747AA3D20377A2900F725C7 /* NSLayoutConstraint.swift in Sources */,
 				0747AA0A20375D6E00F725C7 /* EventDetailViewController.swift in Sources */,
 				0747AA1420375D8500F725C7 /* CommentsSectionController.swift in Sources */,
