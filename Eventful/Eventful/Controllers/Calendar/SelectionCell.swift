@@ -29,7 +29,7 @@ class SelectionCell: SwipeTableViewCell {
     let cellView: UIView = {
         let cellView = UIView()
         cellView.backgroundColor = .white
-        cellView.setCellShadow()
+        cellView.setupShadow2()
         return cellView
     }()
     
@@ -42,7 +42,7 @@ class SelectionCell: SwipeTableViewCell {
     
     lazy var eventNameLabel : UILabel = {
         let label = UILabel()
-        label.font =  UIFont(name:"HelveticaNeue", size: 12)
+        label.font =  UIFont(name:"HelveticaNeue", size: 16)
         return label
     }()
     
@@ -62,9 +62,20 @@ class SelectionCell: SwipeTableViewCell {
             make.left.right.equalTo(self).inset(4)
             make.top.bottom.equalTo(self).inset(4)
         }
+        
+        let lineSeparatorView = UIView()
+        lineSeparatorView.backgroundColor = UIColor.rgb(red: 45, green: 162, blue: 232)
+        lineSeparatorView.setCellShadow()
+        cellView.addSubview(lineSeparatorView)
+        lineSeparatorView.snp.makeConstraints { (make) in
+            make.left.equalTo(cellView.snp.left)
+            make.top.bottom.equalTo(cellView)
+            make.width.equalTo(5)
+        }
+        
         cellView.addSubview(eventImageView)
         eventImageView.snp.makeConstraints { (make) in
-            make.left.equalTo(cellView.snp.left).inset(4)
+            make.left.equalTo(lineSeparatorView.snp.left).offset(10)
             make.top.bottom.equalTo(cellView).inset(4)
             make.centerY.equalTo(cellView.snp.centerY)
             make.height.width.equalTo(40)
@@ -81,6 +92,8 @@ class SelectionCell: SwipeTableViewCell {
             make.right.equalTo(cellView.snp.right).inset(4)
             make.centerY.equalTo(cellView.snp.centerY)
         }
+        
+
         
     }
     fileprivate func getDayAndMonthFromEvent(_ event:Event) -> (String, String) {

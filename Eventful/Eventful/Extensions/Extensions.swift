@@ -221,6 +221,16 @@ extension UIView {
         self.layer.cornerRadius = 4
     }
     
+    func setupShadow2() {
+        self.layer.shadowColor = UIColor.rgb(red: 219, green: 219, blue: 219).cgColor
+        self.layer.shadowOffset = CGSize(width: 0, height: 5)
+        self.layer.shadowOpacity = 0.6
+        self.layer.shadowRadius = 5.0
+        self.layer.masksToBounds = false
+        self.clipsToBounds = false
+        self.layer.cornerRadius = 6
+    }
+    
     func addConstraintsWithFormatt(_ format: String, views: UIView...) {
         
         var viewsDictionary = [String: UIView]()

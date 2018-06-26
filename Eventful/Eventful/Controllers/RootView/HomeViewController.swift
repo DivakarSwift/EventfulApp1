@@ -6,6 +6,7 @@
  import  DTPagerController
  
  
+ 
  class HomeViewController: UITabBarController,UITabBarControllerDelegate  {
    
     lazy var viewControllerList: [UIViewController] = {
@@ -24,11 +25,12 @@
         profileViewNavController.tabBarItem.title = "Profile"
         profileViewNavController.tabBarItem.selectedImage = UIImage(named: "icons8-User Filled-50")?.withRenderingMode(.alwaysOriginal)
 
-        let searchController = EventSearchController(collectionViewLayout: UICollectionViewFlowLayout())
-        let searchNavController = UINavigationController(rootViewController: searchController)
-        searchNavController.tabBarItem.image =  UIImage(named: "icons8-search-50")?.withRenderingMode(.alwaysOriginal)
-        searchNavController.tabBarItem.selectedImage =  UIImage(named: "icons8-search-filled-50")?.withRenderingMode(.alwaysOriginal)
-        searchNavController.tabBarItem.title = "Search"
+//        let searchController = EventSearchController(collectionViewLayout: UICollectionViewFlowLayout())
+//        let searchNavController = UINavigationController(rootViewController: searchController)
+        let searchVC = NewSearchVC()
+        searchVC.tabBarItem.image =  UIImage(named: "icons8-search-50")?.withRenderingMode(.alwaysOriginal)
+        searchVC.tabBarItem.selectedImage =  UIImage(named: "icons8-search-filled-50")?.withRenderingMode(.alwaysOriginal)
+        searchVC.tabBarItem.title = "Search"
         
         let requestVC = RequestViewController()
         let notificationView = NotificationsViewController()
@@ -49,7 +51,7 @@
         notificationNavController.tabBarItem.title = "Notifications"
     
         return [navController
-            ,searchNavController,notificationNavController,profileViewNavController]
+            ,searchVC,notificationNavController,profileViewNavController]
     }()
 
     let appDelegate = UIApplication.shared.delegate as! AppDelegate

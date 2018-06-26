@@ -61,7 +61,6 @@ class CalendarViewController: UIViewController, UICollectionViewDelegateFlowLayo
     
     let eventsTableView: UITableView = {
        let eventsTableView = UITableView(frame: CGRect.zero, style: .grouped)
-        eventsTableView.allowsSelection = false
         eventsTableView.backgroundColor = .white
         eventsTableView.separatorStyle = .none
         eventsTableView.showsVerticalScrollIndicator = false
@@ -328,6 +327,8 @@ extension CalendarViewController: UITableViewDataSource {
         let eventDetailVC = EventDetailViewController()
         eventDetailVC.currentEvent = event
         self.navigationController?.pushViewController(eventDetailVC, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
+
     }
     
     
@@ -351,7 +352,7 @@ extension CalendarViewController: SwipeTableViewCellDelegate {
             self.navigationController?.pushViewController(newCommentsController, animated: false)
         }
         
-        let viewStoryAction = SwipeAction(style: .destructive, title: "Story") { action, indexPath in
+        let viewStoryAction = SwipeAction(style: .destructive, title: "View Story") { action, indexPath in
             // handle action by updating model with view story
             print("navigating to story screen for event")
         }
@@ -413,16 +414,16 @@ extension CalendarViewController: SwipeTableViewCellDelegate {
         viewStoryAction.backgroundColor = .white
         commentAction.backgroundColor = .white
 
-        locationAction.image = UIImage(named: "icons8-marker-48")
+        locationAction.image = UIImage(named: "icons8-near-me-48")
         locationAction.font = UIFont(name:"HelveticaNeue", size: 10.5)
         locationAction.textColor = .black
         // customize the action appearance
-        viewStoryAction.image = UIImage(named: "icons8-documentary-40")
+        viewStoryAction.image = UIImage(named: "icons8-youtube-64")
         viewStoryAction.font = UIFont(name:"HelveticaNeue", size: 10.5)
         viewStoryAction.textColor = .black
 
         // customize the action appearance
-        commentAction.image = UIImage(named: "icons8-speech-bubble-40")
+        commentAction.image = UIImage(named: "icons8-chat-room-64")
         commentAction.font = UIFont(name:"HelveticaNeue", size: 10.5)
         commentAction.textColor = .black
 
@@ -435,6 +436,7 @@ extension CalendarViewController: SwipeTableViewCellDelegate {
         options.transitionStyle = .border
         return options
     }
+    
     
 }
 
@@ -458,7 +460,7 @@ extension CalendarViewController: UITableViewDelegate {
         lineSeparatorView.snp.makeConstraints { (make) in
             make.left.right.equalTo(view.safeAreaLayoutGuide)
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-            make.height.equalTo(3)
+            make.height.equalTo(1)
         }
         
         let lineSeparatorView2 = UIView()

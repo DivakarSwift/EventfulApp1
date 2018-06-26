@@ -54,7 +54,11 @@ class HomeFeedController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
          self.navigationController?.navigationBar.backgroundColor = UIColor.white
-        collectionView?.backgroundColor = .white
+        UIGraphicsBeginImageContext(self.view.frame.size)
+        UIImage(named: "homePageBG")?.draw(in: self.view.bounds)
+        let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        self.collectionView?.backgroundColor = UIColor(patternImage: image)
         collectionView?.showsVerticalScrollIndicator = false
         SVProgressHUD.dismiss(withDelay: 0.5)
         grabUserLoc()

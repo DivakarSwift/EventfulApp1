@@ -14,7 +14,8 @@ class SettingsViewController: UITableViewController {
     var authHandle: AuthStateDidChangeListenerHandle?
     let settingsCell = "settingsCell"
     let settingsCell2 = "settingsCell2"
-    let settingsOptionsTwoDimArray = [["Logout"],["Make Profile Private"]
+    let settingsOptionsTwoDimArray = [["Logout"],["Make Profile Private"],["Privacy Policy"],
+                                      ["Contact Us"]
     ]
     override func viewDidLoad() {
         super.viewDidLoad()

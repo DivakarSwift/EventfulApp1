@@ -58,6 +58,12 @@ class NotificationCell: UICollectionViewCell,NotificationCellDelegate {
         return iv
     }()
     
+    let cellView: UIView = {
+        let cellView = UIView()
+        cellView.backgroundColor = .white
+        cellView.setupShadow2()
+        return cellView
+    }()
     
 
     fileprivate func setupUserInteraction (){
@@ -75,15 +81,19 @@ class NotificationCell: UICollectionViewCell,NotificationCellDelegate {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        addSubview(label)
-        addSubview(profileImageView)
-        profileImageView.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 8, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 40, height: 40)
+        addSubview(cellView)
+        cellView.snp.makeConstraints { (make) in
+            make.edges.equalTo(self)
+        }
+        cellView.addSubview(label)
+        cellView.addSubview(profileImageView)
+        profileImageView.anchor(top: cellView.topAnchor, left: cellView.leftAnchor, bottom: nil, right: nil, paddingTop: 8, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 40, height: 40)
         profileImageView.layer.cornerRadius = 40/2
-        label.anchor(top: topAnchor, left: profileImageView.rightAnchor, bottom: bottomAnchor, right: nil, paddingTop: 4, paddingLeft: 4, paddingBottom: 4, paddingRight: 0, width: 0, height: 0)
+        label.anchor(top: cellView.topAnchor, left: profileImageView.rightAnchor, bottom: cellView.bottomAnchor, right: nil, paddingTop: 4, paddingLeft: 4, paddingBottom: 4, paddingRight: 0, width: 0, height: 0)
        let notCurrentUserDividerView = UIView()
         notCurrentUserDividerView.backgroundColor = UIColor.lightGray
-        addSubview(notCurrentUserDividerView)
-        notCurrentUserDividerView.anchor(top: nil, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0.5)
+        cellView.addSubview(notCurrentUserDividerView)
+        notCurrentUserDividerView.anchor(top: nil, left: cellView.leftAnchor, bottom: cellView.bottomAnchor, right: cellView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0.5)
 
     }
     

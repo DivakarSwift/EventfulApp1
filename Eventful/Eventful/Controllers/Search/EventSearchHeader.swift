@@ -43,6 +43,7 @@ class SearchHeader: UICollectionViewCell {
         sb.tintColor = UIColor.lightText
         sb.showsCancelButton = true
         UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).backgroundColor = UIColor.rgb(red: 230, green: 230, blue: 230)
+         UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).setupShadow2()
         UIBarButtonItem.appearance(whenContainedInInstancesOf: [UISearchBar.self]).setTitleTextAttributes([NSAttributedStringKey(rawValue: NSAttributedStringKey.foregroundColor.rawValue): UIColor.black], for: .normal)
         sb.setScopeBarButtonTitleTextAttributes([NSAttributedStringKey(NSAttributedStringKey.font.rawValue).rawValue: UIFont(name: "Avenir-Heavy", size: 15) as Any,NSAttributedStringKey(rawValue: NSAttributedStringKey.foregroundColor.rawValue).rawValue: UIColor.black as Any], for: .selected)
         sb.setScopeBarButtonTitleTextAttributes([NSAttributedStringKey(rawValue: NSAttributedStringKey.foregroundColor.rawValue).rawValue: UIColor.lightGray as Any], for: .normal)
