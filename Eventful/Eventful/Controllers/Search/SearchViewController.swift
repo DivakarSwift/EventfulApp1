@@ -41,7 +41,7 @@ class EventSearchController: UICollectionViewController, UICollectionViewDelegat
         self.collectionView?.contentInset = UIEdgeInsetsMake(20, 10, 0, 10)
         collectionView?.backgroundColor = .white
         collectionView?.register(SearchHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "headerID")
-        self.collectionView?.register(EventSearchCell.self, forCellWithReuseIdentifier: cellId)
+        self.collectionView?.register(NewEventSearchCell.self, forCellWithReuseIdentifier: cellId)
         collectionView?.alwaysBounceVertical = true
         collectionView?.keyboardDismissMode = .onDrag
         self.collectionView?.register(UserSearchCell.self, forCellWithReuseIdentifier: cellID2)
@@ -253,15 +253,15 @@ class EventSearchController: UICollectionViewController, UICollectionViewDelegat
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         //creates a cell and cast it as the Appropriate type
-        let eventCell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! EventSearchCell
-        let userCell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID2, for: indexPath) as! UserSearchCell
+        let eventCell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! NewEventSearchCell
+        let userCell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID2, for: indexPath) as! NewUserSearchCell
         
         switch scopeIndex {
         case 0:
-            eventCell.event = filteredEvents[indexPath.row]
+            //eventCell.event = filteredEvents[indexPath.row]
             return eventCell
         case 1:
-            userCell.user = filteredUsers[indexPath.row]
+           // userCell.user = filteredUsers[indexPath.row]
             return userCell
         default:
             return eventCell

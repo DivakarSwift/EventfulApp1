@@ -348,6 +348,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
     }
     override func viewWillAppear(_ animated: Bool) {
         tabBarController?.tabBar.isHidden = true
+        self.navigationController?.navigationBar.isHidden = false
     }
     
     override func viewDidLoad() {

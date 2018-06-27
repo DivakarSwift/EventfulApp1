@@ -27,6 +27,23 @@
 		073A3D8020E0BCCF0045024D /* CalendarHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073A3D7F20E0BCCF0045024D /* CalendarHeader.swift */; };
 		073A3D8220E1ECAD0045024D /* NewSearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073A3D8120E1ECAD0045024D /* NewSearchVC.swift */; };
 		073A3D8620E1F9FB0045024D /* LeftPaddedTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073A3D8520E1F9FB0045024D /* LeftPaddedTextField.swift */; };
+		073A3D9F20E27D700045024D /* NewEventSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073A3D9E20E27D700045024D /* NewEventSearchCell.swift */; };
+		073A3DA120E2D2380045024D /* NewUserSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073A3DA020E2D2380045024D /* NewUserSearchCell.swift */; };
+		073A3DAD20E2D2E60045024D /* ProximaNova-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 073A3DA220E2D2E50045024D /* ProximaNova-Thin.ttf */; };
+		073A3DAE20E2D2E60045024D /* ProximaNova-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 073A3DA320E2D2E50045024D /* ProximaNova-Bold.ttf */; };
+		073A3DAF20E2D2E60045024D /* ProximaNova-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 073A3DA420E2D2E50045024D /* ProximaNova-SemiBold.ttf */; };
+		073A3DB020E2D2E60045024D /* UVF ProximaNova-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 073A3DA520E2D2E50045024D /* UVF ProximaNova-Regular.ttf */; };
+		073A3DB120E2D2E60045024D /* ProximaNova-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 073A3DA620E2D2E50045024D /* ProximaNova-Medium.ttf */; };
+		073A3DB220E2D2E60045024D /* ProximaNovaSoft-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 073A3DA720E2D2E50045024D /* ProximaNovaSoft-Bold.ttf */; };
+		073A3DB320E2D2E60045024D /* ProximaNovaSoft-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 073A3DA820E2D2E50045024D /* ProximaNovaSoft-Regular.otf */; };
+		073A3DB420E2D2E60045024D /* ProximaNova-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 073A3DA920E2D2E50045024D /* ProximaNova-Regular.ttf */; };
+		073A3DB520E2D2E60045024D /* ProximaNova-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 073A3DAA20E2D2E60045024D /* ProximaNova-Light.ttf */; };
+		073A3DB620E2D2E60045024D /* ProximaNova-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 073A3DAB20E2D2E60045024D /* ProximaNova-Black.ttf */; };
+		073A3DB720E2D2E60045024D /* ProximaNova-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 073A3DAC20E2D2E60045024D /* ProximaNova-BlackItalic.ttf */; };
+		073A3DB920E300E30045024D /* SearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073A3DB820E300E30045024D /* SearchCell.swift */; };
+		073A3DBB20E301450045024D /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073A3DBA20E301450045024D /* UserCell.swift */; };
+		073A3DBD20E3111E0045024D /* NewEventSearchHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073A3DBC20E3111E0045024D /* NewEventSearchHeader.swift */; };
+		073A3DBF20E314E90045024D /* StickyHeaderLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073A3DBE20E314E90045024D /* StickyHeaderLayout.swift */; };
 		073AFDC51F45E4FB009D4773 /* FollowService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073AFDC41F45E4FB009D4773 /* FollowService.swift */; };
 		0741702C20468A1F006B236B /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0741702B20468A1F006B236B /* NotificationCell.swift */; };
 		0741702E20474D12006B236B /* NotificationSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0741702D20474D12006B236B /* NotificationSectionController.swift */; };
@@ -64,7 +81,6 @@
 		0747AA1920375D8500F725C7 /* CommentsSpinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0747AA1220375D8500F725C7 /* CommentsSpinner.swift */; };
 		0747AA1F20375E0E00F725C7 /* EventSearchHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0747AA1A20375E0D00F725C7 /* EventSearchHeader.swift */; };
 		0747AA2020375E0E00F725C7 /* UserSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0747AA1B20375E0D00F725C7 /* UserSearchCell.swift */; };
-		0747AA2120375E0E00F725C7 /* EventSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0747AA1C20375E0E00F725C7 /* EventSearchCell.swift */; };
 		0747AA2220375E0E00F725C7 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0747AA1D20375E0E00F725C7 /* SearchViewController.swift */; };
 		0747AA2820375E2A00F725C7 /* CameraController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0747AA2420375E2A00F725C7 /* CameraController.swift */; };
 		0747AA2920375E2A00F725C7 /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0747AA2520375E2A00F725C7 /* VideoViewController.swift */; };
@@ -134,6 +150,23 @@
 		073A3D7F20E0BCCF0045024D /* CalendarHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CalendarHeader.swift; path = Controllers/Calendar/CalendarHeader.swift; sourceTree = "<group>"; };
 		073A3D8120E1ECAD0045024D /* NewSearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NewSearchVC.swift; path = Controllers/Search/NewSearchVC.swift; sourceTree = "<group>"; };
 		073A3D8520E1F9FB0045024D /* LeftPaddedTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LeftPaddedTextField.swift; path = Controllers/Search/LeftPaddedTextField.swift; sourceTree = "<group>"; };
+		073A3D9E20E27D700045024D /* NewEventSearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NewEventSearchCell.swift; path = Controllers/Search/NewEventSearchCell.swift; sourceTree = "<group>"; };
+		073A3DA020E2D2380045024D /* NewUserSearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NewUserSearchCell.swift; path = Controllers/Search/NewUserSearchCell.swift; sourceTree = "<group>"; };
+		073A3DA220E2D2E50045024D /* ProximaNova-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ProximaNova-Thin.ttf"; path = "Fonts/ProximaNova-Thin.ttf"; sourceTree = "<group>"; };
+		073A3DA320E2D2E50045024D /* ProximaNova-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ProximaNova-Bold.ttf"; path = "Fonts/ProximaNova-Bold.ttf"; sourceTree = "<group>"; };
+		073A3DA420E2D2E50045024D /* ProximaNova-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ProximaNova-SemiBold.ttf"; path = "Fonts/ProximaNova-SemiBold.ttf"; sourceTree = "<group>"; };
+		073A3DA520E2D2E50045024D /* UVF ProximaNova-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "UVF ProximaNova-Regular.ttf"; path = "Fonts/UVF ProximaNova-Regular.ttf"; sourceTree = "<group>"; };
+		073A3DA620E2D2E50045024D /* ProximaNova-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ProximaNova-Medium.ttf"; path = "Fonts/ProximaNova-Medium.ttf"; sourceTree = "<group>"; };
+		073A3DA720E2D2E50045024D /* ProximaNovaSoft-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ProximaNovaSoft-Bold.ttf"; path = "Fonts/ProximaNovaSoft-Bold.ttf"; sourceTree = "<group>"; };
+		073A3DA820E2D2E50045024D /* ProximaNovaSoft-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ProximaNovaSoft-Regular.otf"; path = "Fonts/ProximaNovaSoft-Regular.otf"; sourceTree = "<group>"; };
+		073A3DA920E2D2E50045024D /* ProximaNova-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ProximaNova-Regular.ttf"; path = "Fonts/ProximaNova-Regular.ttf"; sourceTree = "<group>"; };
+		073A3DAA20E2D2E60045024D /* ProximaNova-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ProximaNova-Light.ttf"; path = "Fonts/ProximaNova-Light.ttf"; sourceTree = "<group>"; };
+		073A3DAB20E2D2E60045024D /* ProximaNova-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ProximaNova-Black.ttf"; path = "Fonts/ProximaNova-Black.ttf"; sourceTree = "<group>"; };
+		073A3DAC20E2D2E60045024D /* ProximaNova-BlackItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ProximaNova-BlackItalic.ttf"; path = "Fonts/ProximaNova-BlackItalic.ttf"; sourceTree = "<group>"; };
+		073A3DB820E300E30045024D /* SearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SearchCell.swift; path = Controllers/Search/SearchCell.swift; sourceTree = "<group>"; };
+		073A3DBA20E301450045024D /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UserCell.swift; path = Controllers/Search/UserCell.swift; sourceTree = "<group>"; };
+		073A3DBC20E3111E0045024D /* NewEventSearchHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NewEventSearchHeader.swift; path = Controllers/Search/NewEventSearchHeader.swift; sourceTree = "<group>"; };
+		073A3DBE20E314E90045024D /* StickyHeaderLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StickyHeaderLayout.swift; path = Controllers/Search/StickyHeaderLayout.swift; sourceTree = "<group>"; };
 		073AFDC41F45E4FB009D4773 /* FollowService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FollowService.swift; path = Services/FollowService.swift; sourceTree = "<group>"; };
 		0741702B20468A1F006B236B /* NotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NotificationCell.swift; path = Controllers/Notifications/NotificationCell.swift; sourceTree = "<group>"; };
 		0741702D20474D12006B236B /* NotificationSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NotificationSectionController.swift; path = Controllers/Notifications/NotificationSectionController.swift; sourceTree = "<group>"; };
@@ -173,7 +206,6 @@
 		0747AA1220375D8500F725C7 /* CommentsSpinner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CommentsSpinner.swift; path = Controllers/Comments/CommentsSpinner.swift; sourceTree = "<group>"; };
 		0747AA1A20375E0D00F725C7 /* EventSearchHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EventSearchHeader.swift; path = Controllers/Search/EventSearchHeader.swift; sourceTree = "<group>"; };
 		0747AA1B20375E0D00F725C7 /* UserSearchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserSearchCell.swift; path = Controllers/Search/UserSearchCell.swift; sourceTree = "<group>"; };
-		0747AA1C20375E0E00F725C7 /* EventSearchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EventSearchCell.swift; path = Controllers/Search/EventSearchCell.swift; sourceTree = "<group>"; };
 		0747AA1D20375E0E00F725C7 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchViewController.swift; path = Controllers/Search/SearchViewController.swift; sourceTree = "<group>"; };
 		0747AA2420375E2A00F725C7 /* CameraController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CameraController.swift; path = Controllers/Camera/CameraController.swift; sourceTree = "<group>"; };
 		0747AA2520375E2A00F725C7 /* VideoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VideoViewController.swift; path = Controllers/Camera/VideoViewController.swift; sourceTree = "<group>"; };
@@ -255,12 +287,17 @@
 		071C9E081F3F955B0021D5A3 /* Search */ = {
 			isa = PBXGroup;
 			children = (
-				0747AA1C20375E0E00F725C7 /* EventSearchCell.swift */,
 				0747AA1A20375E0D00F725C7 /* EventSearchHeader.swift */,
 				0747AA1D20375E0E00F725C7 /* SearchViewController.swift */,
 				0747AA1B20375E0D00F725C7 /* UserSearchCell.swift */,
 				073A3D8120E1ECAD0045024D /* NewSearchVC.swift */,
 				073A3D8520E1F9FB0045024D /* LeftPaddedTextField.swift */,
+				073A3D9E20E27D700045024D /* NewEventSearchCell.swift */,
+				073A3DA020E2D2380045024D /* NewUserSearchCell.swift */,
+				073A3DB820E300E30045024D /* SearchCell.swift */,
+				073A3DBA20E301450045024D /* UserCell.swift */,
+				073A3DBC20E3111E0045024D /* NewEventSearchHeader.swift */,
+				073A3DBE20E314E90045024D /* StickyHeaderLayout.swift */,
 			);
 			name = Search;
 			sourceTree = "<group>";
@@ -272,6 +309,24 @@
 				072473202078692600DD285E /* SearchPlacesCell.swift */,
 			);
 			name = Places;
+			sourceTree = "<group>";
+		};
+		073A3D8720E271810045024D /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				073A3DAB20E2D2E60045024D /* ProximaNova-Black.ttf */,
+				073A3DAC20E2D2E60045024D /* ProximaNova-BlackItalic.ttf */,
+				073A3DA320E2D2E50045024D /* ProximaNova-Bold.ttf */,
+				073A3DAA20E2D2E60045024D /* ProximaNova-Light.ttf */,
+				073A3DA620E2D2E50045024D /* ProximaNova-Medium.ttf */,
+				073A3DA920E2D2E50045024D /* ProximaNova-Regular.ttf */,
+				073A3DA420E2D2E50045024D /* ProximaNova-SemiBold.ttf */,
+				073A3DA220E2D2E50045024D /* ProximaNova-Thin.ttf */,
+				073A3DA720E2D2E50045024D /* ProximaNovaSoft-Bold.ttf */,
+				073A3DA820E2D2E50045024D /* ProximaNovaSoft-Regular.otf */,
+				073A3DA520E2D2E50045024D /* UVF ProximaNova-Regular.ttf */,
+			);
+			name = Fonts;
 			sourceTree = "<group>";
 		};
 		074290A0201ECE2000C1D68D /* Notifications */ = {
@@ -324,6 +379,7 @@
 		07437F2D1F267E1D00CE728B /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				073A3D8720E271810045024D /* Fonts */,
 				07C15E4A20C112660046D8BC /* FriendRequest */,
 				07D26E0520B11723001110AC /* AppleCamera */,
 				07487146208453D50024635C /* Calendar */,
@@ -632,10 +688,21 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				073A3DB520E2D2E60045024D /* ProximaNova-Light.ttf in Resources */,
+				073A3DAF20E2D2E60045024D /* ProximaNova-SemiBold.ttf in Resources */,
+				073A3DAD20E2D2E60045024D /* ProximaNova-Thin.ttf in Resources */,
 				07437F241F267CA900CE728B /* LaunchScreen.storyboard in Resources */,
 				07437F3B1F28D4B900CE728B /* GoogleService-Info.plist in Resources */,
+				073A3DAE20E2D2E60045024D /* ProximaNova-Bold.ttf in Resources */,
+				073A3DB720E2D2E60045024D /* ProximaNova-BlackItalic.ttf in Resources */,
+				073A3DB020E2D2E60045024D /* UVF ProximaNova-Regular.ttf in Resources */,
+				073A3DB620E2D2E60045024D /* ProximaNova-Black.ttf in Resources */,
+				073A3DB220E2D2E60045024D /* ProximaNovaSoft-Bold.ttf in Resources */,
 				07437F1F1F267CA900CE728B /* Main.storyboard in Resources */,
+				073A3DB420E2D2E60045024D /* ProximaNova-Regular.ttf in Resources */,
 				07437F3F1F28D52200CE728B /* Default-568h@2x.png in Resources */,
+				073A3DB120E2D2E60045024D /* ProximaNova-Medium.ttf in Resources */,
+				073A3DB320E2D2E60045024D /* ProximaNovaSoft-Regular.otf in Resources */,
 				0704C76C2061D11F00C9E35A /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -802,6 +869,7 @@
 				0747A9F620375D2400F725C7 /* HomeFeedCell.swift in Sources */,
 				0747AA0020375D3B00F725C7 /* UserEventAttendingCell.swift in Sources */,
 				0747AA0B20375D6E00F725C7 /* VideoLauncher.swift in Sources */,
+				073A3DA120E2D2380045024D /* NewUserSearchCell.swift in Sources */,
 				07C15E6420D232460046D8BC /* NewUserEventAttendingCell.swift in Sources */,
 				0747A9F820375D2400F725C7 /* BaseRoundedCell.swift in Sources */,
 				07D923A81F33C61D0069613D /* Storyboard+Utility.swift in Sources */,
@@ -844,8 +912,11 @@
 				07C15E4E20C112DB0046D8BC /* FriendRequestCell.swift in Sources */,
 				07C15E2620BA30670046D8BC /* SettingsService.swift in Sources */,
 				0747AA2920375E2A00F725C7 /* VideoViewController.swift in Sources */,
+				073A3DBB20E301450045024D /* UserCell.swift in Sources */,
 				07363FAF20AD20FB00CDE2C3 /* NewCameraController.swift in Sources */,
+				073A3D9F20E27D700045024D /* NewEventSearchCell.swift in Sources */,
 				0747A9F920375D2400F725C7 /* HomeFeedController.swift in Sources */,
+				073A3DBD20E3111E0045024D /* NewEventSearchHeader.swift in Sources */,
 				0747AA2020375E0E00F725C7 /* UserSearchCell.swift in Sources */,
 				07C15E5E20D0CBEC0046D8BC /* SelectionCell.swift in Sources */,
 				07363FAD20AC07B000CDE2C3 /* SwiftyRecordButton.swift in Sources */,
@@ -856,6 +927,7 @@
 				0747AA1620375D8500F725C7 /* NewCommentsViewController.swift in Sources */,
 				0747A9DB20375C6600F725C7 /* NotificationsViewController.swift in Sources */,
 				07C15E2420B7DA920046D8BC /* Private.swift in Sources */,
+				073A3DBF20E314E90045024D /* StickyHeaderLayout.swift in Sources */,
 				073AFDC51F45E4FB009D4773 /* FollowService.swift in Sources */,
 				07C15E3D20C10D550046D8BC /* FollowingViewController.swift in Sources */,
 				0724731F2078562700DD285E /* PlacesSearchController.swift in Sources */,
@@ -867,13 +939,13 @@
 				0704C76E2062AFAC00C9E35A /* CategoryCell.swift in Sources */,
 				07417030204751DB006B236B /* NotificationService.swift in Sources */,
 				07437F461F2911E500CE728B /* AuthService.swift in Sources */,
+				073A3DB920E300E30045024D /* SearchCell.swift in Sources */,
 				0747AA1720375D8500F725C7 /* CommentInputAccessoryView.swift in Sources */,
 				0747AA1320375D8500F725C7 /* CommentCell.swift in Sources */,
 				07F3EC601F4B7BE9005296EB /* Story.swift in Sources */,
 				0747AA39203779D900F725C7 /* CommentGrabbed.swift in Sources */,
 				07370C841F4A4CC8006DC7A2 /* StorageService.swift in Sources */,
 				0747AA3B203779D900F725C7 /* Friend.swift in Sources */,
-				0747AA2120375E0E00F725C7 /* EventSearchCell.swift in Sources */,
 				0747AA0120375D3B00F725C7 /* UserHeader.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

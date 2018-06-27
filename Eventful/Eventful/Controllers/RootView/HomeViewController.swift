@@ -26,11 +26,14 @@
         profileViewNavController.tabBarItem.selectedImage = UIImage(named: "icons8-User Filled-50")?.withRenderingMode(.alwaysOriginal)
 
 //        let searchController = EventSearchController(collectionViewLayout: UICollectionViewFlowLayout())
-//        let searchNavController = UINavigationController(rootViewController: searchController)
-        let searchVC = NewSearchVC()
-        searchVC.tabBarItem.image =  UIImage(named: "icons8-search-50")?.withRenderingMode(.alwaysOriginal)
-        searchVC.tabBarItem.selectedImage =  UIImage(named: "icons8-search-filled-50")?.withRenderingMode(.alwaysOriginal)
-        searchVC.tabBarItem.title = "Search"
+        let layout = UICollectionViewFlowLayout()
+        layout.sectionFootersPinToVisibleBounds = true
+        let searchVC = NewSearchVC(collectionViewLayout: layout)
+
+        let searchNavController = UINavigationController(rootViewController: searchVC)
+        searchNavController.tabBarItem.image =  UIImage(named: "icons8-search-50")?.withRenderingMode(.alwaysOriginal)
+        searchNavController.tabBarItem.selectedImage =  UIImage(named: "icons8-search-filled-50")?.withRenderingMode(.alwaysOriginal)
+        searchNavController.tabBarItem.title = "Search"
         
         let requestVC = RequestViewController()
         let notificationView = NotificationsViewController()
@@ -51,7 +54,7 @@
         notificationNavController.tabBarItem.title = "Notifications"
     
         return [navController
-            ,searchVC,notificationNavController,profileViewNavController]
+            ,searchNavController,notificationNavController,profileViewNavController]
     }()
 
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
