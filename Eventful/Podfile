@@ -36,8 +36,9 @@ target 'Eventful' do
     pod 'SimpleImageViewer', '~> 1.1.1'
     pod 'IQKeyboardManagerSwift'
     pod 'SwiftVideoGenerator'
-    pod 'SwipeCellKit'
+    pod 'SwipeCellKit',:git => 'https://github.com/SwipeCellKit/SwipeCellKit.git', :branch => 'master'
     pod 'ScrollableSegmentedControl', '~> 1.3.0'
+    pod 'XLActionController/Twitter'
     # Pods for Eventful
     
 end

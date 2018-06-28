@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import Firebase
+import SwipeCellKit
 
 protocol CommentCellDelegate: class {
     func optionsButtonTapped(cell: CommentCell)
@@ -50,6 +51,13 @@ class CommentCell: UICollectionViewCell {
         }
     }
     
+    let cellView: UIView = {
+        let cellView = UIView()
+        cellView.backgroundColor = .white
+        cellView.setupShadow2()
+        return cellView
+    }()
+    
     lazy var textView: UITextView = {
         let textView = UITextView()
         textView.font = UIFont.systemFont(ofSize: 14)
@@ -71,8 +79,8 @@ class CommentCell: UICollectionViewCell {
     
     lazy var flagButton: UIButton = {
         let flagButton = UIButton(type: .system)
-        flagButton.setImage(#imageLiteral(resourceName: "icons8-reply-arrow-50").withRenderingMode(.alwaysOriginal), for: .normal)
-        flagButton.addTarget(self, action: #selector(optionsButtonTapped), for: .touchUpInside)
+        flagButton.setImage(#imageLiteral(resourceName: "icons8-more-filled-50").withRenderingMode(.alwaysOriginal), for: .normal)
+        flagButton.addTarget(self, action: #selector(CommentCell.onOptionsTapped), for: .touchUpInside)
         return flagButton
     }()
     
@@ -85,26 +93,54 @@ class CommentCell: UICollectionViewCell {
     }
     @objc func handleProfileTransition(tapGesture: UITapGestureRecognizer){
         delegate?.handleProfileTransition(tapGesture: tapGesture)
-      //  print("Tapped image")
     }
     
     
     
     override init(frame: CGRect){
         super.init(frame: frame)
-        addSubview(textView)
-        addSubview(profileImageView)
-        addSubview(flagButton)
-        textView.anchor(top: topAnchor, left: profileImageView.rightAnchor, bottom: bottomAnchor, right: flagButton.leftAnchor, paddingTop: 4, paddingLeft: 4, paddingBottom: 4, paddingRight: 4, width: 0, height: 0)
-        profileImageView.anchor(top: topAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 8, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 40, height: 40)
-        profileImageView.layer.cornerRadius = 40/2
-        flagButton.anchor(top: topAnchor, left: nil, bottom: nil, right: rightAnchor, paddingTop: 4, paddingLeft: 0, paddingBottom: 0, paddingRight: 4, width: 40, height: 40)
-        flagButton.addTarget(self, action: #selector(CommentCell.onOptionsTapped), for: .touchUpInside)
+
+        setupViews()
+    }
+    
+    @objc func setupViews(){
         let notCurrentUserDividerView = UIView()
         notCurrentUserDividerView.backgroundColor = UIColor.lightGray
-        addSubview(notCurrentUserDividerView)
-        notCurrentUserDividerView.anchor(top: nil, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0.5)
+        addSubview(cellView)
         
+        cellView.snp.makeConstraints { (make) in
+            make.edges.equalTo(self)
+        }
+        cellView.addSubview(flagButton)
+
+        cellView.addSubview(profileImageView)
+        cellView.addSubview(textView)
+        profileImageView.snp.makeConstraints { (make) in
+            make.top.equalTo(cellView.snp.top).inset(8)
+            make.left.equalTo(cellView.snp.left).offset(8)
+            make.height.width.equalTo(40)
+            
+        }
+        
+        textView.snp.makeConstraints { (make) in
+            make.top.bottom.equalTo(cellView).inset(4)
+            make.left.equalTo(profileImageView.snp.right).offset(4)
+            make.right.equalTo(flagButton.snp.left).offset(4)
+        }
+        
+        profileImageView.layer.cornerRadius = 40/2
+        cellView.addSubview(notCurrentUserDividerView)
+        notCurrentUserDividerView.snp.makeConstraints { (make) in
+            make.left.right.equalTo(self)
+            make.bottom.equalTo(self.snp.bottom)
+            make.height.equalTo(0.5)
+        }
+        flagButton.snp.makeConstraints { (make) in
+            make.height.width.equalTo(40)
+            make.right.equalTo(cellView.snp.right).inset(4)
+            make.top.bottom.equalTo(cellView).inset(4)
+        }
+
     }
     
     required init?(coder aDecoder: NSCoder) {

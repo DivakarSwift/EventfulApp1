@@ -56,7 +56,6 @@ class UserCell: BaseCell {
             make.edges.equalTo(self)
         }
         cellView.addSubview(userImageView)
-        userImageView.backgroundColor = .red
         userImageView.snp.makeConstraints { (make) in
             make.centerY.equalTo(self.snp.centerY)
             make.left.equalTo(self.snp.left).offset(10)

@@ -10,6 +10,8 @@ import UIKit
 import IGListKit
 import Foundation
 import Firebase
+import SwipeCellKit
+import XLActionController
 
 protocol CommentsSectionDelegate: class {
     func CommentSectionUpdared(sectionController: CommentsSectionController, comment: CommentGrabbed)
@@ -54,7 +56,6 @@ class CommentsSectionController: ListSectionController,CommentCellDelegate {
         guard let cell = collectionContext?.dequeueReusableCell(of: CommentCell.self, for: self, at: index) as? CommentCell else {
             fatalError()
         }
-        //  print(comment)
         cell.comment = comment
         cell.delegate = self
         return cell
@@ -72,42 +73,39 @@ class CommentsSectionController: ListSectionController,CommentCellDelegate {
         _ = comment?.sender.uid
         
         // 3
-        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let actionSheet = TwitterActionController()
         
         // 4
         if comment?.sender.uid != User.current.uid {
-            let flagAction = UIAlertAction(title: "Report as Inappropriate", style: .default) {[weak self] _ in
+            actionSheet.addAction(Action(ActionData(title: "Report as Inappropriate",image: UIImage(named: "icons8-Info-64")!), style: .default, handler: { action in
+                // do something useful
                 ChatService.flag(comment!)
                 
                 let okAlert = UIAlertController(title: nil, message: "The post has been flagged.", preferredStyle: .alert)
                 okAlert.addAction(UIAlertAction(title: "Ok", style: .default))
-                self?.viewController?.present(okAlert, animated: true, completion: nil)
-            }
-            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-            let replyAction = UIAlertAction(title: "Reply to Comment", style: .default, handler: { [weak self](_) in
-                //do something here later to facilitate reply comment functionality
-                // print("Attempting to reply to user \(comment?.sender.userna ?? <#default value#>me) comment")
-                //begin comment reply functionality
-                self?.handleReply()
-            })
-            alertController.addAction(replyAction)
-            alertController.addAction(cancelAction)
-            alertController.addAction(flagAction)
-        }else{
-            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-            let deleteAction = UIAlertAction(title: "Delete Comment", style: .default, handler: {[weak self] _ in
-                ChatService.deleteComment(comment!, (comment?.eventKey)!)
-                let okAlert = UIAlertController(title: nil, message: "Comment Has Been Deleted", preferredStyle: .alert)
-                okAlert.addAction(UIAlertAction(title: "Ok", style: .default))
-                self?.viewController?.present(okAlert, animated: true, completion: nil)
-                self?.onItemDeleted()
-
-            })
-            alertController.addAction(cancelAction)
-            alertController.addAction(deleteAction)
+                self.viewController?.present(okAlert, animated: true, completion: nil)
+            }))
+            actionSheet.addAction(Action(ActionData(title: "Reply To Comment", image: UIImage(named: "icons8-reply-arrow-50")!), style: .default, handler: { action in
+                // do something useful
+                self.handleReply()
+            }))
             
+            
+        }else{
+            actionSheet.addAction(Action(ActionData(title: "Delete Comment",image: UIImage(named: "icons8-waste-50")!), style: .default, handler: { action in
+                // do something useful
+                
+                ChatService.deleteComment(comment!,  (comment?.eventKey)!, success: { (success) in
+                    if success {
+                        let okAlert = UIAlertController(title: nil, message: "Comment Has Been Deleted", preferredStyle: .alert)
+                        okAlert.addAction(UIAlertAction(title: "Ok", style: .default))
+                        self.viewController?.present(okAlert, animated: true, completion: nil)
+                        self.onItemDeleted()
+                    }
+                })
+            }))
         }
-        self.viewController?.present(alertController, animated: true, completion: nil)
+        self.viewController?.present(actionSheet, animated: true, completion: nil)
         
     }
     func onItemDeleted() {
@@ -115,8 +113,7 @@ class CommentsSectionController: ListSectionController,CommentCellDelegate {
         delegate?.CommentSectionUpdared(sectionController: self, comment: comment!)
     }
     func handleProfileTransition(tapGesture: UITapGestureRecognizer){
-        let userProfileController = ProfileeViewController(collectionViewLayout: UICollectionViewFlowLayout())
-
+        let userProfileController = NewProfileVC()
         userProfileController.user = comment?.sender
         userProfileController.navigationItem.title = comment?.sender.username
         userProfileController.navigationItem.hidesBackButton = true
@@ -155,3 +152,4 @@ class CommentsSectionController: ListSectionController,CommentCellDelegate {
     
     
 }
+

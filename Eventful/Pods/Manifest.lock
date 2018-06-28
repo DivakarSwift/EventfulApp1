@@ -106,8 +106,11 @@ PODS:
   - SwiftVideoGenerator (1.1.6)
   - SwiftyCam (2.7.0)
   - SwiftyJSON (4.0.0)
-  - SwipeCellKit (2.3.2)
+  - SwipeCellKit (2.4.3)
   - TextFieldEffects (1.4.0)
+  - XLActionController/Core (4.0.1)
+  - XLActionController/Twitter (4.0.1):
+    - XLActionController/Core
 
 DEPENDENCIES:
   - Alamofire
@@ -140,8 +143,9 @@ DEPENDENCIES:
   - SwiftVideoGenerator
   - SwiftyCam (from `https://github.com/Awalz/SwiftyCam.git`, branch `Swift4`)
   - SwiftyJSON
-  - SwipeCellKit
+  - SwipeCellKit (from `https://github.com/SwipeCellKit/SwipeCellKit.git`, branch `master`)
   - TextFieldEffects
+  - XLActionController/Twitter
 
 EXTERNAL SOURCES:
   GeoFire:
@@ -155,6 +159,9 @@ EXTERNAL SOURCES:
   SwiftyCam:
     :branch: Swift4
     :git: https://github.com/Awalz/SwiftyCam.git
+  SwipeCellKit:
+    :branch: master
+    :git: https://github.com/SwipeCellKit/SwipeCellKit.git
 
 CHECKOUT OPTIONS:
   GeoFire:
@@ -169,6 +176,9 @@ CHECKOUT OPTIONS:
   SwiftyCam:
     :commit: 85d713d643159cda72db2f3e230777af50cded94
     :git: https://github.com/Awalz/SwiftyCam.git
+  SwipeCellKit:
+    :commit: f8a53daa475770a05fa64cef4d42fb5b4362f32c
+    :git: https://github.com/SwipeCellKit/SwipeCellKit.git
 
 SPEC CHECKSUMS:
   Alamofire: e4fa87002c137ba2d8d634d2c51fabcda0d5c223
@@ -211,9 +221,10 @@ SPEC CHECKSUMS:
   SwiftVideoGenerator: cc01213d03fcea0fd030c05a3b504a3883109e55
   SwiftyCam: 7c826b73a5b208677aee29390582c771bf748661
   SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
-  SwipeCellKit: 52b160ea820245eb972b2eca270cb3a6f68e33af
+  SwipeCellKit: cee9906e6d3a36e22ad1a852fba7f8fa0839d113
   TextFieldEffects: 4ee41b5216e674d55fb6ac25107bf1af7629176f
+  XLActionController: 007868251c0eed70d649d06c1625259b73b3a600
 
-PODFILE CHECKSUM: 554076b56832bb872f61bffd1847e7a4b302abbe
+PODFILE CHECKSUM: 34f1ef649946f0a8b6dba47f94d945b48af4ed77
 
 COCOAPODS: 1.4.0

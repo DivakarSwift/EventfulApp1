@@ -117,7 +117,7 @@ class ChatService {
         })
     }
     
-    static func deleteComment(_ comment: CommentGrabbed, _ eventKey: String){
+    static func deleteComment(_ comment: CommentGrabbed, _ eventKey: String,success: ((Bool) -> Void)? = nil){
         //1
         guard let commentkey = comment.key else {
             return
@@ -128,6 +128,9 @@ class ChatService {
         Database.database().reference().updateChildValues(commentData) { (error, _) in
             if let error = error {
                 assertionFailure(error.localizedDescription)
+                success?(false)
+            }else{
+                success?(true)
             }
         }
         
