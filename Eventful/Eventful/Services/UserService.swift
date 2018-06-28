@@ -132,7 +132,7 @@ struct UserService {
 
             eventDictionary.forEach({ (key,value) in
                 dispatchGroup.enter()
-                EventService.show(forEventKey: key , completion: { (event) in
+                EventService.show(isFromHomeFeed: false, forEventKey: key , completion: { (event) in
                     
                     AttendService.isEventAttended(event, byCurrentUserWithCompletion: { (isAttended) in
                         event?.isAttending = isAttended

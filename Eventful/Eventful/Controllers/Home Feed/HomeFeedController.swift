@@ -143,10 +143,10 @@ class HomeFeedController: UICollectionViewController {
                 self.featuredEvents.removeAll()
 
                 
-                PostService.showFeaturedEvent(for: currentLocation, completion: { [weak self] (event) in
+                PostService.showFeaturedEvent(cameFromHomeFeed: true, for: currentLocation, completion: { [weak self] (event) in
                     self?.featuredEvents = event
                 })
-                PostService.showEvent(for: currentLocation, completion: { [unowned self](events) in
+                PostService.showEvent(cameFromeHomeFeed: true, for: currentLocation, completion: { [unowned self](events) in
                     
                     for event in events {
                         if event.category == "Seize The Night" {
@@ -185,7 +185,7 @@ class HomeFeedController: UICollectionViewController {
             }
             self.savedLocation = currentLocation
             
-            PostService.showEvent(for: currentLocation, completion: { [unowned self](events) in
+            PostService.showEvent(cameFromeHomeFeed: true, for: currentLocation, completion: { [unowned self](events) in
                 
                 for event in events {
                     if event.category == "Seize The Night" {
@@ -204,7 +204,7 @@ class HomeFeedController: UICollectionViewController {
                 print("ending in cacegory events")
             })
             
-            PostService.showFeaturedEvent(for: currentLocation, completion: { [weak self] (events) in
+            PostService.showFeaturedEvent(cameFromHomeFeed: true, for: currentLocation, completion: { [weak self] (events) in
                 self?.featuredEvents = events
                 print("ending in Featured events")
                 self?.grabFriendsEvents()
@@ -368,7 +368,7 @@ extension HomeFeedController: UICollectionViewDelegateFlowLayout {
 extension HomeFeedController {
     @objc func fetchEvents(currentLocation: CLLocation, selectedDate: Date){
         
-        PostService.showEvent(passedDate: selectedDate,for: currentLocation, completion: { [unowned self](events) in
+        PostService.showEvent(cameFromeHomeFeed: true, passedDate: selectedDate,for: currentLocation, completion: { [unowned self](events) in
             for event in events {
                 if event.category == "Seize The Night" {
                     self.seizeTheNight.append(event)
@@ -388,7 +388,7 @@ extension HomeFeedController {
             }
         })
         
-        PostService.showFeaturedEvent(passedDate: selectedDate,for: currentLocation, completion: { [weak self] (events) in
+        PostService.showFeaturedEvent(cameFromHomeFeed: true, passedDate: selectedDate,for: currentLocation, completion: { [weak self] (events) in
             self?.featuredEvents = events
 
             DispatchQueue.main.async {

@@ -292,7 +292,7 @@ extension AppDelegate {
                 mainTabBarController.selectedIndex = 0
                 mainTabBarController.presentedViewController?.dismiss(animated: true, completion: nil)
                 if let homeNavController = mainTabBarController.viewControllerList.first as? UINavigationController {
-                    EventService.show(forEventKey: userInfo["eventKey"] as! String) { (event) in
+                    EventService.show(isFromHomeFeed: false, forEventKey: userInfo["eventKey"] as! String) { (event) in
                         let eventDetailVC = EventDetailViewController()
                         eventDetailVC.currentEvent = event
                         homeNavController.tabBarController?.tabBar.isHidden = true

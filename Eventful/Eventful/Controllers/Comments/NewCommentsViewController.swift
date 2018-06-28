@@ -219,8 +219,11 @@ class NewCommentsViewController: UIViewController, UITextFieldDelegate,CommentsS
 //                    self.comments.append(Array(comments..<itemCount + 5))
                     print("attempting pagiantion")
                     //put true or false condition to stop pagination
-                  
-                        ChatService.fetchComments(forChatKey: self.eventKey, currentPostCount: self.comments.count, lastKey: (self.comments.last?.key!)!, isFinishedPaging: self.isFinishedPaging, completion: { ( pagComments,boolValue) in
+                    guard let lastKey = self.comments.last?.key else {
+                        self.adapter.performUpdates(animated: true, completion: nil)
+                        return
+                    }
+                        ChatService.fetchComments(forChatKey: self.eventKey, currentPostCount: self.comments.count, lastKey: lastKey, isFinishedPaging: self.isFinishedPaging, completion: { ( pagComments,boolValue) in
                             self.isFinishedPaging = boolValue
                             self.comments.append(contentsOf: pagComments)
                             self.adapter.performUpdates(animated: true, completion: nil)

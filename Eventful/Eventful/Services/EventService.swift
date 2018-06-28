@@ -13,7 +13,7 @@ import FirebaseAuth
 
 struct EventService {
     
-    static func show(passedDate: Date? = nil,forEventKey eventKey: String, completion: @escaping (Event?) -> Void) {
+    static func show(isFromHomeFeed: Bool,passedDate: Date? = nil,forEventKey eventKey: String, completion: @escaping (Event?) -> Void) {
         // print(eventKey)
         let ref = Database.database().reference().child("events").child(eventKey)
        //  print(eventKey)
@@ -30,7 +30,11 @@ struct EventService {
                 if event.endTime > Date(){
                     completion(event)
                 }else{
-                    completion(nil)
+                    if isFromHomeFeed {
+                        completion(nil)
+                    }else{
+                        completion(event)
+                    }
                 }
             }else{
                 if let date = passedDate{

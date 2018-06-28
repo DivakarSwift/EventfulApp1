@@ -32,7 +32,7 @@ class PostService {
         userRef.updateChildValues(dict)
     }
     
-    static func showEvent(passedDate: Date? = nil,for currentLocation: CLLocation,completion: @escaping ([Event]) -> Void) {
+    static func showEvent(cameFromeHomeFeed: Bool,passedDate: Date? = nil,for currentLocation: CLLocation,completion: @escaping ([Event]) -> Void) {
         //getting firebase root directory
         var keys = [String]()
         var currentEvents = [Event]()
@@ -53,7 +53,7 @@ class PostService {
                 let dispatchGroup = DispatchGroup()
                 for key in keys {
                     dispatchGroup.enter()
-                    EventService.show(forEventKey: key, completion: { (event) in
+                    EventService.show(isFromHomeFeed: cameFromeHomeFeed, forEventKey: key, completion: { (event) in
                         if let currentEvent = event {
                             currentEvents.append(currentEvent)
                         }
@@ -69,7 +69,7 @@ class PostService {
                 let dispatchGroup = DispatchGroup()
                 for key in keys {
                     dispatchGroup.enter()
-                    EventService.show(passedDate: passedDate, forEventKey: key, completion: { (event) in
+                    EventService.show(isFromHomeFeed: cameFromeHomeFeed, passedDate: passedDate, forEventKey: key, completion: { (event) in
                         if let currentEvent = event {
                             currentEvents.append(currentEvent)
                         }
@@ -89,7 +89,7 @@ class PostService {
 
     }
     
-    static func showFeaturedEvent(passedDate: Date? = nil,for currentLocation: CLLocation,completion: @escaping ([Event]) -> Void) {
+    static func showFeaturedEvent(cameFromHomeFeed: Bool,passedDate: Date? = nil,for currentLocation: CLLocation,completion: @escaping ([Event]) -> Void) {
         //getting firebase root directory
         var currentEvents = [Event]()
         var keys = [String]()
@@ -111,7 +111,7 @@ class PostService {
                 let dispatchGroup = DispatchGroup()
                 for key in keys {
                     dispatchGroup.enter()
-                    EventService.show(forEventKey: key, completion: { (event) in
+                    EventService.show(isFromHomeFeed: cameFromHomeFeed, forEventKey: key, completion: { (event) in
                         if let currentEvent = event {
                             currentEvents.append(currentEvent)
                         }
@@ -128,7 +128,7 @@ class PostService {
                 let dispatchGroup = DispatchGroup()
                 for key in keys {
                     dispatchGroup.enter()
-                    EventService.show(passedDate: passedDate, forEventKey: key, completion: { (event) in
+                    EventService.show(isFromHomeFeed: cameFromHomeFeed, passedDate: passedDate, forEventKey: key, completion: { (event) in
                         if let currentEvent = event {
                             currentEvents.append(currentEvent)
                         }
@@ -160,7 +160,7 @@ class PostService {
             guard let eventKeys = attendingSnapshot.children.allObjects as? [DataSnapshot] else{return}
             for event in eventKeys{
                 dispatchGroup.enter()
-                EventService.show(forEventKey: event.key, completion: { (event) in
+                EventService.show(isFromHomeFeed: false, forEventKey: event.key, completion: { (event) in
                     currentFollowerEvent.append(event!)
                     dispatchGroup.leave()
                 })

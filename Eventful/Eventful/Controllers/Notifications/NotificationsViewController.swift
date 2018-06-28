@@ -141,7 +141,7 @@ class NotificationsViewController: UIViewController,NotificationsSectionDelegate
             guard let eventKey = notifCell.notification?.eventKey else {
                 return
             }
-            EventService.show(forEventKey: eventKey) { (event) in
+            EventService.show(isFromHomeFeed: false, forEventKey: eventKey) { (event) in
                 let eventDetailVC = EventDetailViewController()
                 print(event?.currentEventImage)
                 eventDetailVC.currentEvent = event
@@ -178,6 +178,7 @@ class NotificationsViewController: UIViewController,NotificationsSectionDelegate
                     //put true or false condition to stop pagination
                    // print("Last key is: \(self.notifs.last?.key)")
                     guard let value = self.notifs.last?.timeStamp?.timeIntervalSince1970 else {
+                        self.adapter.performUpdates(animated: true)
                         return
                     }
                           NotificationService.fetchUserNotif(currentNotifCount: self.notifs.count, lastKey: value, isFinishedPaging: self.isFinishedPaging, withCompletion: { ( noti,boolValue) in

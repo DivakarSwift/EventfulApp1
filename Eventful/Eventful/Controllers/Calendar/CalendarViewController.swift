@@ -483,7 +483,7 @@ extension CalendarViewController: UITableViewDelegate {
 extension CalendarViewController{
     @objc func getDatesFromServer(){
         if let passedLocation = savedLocation1 {
-            PostService.showEvent(for: passedLocation) { (event) in
+            PostService.showEvent(cameFromeHomeFeed: false, for: passedLocation) { (event) in
                 for events in event{
                     print(events.startTime.getFormattedDate(string: events.startTime.description))
                     if self.allEvents[events.startTime.getFormattedDate(string: events.startTime.description)] == nil {
