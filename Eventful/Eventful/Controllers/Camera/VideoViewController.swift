@@ -9,7 +9,7 @@ import SnapKit
 
 class VideoViewController: UIViewController {
     
-   public var eventKey = ""
+    public var eventKey = ""
     
     
     let cancelButton: UIButton = {
@@ -26,7 +26,7 @@ class VideoViewController: UIViewController {
         return saveToAlbum
     }()
     
-
+    
     
     let shareButton: UIButton = {
         let shareButton = UIButton(type: .system)
@@ -47,23 +47,23 @@ class VideoViewController: UIViewController {
     var player: AVPlayer?
     // Allows you to display the video content of a AVPlayer
     var playerController : AVPlayerViewController?
-
-
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.gray
         try! AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback, with: [])
-       
+        
         // Added an observer for when the video stops playing so it can be on a continuous loop
-       
+        
         setupViews()
- NotificationCenter.default.addObserver(self, selector: #selector(playerItemDidReachEnd), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: self.player!.currentItem)
+        NotificationCenter.default.addObserver(self, selector: #selector(playerItemDidReachEnd), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: self.player!.currentItem)
         
     }
     
     @objc func setupViews(){
         player = AVPlayer(url: videoURL!)
-
+        
         
         playerController = AVPlayerViewController()
         
@@ -111,12 +111,14 @@ class VideoViewController: UIViewController {
         navigationController?.navigationBar.isHidden = true
         tabBarController?.tabBar.isHidden = true
         player?.play()
-
+        
     }
     
     
     @objc func handleCancel() {
-               dismiss(animated: true, completion: nil)
+        player?.pause()
+        player = nil
+        dismiss(animated: true, completion: nil)
     }
     
     // Takes you to AddPostViewController
@@ -136,7 +138,7 @@ class VideoViewController: UIViewController {
         alertController.addAction(cancelAction)
         
         present(alertController, animated:true, completion: nil)
-
+        
     }
     
     func handleAddToStory(){
@@ -153,19 +155,24 @@ class VideoViewController: UIViewController {
             
             let videoUrlString = downloadUrl.absoluteString
             print(videoUrlString)
-        PostService.create(for: self.eventKey, for: videoUrlString)
+            PostService.create(for: self.eventKey, for: videoUrlString)
             
         }
         //svprogresshud insert here
-        _ = self.navigationController?.popViewController(animated: true)
-        player!.replaceCurrentItem(with: nil)
-
+        //        _ = self.navigationController?.popViewController(animated: true)
+        dismiss(animated: true) {
+            self.player!.replaceCurrentItem(with: nil)
+        }
+        
+        
     }
     
     func handleDontAddToStory(){
-      _ = self.navigationController?.popViewController(animated: true)
-        player!.replaceCurrentItem(with: nil)
-
+        //      _ = self.navigationController?.popViewController(animated: true)
+        dismiss(animated: true) {
+            self.player!.replaceCurrentItem(with: nil)
+        }
+        
     }
     
     
@@ -236,7 +243,7 @@ extension VideoViewController {
                             
                         })
                     }
-                   
+                    
                 }
                 )
             } else {

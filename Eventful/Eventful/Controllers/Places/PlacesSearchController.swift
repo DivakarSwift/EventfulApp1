@@ -31,8 +31,10 @@ class PlacesSearchController: UIViewController, UICollectionViewDelegateFlowLayo
     }()
     lazy var searchBar: UISearchBar = {
         let sb = UISearchBar()
+        sb.setupShadow2()
         sb.sizeToFit()
         sb.barTintColor = UIColor.white
+        sb.layer.borderWidth = 0.5
         sb.clipsToBounds = true
         sb.layer.cornerRadius = 2.0
         sb.placeholder = "Search"
@@ -43,6 +45,7 @@ class PlacesSearchController: UIViewController, UICollectionViewDelegateFlowLayo
         textFieldInsideUISearchBar?.font = UIFont.systemFont(ofSize: 14)
         return sb
     }()
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,9 +57,15 @@ self.navigationController?.interactivePopGestureRecognizer?.delegate = nil
 
     @objc func setupViews(){
         //register a cell to the collectionView
+        UIGraphicsBeginImageContext(self.view.frame.size)
+        UIImage(named: "homePageBG")?.draw(in: self.view.bounds)
+        let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        view.backgroundColor = UIColor(patternImage: image)
         searchCollectionView.register(SearchPlacesCell.self, forCellWithReuseIdentifier: cellID)
         searchCollectionView.keyboardDismissMode = .onDrag
         searchCollectionView.alwaysBounceVertical = true
+        searchCollectionView.backgroundColor = .clear
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
@@ -64,12 +73,18 @@ self.navigationController?.interactivePopGestureRecognizer?.delegate = nil
         let backButton = UIBarButtonItem(image: UIImage(named: "icons8-Back-64"), style: .plain, target: self, action: #selector(GoBack))
         self.navigationItem.leftBarButtonItem = backButton
         
-        searchCollectionView.backgroundColor = .white
         view.addSubview(searchBar)
         view.addSubview(searchCollectionView)
-        searchBar.anchor(top: view.safeTopAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-        searchCollectionView.anchor(top: searchBar.bottomAnchor, left: view.safeLeftAnchor, bottom: view.safeBottomAnchor, right: view.safeRightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-        
+        searchBar.snp.makeConstraints { (make) in
+            make.left.right.equalTo(view).inset(5)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
+            make.height.equalTo(40)
+        }
+        searchCollectionView.snp.makeConstraints { (make) in
+            make.top.equalTo(searchBar.snp.bottom)
+            make.left.right.equalTo(view)
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+        }
         titleView.font = UIFont(name: "Avenir", size: 18)
         titleView.text = "Location"
         let width = titleView.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)).width
@@ -154,4 +169,6 @@ extension PlacesSearchController: UISearchBarDelegate {
         }
         
     }
+    
+
 }

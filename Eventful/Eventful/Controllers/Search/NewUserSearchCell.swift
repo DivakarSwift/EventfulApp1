@@ -11,12 +11,9 @@ import UIKit
 class NewUserSearchCell: BaseCell,UITextFieldDelegate {
     var filteredUsers: [User]? {
         didSet{
-            guard let currentUsers = filteredUsers else {
-                return
-            }
-            if currentUsers.count > 0 {
-                searchResultsLabel.isHidden = false
-            }
+//            guard filteredUsers != nil else {
+//                return
+//            }
             userSearchCollectionView.reloadData()
         }
     }
@@ -30,32 +27,12 @@ class NewUserSearchCell: BaseCell,UITextFieldDelegate {
         return cv
     }()
     
-    let searchResultsLabel : UILabel = {
-        let label = UILabel()
-        label.text = "Search Results"
-        guard let customFont = UIFont(name: "ProximaNovaSoft-Bold", size: 22) else {
-            fatalError("""
-        Failed to load the "CustomFont-Light" font.
-        Make sure the font file is included in the project and the font name is spelled correctly.
-        """
-            )
-        }
-        label.font = UIFontMetrics.default.scaledFont(for: customFont)
-        label.adjustsFontForContentSizeCategory = true
-        return label
-    }()
     
     override func setupViews() {
         backgroundColor = .clear
-        addSubview(searchResultsLabel)
         addSubview(userSearchCollectionView)
-        searchResultsLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(self.snp.top).offset(10)
-            make.left.equalTo(self.snp.left).offset(5)
-        }
-        searchResultsLabel.isHidden = true
         userSearchCollectionView.snp.makeConstraints { (make) in
-            make.top.equalTo(searchResultsLabel.snp.bottom)
+            make.top.equalTo(self.snp.top).offset(5)
             make.left.right.equalTo(self)
             make.bottom.equalTo(self).inset(5)
         }
@@ -63,6 +40,10 @@ class NewUserSearchCell: BaseCell,UITextFieldDelegate {
         userSearchCollectionView.dataSource = self
         userSearchCollectionView.register(UserCell.self, forCellWithReuseIdentifier: cellId)
 
+    }
+    
+    @objc func GoBack(){
+        searchVc?.navigationController?.popViewController(animated: true)
     }
 }
 
@@ -74,12 +55,24 @@ extension NewUserSearchCell: UICollectionViewDelegate, UICollectionViewDelegateF
         return currentCount
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: frame.width - 40, height: 215)
+        return CGSize(width: frame.width - 20, height: 60)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! UserCell
         cell.user = filteredUsers?[indexPath.item]
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let user = filteredUsers![indexPath.item]
+        // print(user.username ?? "")
+        let userProfileController = NewProfileVC()
+        userProfileController.user = user
+        userProfileController.navigationItem.title = user.username
+        userProfileController.navigationItem.hidesBackButton = true
+        let backButton = UIBarButtonItem(image: UIImage(named: "icons8-Back-64"), style: .plain, target: self, action: #selector(GoBack))
+        userProfileController.navigationItem.leftBarButtonItem = backButton
+        searchVc?.navigationController?.pushViewController(userProfileController, animated: true)
     }
 }

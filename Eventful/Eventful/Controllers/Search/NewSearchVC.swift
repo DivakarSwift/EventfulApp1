@@ -89,6 +89,7 @@ class NewSearchVC: UICollectionViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.collectionView?.reloadData()
+        searchPromptLabel.isHidden = false
         navigationController?.navigationBar.isHidden = true
         tabBarController?.tabBar.isHidden = false
         filteredEvents.removeAll()

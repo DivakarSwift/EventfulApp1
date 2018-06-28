@@ -15,9 +15,6 @@ class NewEventSearchCell: BaseCell {
             guard let currentEvents = filteredEvents else {
                 return
             }
-            if currentEvents.count > 0 {
-                searchResultsLabel.isHidden = false
-            }
             eventSearchCollectionView.reloadData()
         }
     }
@@ -30,32 +27,11 @@ class NewEventSearchCell: BaseCell {
         return cv
     }()
     
-    let searchResultsLabel : UILabel = {
-        let label = UILabel()
-        label.text = "Search Results"
-        guard let customFont = UIFont(name: "ProximaNovaSoft-Regular", size: 22) else {
-            fatalError("""
-        Failed to load the "CustomFont-Light" font.
-        Make sure the font file is included in the project and the font name is spelled correctly.
-        """
-            )
-        }
-        label.font = UIFontMetrics.default.scaledFont(for: customFont)
-        label.adjustsFontForContentSizeCategory = true
-        return label
-    }()
-    
     override func setupViews() {
         backgroundColor = .clear
-        addSubview(searchResultsLabel)
         addSubview(eventSearchCollectionView)
-        searchResultsLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(self.snp.top).offset(10)
-            make.left.equalTo(self.snp.left).offset(5)
-        }
-        searchResultsLabel.isHidden = true
         eventSearchCollectionView.snp.makeConstraints { (make) in
-            make.top.equalTo(searchResultsLabel.snp.bottom)
+            make.top.equalTo(self.snp.top).offset(5)
             make.left.right.equalTo(self)
             make.bottom.equalTo(self).inset(5)
         }

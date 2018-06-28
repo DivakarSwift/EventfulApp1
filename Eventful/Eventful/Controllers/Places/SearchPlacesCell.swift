@@ -10,6 +10,13 @@ import UIKit
 import SnapKit
 
 class SearchPlacesCell: UICollectionViewCell {
+    let cellView: UIView = {
+        let cellView = UIView()
+        cellView.backgroundColor = .white
+        cellView.setupShadow2()
+        return cellView
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
@@ -22,8 +29,11 @@ class SearchPlacesCell: UICollectionViewCell {
         return sectionNameLabel
     }()
     @objc func setupViews(){
-        backgroundColor = .clear
-        addSubview(sectionNameLabel)
+        addSubview(cellView)
+        cellView.snp.makeConstraints { (make) in
+            make.edges.equalTo(self)
+        }
+        cellView.addSubview(sectionNameLabel)
         sectionNameLabel.snp.makeConstraints { (make) in
             make.top.equalTo(self.snp.top).inset(15)
             make.left.equalTo(self.snp.left).offset(10)
@@ -31,7 +41,7 @@ class SearchPlacesCell: UICollectionViewCell {
         
            dividerView = UIView()
         dividerView?.backgroundColor = UIColor.lightGray
-        addSubview(dividerView!)
+        cellView.addSubview(dividerView!)
         dividerView?.anchor(top: nil, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0.5)
     }
     

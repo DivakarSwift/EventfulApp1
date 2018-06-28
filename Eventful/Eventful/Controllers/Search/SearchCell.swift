@@ -75,7 +75,7 @@ class SearchCell: BaseCell {
         label.font = UIFontMetrics.default.scaledFont(for: customFont)
         label.adjustsFontForContentSizeCategory = true
         label.textAlignment = .justified
-        label.numberOfLines = 6
+        label.numberOfLines = 8
         return label
     }()
     

@@ -12,7 +12,6 @@ import AVFoundation
 import RecordButton
 import SwiftVideoGenerator
 
-
 class TempCameraViewController: UIViewController {
     private let session = AVCaptureSession()
     private var isSessionRunning = false
@@ -653,7 +652,7 @@ class TempCameraViewController: UIViewController {
         view.addSubview(cancelButton)
         cancelButton.snp.makeConstraints { (make) in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(10)
-            make.left.equalTo(view.safeAreaLayoutGuide.snp.left).inset(15)
+            make.left.equalTo(view.safeAreaLayoutGuide.snp.left).inset(10)
             make.height.width.equalTo(40)
         }
         
@@ -1362,5 +1361,6 @@ extension TempCameraViewController : UIGestureRecognizerDelegate {
         return true
     }
 }
+
 
 

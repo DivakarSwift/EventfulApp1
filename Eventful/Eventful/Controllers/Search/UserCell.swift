@@ -58,9 +58,17 @@ class UserCell: BaseCell {
         cellView.addSubview(userImageView)
         userImageView.backgroundColor = .red
         userImageView.snp.makeConstraints { (make) in
-            make.top.bottom.equalTo(self).inset(5)
-            make.left.equalTo(self.snp.left).inset(5)
-            make.width.equalTo(self.frame.width / 3)
+            make.centerY.equalTo(self.snp.centerY)
+            make.left.equalTo(self.snp.left).offset(10)
+            make.width.height.equalTo(50)
+        }
+        userImageView.layer.cornerRadius = 50 / 2
+        
+        cellView.addSubview(userNameLabel)
+        
+        userNameLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(userImageView.snp.right).offset(15)
+            make.centerY.equalTo(self.snp.centerY)
         }
     }
     
