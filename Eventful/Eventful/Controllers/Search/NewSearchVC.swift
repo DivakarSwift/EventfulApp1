@@ -26,7 +26,7 @@ class NewSearchVC: UICollectionViewController {
     var selectedIndex: Int?
     lazy var searchPromptLabel : UILabel = {
         let label = UILabel()
-        guard let customFont = UIFont(name: "ProximaNovaSoft-Bold", size: 34) else {
+        guard let customFont = UIFont(name: "ProximaNovaSoft-Regular", size: 34) else {
             fatalError("""
         Failed to load the "CustomFont-Light" font.
         Make sure the font file is included in the project and the font name is spelled correctly.
@@ -37,6 +37,7 @@ class NewSearchVC: UICollectionViewController {
         label.font = UIFontMetrics.default.scaledFont(for: customFont)
         label.adjustsFontForContentSizeCategory = true
         label.numberOfLines = 0
+        label.textAlignment = .justified
         label.text = "Hi \(String(describing: User.current.username!))!\nSearch For Users\nand Events Near You"
         return label
     }()
@@ -222,7 +223,6 @@ extension NewSearchVC {
                 }
                 DispatchQueue.main.async {
                     self.collectionView?.reloadData()
-                    self.searchPromptLabel.isHidden = true
                 }
                 
                 

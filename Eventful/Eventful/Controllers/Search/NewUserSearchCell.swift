@@ -58,6 +58,8 @@ extension NewUserSearchCell: UICollectionViewDelegate, UICollectionViewDelegateF
         return CGSize(width: frame.width - 20, height: 60)
     }
     
+    
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! UserCell
         cell.user = filteredUsers?[indexPath.item]

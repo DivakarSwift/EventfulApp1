@@ -40,7 +40,7 @@
         requestVC.title = "Pending Friend Request"
         notificationView.title = "Activity"
 
-        let pagerController = DTPagerController(viewControllers: [requestVC,notificationView])
+        let pagerController = DTPagerController(viewControllers: [notificationView,requestVC])
         pagerController.title = "Notifications"
         pagerController.font = UIFont(name: "Avenir", size: 14)!
         pagerController.selectedFont = UIFont(name: "Avenir-Medium", size: 14)!

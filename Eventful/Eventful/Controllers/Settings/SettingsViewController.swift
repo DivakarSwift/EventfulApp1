@@ -79,6 +79,11 @@ class SettingsViewController: UITableViewController {
             print("Logout Clicked")
             self.handleLogout()
         }
+        if [indexPath.section][indexPath.row] == [3][0]{
+            print("Contact US Clicked")
+            let contactVc = ContactUsVC()
+            self.navigationController?.pushViewController(contactVc, animated: false)
+        }
     }
 
 

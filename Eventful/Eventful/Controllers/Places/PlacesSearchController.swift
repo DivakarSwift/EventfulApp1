@@ -46,6 +46,24 @@ class PlacesSearchController: UIViewController, UICollectionViewDelegateFlowLayo
         return sb
     }()
     
+    lazy var searchPromptLabel : UILabel = {
+        let label = UILabel()
+        guard let customFont = UIFont(name: "ProximaNovaSoft-Regular", size: 34) else {
+            fatalError("""
+        Failed to load the "CustomFont-Light" font.
+        Make sure the font file is included in the project and the font name is spelled correctly.
+        """
+            )
+        }
+        label.setCellShadow()
+        label.font = UIFontMetrics.default.scaledFont(for: customFont)
+        label.adjustsFontForContentSizeCategory = true
+        label.numberOfLines = 0
+        label.textAlignment = .justified
+        label.text = "Hi \(String(describing: User.current.username!))!\nExplore and Discover \nNew Events\nIn Different Cities"
+        return label
+    }()
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,6 +103,13 @@ self.navigationController?.interactivePopGestureRecognizer?.delegate = nil
             make.left.right.equalTo(view)
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
+        
+        searchCollectionView.addSubview(searchPromptLabel)
+        searchPromptLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(searchCollectionView.snp.top).offset(10)
+            make.left.right.equalTo(searchCollectionView).inset(10)
+        }
+        
         titleView.font = UIFont(name: "Avenir", size: 18)
         titleView.text = "Location"
         let width = titleView.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)).width
@@ -129,7 +154,6 @@ extension PlacesSearchController: UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.frame.width, height: 55)
     }
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 1
     }
@@ -154,6 +178,7 @@ extension PlacesSearchController: UICollectionViewDelegate {
 
 extension PlacesSearchController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        searchPromptLabel.isHidden = true
         guard let searchText = searchBar.text else {
             return
         }
