@@ -5,7 +5,6 @@
 //  Created by Shawn Miller on 5/19/18.
 //  Copyright © 2018 Make School. All rights reserved.
 //
-
 import Foundation
 import UIKit
 import AVFoundation
@@ -39,7 +38,6 @@ class TempCameraViewController: UIViewController {
     
     private let photoOutput = AVCapturePhotoOutput()
     private var depthDataDeliveryMode: DepthDataDeliveryMode = .off
-    private var photoData: Data?
     
     
     // MARK: Recording Movies
@@ -1091,27 +1089,28 @@ extension TempCameraViewController: AVCapturePhotoCaptureDelegate {
         if let error = error {
             print("Error capturing photo: \(error)")
         } else {
-            photoData = photo.fileDataRepresentation()
+            let photoData = photo.fileDataRepresentation()
             
-            let currentVideoDevice = self.videoDeviceInput.device
-            let currentPosition = currentVideoDevice.position
-            
-            let dataProvider = CGDataProvider(data: photoData! as CFData)
-            let cgImageRef = CGImage(jpegDataProviderSource: dataProvider!, decode: nil, shouldInterpolate: true, intent: CGColorRenderingIntent.defaultIntent)
-            let image = UIImage(cgImage: cgImageRef!, scale: 1.0, orientation: self.getImageOrientation(forCamera: currentPosition))
-            let containerView = PreviewPhotoContainerView()
-            self.view.addSubview(containerView)
-            containerView.previewImageView.image =  image
-            containerView.snp.makeConstraints { (make) in
-                make.edges.equalTo(self.view)
+            if let currentData = photoData {
+                
+                let image = UIImage(data: currentData)
+                
+                if let cgImage = image?.cgImage, let scale = image?.scale {
+                                    let newImage = UIImage(cgImage: cgImage, scale: scale, orientation:  self.getImageOrientation(forCamera: self.videoDeviceInput.device.position))
+                    let containerView = PreviewPhotoContainerView()
+                    self.view.addSubview(containerView)
+                    containerView.previewImageView.image =  newImage
+                    containerView.snp.makeConstraints { (make) in
+                        make.edges.equalTo(self.view)
+                    }
+
+                }
             }
-            
         }
     }
 }
 
 // MARK: AVCaptureFileOutputRecordingDelegate
-
 extension TempCameraViewController: AVCaptureFileOutputRecordingDelegate{
     func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
         
@@ -1178,7 +1177,6 @@ extension TempCameraViewController: AVCaptureFileOutputRecordingDelegate{
 
 //will add the gesture recognizers to the view and handle the corresponding functions
 // MARK: Adding Gestures
-
 extension TempCameraViewController {
     func addGestureRecognizers(on view: UIView){
         //will allow the camera to be focused to a point on tap of the screen
@@ -1342,7 +1340,6 @@ extension TempCameraViewController {
 
 
 // MARK: UIGestureRecognizerDelegate
-
 extension TempCameraViewController : UIGestureRecognizerDelegate {
     
     /// Set beginZoomScale when pinch begins
@@ -1361,6 +1358,5 @@ extension TempCameraViewController : UIGestureRecognizerDelegate {
         return true
     }
 }
-
 
 
