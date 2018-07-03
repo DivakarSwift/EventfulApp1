@@ -19,6 +19,15 @@ class SearchCell: BaseCell {
             eventCityLabel.text = (event?.currentEventCity)! + "," + (event?.currentEventState)!
             eventDescriptionLabel.text = event?.currentEventDescription
             eventImageView.loadImage(urlString: eventImageURL)
+            let formatter = NumberFormatter()
+            formatter.locale = Locale.current // Change this to another locale if you want to force a specific locale, otherwise this is redundant as the current locale is the default already
+            formatter.numberStyle = .currency
+            guard let eventPrice = Int((event?.eventPrice)!) else {
+                return
+            }
+            if let formattedTicketAmount = formatter.string(from: eventPrice as NSNumber) {
+                eventPriceLabel.text = formattedTicketAmount
+            }
         }
     }
     let eventImageView: CustomImageView = {
@@ -73,11 +82,31 @@ class SearchCell: BaseCell {
             )
         }
         label.font = UIFontMetrics.default.scaledFont(for: customFont)
+        label.textAlignment = .natural
         label.adjustsFontForContentSizeCategory = true
-        label.textAlignment = .justified
         label.numberOfLines = 8
         return label
     }()
+    
+    
+    let eventPriceLabel : UILabel = {
+        let label = UILabel()
+        label.text = "EventName"
+        guard let customFont = UIFont(name: "ProximaNova-Light", size: 16) else {
+            fatalError("""
+        Failed to load the "CustomFont-Light" font.
+        Make sure the font file is included in the project and the font name is spelled correctly.
+        """
+            )
+        }
+        label.font = UIFontMetrics.default.scaledFont(for: customFont)
+        label.textAlignment = .natural
+        label.adjustsFontForContentSizeCategory = true
+        return label
+    }()
+    
+    
+    
     
     let cellView: UIView = {
         let cellView = UIView()
@@ -118,8 +147,14 @@ class SearchCell: BaseCell {
         
         eventDescriptionLabel.snp.makeConstraints { (make) in
             make.top.equalTo(eventCityLabel.snp.bottom).offset(10)
-            make.left.equalTo(eventImageView.snp.right).offset(15)
-            make.right.equalTo(self.snp.right).inset(15)
+            make.left.equalTo(eventImageView.snp.right).offset(5)
+            make.right.equalTo(self.snp.right)
+        }
+        
+        cellView.addSubview(eventPriceLabel)
+        eventPriceLabel.snp.makeConstraints { (make) in
+            make.bottom.equalTo(cellView.snp.bottom)
+            make.right.equalTo(cellView.snp.right)
         }
     }
 }

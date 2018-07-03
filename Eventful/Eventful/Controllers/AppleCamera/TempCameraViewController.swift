@@ -731,8 +731,19 @@ extension TempCameraViewController {
                     if connection.isVideoStabilizationSupported {
                         connection.preferredVideoStabilizationMode = .auto
                     }
-                    connection.isVideoMirrored = true
-                    connection.videoOrientation = .portrait
+                    let currentVideoDevice = self.videoDeviceInput.device
+                    let currentPosition = currentVideoDevice.position
+                    
+                    switch currentPosition {
+                    case .unspecified,.front :
+                        connection.isVideoMirrored = true
+                        connection.videoOrientation = .portrait
+                    case .back:
+                        connection.isVideoMirrored = false
+                        connection.videoOrientation = .portrait
+                    }
+                    
+                    //connection.isVideoMirrored = true
                 }
                 self.session.commitConfiguration()
                 

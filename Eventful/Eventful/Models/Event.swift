@@ -24,6 +24,7 @@ class Event:NSObject{
     let currentEventEndDate: String?
     let currentEventTime: String?
     let currentEventEndTime: String?
+    let eventPrice: String
     let endTime: Date
     let startTime: Date
     let currentEventZip: Int
@@ -39,7 +40,7 @@ class Event:NSObject{
         
         return ["event:name":currentEventName,"event:imageURL" : currentEventImage,
                 "event:description": currentEventDescription, "attend:count": currentAttendCount,
-                "event:street:address": currentEventStreetAddress,"event:zip": currentEventZip,
+                "event:street:address": currentEventStreetAddress,"event:zip": currentEventZip,"event:price":eventPrice,
                 "event:state": currentEventState, "event:city": currentEventCity, "event:promo": currentEventPromo ?? "", "event:date": dateDict, "event:category":category,"event:datetime": timeDict]
     }
     
@@ -51,6 +52,7 @@ class Event:NSObject{
         self.currentEventPromo = dictionary["event:promo"] as? String ?? ""
         self.currentAttendCount = dictionary["attend:count"] as? Int ?? 0
         self.category = dictionary["event:category"] as? String ?? ""
+        self.eventPrice = dictionary["event:price"] as? String ?? ""
         //nested properties
         self.currentEventStreetAddress = dictionary["event:street:address"] as? String ?? ""
         self.currentEventCity = dictionary["event:city"] as? String ?? ""
@@ -86,6 +88,7 @@ class Event:NSObject{
             let currentEventState = dict["event:state"] as? String,
             let currentEventZip = dict["event:zip"] as? Int,
             let currentAttendCount = dict["attend:count"] as? Int,
+            let eventPrice = dict["event:price"] as? String,
             //////
             let eventDate = dict["event:date"] as? [String: Any],
             let currentEventDate = eventDate["start:date"] as? String,
@@ -111,6 +114,7 @@ class Event:NSObject{
         self.currentEventTime = currentEventTime
         self.currentEventEndTime = currentEventEndTime
         self.category = category
+        self.eventPrice = eventPrice
         self.currentEventEndDate = currentEventEndDate
         self.endTime = Date(timeIntervalSince1970: endInSeconds)
         self.startTime = Date(timeIntervalSince1970: startInSeconds)
