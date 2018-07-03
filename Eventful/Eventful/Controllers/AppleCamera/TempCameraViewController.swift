@@ -21,7 +21,11 @@ class TempCameraViewController: UIViewController {
     var isRecordingStopped: Bool = true
     
     var flashMode = AVCaptureDevice.FlashMode.off
+    fileprivate var flashView:UIView?
+
+    /// Returns true if the torch (flash) is currently enabled
     
+    fileprivate var isCameraTorchOn              = false
     //allows tapToFocus fuctionality
     var tapToFocus = true;
     //will control the zoom in and out feature
@@ -731,18 +735,9 @@ extension TempCameraViewController {
                     if connection.isVideoStabilizationSupported {
                         connection.preferredVideoStabilizationMode = .auto
                     }
-                    let currentVideoDevice = self.videoDeviceInput.device
-                    let currentPosition = currentVideoDevice.position
-                    
-                    switch currentPosition {
-                    case .unspecified,.front :
-                        connection.isVideoMirrored = true
-                        connection.videoOrientation = .portrait
-                    case .back:
-                        connection.isVideoMirrored = false
-                        connection.videoOrientation = .portrait
-                    }
-                    
+
+                    connection.videoOrientation = .portrait
+
                     //connection.isVideoMirrored = true
                 }
                 self.session.commitConfiguration()
@@ -958,9 +953,27 @@ extension TempCameraViewController {
     @objc func record() {
         self.progressTimer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(TempCameraViewController.updateProgress), userInfo: nil, repeats: true)
         
+        let currentPosition =  self.videoDeviceInput.device.position
+        
         guard let movieFileOutput = self.movieFileOutput else {
             return
         }
+        
+        if currentPosition == .back && self.flashMode == .on{
+            //enable flash
+            enableFlash()
+        }
+        
+        
+        if currentPosition == .front && self.flashMode == .on{
+            //enable flash but add flashview
+            flashView = UIView(frame: view.frame)
+            flashView?.backgroundColor = UIColor.white
+            flashView?.alpha = 0.85
+            capturePreviewView.addSubview(flashView!)
+        }
+        
+ 
         /*
          Hide all buttons until recording finishes, and disable
          the Record button until recording starts or finishes.
@@ -999,6 +1012,13 @@ extension TempCameraViewController {
                 
                 // Update the orientation on the movie file output video connection before starting recording.
                 let movieFileOutputConnection = movieFileOutput.connection(with: .video)
+                //flip video output if front facing camera is selected
+                
+                if self.videoDeviceInput.device.position == .front {
+                    movieFileOutputConnection?.isVideoMirrored = true
+                }
+                
+                
                 movieFileOutputConnection?.videoOrientation = videoPreviewLayerOrientation!
                 
                 let availableVideoCodecTypes = movieFileOutput.availableVideoCodecTypes
@@ -1022,9 +1042,20 @@ extension TempCameraViewController {
     
     @objc func stop() {
         self.progressTimer.invalidate()
-        //        if (movieFileOutput?.isRecording)! {
+        if (movieFileOutput?.isRecording)! {
         print("====> Stop pressed")
         movieFileOutput?.stopRecording()
+            disableFlash()
+        let currentPosition =  self.videoDeviceInput.device.position
+            
+            if currentPosition == .front && self.flashMode == .on && flashView != nil {
+                UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseInOut, animations: {
+                    self.flashView?.alpha = 0.0
+                }, completion: { (_) in
+                    self.flashView?.removeFromSuperview()
+                })
+            }
+            
         isRecordingStopped = true
         
         flipCameraButton.isHidden = false
@@ -1033,7 +1064,7 @@ extension TempCameraViewController {
         videoButton.isHidden = false
         cancelButton.isHidden = false
         progress = 0;
-        //        }
+            }
     }
     
     @objc func updateProgress() {
@@ -1048,6 +1079,47 @@ extension TempCameraViewController {
             self.stop()
         }
     }
+    
+    fileprivate func enableFlash() {
+        if self.isCameraTorchOn == false {
+            toggleFlash()
+        }
+    }
+    
+    /// Disable flash
+    
+    fileprivate func disableFlash() {
+        if self.isCameraTorchOn == true {
+            toggleFlash()
+        }
+    }
+    
+    /// Toggles between enabling and disabling flash
+    
+    fileprivate func toggleFlash() {
+        let device = AVCaptureDevice.default(for: AVMediaType.video)
+        // Check if device has a flash
+        if (device?.hasTorch)! {
+            do {
+                try device?.lockForConfiguration()
+                if (device?.torchMode == AVCaptureDevice.TorchMode.on) {
+                    device?.torchMode = AVCaptureDevice.TorchMode.off
+                    self.isCameraTorchOn = false
+                } else {
+                    do {
+                        try device?.setTorchModeOn(level: 1.0)
+                        self.isCameraTorchOn = true
+                    } catch {
+                        print("[SwiftyCam]: \(error)")
+                    }
+                }
+                device?.unlockForConfiguration()
+            } catch {
+                print("[SwiftyCam]: \(error)")
+            }
+        }
+    }
+
 }
 
 
