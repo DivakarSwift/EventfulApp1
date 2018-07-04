@@ -35,12 +35,12 @@ class SideMenuHeader: UICollectionViewCell {
     
     lazy var dismissButton : UIButton = {
         let locationMarker = UIButton(type: .system)
-        locationMarker.setImage(#imageLiteral(resourceName: "icons8-Back-64").withRenderingMode(.alwaysOriginal), for: .normal)
+        locationMarker.setImage(#imageLiteral(resourceName: "icons8-left-52").withRenderingMode(.alwaysOriginal), for: .normal)
         return locationMarker
     }()
     let nameLabel: UILabel = {
         let nameLabel = UILabel()
-        nameLabel.font = UIFont(name: "HelveticaNeue-Medium", size: 15.0)
+        nameLabel.font = UIFont(name: "AvenirNext-Regular", size: 15.0)
         return nameLabel
     }()
     
@@ -53,14 +53,14 @@ class SideMenuHeader: UICollectionViewCell {
         addSubview(profileImage)
         profileImage.snp.makeConstraints { (make) in
             make.top.equalTo(self.snp.top).offset(20)
-            make.left.equalTo(self.snp.left).offset(self.frame.width / 4)
-            make.height.width.equalTo(80)
+            make.left.equalTo(self.snp.left).offset(10)
+            make.height.width.equalTo(60)
         }
-        profileImage.layer.cornerRadius = 80/2
-//        addSubview(nameLabel)
-//        nameLabel.snp.makeConstraints { (make) in
-//            make.top.equalTo(profileImage.snp.bottom).offset(5)
-//        }
+        addSubview(nameLabel)
+        nameLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(profileImage.snp.bottom).offset(5)
+            make.left.equalTo(self.snp.left).offset(10)
+        }
         addSubview(dismissButton)
         dismissButton.snp.makeConstraints { (make) in
             make.top.equalTo(self.snp.top).offset(15)

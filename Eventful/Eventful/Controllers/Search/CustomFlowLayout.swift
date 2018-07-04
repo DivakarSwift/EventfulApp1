@@ -39,7 +39,6 @@ class CustomFlowLayout : UICollectionViewFlowLayout {
         attributes?.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
         //attributes?.transform = CGAffineTransform(translationX: 0, y: 500.0)
         
-        print(attributes)
         }
     
         return attributes

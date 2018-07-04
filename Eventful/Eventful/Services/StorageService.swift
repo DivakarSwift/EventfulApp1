@@ -35,7 +35,13 @@ struct StorageService
             
             // 4
             //If everything was succesful, we return the download URL for the image
-            completion(metadata?.downloadURL())
+            
+            reference.downloadURL(completion: { (downloadURL, err) in
+                guard let profileImageUrl = downloadURL?.absoluteString else { return }
+                completion(URL(string: profileImageUrl))
+
+            })
+            
         })
     }
     
@@ -50,7 +56,11 @@ struct StorageService
                 return completion(nil)
             }
             
-            completion(metadata?.downloadURL())
+            reference.downloadURL(completion: { (downloadURL, err) in
+                guard let videoURL = downloadURL?.absoluteString else { return }
+                completion(URL(string: videoURL))
+                
+            })
         })
     }
     

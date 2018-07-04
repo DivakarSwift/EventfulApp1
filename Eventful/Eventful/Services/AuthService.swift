@@ -10,6 +10,9 @@ import UIKit
 import FirebaseAuth
 import SVProgressHUD
 import Firebase
+import FirebaseDatabase
+import FirebaseMessaging
+import FirebaseStorage
 
 struct AuthService {
     
@@ -21,8 +24,8 @@ struct AuthService {
                 return completion(nil)
             }
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            UserService.updateDeviceToken(deviceToken: appDelegate.strDeviceToken, userId: (user?.uid)!)
-            return completion(user)
+            UserService.updateDeviceToken(deviceToken: appDelegate.strDeviceToken, userId: (Auth.auth().currentUser?.uid)!)
+            return completion(user?.user)
         }
     }
     
@@ -35,7 +38,7 @@ struct AuthService {
                 return completion(nil)
             }
             SVProgressHUD.show(withStatus: "Creating Account....")
-            return completion(Auth.auth().currentUser)
+            return completion(user?.user)
         }
     }
     

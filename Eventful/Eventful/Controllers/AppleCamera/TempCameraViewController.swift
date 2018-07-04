@@ -22,7 +22,7 @@ class TempCameraViewController: UIViewController {
     
     var flashMode = AVCaptureDevice.FlashMode.off
     fileprivate var flashView:UIView?
-
+    
     /// Returns true if the torch (flash) is currently enabled
     
     fileprivate var isCameraTorchOn              = false
@@ -735,9 +735,9 @@ extension TempCameraViewController {
                     if connection.isVideoStabilizationSupported {
                         connection.preferredVideoStabilizationMode = .auto
                     }
-
+                    
                     connection.videoOrientation = .portrait
-
+                    
                     //connection.isVideoMirrored = true
                 }
                 self.session.commitConfiguration()
@@ -973,7 +973,7 @@ extension TempCameraViewController {
             capturePreviewView.addSubview(flashView!)
         }
         
- 
+        
         /*
          Hide all buttons until recording finishes, and disable
          the Record button until recording starts or finishes.
@@ -1043,10 +1043,10 @@ extension TempCameraViewController {
     @objc func stop() {
         self.progressTimer.invalidate()
         if (movieFileOutput?.isRecording)! {
-        print("====> Stop pressed")
-        movieFileOutput?.stopRecording()
+            print("====> Stop pressed")
+            movieFileOutput?.stopRecording()
             disableFlash()
-        let currentPosition =  self.videoDeviceInput.device.position
+            let currentPosition =  self.videoDeviceInput.device.position
             
             if currentPosition == .front && self.flashMode == .on && flashView != nil {
                 UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseInOut, animations: {
@@ -1056,15 +1056,15 @@ extension TempCameraViewController {
                 })
             }
             
-        isRecordingStopped = true
-        
-        flipCameraButton.isHidden = false
-        flashButton.isHidden = false
-        cameraButton.isHidden = false
-        videoButton.isHidden = false
-        cancelButton.isHidden = false
-        progress = 0;
-            }
+            isRecordingStopped = true
+            
+            flipCameraButton.isHidden = false
+            flashButton.isHidden = false
+            cameraButton.isHidden = false
+            videoButton.isHidden = false
+            cancelButton.isHidden = false
+            progress = 0;
+        }
     }
     
     @objc func updateProgress() {
@@ -1119,7 +1119,7 @@ extension TempCameraViewController {
             }
         }
     }
-
+    
 }
 
 
@@ -1179,14 +1179,14 @@ extension TempCameraViewController: AVCapturePhotoCaptureDelegate {
                 let image = UIImage(data: currentData)
                 
                 if let cgImage = image?.cgImage, let scale = image?.scale {
-                                    let newImage = UIImage(cgImage: cgImage, scale: scale, orientation:  self.getImageOrientation(forCamera: self.videoDeviceInput.device.position))
+                    let newImage = UIImage(cgImage: cgImage, scale: scale, orientation:  self.getImageOrientation(forCamera: self.videoDeviceInput.device.position))
                     let containerView = PreviewPhotoContainerView()
                     self.view.addSubview(containerView)
                     containerView.previewImageView.image =  newImage
                     containerView.snp.makeConstraints { (make) in
                         make.edges.equalTo(self.view)
                     }
-
+                    
                 }
             }
         }
@@ -1441,5 +1441,3 @@ extension TempCameraViewController : UIGestureRecognizerDelegate {
         return true
     }
 }
-
-

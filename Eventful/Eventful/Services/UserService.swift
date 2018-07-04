@@ -8,15 +8,18 @@
 
 import Foundation
 import Firebase
+import FirebaseMessaging
+import FirebaseDatabase
 import  UIKit
 
 
 
 struct UserService {
+    
     /// will create a user in the database
     static func create(_ firUser: FIRUser, username: String,profilePic: String,isPrivate: Bool, completion: @escaping (User?) -> Void) {
-      //  print(profilePic)
-     //   print(username)
+        //  print(profilePic)
+        //   print(username)
         guard let fcmToken = Messaging.messaging().fcmToken else {
             return
         }
@@ -26,7 +29,9 @@ struct UserService {
                          "profilePic": profilePic,"fcmToken":fcmToken, "isPrivate": isPrivate] as [String : Any]
         //creats the path in the database where we want our user attributes to be created
         //Also sets the value at that point in the tree to the user Attributes array
-        let ref = Database.database().reference().child("users").child(firUser.uid)
+        
+        let ref = Database.database().reference().child("users")
+        
         ref.setValue(userAttrs) { (error, ref) in
             if let error = error {
                 assertionFailure(error.localizedDescription)
@@ -38,6 +43,7 @@ struct UserService {
             })
         }
     }
+    
     // Will update device token for the user
     static func updateDeviceToken(deviceToken: String, userId: String){
         let userAttrs = ["fcmToken": deviceToken] as [String : Any]

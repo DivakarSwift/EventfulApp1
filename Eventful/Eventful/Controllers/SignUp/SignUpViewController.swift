@@ -11,7 +11,7 @@ import Foundation
 import SVProgressHUD
 import TextFieldEffects
 import Firebase
-
+import FirebaseStorage
 
 
 class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
@@ -133,7 +133,6 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
     @objc func handleSignUp(){
         print("entered sign up")
         // first we cant to take sure that all of the fields are filled
-        var profilePic: String = ""
         // will take the user selected image and load it to firebase
         let imageName = NSUUID().uuidString
         guard let username = self.nameTextField.text?.lowercased(),
@@ -185,31 +184,31 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
                 }else{
                     //username does not exist and will authenticate user
                     AuthService.createUser(controller: self, email: email, password: password) {[unowned self] (authUser) in
-                        guard let firUser = authUser else{
-                            return
-                        }
+                       
                         storageRef.putData(uploadData, metadata: nil, completion: { (metadata, error) in
                             if error != nil {
                                 print(error ?? "")
                                 return
                             }
-                            profilePic = (metadata?.downloadURL()!.absoluteString)!
-                            //printing to make sure values are contained in these strings
-                            print(profilePic)
-                            print(username)
-                            
-                            UserService.create(firUser, username: username, profilePic: profilePic, isPrivate: false, completion: { [unowned self](user) in
-                                guard let user = user else {
-                                    return
+                            // Firebase 5 Update: Must now retrieve downloadURL
+                            storageRef.downloadURL(completion: { (downloadURL, err) in
+                                guard let profileImageUrl = downloadURL?.absoluteString else { return }
+                                 print("Successfully uploaded profile image:", profileImageUrl)
+                                if let user = authUser {
+                                    UserService.create( user, username: user.displayName!, profilePic: profileImageUrl, isPrivate: false, completion: { (user) in
+                                        
+                                        if let user = user {
+                                                    User.setCurrent(user, writeToUserDefaults: true)
+                                            self.finishSigningUp()
+                                        }
+
+                                    })
                                 }
-                                User.setCurrent(user, writeToUserDefaults: true)
-                                // will set the current user for userdefaults to work
-                                print(user.profilePic ?? "")
-                                print(user.username ?? "")
-                                print(user.isPrivate ?? "")
-                                // self.delegate?.finishSigningUp()
-                                self.finishSigningUp()
+                                
+                            
+                            
                             })
+                            
                         })
                     }
                 }

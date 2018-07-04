@@ -12,7 +12,7 @@ class NewEventSearchCell: BaseCell {
     var searchVc: NewSearchVC?
     var filteredEvents : [Event]? {
         didSet{
-            guard let currentEvents = filteredEvents else {
+            guard filteredEvents != nil else {
                 return
             }
             eventSearchCollectionView.reloadData()

@@ -209,7 +209,6 @@ class AlterProfileViewController: UIViewController, UIImagePickerControllerDeleg
     // will save the edits made in edit profile view controller
     @objc func saveCurrentEdits(){
         print("End edits pressed")
-        var profilePic: String = ""
         // will set the username and bio and make sure that they are not empty
         //let bio = changeQuote.text
         guard let username = changeUsername.text,
@@ -231,24 +230,30 @@ class AlterProfileViewController: UIViewController, UIImagePickerControllerDeleg
                 }
                 // print(metadata ?? "")
                 //print(metadata?.downloadURL()!.absoluteString ?? "")
-                profilePic = (metadata?.downloadURL()!.absoluteString)!
-                //print(profilePic)
-                //need to change this so I edit based off whether a value is actually added or whether a username or bio is actually changed
-                UserService.editProfileImage(url: profilePic, completion: {[unowned self] (user) in
-                    if let user = user {
-                        User.setCurrent(user, writeToUserDefaults: true)
-                    }
-                })
-                UserService.edit(username: username) { [unowned self](user) in
-                    guard let user = user else {
-                        return
-                    }
-                    User.setCurrent(user, writeToUserDefaults: true)
-                    
-                }
-                self.dismiss(animated: true, completion: nil)
-                print("User defaults reset")
                 
+                // Firebase 5 Update: Must now retrieve downloadURL
+                storageRef.downloadURL(completion: { (downloadURL, err) in
+                    guard let profileImageUrl = downloadURL?.absoluteString else { return }
+                    print("Successfully uploaded profile image:", profileImageUrl)
+                    
+                    UserService.editProfileImage(url: profileImageUrl, completion: {[unowned self] (user) in
+                        if let user = user {
+                            User.setCurrent(user, writeToUserDefaults: true)
+                        }
+                    })
+                    UserService.edit(username: username) { [unowned self](user) in
+                        guard let user = user else {
+                            return
+                        }
+                        User.setCurrent(user, writeToUserDefaults: true)
+                        
+                    }
+                    
+                                    //need to change this so I edit based off whether a value is actually added or whether a username or bio is actually changed
+                    
+                    self.dismiss(animated: true, completion: nil)
+                    print("User defaults reset")
+                })
             }
             )
             // print("Image added to storage")
