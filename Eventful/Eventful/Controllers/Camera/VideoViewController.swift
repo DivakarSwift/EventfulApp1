@@ -5,12 +5,18 @@ import AVKit
 import Firebase
 import Photos
 import SnapKit
+import FCAlertView
+import FirebaseStorage
 
 
-class VideoViewController: UIViewController {
+class VideoViewController: UIViewController,FCAlertViewDelegate {
     
     public var eventKey = ""
-    
+    var event: Event?{
+        didSet{
+            print("event set ")
+        }
+    }
     
     let cancelButton: UIButton = {
         let button = UIButton(type: .system)
@@ -126,28 +132,40 @@ class VideoViewController: UIViewController {
     {
         print("Next Button pressed")
         
-        // Setting nil to the player so video will stop playing
-        let alertController = UIAlertController(title: "Add To The Hype??", message: nil, preferredStyle: UIAlertControllerStyle.alert)
-        let addAction = UIAlertAction(title: "Yes", style: .default) { (_) in
-            self.handleAddToStory()
+        let alert = FCAlertView()
+        alert.colorScheme = UIColor(red: 44/255, green: 152/255, blue: 229/255, alpha: 1)
+        alert.cornerRadius = 4
+        alert.dismissOnOutsideTouch = true
+        alert.delegate = self
+        alert.hideDoneButton = true
+        if let currentEvent = event {
+             alert.showAlert(inView: self, withTitle: "Add to The Haipe", withSubtitle: "Are you sure you want to add to the Haipe surrounding \(currentEvent.currentEventName.capitalized) with your video?", withCustomImage: UIImage(named: "logoWithWords"), withDoneButtonTitle: nil, andButtons: ["Add","Cancel"])
         }
-        alertController.addAction(addAction)
-        let cancelAction = UIAlertAction(title: "No", style: .default) { (_) in
+       
+
+        
+    }
+    
+    func fcAlertView(_ alertView: FCAlertView!, clickedButtonIndex index: Int, buttonTitle title: String!) {
+        if title == "Add" {
+            // Perform Action for Button 1
+            self.handleAddToStory()
+
+        }else if title == "Cancel"{
+            // Perform Action for Button 2
             self.handleDontAddToStory()
         }
-        alertController.addAction(cancelAction)
-        
-        present(alertController, animated:true, completion: nil)
-        
     }
     
     func handleAddToStory(){
         print("Attempting to add to story")
-        print(self.eventKey)
         let dateFormatter = ISO8601DateFormatter()
         let timeStamp = dateFormatter.string(from: Date())
         let uid = User.current.uid
-        let storageRef = Storage.storage().reference().child("event_stories").child(self.eventKey).child(uid).child(timeStamp + ".MOV")
+        guard let eventKey = event?.key else {
+            return
+        }
+        let storageRef = Storage.storage().reference().child("event_stories").child(eventKey).child(uid).child(timeStamp + ".MOV")
         StorageService.uploadVideo(self.videoURL!, at: storageRef) { (downloadUrl) in
             guard let downloadUrl = downloadUrl else {
                 return
@@ -155,7 +173,7 @@ class VideoViewController: UIViewController {
             
             let videoUrlString = downloadUrl.absoluteString
             print(videoUrlString)
-            PostService.create(for: self.eventKey, for: videoUrlString)
+            PostService.create(for: eventKey, for: videoUrlString)
             
         }
         //svprogresshud insert here

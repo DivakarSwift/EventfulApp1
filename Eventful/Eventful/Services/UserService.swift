@@ -30,7 +30,7 @@ struct UserService {
         //creats the path in the database where we want our user attributes to be created
         //Also sets the value at that point in the tree to the user Attributes array
         
-        let ref = Database.database().reference().child("users")
+        let ref = Database.database().reference().child("users").child(firUser.uid)
         
         ref.setValue(userAttrs) { (error, ref) in
             if let error = error {

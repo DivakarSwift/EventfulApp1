@@ -37,7 +37,7 @@ class StickyHeaderLayout: UICollectionViewFlowLayout {
                 if elementKind == UICollectionElementKindSectionHeader {
                     let section  = attributes.indexPath.section
                     let attributsForItemInSection = layoutAttributesForItem(at: IndexPath(item: 0, section: section))
-                    let attributsForLastItemInSection = layoutAttributesForItem(at: IndexPath(item: (collectionView?.numberOfItems(inSection: section))! - 1, section: section))
+                    _ = layoutAttributesForItem(at: IndexPath(item: (collectionView?.numberOfItems(inSection: section))! - 1, section: section))
                     var frame = attributes.frame
                     let offset = collectionView?.contentOffset.y
                     let minY = (attributsForItemInSection?.frame.minY)! - frame.height

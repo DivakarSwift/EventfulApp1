@@ -91,7 +91,7 @@ open class DynamicCollectionViewFlowLayout: UICollectionViewFlowLayout {
         }
 
         let items = animator.items(in: rect) as NSArray
-        return items.flatMap { $0 as? UICollectionViewLayoutAttributes }
+        return items.compactMap { $0 as? UICollectionViewLayoutAttributes }
     }
     
     override open func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {

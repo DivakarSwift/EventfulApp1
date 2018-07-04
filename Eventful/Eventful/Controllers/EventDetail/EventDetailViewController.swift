@@ -43,6 +43,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
             eventPromo = (currentEvent?.currentEventPromo)!
             setupAttendInteraction()
             titleView.text = currentEvent?.currentEventName.uppercased()
+            camera.event = currentEvent
         }
     }
     private let scrollView = UIScrollView()
@@ -53,7 +54,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
     private var eventKey = ""
     private var eventPromo = ""
     let titleView = UILabel()
-
+    let camera = TempCameraViewController()
 
     
     private let infoText: UILabel = {
@@ -322,7 +323,6 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
     }()
     
     @objc func beginAddToStory(){
-        let camera = TempCameraViewController()
       //  camera.eventKey = self.eventKey
         present(camera, animated: false, completion: nil)
     }

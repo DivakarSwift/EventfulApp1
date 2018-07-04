@@ -12,6 +12,11 @@ import RecordButton
 import SwiftVideoGenerator
 
 class TempCameraViewController: UIViewController {
+    var event: Event?{
+        didSet {
+            print("event set")
+        }
+    }
     private let session = AVCaptureSession()
     private var isSessionRunning = false
     private let sessionQueue = DispatchQueue(label: "session queue") // Communicate with the session and other session objects on this queue.
@@ -1245,6 +1250,7 @@ extension TempCameraViewController: AVCaptureFileOutputRecordingDelegate{
                     print(videoURL)
                     
                     let videoPlayBackVC = VideoViewController()
+                    videoPlayBackVC.event = self.event
                     videoPlayBackVC.videoURL = videoURL
                     self.present(videoPlayBackVC, animated: true) {
                         

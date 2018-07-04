@@ -10,6 +10,7 @@ PODS:
   - DTPagerController (2.0.1)
   - Fabric (1.7.8)
   - FaceAware (1.4.0)
+  - FCAlertView (1.4.0)
   - Firebase/Auth (5.4.0):
     - Firebase/CoreOnly
     - FirebaseAuth (= 5.0.2)
@@ -112,6 +113,7 @@ DEPENDENCIES:
   - DTPagerController
   - Fabric
   - FaceAware
+  - FCAlertView
   - Firebase/Auth
   - Firebase/Core
   - Firebase/Database
@@ -180,6 +182,7 @@ SPEC CHECKSUMS:
   DTPagerController: 4b4bb13ebe2e462f11416778ddc9fb09e9cf80fe
   Fabric: fba4684a95df789565b0b27fc5b6e68f1755af32
   FaceAware: 94410295a219c4a397ce525eab0063d6b17258aa
+  FCAlertView: fdddd63381898c1d1a5a20c9f084fbd2c6d12f8b
   Firebase: d66f4f29c23f22d96808d9abc174d81d8eee968f
   FirebaseAnalytics: b3628aea54c50464c32c393fb2ea032566e7ecc2
   FirebaseAuth: 096e457cdd4274412a66c4a35874787e411f5a03
@@ -216,6 +219,6 @@ SPEC CHECKSUMS:
   TextFieldEffects: 4ee41b5216e674d55fb6ac25107bf1af7629176f
   XLActionController: 007868251c0eed70d649d06c1625259b73b3a600
 
-PODFILE CHECKSUM: 34f1ef649946f0a8b6dba47f94d945b48af4ed77
+PODFILE CHECKSUM: f5f4fab30ae38d0f49afac54f134cf0c5298edce
 
 COCOAPODS: 1.4.0
