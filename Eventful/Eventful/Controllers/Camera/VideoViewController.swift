@@ -153,7 +153,7 @@ class VideoViewController: UIViewController,FCAlertViewDelegate {
 
         }else if title == "Cancel"{
             // Perform Action for Button 2
-            self.handleDontAddToStory()
+            alertView.dismiss()
         }
     }
     

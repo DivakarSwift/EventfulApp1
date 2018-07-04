@@ -132,6 +132,7 @@ struct AuthService {
             let invalidEmailAlert = UIAlertController(title: "Invalid Email", message:
                 "It seems like you have put in an invalid email.", preferredStyle: UIAlertControllerStyle.alert)
             invalidEmailAlert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default,handler: nil))
+            SVProgressHUD.dismiss()
             controller.present(invalidEmailAlert, animated: true, completion: nil)
             break;
         case "The password is invalid or the user does not have a password.":
@@ -145,12 +146,14 @@ struct AuthService {
             let wrongPasswordAlert = UIAlertController(title: "No Account Found", message:
                 "We couldn't find an account that corresponds to that email. Do you want to create an account?", preferredStyle: UIAlertControllerStyle.alert)
             wrongPasswordAlert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default,handler: nil))
+            SVProgressHUD.dismiss()
             controller.present(wrongPasswordAlert, animated: true, completion: nil)
             break;
         default:
             let loginFailedAlert = UIAlertController(title: "Error Logging In", message:
                 "There was an error logging you in. Please try again soon.", preferredStyle: UIAlertControllerStyle.alert)
             loginFailedAlert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default,handler: nil))
+            SVProgressHUD.dismiss()
             controller.present(loginFailedAlert, animated: true, completion: nil)
             break;
         }
