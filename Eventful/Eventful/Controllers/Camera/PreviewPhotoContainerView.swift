@@ -10,9 +10,15 @@ import UIKit
 import SnapKit
 import Firebase
 import Photos
+import FirebaseStorage
+import FCAlertView
 
-class PreviewPhotoContainerView: UIView {
-    var eventKey = ""
+class PreviewPhotoContainerView: UIView,FCAlertViewDelegate {
+    var event: Event? {
+        didSet{
+            print("event set")
+        }
+    }
 
     let previewImageView: UIImageView = {
         let iv = UIImageView()
@@ -47,22 +53,49 @@ class PreviewPhotoContainerView: UIView {
     }()
     
     @objc func handleAdd(){
+        let alert = FCAlertView()
+        alert.colorScheme = UIColor(red: 44/255, green: 152/255, blue: 229/255, alpha: 1)
+        alert.cornerRadius = 4
+        alert.dismissOnOutsideTouch = true
+        alert.delegate = self
+        alert.hideDoneButton = true
+        if let currentEvent = event {
+            alert.showAlert(withTitle: "Add to The Haipe", withSubtitle: "Are you sure you want to add to the Haipe surrounding \(currentEvent.currentEventName.capitalized) with your photo?", withCustomImage: UIImage(named: "logoWithWords"), withDoneButtonTitle: nil, andButtons:  ["Add","Cancel"])
+        }
+    }
+    
+    
+    func fcAlertView(_ alertView: FCAlertView!, clickedButtonIndex index: Int, buttonTitle title: String!) {
+        if title == "Add" {
+            // Perform Action for Button 1
+            self.handleAddToStory()
+            
+        }else if title == "Cancel"{
+            // Perform Action for Button 2
+            alertView.dismiss()
+        }
+    }
+    
+    
+    @objc func handleAddToStory(){
         print("Attempting to add to story")
-        print(self.eventKey)
+        guard let eventKey = event?.key else {
+            return
+        }
         guard let currentImage = previewImageView.image else {
             return
         }
         let dateFormatter = ISO8601DateFormatter()
         let timeStamp = dateFormatter.string(from: Date())
         let uid = User.current.uid
-        let storageRef = Storage.storage().reference().child("event_stories").child(self.eventKey).child(uid).child(timeStamp + ".PNG")
+        let storageRef = Storage.storage().reference().child("event_stories").child(eventKey).child(uid).child(timeStamp + ".PNG")
         StorageService.uploadImage(currentImage, at: storageRef) { (downloadUrl) in
             guard let downloadUrl = downloadUrl else {
                 return
             }
             let videoUrlString = downloadUrl.absoluteString
             print(videoUrlString)
-            PostService.create(for: self.eventKey, for: videoUrlString)
+            PostService.create(for: eventKey, for: videoUrlString)
             
             DispatchQueue.main.async {
                 let savedLabel = UILabel()

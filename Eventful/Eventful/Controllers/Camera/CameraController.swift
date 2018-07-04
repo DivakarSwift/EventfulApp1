@@ -95,7 +95,6 @@ class CameraViewController: SwiftyCamViewController {
         let containerView = PreviewPhotoContainerView()
         view.addSubview(containerView)
         containerView.previewImageView.image =  photo
-        containerView.eventKey = eventKey
         containerView.snp.makeConstraints { (make) in
             make.edges.equalTo(view)
         }

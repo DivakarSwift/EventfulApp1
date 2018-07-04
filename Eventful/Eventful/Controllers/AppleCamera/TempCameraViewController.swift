@@ -1186,6 +1186,7 @@ extension TempCameraViewController: AVCapturePhotoCaptureDelegate {
                 if let cgImage = image?.cgImage, let scale = image?.scale {
                     let newImage = UIImage(cgImage: cgImage, scale: scale, orientation:  self.getImageOrientation(forCamera: self.videoDeviceInput.device.position))
                     let containerView = PreviewPhotoContainerView()
+                    containerView.event = event
                     self.view.addSubview(containerView)
                     containerView.previewImageView.image =  newImage
                     containerView.snp.makeConstraints { (make) in
