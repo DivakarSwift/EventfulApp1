@@ -32,7 +32,7 @@ class FriendService{
     }
     /** The current user's id */
     var CURRENT_USER_ID: String {
-        let id = Auth.auth().currentUser!.uid
+        let id = User.current.uid
         return id
     }
     /** The Firebase reference to the followers  tree for the current user */

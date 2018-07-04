@@ -195,7 +195,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
                                 guard let profileImageUrl = downloadURL?.absoluteString else { return }
                                  print("Successfully uploaded profile image:", profileImageUrl)
                                 if let user = authUser {
-                                    UserService.create( user, username: user.displayName!, profilePic: profileImageUrl, isPrivate: false, completion: { (user) in
+                                    UserService.create( user, username: username, profilePic: profileImageUrl, isPrivate: false, completion: { (user) in
                                         
                                         if let user = user {
                                                     User.setCurrent(user, writeToUserDefaults: true)
