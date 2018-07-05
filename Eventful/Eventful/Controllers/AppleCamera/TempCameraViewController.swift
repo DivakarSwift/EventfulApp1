@@ -103,7 +103,7 @@ class TempCameraViewController: UIViewController {
     
     lazy var cancelButton : UIButton = {
         let cancelButton = UIButton()
-        cancelButton.setImage(#imageLiteral(resourceName: "Back"), for: UIControlState())
+        cancelButton.setImage(UIImage(named: "icons8-left-60"), for: UIControlState())
         cancelButton.addTarget(self, action: #selector(cancel), for: .touchUpInside)
         return cancelButton
     }()
@@ -121,7 +121,7 @@ class TempCameraViewController: UIViewController {
     
     lazy var flashButton : UIButton = {
         let flashButton = UIButton()
-        flashButton.setImage(#imageLiteral(resourceName: "Torch"), for: UIControlState())
+        flashButton.setImage(UIImage(named: "icons8-the-flash-sign-100"), for: UIControlState())
         flashButton.addTarget(self, action: #selector(toggleFlashAction(_:)), for: .touchUpInside)
         return flashButton
     }()
@@ -130,18 +130,18 @@ class TempCameraViewController: UIViewController {
     @objc private func toggleFlashAction(_ sender: Any) {
         if self.flashMode == .on {
             self.flashMode = .off
-            flashButton.setImage(#imageLiteral(resourceName: "Torch"), for: UIControlState())
+            flashButton.setImage(UIImage(named: "icons8-the-flash-sign-100"), for: UIControlState())
         }
             
         else {
             self.flashMode = .on
-            flashButton.setImage(#imageLiteral(resourceName: "Torch2"), for: UIControlState())
+            flashButton.setImage(UIImage(named: "icons8-the-flash-sign-filled-100"), for: UIControlState())
         }
     }
     
     lazy var flipCameraButton : UIButton = {
         let flipCameraButton = UIButton()
-        flipCameraButton.setImage(#imageLiteral(resourceName: "flip"), for: UIControlState())
+        flipCameraButton.setImage(UIImage(named: "icons8-switch-camera-60"), for: UIControlState())
         flipCameraButton.addTarget(self, action: #selector(changeCamera(_:)), for: .touchUpInside)
         return flipCameraButton
     }()
@@ -658,7 +658,7 @@ class TempCameraViewController: UIViewController {
         
         view.addSubview(cancelButton)
         cancelButton.snp.makeConstraints { (make) in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(10)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(5)
             make.left.equalTo(view.safeAreaLayoutGuide.snp.left).inset(10)
             make.height.width.equalTo(40)
         }
@@ -1052,7 +1052,7 @@ extension TempCameraViewController {
             movieFileOutput?.stopRecording()
             disableFlash()
 //            let currentPosition =  self.videoDeviceInput.device.position
-//            
+//
 //            if currentPosition == .front && self.flashMode == .on && flashView != nil {
 //                UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseInOut, animations: {
 //                    self.flashView?.alpha = 0.0
