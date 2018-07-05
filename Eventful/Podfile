@@ -40,6 +40,7 @@ target 'Eventful' do
     pod 'ScrollableSegmentedControl', '~> 1.3.0'
     pod 'XLActionController/Twitter'
     pod 'FCAlertView'
+    pod 'Instabug'
     # Pods for Eventful
     
 end

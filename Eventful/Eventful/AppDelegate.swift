@@ -15,6 +15,8 @@ import NotificationBannerSwift
 import GooglePlaces
 import RevealingSplashView
 import IQKeyboardManagerSwift
+import Instabug
+
 
 
 typealias FIRUser = FirebaseAuth.User
@@ -32,6 +34,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
     let userProfileController = ProfileeViewController(collectionViewLayout: UICollectionViewFlowLayout())
     let revealingSplashView = RevealingSplashView(iconImage:UIImage(named: "LogoWelcome")! , iconInitialSize: CGSize(width:123,height:123), backgroundImage:UIImage(named: "Ресурс 14")! )
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        
+        //bug reporting
+        
+        Instabug.start(withToken: "89621842451c293333a03382f7e50d01", invocationEvent: .shake)
+        
        IQKeyboardManager.shared.enable = true
         Fabric.with([Crashlytics.self])
         self.appRef = application
