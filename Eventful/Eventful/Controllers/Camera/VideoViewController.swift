@@ -7,6 +7,7 @@ import Photos
 import SnapKit
 import FCAlertView
 import FirebaseStorage
+import SVProgressHUD
 
 
 class VideoViewController: UIViewController,FCAlertViewDelegate {
@@ -135,7 +136,7 @@ class VideoViewController: UIViewController,FCAlertViewDelegate {
         let alert = FCAlertView()
         alert.colorScheme = UIColor(red: 44/255, green: 152/255, blue: 229/255, alpha: 1)
         alert.cornerRadius = 4
-        alert.dismissOnOutsideTouch = true
+        alert.dismissOnOutsideTouch = false
         alert.delegate = self
         alert.hideDoneButton = true
         if let currentEvent = event {
@@ -149,6 +150,7 @@ class VideoViewController: UIViewController,FCAlertViewDelegate {
     func fcAlertView(_ alertView: FCAlertView!, clickedButtonIndex index: Int, buttonTitle title: String!) {
         if title == "Add" {
             // Perform Action for Button 1
+            SVProgressHUD.show(withStatus: "Adding Video")
             self.handleAddToStory()
 
         }else if title == "Cancel"{
@@ -178,10 +180,13 @@ class VideoViewController: UIViewController,FCAlertViewDelegate {
         }
         //svprogresshud insert here
         //        _ = self.navigationController?.popViewController(animated: true)
-        dismiss(animated: true) {
-            self.player!.replaceCurrentItem(with: nil)
+        SVProgressHUD.dismiss(withDelay: 1) {
+            self.dismiss(animated: true) {
+                self.player!.replaceCurrentItem(with: nil)
+            }
         }
         
+     
         
     }
     

@@ -11,7 +11,9 @@ import  UIKit
 import Firebase
 import GeoFire
 import CoreLocation
-
+import SVProgressHUD
+import FirebaseAuth
+import FirebaseDatabase
 
 class PostService {
     static func create(for event: String?,for vidURL: String) {
@@ -30,6 +32,7 @@ class PostService {
         let userRef = Database.database().reference().child("users").child(uid).child("Stories").child(key).childByAutoId()
         postRef.updateChildValues(dict)
         userRef.updateChildValues(dict)
+        
     }
     
     static func showEvent(cameFromeHomeFeed: Bool,passedDate: Date? = nil,for currentLocation: CLLocation,completion: @escaping ([Event]) -> Void) {

@@ -1051,15 +1051,15 @@ extension TempCameraViewController {
             print("====> Stop pressed")
             movieFileOutput?.stopRecording()
             disableFlash()
-            let currentPosition =  self.videoDeviceInput.device.position
-            
-            if currentPosition == .front && self.flashMode == .on && flashView != nil {
-                UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseInOut, animations: {
-                    self.flashView?.alpha = 0.0
-                }, completion: { (_) in
-                    self.flashView?.removeFromSuperview()
-                })
-            }
+//            let currentPosition =  self.videoDeviceInput.device.position
+//            
+//            if currentPosition == .front && self.flashMode == .on && flashView != nil {
+//                UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseInOut, animations: {
+//                    self.flashView?.alpha = 0.0
+//                }, completion: { (_) in
+//                    self.flashView?.removeFromSuperview()
+//                })
+//            }
             
             isRecordingStopped = true
             

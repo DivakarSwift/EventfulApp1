@@ -167,12 +167,14 @@ struct AuthService {
             let invalidEmail = UIAlertController(title: "Email is not properly formatted.", message:
                 "Please enter a valid email to sign up with..", preferredStyle: UIAlertControllerStyle.alert)
             invalidEmail.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default,handler: nil))
+            SVProgressHUD.dismiss()
             controller.present(invalidEmail, animated: true, completion: nil)
             break;
         case "The email address is already in use by another account.":
             let invalidEmail = UIAlertController(title: "The email address is already in use by another account.", message:
                 "Please enter a valid email to sign up with.", preferredStyle: UIAlertControllerStyle.alert)
             invalidEmail.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default,handler: nil))
+            SVProgressHUD.dismiss()
             controller.present(invalidEmail, animated: true, completion: nil)
             break;
             
@@ -180,12 +182,14 @@ struct AuthService {
             let invalidPasswordLength = UIAlertController(title: "The password must be 6 characters long or more.", message:
                 "Please enter a password that is at least 6 characters long.", preferredStyle: UIAlertControllerStyle.alert)
             invalidPasswordLength.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default,handler: nil))
+            SVProgressHUD.dismiss()
             controller.present(invalidPasswordLength, animated: true, completion: nil)
             break;
         default:
             let generalErrorAlert = UIAlertController(title: "We are having trouble signing you up.", message:
                 "We are having trouble signing you up, please try again soon.", preferredStyle: UIAlertControllerStyle.alert)
             generalErrorAlert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default,handler: nil))
+            SVProgressHUD.dismiss()
             controller.present(generalErrorAlert, animated: true, completion: nil)
             break;
         }
@@ -199,6 +203,7 @@ struct AuthService {
                 let invalidEmail = UIAlertController(title: "There is no user record corresponding to this email", message:
                     "Please enter the email connected to your account..", preferredStyle: UIAlertControllerStyle.alert)
                 invalidEmail.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default,handler: nil))
+                SVProgressHUD.dismiss()
                 controller.present(invalidEmail, animated: true, completion: nil)
                 
                 break;
@@ -208,6 +213,7 @@ struct AuthService {
                 let generalErrorAlert = UIAlertController(title:"Try again later", message:
                      "We are having trouble processing your password reset request.", preferredStyle: UIAlertControllerStyle.alert)
                 generalErrorAlert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default,handler: nil))
+                SVProgressHUD.dismiss()
                 controller.present(generalErrorAlert, animated: true, completion: nil)
                 break;
             }
