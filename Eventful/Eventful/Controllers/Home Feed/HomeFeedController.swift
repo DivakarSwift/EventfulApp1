@@ -30,12 +30,9 @@ class HomeFeedController: UICollectionViewController {
     let dispatchGroup = DispatchGroup()
     var savedLocation: CLLocation?
     var userLocation: CLLocation?
-    var allEvents = [Event]()
     var featuredEvents = [Event]()
     var allEvents2 = [String:[Event]]()
-    var seizeTheNight = [Event]()
-    var seizeTheDay = [Event]()
-    var twentyOne = [Event]()
+    var categoryEvents:[String:[Event]] = [:]
     var friendsEvents = [Event]()
     var placesClient = GMSPlacesClient()
     let dateFormatter = DateFormatter()
@@ -43,7 +40,6 @@ class HomeFeedController: UICollectionViewController {
     private let cellID = "cellID"
     private let catergoryCellID = "catergoryCellID"
     var featuredEventsHeaderString = "Featured Events"
-    var categories : [String] = ["Seize The Night","Seize The Day","21 & Up"]
     lazy var sideMenuLauncher: SideMenuLauncher = {
        let launcher = SideMenuLauncher()
         launcher.homeFeedController = self
@@ -118,7 +114,13 @@ class HomeFeedController: UICollectionViewController {
             categoryVC.events = self.friendsEvents
             categoryVC.emptyLabel.text = "Sorry, Your Friends Don't Seem to Be Attending Any Events"
         }else{
-            categoryVC.events = self.allEvents2[sideMenu.name.rawValue]!
+            
+            if self.categoryEvents[sideMenu.name.rawValue]?.count != nil {
+                 categoryVC.events = self.categoryEvents[sideMenu.name.rawValue]!
+            }else {
+                categoryVC.events = []
+            }
+           
             categoryVC.emptyLabel.text = "Sorry We Currently Have No Events, \n In This Category Near You"
         }
         navigationController?.pushViewController(categoryVC, animated: true)
@@ -134,35 +136,23 @@ class HomeFeedController: UICollectionViewController {
                 let currentLocation = CLLocation(latitude: p.coordinate.latitude, longitude: p.coordinate.longitude)
                 self.userLocation = currentLocation
                 ///regular events
-                self.allEvents2["Seize The Night"]?.removeAll()
-                self.allEvents2["Seize The Day"]?.removeAll()
-                self.allEvents2["21 & Up"]?.removeAll()
-                self.seizeTheNight.removeAll()
-                self.seizeTheDay.removeAll()
-                self.twentyOne.removeAll()
-                self.featuredEvents.removeAll()
-
-                
+                self.categoryEvents.removeAll()
                 PostService.showFeaturedEvent(cameFromHomeFeed: true, for: currentLocation, completion: { [weak self] (event) in
                     self?.featuredEvents = event
                 })
                 PostService.showEvent(cameFromeHomeFeed: true, for: currentLocation, completion: { [unowned self](events) in
-                    
                     for event in events {
-                        if event.category == "Seize The Night" {
-                            self.seizeTheNight.append(event)
+                        if self.categoryEvents[event.category] == nil {
+                            self.categoryEvents[event.category] = []
                         }
-                        if event.category == "Seize The Day"{
-                            self.seizeTheDay.append(event)
-                        }
-                        if event.category == "21 & Up"{
-                            self.twentyOne.append(event)
+                        
+                        if var arr = self.categoryEvents[event.category]{
+                            arr.append(event)
+                            print(arr)
+                            self.categoryEvents[event.category] = arr
                         }
                     }
-                    self.allEvents2["Seize The Night"] = self.seizeTheNight
-                    self.allEvents2["Seize The Day"] = self.seizeTheDay
-                    self.allEvents2[ "21 & Up"] = self.twentyOne
-                    print("ending in cacegory events")
+                    print(self.categoryEvents.count)
                     DispatchQueue.main.async {
                         self.collectionView?.reloadData()
                         print(self.featuredEvents.count)
@@ -188,19 +178,18 @@ class HomeFeedController: UICollectionViewController {
             PostService.showEvent(cameFromeHomeFeed: true, for: currentLocation, completion: { [unowned self](events) in
                 
                 for event in events {
-                    if event.category == "Seize The Night" {
-                        self.seizeTheNight.append(event)
+                    if self.categoryEvents[event.category] == nil {
+                        self.categoryEvents[event.category] = []
                     }
-                    if event.category == "Seize The Day"{
-                        self.seizeTheDay.append(event)
-                    }
-                    if event.category == "21 & Up"{
-                        self.twentyOne.append(event)
+                    
+                    if var arr = self.categoryEvents[event.category]{
+                        arr.append(event)
+                        print(arr)
+                         self.categoryEvents[event.category] = arr
                     }
                 }
-                self.allEvents2["Seize The Night"] = self.seizeTheNight
-                self.allEvents2["Seize The Day"] = self.seizeTheDay
-                self.allEvents2[ "21 & Up"] = self.twentyOne
+                print(self.categoryEvents.count)
+                self.collectionView?.reloadData()
                 print("ending in cacegory events")
             })
             
@@ -251,14 +240,7 @@ class HomeFeedController: UICollectionViewController {
         print(selectedDate.description)
         dateFormatter.dateFormat = "MM/dd/yyyy"
         SVProgressHUD.show(withStatus: "Grabbing Events")
-        self.allEvents2["Seize The Night"]?.removeAll()
-        self.allEvents2["Seize The Day"]?.removeAll()
-        self.allEvents2["21 & Up"]?.removeAll()
-        self.seizeTheNight.removeAll()
-        self.seizeTheDay.removeAll()
-        self.twentyOne.removeAll()
-        self.featuredEvents.removeAll()
-        
+        self.categoryEvents.removeAll()
         if let location = self.userLocation {
             fetchEvents(currentLocation: location, selectedDate: selectedDate)
         }else{
@@ -317,7 +299,7 @@ class HomeFeedController: UICollectionViewController {
 extension HomeFeedController {
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if section == 1{
-            return categories.count
+            return categoryEvents.count
         }
         return 1
     }
@@ -334,13 +316,12 @@ extension HomeFeedController {
             return cell
         }
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: catergoryCellID, for: indexPath) as! CategoryCell
-        cell.sectionNameLabel.text = categories[indexPath.item]
+        cell.sectionNameLabel.text =  Array(categoryEvents.keys)[indexPath.item]
         cell.homeFeedController = self
-        if allEvents2[categories[indexPath.item]]?.count != nil {
-            //print(allEvents2[categories[indexPath.item]])
-            cell.categoryEvents = allEvents2[categories[indexPath.item]]
+        if self.categoryEvents[Array(categoryEvents.keys)[indexPath.item]]?.count != nil {
+            cell.categoryEvents = self.categoryEvents[Array(categoryEvents.keys)[indexPath.item]]
         } else{
-            cell.categoryEvents = allEvents
+            cell.categoryEvents = []
         }
         return cell
     }
@@ -370,19 +351,17 @@ extension HomeFeedController {
         
         PostService.showEvent(cameFromeHomeFeed: true, passedDate: selectedDate,for: currentLocation, completion: { [unowned self](events) in
             for event in events {
-                if event.category == "Seize The Night" {
-                    self.seizeTheNight.append(event)
+                if self.categoryEvents[event.category] == nil {
+                    self.categoryEvents[event.category] = []
                 }
-                if event.category == "Seize The Day"{
-                    self.seizeTheDay.append(event)
-                }
-                if event.category == "21 & Up"{
-                    self.twentyOne.append(event)
+                
+                if var arr = self.categoryEvents[event.category]{
+                    arr.append(event)
+                    print(arr)
+                    self.categoryEvents[event.category] = arr
                 }
             }
-            self.allEvents2["Seize The Night"] = self.seizeTheNight
-            self.allEvents2["Seize The Day"] = self.seizeTheDay
-            self.allEvents2[ "21 & Up"] = self.twentyOne
+            print(self.categoryEvents.count)
             DispatchQueue.main.async {
                 self.collectionView?.reloadData()
             }

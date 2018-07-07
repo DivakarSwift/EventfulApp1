@@ -9,6 +9,7 @@
 import Foundation
 import Firebase
 import FirebaseAuth
+import FirebaseDatabase
 
 
 struct EventService {
@@ -20,7 +21,7 @@ struct EventService {
         //pull everything
         
         ref.observeSingleEvent(of: .value, andPreviousSiblingKeyWith: { (snapshot,eventKey) in
-          // print(snapshot.value ?? "")
+           print(snapshot.value ?? "")
 
             guard let event = Event(snapshot: snapshot) else {
                 return completion(nil)
@@ -42,7 +43,6 @@ struct EventService {
                         completion(event)
                     }else{
                         completion(nil)
-                        
                     }
                 }
             }

@@ -41,6 +41,7 @@ target 'Eventful' do
     pod 'XLActionController/Twitter'
     pod 'FCAlertView'
     pod 'Instabug'
+    pod 'InstantSearch'
     # Pods for Eventful
     
 end

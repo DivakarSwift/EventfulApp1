@@ -16,6 +16,9 @@ import GooglePlaces
 import RevealingSplashView
 import IQKeyboardManagerSwift
 import Instabug
+import InstantSearch
+import FirebaseAuth
+import FirebaseMessaging                                                                
 
 
 
