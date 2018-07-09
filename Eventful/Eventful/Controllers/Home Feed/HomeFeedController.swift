@@ -31,6 +31,7 @@ class HomeFeedController: UICollectionViewController {
     var savedLocation: CLLocation?
     var userLocation: CLLocation?
     var featuredEvents = [Event]()
+    var allEvents2 = [String:[Event]]()
     var categoryEvents:[String:[Event]] = [:]
     var friendsEvents = [Event]()
     var placesClient = GMSPlacesClient()
@@ -377,3 +378,5 @@ extension HomeFeedController {
         )
     }
 }
+
+

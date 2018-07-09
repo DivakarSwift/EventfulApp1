@@ -29,7 +29,7 @@ class SideMenuCell: UICollectionViewCell {
     }
     let nameLabel: UILabel = {
         let nameLabel = UILabel()
-        nameLabel.font = UIFont.boldSystemFont(ofSize: 15)
+       nameLabel.font = UIFont.boldSystemFont(ofSize: 15)
         nameLabel.textColor = UIColor.rgb(red: 53, green: 56, blue: 57)
         return nameLabel
     }()

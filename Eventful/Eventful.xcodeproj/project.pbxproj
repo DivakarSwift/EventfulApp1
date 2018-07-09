@@ -120,6 +120,7 @@
 		07C15E6420D232460046D8BC /* NewUserEventAttendingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C15E6320D232460046D8BC /* NewUserEventAttendingCell.swift */; };
 		07D923A81F33C61D0069613D /* Storyboard+Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D923A71F33C61D0069613D /* Storyboard+Utility.swift */; };
 		07E271B62056354F007F0592 /* NotifBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E271B52056354F007F0592 /* NotifBannerView.swift */; };
+		07EDACA820F2F07200585EF0 /* ContactUsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EDACA720F2F07200585EF0 /* ContactUsVC.swift */; };
 		07F3EC591F4A57C3005296EB /* PostService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F3EC581F4A57C3005296EB /* PostService.swift */; };
 		07F3EC5E1F4B7B28005296EB /* StoryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F3EC5D1F4B7B28005296EB /* StoryService.swift */; };
 		07F3EC601F4B7BE9005296EB /* Story.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F3EC5F1F4B7BE9005296EB /* Story.swift */; };
@@ -247,6 +248,7 @@
 		07C15E6320D232460046D8BC /* NewUserEventAttendingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NewUserEventAttendingCell.swift; path = Controllers/Profile/NewUserEventAttendingCell.swift; sourceTree = "<group>"; };
 		07D923A71F33C61D0069613D /* Storyboard+Utility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Storyboard+Utility.swift"; path = "Extensions/Storyboard+Utility.swift"; sourceTree = "<group>"; };
 		07E271B52056354F007F0592 /* NotifBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NotifBannerView.swift; path = Controllers/Notifications/NotifBannerView.swift; sourceTree = "<group>"; };
+		07EDACA720F2F07200585EF0 /* ContactUsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContactUsVC.swift; path = Controllers/Settings/ContactUsVC.swift; sourceTree = "<group>"; };
 		07F3EC581F4A57C3005296EB /* PostService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostService.swift; path = Services/PostService.swift; sourceTree = "<group>"; };
 		07F3EC5D1F4B7B28005296EB /* StoryService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StoryService.swift; path = Services/StoryService.swift; sourceTree = "<group>"; };
 		07F3EC5F1F4B7BE9005296EB /* Story.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Story.swift; path = Models/Story.swift; sourceTree = "<group>"; };
@@ -565,6 +567,7 @@
 			isa = PBXGroup;
 			children = (
 				0747AA0220375D5E00F725C7 /* SettingsViewController.swift */,
+				07EDACA720F2F07200585EF0 /* ContactUsVC.swift */,
 				07C15E2320B7DA920046D8BC /* Private.swift */,
 			);
 			name = Settings;
@@ -863,6 +866,7 @@
 				0704C7702062BB7C00C9E35A /* CategoryEventCell.swift in Sources */,
 				07C15E6020D227D00046D8BC /* NewProfileVC.swift in Sources */,
 				0747A9E020375C9500F725C7 /* SignUpViewController.swift in Sources */,
+				07EDACA820F2F07200585EF0 /* ContactUsVC.swift in Sources */,
 				0724731C207421CF00DD285E /* CategoryViewController.swift in Sources */,
 				0748714A20845BCF0024635C /* CalendarCell.swift in Sources */,
 				07F76C82208B05DA00EEBD58 /* SideMenuFooter.swift in Sources */,
