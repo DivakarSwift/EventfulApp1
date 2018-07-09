@@ -31,7 +31,6 @@ class HomeFeedController: UICollectionViewController {
     var savedLocation: CLLocation?
     var userLocation: CLLocation?
     var featuredEvents = [Event]()
-    var allEvents2 = [String:[Event]]()
     var categoryEvents:[String:[Event]] = [:]
     var friendsEvents = [Event]()
     var placesClient = GMSPlacesClient()
@@ -270,7 +269,7 @@ class HomeFeedController: UICollectionViewController {
                 if placemarks!.count > 0 {
                     let pm = placemarks![0]
                     self.titleView.text = "\(pm.locality ?? ""), \(pm.administrativeArea ?? "") ▼"
-                    self.titleView.font = UIFont(name: "Avenir", size: 18)
+                    self.titleView.font = UIFont.boldSystemFont(ofSize: 18)
                     self.titleView.adjustsFontSizeToFitWidth = true
                     let width = self.titleView.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)).width
                     self.titleView.frame = CGRect(origin:CGPoint.zero, size:CGSize(width: width, height: 500))
@@ -378,5 +377,3 @@ extension HomeFeedController {
         )
     }
 }
-
-

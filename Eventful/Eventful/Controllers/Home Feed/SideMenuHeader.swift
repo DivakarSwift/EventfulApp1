@@ -40,7 +40,7 @@ class SideMenuHeader: UICollectionViewCell {
     }()
     let nameLabel: UILabel = {
         let nameLabel = UILabel()
-        nameLabel.font = UIFont(name: "AvenirNext-Regular", size: 15.0)
+        nameLabel.font = UIFont.systemFont(ofSize: 15)
         return nameLabel
     }()
     

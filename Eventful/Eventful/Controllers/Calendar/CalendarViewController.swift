@@ -192,6 +192,8 @@ extension CalendarViewController:JTAppleCalendarViewDataSource {
         // Get the current year
         let year = Calendar.current.component(.year, from: Date())
         navigationItem.title = "Event Calendar"
+        let attributes = [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 18)]
+        UINavigationBar.appearance().titleTextAttributes = attributes
         let firstOfYear = Calendar.current.date(from: DateComponents(year: year, month: 1, day: 1))
         let lastOfYear = Calendar.current.date(from: DateComponents(year: year, month: 12, day: 13))
         let parameter = ConfigurationParameters(startDate: firstOfYear!, endDate: lastOfYear!, numberOfRows: 5, calendar: Calendar.current, generateInDates: .forAllMonths, generateOutDates: .off, firstDayOfWeek: .sunday, hasStrictBoundaries: true)

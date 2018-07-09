@@ -21,7 +21,7 @@ class SideMenuFooter: BaseCell {
     
     let nameLabel: UILabel = {
         let nameLabel = UILabel()
-        nameLabel.font = UIFont(name: "AvenirNext-Regular", size: 15.0)
+        nameLabel.font = UIFont.boldSystemFont(ofSize: 15)
         nameLabel.textColor = UIColor.rgb(red: 53, green: 56, blue: 57)
         return nameLabel
     }()

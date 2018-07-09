@@ -110,7 +110,7 @@ class NewProfileVC: UIViewController,UIScrollViewDelegate {
         titleView.textAlignment = .center;
         titleView.text = self.user?.username
         self.navigationItem.titleView = titleView
-        self.titleView.font = UIFont(name: "Futura-CondensedMedium", size: 18)
+        self.titleView.font = UIFont.boldSystemFont(ofSize: 18)
         self.titleView.adjustsFontSizeToFitWidth = true
         
     }

@@ -50,6 +50,8 @@ class NotificationsViewController: UIViewController,NotificationsSectionDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Notificaitons"
+        let attributes = [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 18)]
+        UINavigationBar.appearance().titleTextAttributes = attributes
         //will add the collectionView for the iglistkit
         collectionView.frame = CGRect.init(x: 0, y: 5, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height-40)
         view.addSubview(collectionView)

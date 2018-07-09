@@ -49,7 +49,7 @@ class CategoryViewController: UICollectionViewController,UICollectionViewDelegat
         self.collectionView?.delegate = self
         self.collectionView?.dataSource = self
         
-        titleView.font = UIFont(name: "Avenir", size: 18)
+        titleView.font = UIFont.boldSystemFont(ofSize: 18)
         let width = titleView.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)).width
         titleView.frame = CGRect(origin:CGPoint.zero, size:CGSize(width: width, height: 500))
         self.navigationItem.titleView = titleView
