@@ -103,7 +103,7 @@ class TempCameraViewController: UIViewController {
     
     lazy var cancelButton : UIButton = {
         let cancelButton = UIButton()
-        cancelButton.setImage(UIImage(named: "icons8-left-60"), for: UIControlState())
+        cancelButton.setImage(#imageLiteral(resourceName: "Back"), for: UIControlState())
         cancelButton.addTarget(self, action: #selector(cancel), for: .touchUpInside)
         return cancelButton
     }()
@@ -121,7 +121,7 @@ class TempCameraViewController: UIViewController {
     
     lazy var flashButton : UIButton = {
         let flashButton = UIButton()
-        flashButton.setImage(UIImage(named: "icons8-the-flash-sign-100"), for: UIControlState())
+        flashButton.setImage(#imageLiteral(resourceName: "Torch"), for: UIControlState())
         flashButton.addTarget(self, action: #selector(toggleFlashAction(_:)), for: .touchUpInside)
         return flashButton
     }()
@@ -130,18 +130,18 @@ class TempCameraViewController: UIViewController {
     @objc private func toggleFlashAction(_ sender: Any) {
         if self.flashMode == .on {
             self.flashMode = .off
-            flashButton.setImage(UIImage(named: "icons8-the-flash-sign-100"), for: UIControlState())
+            flashButton.setImage(#imageLiteral(resourceName: "Torch"), for: UIControlState())
         }
             
         else {
             self.flashMode = .on
-            flashButton.setImage(UIImage(named: "icons8-the-flash-sign-filled-100"), for: UIControlState())
+            flashButton.setImage(#imageLiteral(resourceName: "Torch2"), for: UIControlState())
         }
     }
     
     lazy var flipCameraButton : UIButton = {
         let flipCameraButton = UIButton()
-        flipCameraButton.setImage(UIImage(named: "icons8-switch-camera-60"), for: UIControlState())
+        flipCameraButton.setImage(#imageLiteral(resourceName: "flip"), for: UIControlState())
         flipCameraButton.addTarget(self, action: #selector(changeCamera(_:)), for: .touchUpInside)
         return flipCameraButton
     }()
@@ -160,6 +160,8 @@ class TempCameraViewController: UIViewController {
         return videoButton
     }()
     
+    //Intro View
+    var introView: UIView?
     
     // MARK: Status Bar Presence
     override var prefersStatusBarHidden: Bool {
@@ -169,7 +171,10 @@ class TempCameraViewController: UIViewController {
     // MARK: View Controller Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupVC()
+        DispatchQueue.main.async {
+            self.setupVC()
+        }
+        
         // Disable UI. The UI is enabled if and only if the session starts running.
         captureButton.isEnabled = false
         flashButton.isEnabled = false
@@ -226,7 +231,41 @@ class TempCameraViewController: UIViewController {
         }
     }
     
+    // Intro Tip View
+    private func showTextIntroScreen() {
+        DispatchQueue.main.async {
+            if !UserDefaults.standard.bool(forKey: UserDefaultsKeys.isFirstIntro.rawValue) {
+                self.introView = UIView(frame: UIScreen.main.bounds)
+                self.view.addSubview(self.introView!)
+                
+                //Showing Tip View
+                self.applyGlobalTipViewConfiguration()
+                
+                let tipView = TipView()
+                tipView.dismissClosure = { tipview in
+                    UserDefaults.standard.set(true, forKey: UserDefaultsKeys.isFirstIntro.rawValue)
+                    self.introView?.removeFromSuperview()
+                    self.introView = nil
+                }
+                tipView.show(message: "Tap & Hold to Record",
+                                     sourceView: self.recordButton,
+                                     containerView: self.introView!,
+                                     direction: TipView.Direction.top)
+            }
+        }
+    }
     
+    func applyGlobalTipViewConfiguration() {
+        // Global configuration
+        TipView.maxWidth = 160
+        TipView.color = UIColor.darkGray
+        TipView.font = UIFont.systemFont(ofSize: 14)
+        TipView.enableDismissOnTapOverTip = true
+        TipView.showAnimation = TipViewAnimation.showWithScale
+        TipView.dismissAnimation = TipViewAnimation.dismissWithScale
+        TipView.enableDismissOnTapOutsideTipInContainer = true
+        TipView.enableDismissOnTapOutsideTipInContainer = true
+    }
     
     // Call this on the session queue.
     private func configureSession() {
@@ -658,7 +697,7 @@ class TempCameraViewController: UIViewController {
         
         view.addSubview(cancelButton)
         cancelButton.snp.makeConstraints { (make) in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(5)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(10)
             make.left.equalTo(view.safeAreaLayoutGuide.snp.left).inset(10)
             make.height.width.equalTo(40)
         }
@@ -758,6 +797,7 @@ extension TempCameraViewController {
                     self.recordButton.isEnabled = true
                     self.recordButton.addTarget(self, action: #selector(self.record), for: .touchDown)
                     self.recordButton.addTarget(self, action: #selector(self.stop), for: UIControlEvents.touchUpInside)
+                    self.showTextIntroScreen()
                 }
             }
         }
@@ -863,10 +903,13 @@ extension TempCameraViewController {
                         NotificationCenter.default.removeObserver(self, name: .AVCaptureDeviceSubjectAreaDidChange, object: currentVideoDevice)
                         
                         NotificationCenter.default.addObserver(self, selector: #selector(self.subjectAreaDidChange), name: .AVCaptureDeviceSubjectAreaDidChange, object: videoDeviceInput.device)
-                        
                         self.session.addInput(videoDeviceInput)
-                        
                         self.videoDeviceInput = videoDeviceInput
+                        if let connection = self.movieFileOutput?.connection(with: .video) {
+                            if self.videoDeviceInput.device.position == .front {
+                                connection.isVideoMirrored = true
+                            }
+                        }
                     } else {
                         self.session.addInput(self.videoDeviceInput)
                     }
@@ -874,6 +917,9 @@ extension TempCameraViewController {
                     if let connection = self.movieFileOutput?.connection(with: .video) {
                         if connection.isVideoStabilizationSupported {
                             connection.preferredVideoStabilizationMode = .auto
+                        }
+                        if self.videoDeviceInput.device.position == .front {
+                            connection.isVideoMirrored = true
                         }
                     }
                     
@@ -970,7 +1016,7 @@ extension TempCameraViewController {
         }
         
         
-        if currentPosition == .front && self.flashMode == .on{
+        if currentPosition == .front && self.flashMode == .on {
             //enable flash but add flashview
             flashView = UIView(frame: view.frame)
             flashView?.backgroundColor = UIColor.white
@@ -1051,15 +1097,15 @@ extension TempCameraViewController {
             print("====> Stop pressed")
             movieFileOutput?.stopRecording()
             disableFlash()
-//            let currentPosition =  self.videoDeviceInput.device.position
-//
-//            if currentPosition == .front && self.flashMode == .on && flashView != nil {
-//                UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseInOut, animations: {
-//                    self.flashView?.alpha = 0.0
-//                }, completion: { (_) in
-//                    self.flashView?.removeFromSuperview()
-//                })
-//            }
+            let currentPosition =  self.videoDeviceInput.device.position
+            
+            if currentPosition == .front && self.flashMode == .on && flashView != nil {
+                UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseInOut, animations: {
+                    self.flashView?.alpha = 0.0
+                }, completion: { (_) in
+                    self.flashView?.removeFromSuperview()
+                })
+            }
             
             isRecordingStopped = true
             
