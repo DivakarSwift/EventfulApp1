@@ -39,9 +39,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         //bug reporting
-        
-        Instabug.start(withToken: "89621842451c293333a03382f7e50d01", invocationEvent: .shake)
-        
+        Instabug.start(withToken: "89621842451c293333a03382f7e50d01", invocationEvents: .shake)
+                
        IQKeyboardManager.shared.enable = true
         Fabric.with([Crashlytics.self])
         self.appRef = application
@@ -116,6 +115,7 @@ extension AppDelegate {
     func configureInitialRootViewController(for window: UIWindow?) {
        // print("Look for current user here")
        // print(Auth.auth().currentUser ?? "")
+         UserDefaults.standard.set(false, forKey: UserDefaultsKeys.isFirstIntro.rawValue)
         let defaults = UserDefaults.standard
         var initialViewController: UIViewController
             NotificationCenter.default.addObserver(self, selector: #selector(handleHeartAttack), name: heartAttackNotificationName, object: nil)

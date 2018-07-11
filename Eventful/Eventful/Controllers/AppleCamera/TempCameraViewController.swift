@@ -9,7 +9,11 @@ import Foundation
 import UIKit
 import AVFoundation
 import RecordButton
-import SwiftVideoGenerator
+
+var arrCameraPreferences = [String]()
+var backCameraResolution = CGSize.zero
+var frontCameraResolution = CGSize.zero
+var isRecordingStartedWithBackCamera = true
 
 class TempCameraViewController: UIViewController {
     var event: Event?{
@@ -24,7 +28,8 @@ class TempCameraViewController: UIViewController {
     var videoDeviceInput: AVCaptureDeviceInput!
     var videoURLArr = [URL]()
     var isRecordingStopped: Bool = true
-    
+    var isBackCamera: Bool = true
+
     var flashMode = AVCaptureDevice.FlashMode.off
     fileprivate var flashView:UIView?
     
@@ -103,7 +108,7 @@ class TempCameraViewController: UIViewController {
     
     lazy var cancelButton : UIButton = {
         let cancelButton = UIButton()
-        cancelButton.setImage(#imageLiteral(resourceName: "Back"), for: UIControlState())
+        cancelButton.setImage(UIImage(named: "icons8-left-60"), for: UIControlState())
         cancelButton.addTarget(self, action: #selector(cancel), for: .touchUpInside)
         return cancelButton
     }()
@@ -121,7 +126,7 @@ class TempCameraViewController: UIViewController {
     
     lazy var flashButton : UIButton = {
         let flashButton = UIButton()
-        flashButton.setImage(#imageLiteral(resourceName: "Torch"), for: UIControlState())
+        flashButton.setImage(UIImage(named: "icons8-the-flash-sign-60"), for: UIControlState())
         flashButton.addTarget(self, action: #selector(toggleFlashAction(_:)), for: .touchUpInside)
         return flashButton
     }()
@@ -130,18 +135,20 @@ class TempCameraViewController: UIViewController {
     @objc private func toggleFlashAction(_ sender: Any) {
         if self.flashMode == .on {
             self.flashMode = .off
-            flashButton.setImage(#imageLiteral(resourceName: "Torch"), for: UIControlState())
+ flashButton.setImage(UIImage(named: "icons8-the-flash-sign-60"), for: UIControlState())
+            
         }
             
         else {
             self.flashMode = .on
-            flashButton.setImage(#imageLiteral(resourceName: "Torch2"), for: UIControlState())
+ flashButton.setImage(UIImage(named: "icons8-the-flash-sign-filled-60"), for: UIControlState())
+            
         }
     }
     
     lazy var flipCameraButton : UIButton = {
         let flipCameraButton = UIButton()
-        flipCameraButton.setImage(#imageLiteral(resourceName: "flip"), for: UIControlState())
+        flipCameraButton.setImage(UIImage(named: "icons8-switch-camera-60"), for: UIControlState())
         flipCameraButton.addTarget(self, action: #selector(changeCamera(_:)), for: .touchUpInside)
         return flipCameraButton
     }()
@@ -288,15 +295,22 @@ class TempCameraViewController: UIViewController {
             // Choose the back dual camera if available, otherwise default to a wide angle camera.
             if let dualCameraDevice = AVCaptureDevice.default(.builtInDualCamera, for: .video, position: .back) {
                 defaultVideoDevice = dualCameraDevice
+                isBackCamera = true
             } else if let backCameraDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) {
                 // If the back dual camera is not available, default to the back wide angle camera.
                 defaultVideoDevice = backCameraDevice
+                isBackCamera = true
             } else if let frontCameraDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front) {
                 /*
                  In some cases where users break their phones, the back wide angle camera is not available.
                  In this case, we should default to the front wide angle camera.
                  */
                 defaultVideoDevice = frontCameraDevice
+                isBackCamera = false
+            }
+            
+            if defaultVideoDevice != nil {
+                self.setCaptureResolution(isForBackCamera: isBackCamera, theDevice: defaultVideoDevice!)
             }
             
             let videoDeviceInput = try AVCaptureDeviceInput(device: defaultVideoDevice!)
@@ -781,8 +795,7 @@ extension TempCameraViewController {
                     }
                     
                     connection.videoOrientation = .portrait
-                    
-                    //connection.isVideoMirrored = true
+                    movieFileOutput.setRecordsVideoOrientationAndMirroringChangesAsMetadataTrack(true, for: connection)
                 }
                 self.session.commitConfiguration()
                 
@@ -862,7 +875,6 @@ extension TempCameraViewController {
             }
         }
         
-        
         sessionQueue.async {
             let currentVideoDevice = self.videoDeviceInput.device
             let currentPosition = currentVideoDevice.position
@@ -870,15 +882,31 @@ extension TempCameraViewController {
             let preferredPosition: AVCaptureDevice.Position
             let preferredDeviceType: AVCaptureDevice.DeviceType
             
+            
             switch currentPosition {
             case .unspecified, .front:
                 preferredPosition = .back
                 preferredDeviceType = .builtInDualCamera
                 
+                self.isBackCamera = true
+                
             case .back:
                 preferredPosition = .front
                 preferredDeviceType = .builtInWideAngleCamera
+                
+                self.isBackCamera = false
             }
+            
+            if arrCameraPreferences.count > 0 {
+                arrCameraPreferences.append(self.isBackCamera ? "1" : "0")
+            }
+            
+            //            if !self.isBackCamera {
+            //                let theTransform = CGAffineTransform.identity.scaledBy(x: -1.0, y: 1.0)
+            //                self.capturePreviewView.videoPreviewLayer.setAffineTransform(theTransform)
+            //            } else {
+            //                self.capturePreviewView.videoPreviewLayer.setAffineTransform(CGAffineTransform.identity)
+            //            }
             
             let devices = self.videoDeviceDiscoverySession.devices
             var newVideoDevice: AVCaptureDevice? = nil
@@ -888,6 +916,10 @@ extension TempCameraViewController {
                 newVideoDevice = device
             } else if let device = devices.first(where: { $0.position == preferredPosition }) {
                 newVideoDevice = device
+            }
+            
+            if newVideoDevice != nil {
+                self.setCaptureResolution(isForBackCamera: self.isBackCamera, theDevice: newVideoDevice!)
             }
             
             if let videoDevice = newVideoDevice {
@@ -903,13 +935,10 @@ extension TempCameraViewController {
                         NotificationCenter.default.removeObserver(self, name: .AVCaptureDeviceSubjectAreaDidChange, object: currentVideoDevice)
                         
                         NotificationCenter.default.addObserver(self, selector: #selector(self.subjectAreaDidChange), name: .AVCaptureDeviceSubjectAreaDidChange, object: videoDeviceInput.device)
+                        
                         self.session.addInput(videoDeviceInput)
+                        
                         self.videoDeviceInput = videoDeviceInput
-                        if let connection = self.movieFileOutput?.connection(with: .video) {
-                            if self.videoDeviceInput.device.position == .front {
-                                connection.isVideoMirrored = true
-                            }
-                        }
                     } else {
                         self.session.addInput(self.videoDeviceInput)
                     }
@@ -917,9 +946,6 @@ extension TempCameraViewController {
                     if let connection = self.movieFileOutput?.connection(with: .video) {
                         if connection.isVideoStabilizationSupported {
                             connection.preferredVideoStabilizationMode = .auto
-                        }
-                        if self.videoDeviceInput.device.position == .front {
-                            connection.isVideoMirrored = true
                         }
                     }
                     
@@ -1016,15 +1042,6 @@ extension TempCameraViewController {
         }
         
         
-        if currentPosition == .front && self.flashMode == .on {
-            //enable flash but add flashview
-            flashView = UIView(frame: view.frame)
-            flashView?.backgroundColor = UIColor.white
-            flashView?.alpha = 0.85
-            capturePreviewView.addSubview(flashView!)
-        }
-        
-        
         /*
          Hide all buttons until recording finishes, and disable
          the Record button until recording starts or finishes.
@@ -1044,7 +1061,6 @@ extension TempCameraViewController {
          */
         let videoPreviewLayerOrientation = capturePreviewView.videoPreviewLayer.connection?.videoOrientation
         
-        
         sessionQueue.async {
             if !movieFileOutput.isRecording {
                 
@@ -1063,14 +1079,14 @@ extension TempCameraViewController {
                 
                 // Update the orientation on the movie file output video connection before starting recording.
                 let movieFileOutputConnection = movieFileOutput.connection(with: .video)
-                //flip video output if front facing camera is selected
-                
-                if self.videoDeviceInput.device.position == .front {
-                    movieFileOutputConnection?.isVideoMirrored = true
-                }
-                
-                
                 movieFileOutputConnection?.videoOrientation = videoPreviewLayerOrientation!
+                //                movieFileOutputConnection?.isVideoMirrored = !self.isBackCamera
+                //movieFileOutputConnection?.isVideoMirrored = true
+                movieFileOutputConnection?.automaticallyAdjustsVideoMirroring = false
+                
+                //                movieFileOutput.recordsVideoOrientationAndMirroringChangesAsMetadataTrack(for: movieFileOutputConnection!)
+                //                movieFileOutput.setRecordsVideoOrientationAndMirroringChangesAsMetadataTrack(true, for: movieFileOutputConnection!)
+                
                 
                 let availableVideoCodecTypes = movieFileOutput.availableVideoCodecTypes
                 
@@ -1084,38 +1100,34 @@ extension TempCameraViewController {
                 movieFileOutput.startRecording(to: URL(fileURLWithPath: outputFilePath), recordingDelegate: self)
                 self.isRecordingStopped = false
                 self.videoURLArr.removeAll()
+                arrCameraPreferences.removeAll()
+                //arrCameraPreferences.append(true)
+                //arrCameraPreferences.append(false)
+                
+                isRecordingStartedWithBackCamera = self.isBackCamera
+                
+                arrCameraPreferences.append((self.isBackCamera ? "1" : "0"))
             } else {
                 movieFileOutput.stopRecording()
-                
             }
         }
     }
     
+    
     @objc func stop() {
         self.progressTimer.invalidate()
-        if (movieFileOutput?.isRecording)! {
-            print("====> Stop pressed")
-            movieFileOutput?.stopRecording()
-            disableFlash()
-            let currentPosition =  self.videoDeviceInput.device.position
-            
-            if currentPosition == .front && self.flashMode == .on && flashView != nil {
-                UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseInOut, animations: {
-                    self.flashView?.alpha = 0.0
-                }, completion: { (_) in
-                    self.flashView?.removeFromSuperview()
-                })
-            }
-            
-            isRecordingStopped = true
-            
-            flipCameraButton.isHidden = false
-            flashButton.isHidden = false
-            cameraButton.isHidden = false
-            videoButton.isHidden = false
-            cancelButton.isHidden = false
-            progress = 0;
-        }
+        //        if (movieFileOutput?.isRecording)! {
+        print("====> Stop pressed")
+        movieFileOutput?.stopRecording()
+        isRecordingStopped = true
+        
+        flipCameraButton.isHidden = false
+        flashButton.isHidden = false
+        cameraButton.isHidden = false
+        videoButton.isHidden = false
+        cancelButton.isHidden = false
+        progress = 0;
+        //        }
     }
     
     @objc func updateProgress() {
@@ -1246,6 +1258,7 @@ extension TempCameraViewController: AVCapturePhotoCaptureDelegate {
 }
 
 // MARK: AVCaptureFileOutputRecordingDelegate
+
 extension TempCameraViewController: AVCaptureFileOutputRecordingDelegate{
     func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
         
@@ -1278,11 +1291,18 @@ extension TempCameraViewController: AVCaptureFileOutputRecordingDelegate{
         }
         
         if success {
+            print("************** THE BACK \(self.isBackCamera)")
+            //arrCameraPreferences.append(self.isBackCamera)
             videoURLArr.append(outputFileURL)
+            
+            print("******** THE ARRAY IS \(arrCameraPreferences)")
             
             if isRecordingStopped == false {
                 
                 if let movieFileOutput = self.movieFileOutput {
+                    let movieFileOutputConnection = output.connection(with: .video)
+                    //                    movieFileOutputConnection?.isVideoMirrored = !self.isBackCamera
+                    
                     let outputFileName = NSUUID().uuidString
                     let outputFilePath = (NSTemporaryDirectory() as NSString).appendingPathComponent((outputFileName as NSString).appendingPathExtension("mov")!)
                     movieFileOutput.startRecording(to: URL(fileURLWithPath: outputFilePath), recordingDelegate: self)
@@ -1336,7 +1356,6 @@ extension TempCameraViewController {
         pinchGesture.delegate = self
         capturePreviewView.addGestureRecognizer(pinchGesture)
     }
-    
     
     //will take in a tap gesture and auto focus the camera
     @objc fileprivate func singleTapGesture(_ tap: UITapGestureRecognizer) throws {
@@ -1494,3 +1513,16 @@ extension TempCameraViewController : UIGestureRecognizerDelegate {
         return true
     }
 }
+
+
+extension TempCameraViewController {
+          func setCaptureResolution(isForBackCamera: Bool, theDevice: AVCaptureDevice) {
+                    let dimensions = CMVideoFormatDescriptionGetDimensions(theDevice.activeFormat.formatDescription)
+        
+                    if isForBackCamera {
+                            backCameraResolution = CGSize(width: CGFloat(dimensions.height), height: CGFloat(dimensions.width))
+                        } else {
+                                frontCameraResolution = CGSize(width: CGFloat(dimensions.height), height: CGFloat(dimensions.width))
+                            }
+                }
+        }

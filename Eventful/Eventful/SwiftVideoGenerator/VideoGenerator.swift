@@ -112,7 +112,7 @@ public class VideoGenerator: NSObject {
         
         /// create the basic video settings
         let videoSettings: [String : AnyObject] = [
-          AVVideoCodecKey  : AVVideoCodecH264 as AnyObject,
+            AVVideoCodecKey  : AVVideoCodecType.h264 as AnyObject,
           AVVideoWidthKey  : outputSize.width as AnyObject,
           AVVideoHeightKey : outputSize.height as AnyObject,
           ]
@@ -311,23 +311,56 @@ public class VideoGenerator: NSObject {
     }
     
     let composition = AVMutableComposition()
+    let videoComposition = AVMutableVideoComposition()
+    
+    var arrInstructions = [AVMutableVideoCompositionInstruction]()
     
     if let completeMoviePath = completeMoviePath {
-      
       /// add audio and video tracks to the composition
       if let videoTrack: AVMutableCompositionTrack = composition.addMutableTrack(withMediaType: AVMediaType.video, preferredTrackID: kCMPersistentTrackID_Invalid), let audioTrack: AVMutableCompositionTrack = composition.addMutableTrack(withMediaType: AVMediaType.audio, preferredTrackID: kCMPersistentTrackID_Invalid) {
         
         var insertTime = CMTime(seconds: 0, preferredTimescale: 1)
         
         /// for each URL add the video and audio tracks and their duration to the composition
-        for sourceAsset in videoAssets {
+        for (index, sourceAsset) in videoAssets.enumerated() {
           do {
             if let assetVideoTrack = sourceAsset.tracks(withMediaType: .video).first, let assetAudioTrack = sourceAsset.tracks(withMediaType: .audio).first {
               let frameRange = CMTimeRange(start: CMTime(seconds: 0, preferredTimescale: 1), duration: sourceAsset.duration)
               try videoTrack.insertTimeRange(frameRange, of: assetVideoTrack, at: insertTime)
               try audioTrack.insertTimeRange(frameRange, of: assetAudioTrack, at: insertTime)
               
-              videoTrack.preferredTransform = assetVideoTrack.preferredTransform
+              let videoInstruction = AVMutableVideoCompositionInstruction()
+              videoInstruction.timeRange = CMTimeRangeMake(insertTime, sourceAsset.duration)
+                
+              let layerInstruction = AVMutableVideoCompositionLayerInstruction(assetTrack: assetVideoTrack)
+              
+               //videoTrack.preferredTransform = assetVideoTrack.preferredTransform
+                
+                if arrCameraPreferences[index] == "1" { // Video recorded with back camera
+                    if isRecordingStartedWithBackCamera {
+                        layerInstruction.setTransform(assetVideoTrack.preferredTransform, at: insertTime)
+                    } else {
+                        let theRatio = frontCameraResolution.height / backCameraResolution.height
+                        var transform: CGAffineTransform = CGAffineTransform(scaleX: theRatio, y: theRatio)
+                        transform = transform.translatedBy(x: UIScreen.main.nativeBounds.size.height - (UIScreen.main.nativeBounds.size.height - assetVideoTrack.preferredTransform.tx), y: 0)
+                        transform = transform.rotated(by: CGFloat(Double.pi/2))
+                        layerInstruction.setTransform(transform, at: insertTime)
+                    }
+                } else { // Video recorded with front camera
+                    if isRecordingStartedWithBackCamera {
+                        let theRatio = backCameraResolution.height / frontCameraResolution.height
+                        var transform: CGAffineTransform = CGAffineTransform(scaleX: -theRatio, y: theRatio)
+                        transform = transform.rotated(by: CGFloat(Double.pi/2))
+                        layerInstruction.setTransform(transform, at: insertTime)
+                    } else {
+                        var transform: CGAffineTransform = CGAffineTransform(scaleX: -1.0, y: 1.0)
+                        transform = transform.rotated(by: CGFloat(Double.pi/2))
+                        layerInstruction.setTransform(transform, at: insertTime)
+                    }
+                }
+                
+               videoInstruction.layerInstructions = [layerInstruction]
+               arrInstructions.append(videoInstruction)
             }
             
             insertTime = insertTime + sourceAsset.duration
@@ -336,11 +369,16 @@ public class VideoGenerator: NSObject {
           }
         }
         
+        videoComposition.renderSize = CGSize(width: videoTrack.naturalSize.height, height: videoTrack.naturalSize.width)
+        videoComposition.frameDuration = CMTimeMake(1, 30) // 30 fps
+        videoComposition.instructions = arrInstructions
+        
         /// try to start an export session and set the path and file type
         if let exportSession = AVAssetExportSession(asset: composition, presetName: AVAssetExportPresetHighestQuality) {
           exportSession.outputURL = completeMoviePath
           exportSession.outputFileType = AVFileType.mp4
           exportSession.shouldOptimizeForNetworkUse = true
+          exportSession.videoComposition = videoComposition
           
           /// try to export the file and handle the status cases
           exportSession.exportAsynchronously(completionHandler: {
@@ -804,7 +842,7 @@ public class VideoGenerator: NSObject {
               let videoCompositionProps = [AVVideoAverageBitRateKey: assetVideoTrack.estimatedDataRate]
               /// create the basic video settings
               let videoSettings: [String : Any] = [
-                AVVideoCodecKey  : AVVideoCodecH264,
+                AVVideoCodecKey  : AVVideoCodecType.h264,
                 AVVideoWidthKey  : videoSize.width,
                 AVVideoHeightKey : videoSize.height,
                 AVVideoCompressionPropertiesKey: videoCompositionProps
@@ -1155,3 +1193,5 @@ public class VideoGenerator: NSObject {
     }
   }
 }
+
+

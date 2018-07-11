@@ -19,6 +19,14 @@ extension AVAsset {
       
       let t = videoTrack.preferredTransform
       
+      // front
+        //  - a : 0.0
+        //- b : 1.0
+        //- c : -1.0
+        //- d : 0.0
+        //- tx : 720.0
+        //- ty : 0.0
+        
       if (t.a == 0 && t.b == 1.0 && t.d == 0) {
         orientation = .portrait
         
@@ -27,6 +35,7 @@ extension AVAsset {
         } else if t.c == -1.0 {
           device = .back
         }
+        
       }
       else if (t.a == 0 && t.b == -1.0 && t.d == 0) {
         orientation = .portraitUpsideDown

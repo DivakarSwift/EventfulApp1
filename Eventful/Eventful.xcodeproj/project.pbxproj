@@ -121,6 +121,15 @@
 		07D923A81F33C61D0069613D /* Storyboard+Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D923A71F33C61D0069613D /* Storyboard+Utility.swift */; };
 		07E271B62056354F007F0592 /* NotifBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E271B52056354F007F0592 /* NotifBannerView.swift */; };
 		07EDACA820F2F07200585EF0 /* ContactUsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EDACA720F2F07200585EF0 /* ContactUsVC.swift */; };
+		07EDACAD20F2F43100585EF0 /* TipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EDACA920F2F43100585EF0 /* TipView.swift */; };
+		07EDACAE20F2F43100585EF0 /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EDACAA20F2F43100585EF0 /* MessageView.swift */; };
+		07EDACAF20F2F43100585EF0 /* TipViewTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EDACAB20F2F43100585EF0 /* TipViewTransition.swift */; };
+		07EDACB020F2F43100585EF0 /* AnchorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EDACAC20F2F43100585EF0 /* AnchorView.swift */; };
+		07EDACB320F2F54B00585EF0 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EDACB220F2F54B00585EF0 /* Constants.swift */; };
+		07EDACB920F5B4AB00585EF0 /* ImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EDACB520F5B4AA00585EF0 /* ImageExtension.swift */; };
+		07EDACBA20F5B4AB00585EF0 /* VideoGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EDACB620F5B4AA00585EF0 /* VideoGenerator.swift */; };
+		07EDACBB20F5B4AB00585EF0 /* VideoGeneratorError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EDACB720F5B4AA00585EF0 /* VideoGeneratorError.swift */; };
+		07EDACBC20F5B4AB00585EF0 /* AVAssetExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EDACB820F5B4AB00585EF0 /* AVAssetExtension.swift */; };
 		07F3EC591F4A57C3005296EB /* PostService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F3EC581F4A57C3005296EB /* PostService.swift */; };
 		07F3EC5E1F4B7B28005296EB /* StoryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F3EC5D1F4B7B28005296EB /* StoryService.swift */; };
 		07F3EC601F4B7BE9005296EB /* Story.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F3EC5F1F4B7BE9005296EB /* Story.swift */; };
@@ -249,6 +258,15 @@
 		07D923A71F33C61D0069613D /* Storyboard+Utility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Storyboard+Utility.swift"; path = "Extensions/Storyboard+Utility.swift"; sourceTree = "<group>"; };
 		07E271B52056354F007F0592 /* NotifBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NotifBannerView.swift; path = Controllers/Notifications/NotifBannerView.swift; sourceTree = "<group>"; };
 		07EDACA720F2F07200585EF0 /* ContactUsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContactUsVC.swift; path = Controllers/Settings/ContactUsVC.swift; sourceTree = "<group>"; };
+		07EDACA920F2F43100585EF0 /* TipView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TipView.swift; path = TipViewSource/TipView.swift; sourceTree = "<group>"; };
+		07EDACAA20F2F43100585EF0 /* MessageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessageView.swift; path = TipViewSource/MessageView.swift; sourceTree = "<group>"; };
+		07EDACAB20F2F43100585EF0 /* TipViewTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TipViewTransition.swift; path = TipViewSource/TipViewTransition.swift; sourceTree = "<group>"; };
+		07EDACAC20F2F43100585EF0 /* AnchorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AnchorView.swift; path = TipViewSource/AnchorView.swift; sourceTree = "<group>"; };
+		07EDACB220F2F54B00585EF0 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Constants.swift; path = Extensions/Constants.swift; sourceTree = "<group>"; };
+		07EDACB520F5B4AA00585EF0 /* ImageExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageExtension.swift; path = SwiftVideoGenerator/ImageExtension.swift; sourceTree = "<group>"; };
+		07EDACB620F5B4AA00585EF0 /* VideoGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VideoGenerator.swift; path = SwiftVideoGenerator/VideoGenerator.swift; sourceTree = "<group>"; };
+		07EDACB720F5B4AA00585EF0 /* VideoGeneratorError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VideoGeneratorError.swift; path = SwiftVideoGenerator/VideoGeneratorError.swift; sourceTree = "<group>"; };
+		07EDACB820F5B4AB00585EF0 /* AVAssetExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AVAssetExtension.swift; path = SwiftVideoGenerator/AVAssetExtension.swift; sourceTree = "<group>"; };
 		07F3EC581F4A57C3005296EB /* PostService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostService.swift; path = Services/PostService.swift; sourceTree = "<group>"; };
 		07F3EC5D1F4B7B28005296EB /* StoryService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StoryService.swift; path = Services/StoryService.swift; sourceTree = "<group>"; };
 		07F3EC5F1F4B7BE9005296EB /* Story.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Story.swift; path = Models/Story.swift; sourceTree = "<group>"; };
@@ -368,6 +386,7 @@
 		07437F181F267CA900CE728B /* Eventful */ = {
 			isa = PBXGroup;
 			children = (
+				07EDACB420F5B46C00585EF0 /* SwiftVideoGenerator */,
 				074BE9E72028969C001231B9 /* Eventful.entitlements */,
 				07437F191F267CA900CE728B /* AppDelegate.swift */,
 				07437F421F290F6800CE728B /* Models */,
@@ -384,6 +403,7 @@
 		07437F2D1F267E1D00CE728B /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				07EDACB120F2F43B00585EF0 /* TipVIew */,
 				073A3D8720E271810045024D /* Fonts */,
 				07C15E4A20C112660046D8BC /* FriendRequest */,
 				07D26E0520B11723001110AC /* AppleCamera */,
@@ -413,6 +433,7 @@
 				0747AA2E20375E6500F725C7 /* Storage.swift */,
 				07437F3C1F28D4C500CE728B /* Extensions.swift */,
 				07D923A71F33C61D0069613D /* Storyboard+Utility.swift */,
+				07EDACB220F2F54B00585EF0 /* Constants.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -571,6 +592,28 @@
 				07C15E2320B7DA920046D8BC /* Private.swift */,
 			);
 			name = Settings;
+			sourceTree = "<group>";
+		};
+		07EDACB120F2F43B00585EF0 /* TipVIew */ = {
+			isa = PBXGroup;
+			children = (
+				07EDACAB20F2F43100585EF0 /* TipViewTransition.swift */,
+				07EDACA920F2F43100585EF0 /* TipView.swift */,
+				07EDACAA20F2F43100585EF0 /* MessageView.swift */,
+				07EDACAC20F2F43100585EF0 /* AnchorView.swift */,
+			);
+			name = TipVIew;
+			sourceTree = "<group>";
+		};
+		07EDACB420F5B46C00585EF0 /* SwiftVideoGenerator */ = {
+			isa = PBXGroup;
+			children = (
+				07EDACB820F5B4AB00585EF0 /* AVAssetExtension.swift */,
+				07EDACB520F5B4AA00585EF0 /* ImageExtension.swift */,
+				07EDACB620F5B4AA00585EF0 /* VideoGenerator.swift */,
+				07EDACB720F5B4AA00585EF0 /* VideoGeneratorError.swift */,
+			);
+			name = SwiftVideoGenerator;
 			sourceTree = "<group>";
 		};
 		07F3EC5C1F4B5B0C005296EB /* Stories */ = {
@@ -741,12 +784,17 @@
 				"${BUILT_PRODUCTS_DIR}/AlamofireNetworkActivityIndicator/AlamofireNetworkActivityIndicator.framework",
 				"${BUILT_PRODUCTS_DIR}/BPStatusBarAlert/BPStatusBarAlert.framework",
 				"${BUILT_PRODUCTS_DIR}/DTPagerController/DTPagerController.framework",
+				"${BUILT_PRODUCTS_DIR}/FCAlertView/FCAlertView.framework",
 				"${BUILT_PRODUCTS_DIR}/FaceAware/FaceAware.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
-				"${BUILT_PRODUCTS_DIR}/GeoFire/GeoFire.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/IGListKit/IGListKit.framework",
 				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
+				"${PODS_ROOT}/Instabug/Instabug.framework",
+				"${PODS_ROOT}/Instabug/InstabugCore.framework",
+				"${BUILT_PRODUCTS_DIR}/InstantSearch/InstantSearch.framework",
+				"${BUILT_PRODUCTS_DIR}/InstantSearchClient/InstantSearchClient.framework",
+				"${BUILT_PRODUCTS_DIR}/InstantSearchCore/InstantSearchCore.framework",
 				"${BUILT_PRODUCTS_DIR}/JTAppleCalendar/JTAppleCalendar.framework",
 				"${BUILT_PRODUCTS_DIR}/MarqueeLabel/MarqueeLabel.framework",
 				"${BUILT_PRODUCTS_DIR}/NotificationBannerSwift/NotificationBannerSwift.framework",
@@ -758,7 +806,6 @@
 				"${BUILT_PRODUCTS_DIR}/SimpleImageViewer/SimpleImageViewer.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftLocation/SwiftLocation.framework",
-				"${BUILT_PRODUCTS_DIR}/SwiftVideoGenerator/SwiftVideoGenerator.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyCam/SwiftyCam.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 				"${BUILT_PRODUCTS_DIR}/SwipeCellKit/SwipeCellKit.framework",
@@ -774,12 +821,17 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireNetworkActivityIndicator.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BPStatusBarAlert.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DTPagerController.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FCAlertView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FaceAware.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GeoFire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IGListKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Instabug.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/InstabugCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/InstantSearch.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/InstantSearchClient.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/InstantSearchCore.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JTAppleCalendar.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MarqueeLabel.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NotificationBannerSwift.framework",
@@ -791,7 +843,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SimpleImageViewer.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftLocation.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftVideoGenerator.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyCam.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwipeCellKit.framework",
@@ -852,6 +903,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				07EDACBB20F5B4AB00585EF0 /* VideoGeneratorError.swift in Sources */,
 				07487148208454AA0024635C /* CalendarViewController.swift in Sources */,
 				0747AA2A20375E2A00F725C7 /* StoriesViewController.swift in Sources */,
 				07C15E3C20C10D550046D8BC /* FollowerCell.swift in Sources */,
@@ -862,6 +914,7 @@
 				072473212078692600DD285E /* SearchPlacesCell.swift in Sources */,
 				07C15E2820BA5F6B0046D8BC /* FriendService.swift in Sources */,
 				07437F3D1F28D4C500CE728B /* Extensions.swift in Sources */,
+				07EDACAD20F2F43100585EF0 /* TipView.swift in Sources */,
 				0747AA3320375E7F00F725C7 /* EventService.swift in Sources */,
 				0704C7702062BB7C00C9E35A /* CategoryEventCell.swift in Sources */,
 				07C15E6020D227D00046D8BC /* NewProfileVC.swift in Sources */,
@@ -884,6 +937,7 @@
 				07D923A81F33C61D0069613D /* Storyboard+Utility.swift in Sources */,
 				0741702C20468A1F006B236B /* NotificationCell.swift in Sources */,
 				0741702E20474D12006B236B /* NotificationSectionController.swift in Sources */,
+				07EDACAF20F2F43100585EF0 /* TipViewTransition.swift in Sources */,
 				0724731A2072D48800DD285E /* SideMenu.swift in Sources */,
 				0747AA0320375D5E00F725C7 /* SettingsViewController.swift in Sources */,
 				07FF92CB1F3B925800FC9716 /* ChatService.swift in Sources */,
@@ -895,10 +949,12 @@
 				0747AA2820375E2A00F725C7 /* CameraController.swift in Sources */,
 				0747AA2D20375E4400F725C7 /* StroyCell.swift in Sources */,
 				073A3D8620E1F9FB0045024D /* LeftPaddedTextField.swift in Sources */,
+				07EDACB320F2F54B00585EF0 /* Constants.swift in Sources */,
 				0738DD391F3DC1340093F51B /* CustomImageView.swift in Sources */,
 				0747AA1920375D8500F725C7 /* CommentsSpinner.swift in Sources */,
 				07437F1A1F267CA900CE728B /* AppDelegate.swift in Sources */,
 				0704C7742062DC4300C9E35A /* EventSectionHeader.swift in Sources */,
+				07EDACB020F2F43100585EF0 /* AnchorView.swift in Sources */,
 				0747A9E120375C9500F725C7 /* ForgotPasswordViewController.swift in Sources */,
 				0748714C20845C320024635C /* BaseCell.swift in Sources */,
 				07C15E5A20C5A5BF0046D8BC /* ShareViewController.swift in Sources */,
@@ -911,6 +967,7 @@
 				0747AA0A20375D6E00F725C7 /* EventDetailViewController.swift in Sources */,
 				0747AA1420375D8500F725C7 /* CommentsSectionController.swift in Sources */,
 				071C9E101F415E680021D5A3 /* AttendService.swift in Sources */,
+				07EDACAE20F2F43100585EF0 /* MessageView.swift in Sources */,
 				0747AA3A203779D900F725C7 /* Event.swift in Sources */,
 				0747AA0920375D6E00F725C7 /* EventPromoVideoPlayer.swift in Sources */,
 				0747A9E320375CD800F725C7 /* HomeViewController.swift in Sources */,
@@ -923,6 +980,7 @@
 				07C15E2620BA30670046D8BC /* SettingsService.swift in Sources */,
 				0747AA2920375E2A00F725C7 /* VideoViewController.swift in Sources */,
 				073A3DBB20E301450045024D /* UserCell.swift in Sources */,
+				07EDACB920F5B4AB00585EF0 /* ImageExtension.swift in Sources */,
 				07363FAF20AD20FB00CDE2C3 /* NewCameraController.swift in Sources */,
 				073A3D9F20E27D700045024D /* NewEventSearchCell.swift in Sources */,
 				0747A9F920375D2400F725C7 /* HomeFeedController.swift in Sources */,
@@ -939,12 +997,14 @@
 				07C15E2420B7DA920046D8BC /* Private.swift in Sources */,
 				073A3DBF20E314E90045024D /* StickyHeaderLayout.swift in Sources */,
 				073AFDC51F45E4FB009D4773 /* FollowService.swift in Sources */,
+				07EDACBA20F5B4AB00585EF0 /* VideoGenerator.swift in Sources */,
 				07C15E3D20C10D550046D8BC /* FollowingViewController.swift in Sources */,
 				0724731F2078562700DD285E /* PlacesSearchController.swift in Sources */,
 				07F3EC591F4A57C3005296EB /* PostService.swift in Sources */,
 				072473162072C34A00DD285E /* SideMenuCell.swift in Sources */,
 				0747A9FE20375D3B00F725C7 /* AlterProfileViewController.swift in Sources */,
 				07437F441F290F9F00CE728B /* User.swift in Sources */,
+				07EDACBC20F5B4AB00585EF0 /* AVAssetExtension.swift in Sources */,
 				0747AA3020375E6500F725C7 /* Storage.swift in Sources */,
 				0704C76E2062AFAC00C9E35A /* CategoryCell.swift in Sources */,
 				07417030204751DB006B236B /* NotificationService.swift in Sources */,

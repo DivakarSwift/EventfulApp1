@@ -12,9 +12,13 @@ import SnapKit
 class SideMenuHeader: UICollectionViewCell {
     var user: User? {
         didSet{
-            let imageURL = URL(string: (user?.profilePic)!)
-            self.profileImage.af_setImage(withURL: imageURL!)
-            self.nameLabel.text = user?.username
+            if let profilePic = User.current.profilePic, let username = User.current.username {
+                if let imageURL = URL(string: profilePic){
+                    self.profileImage.af_setImage(withURL: imageURL)
+                    self.nameLabel.text = username
+                }
+            }
+         
         }
     }
     

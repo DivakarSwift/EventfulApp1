@@ -21,7 +21,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
     var currentEvent : Event?{
         didSet{
             imageURL = URL(string: (currentEvent?.currentEventImage)!)
-
+            
             DispatchQueue.main.async {
                 self.currentEventImage.af_setImage(withURL: self.imageURL!, placeholderImage: nil, filter: nil, progress: nil, progressQueue: .main, imageTransition: .crossDissolve(0.5), runImageTransitionIfCached: false, completion: { (response) in
                     _ = response.result.value // UIImage Object
@@ -55,7 +55,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
     private var eventPromo = ""
     let titleView = UILabel()
     let camera = TempCameraViewController()
-
+    
     
     private let infoText: UILabel = {
         let infoText = UILabel()
@@ -84,7 +84,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         currentEvent.layer.masksToBounds = true
         let singleTap = UITapGestureRecognizer(target: self, action: #selector(handlePromoVid))
         singleTap.numberOfTapsRequired = 1
-
+        
         currentEvent.isUserInteractionEnabled = true
         currentEvent.addGestureRecognizer(singleTap)
         let doubleTap =  UITapGestureRecognizer(target: self, action: #selector(handleImageZoom))
@@ -104,8 +104,8 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         }
         let imageViewerController = ImageViewerController(configuration: configuration)
         present(imageViewerController, animated: true)
-
-
+        
+        
     }
     
     @objc func handlePromoVid(){
@@ -113,7 +113,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         let videoLauncher = extractedFunc(url)
         present(videoLauncher, animated: true, completion: nil)
     }
-
+    
     //wil be responsible for creating the address  label
     lazy var addressLabel : UILabel = {
         let currentAddressLabel = UILabel()
@@ -139,7 +139,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
             return
         }
         let geoCoder = CLGeocoder()
-   
+        
         let addressString = (currentEvent?.currentEventStreetAddress)! + ", "+(currentEvent?.currentEventCity)! +  ", "+(currentEvent?.currentEventState)! + " "+String(describing: currentZip)
         print(addressString)
         geoCoder.geocodeAddressString(addressString) { (placeMark, err) in
@@ -158,14 +158,14 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
                 let addressParse = (self.currentEvent?.currentEventStreetAddress)!.components(separatedBy: " ")
                 print(addressParse[0])
                 print(addressParse[1])
-                 print(addressParse[2])
+                print(addressParse[2])
                 let directionsRequest = "comgooglemaps-x-callback://" +
                     "?daddr=\(addressParse[0])+\(addressParse[1])+\(addressParse[2]),+\((self.currentEvent?.currentEventCity)!),+\((self.currentEvent?.currentEventState)!)+\(String(describing: currentZip))" +
                 "&x-success=sourceapp://?resume=true&x-source=Haipe"
                 
                 let directionsURL = URL(string: directionsRequest)!
                 UIApplication.shared.open(directionsURL, options: [:], completionHandler: nil)
-
+                
             } else {
                 print("Opening in Apple Map")
                 
@@ -179,7 +179,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
                 mapItem.name = addressString
                 mapItem.openInMaps(launchOptions: options)
             }
-//            print(currentPlaceMark)
+            //            print(currentPlaceMark)
         }
     }
     
@@ -238,11 +238,11 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         self.titleView.adjustsFontSizeToFitWidth = true
         
     }
-
+    
     @objc func handleAttend(){
         // 2
         attendingButton.isUserInteractionEnabled = false
-       
+        
         if (currentEvent?.isAttending)! {
             
             AttendService.setIsAttending(!((currentEvent?.isAttending)!), from: currentEvent) { [unowned self] (success) in
@@ -300,7 +300,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
                 self.currentEvent?.isAttending = false
                 self.attendingButton.setImage(#imageLiteral(resourceName: "icons8-walking-50").withRenderingMode(.alwaysOriginal), for: .normal)
                 self.attendingButton.setTitle("Not Attending", for: .normal)
-
+                
             }
         }) { (err) in
             print("Failed to check if attending", err)
@@ -323,7 +323,20 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
     }()
     
     @objc func beginAddToStory(){
-      //  camera.eventKey = self.eventKey
+        //  camera.eventKey = self.eventKey
+        //Animation 1
+        let transition = CATransition()
+        transition.duration = 0.4
+        transition.type = kCATransitionPush
+        transition.subtype = kCATransitionFromBottom
+        view.window!.layer.add(transition, forKey: kCATransition)
+        //Animation 2
+        //        let transition = CATransition()
+        //        transition.duration = 0.5
+        //        transition.type = kCATransitionPush
+        //        transition.subtype = kCATransitionFromRight
+        //        transition.timingFunction = CAMediaTimingFunction(name:kCAMediaTimingFunctionEaseInEaseOut)
+        //        view.window!.layer.add(transition, forKey: kCATransition)
         present(camera, animated: false, completion: nil)
     }
     
@@ -338,8 +351,8 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         viewStoryButton.backgroundColor = UIColor.rgb(red: 44, green: 152, blue: 229)
         viewStoryButton.layer.borderWidth = 0.1
         viewStoryButton.layer.borderColor = UIColor.clear.cgColor
-//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleViewStory))
-//        viewStoryButton.addGestureRecognizer(tapGesture)
+        //        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleViewStory))
+        //        viewStoryButton.addGestureRecognizer(tapGesture)
         return viewStoryButton
     }()
     
@@ -358,8 +371,8 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
             print(start)
             print(end)
         }
-
-       setupVc()
+        
+        setupVc()
     }
     @objc func GoBack(){
         print("BACK TAPPED")
@@ -376,102 +389,102 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
     
     @objc func setupVc(){
         self.navigationController?.navigationBar.isTranslucent = false
-
-    let backButton = UIBarButtonItem(image: UIImage(named: "icons8-Back-64"), style: .plain, target: self, action: #selector(GoBack))
         
-    let shareButton = UIBarButtonItem(image: UIImage(named: "icons8-upload-50")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(shareWithFollowers))
-    self.navigationItem.leftBarButtonItem = backButton
-    self.navigationItem.rightBarButtonItem = shareButton
-
+        let backButton = UIBarButtonItem(image: UIImage(named: "icons8-Back-64"), style: .plain, target: self, action: #selector(GoBack))
         
-    view.backgroundColor = .white
-    
-    scrollView.contentInsetAdjustmentBehavior = .never
-    scrollView.delegate = self
-    scrollView.showsVerticalScrollIndicator = false
-    
-    let imageContainer = UIView()
-    imageContainer.backgroundColor = UIColor.rgb(red: 245, green: 255, blue: 250)
-    
-    textContainer.backgroundColor = .clear
-    
-    let textBacking = UIView()
-    textBacking.backgroundColor = .white
-    
+        let shareButton = UIBarButtonItem(image: UIImage(named: "icons8-upload-50")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(shareWithFollowers))
+        self.navigationItem.leftBarButtonItem = backButton
+        self.navigationItem.rightBarButtonItem = shareButton
         
-    userInteractStackView = UIStackView(arrangedSubviews: [commentsViewButton, attendingButton])
+        
+        view.backgroundColor = .white
+        
+        scrollView.contentInsetAdjustmentBehavior = .never
+        scrollView.delegate = self
+        scrollView.showsVerticalScrollIndicator = false
+        
+        let imageContainer = UIView()
+        imageContainer.backgroundColor = UIColor.rgb(red: 245, green: 255, blue: 250)
+        
+        textContainer.backgroundColor = .clear
+        
+        let textBacking = UIView()
+        textBacking.backgroundColor = .white
+        
+        
+        userInteractStackView = UIStackView(arrangedSubviews: [commentsViewButton, attendingButton])
         userInteractStackView?.translatesAutoresizingMaskIntoConstraints = false
         userInteractStackView?.distribution = .fillEqually
         userInteractStackView?.axis = .horizontal
         userInteractStackView?.spacing = 5.0
         
-    userInteractStackView1 = UIStackView(arrangedSubviews: [addToStoryButton,viewStoryButton])
+        userInteractStackView1 = UIStackView(arrangedSubviews: [addToStoryButton,viewStoryButton])
         userInteractStackView1?.translatesAutoresizingMaskIntoConstraints = false
         userInteractStackView1?.distribution = .fillEqually
         userInteractStackView1?.axis = .horizontal
         userInteractStackView1?.spacing = 5.0
-
-
         
-    view.addSubview(scrollView)
-    
-    scrollView.addSubview(imageContainer)
-    scrollView.addSubview(textBacking)
-    scrollView.addSubview(textContainer)
-    scrollView.addSubview(currentEventImage)
-    
-//    textContainer.addSubview(eventNameLabel)
-    textContainer.addSubview(addressLabel)
-    textContainer.addSubview(currentEventDate)
-    textContainer.addSubview(LocationMarkerViewButton)
-    textContainer.addSubview(infoText)
-    textContainer.addSubview(userInteractStackView!)
-    textContainer.addSubview(userInteractStackView1!)
-    scrollView.snp.makeConstraints {
-    make in
-    
-    make.edges.equalTo(view.safeAreaLayoutGuide)
-    }
-    
-    imageContainer.snp.makeConstraints {
-    make in
-    
-    make.top.equalTo(scrollView)
-    make.left.right.equalTo(view)
-    make.height.equalTo(imageContainer.snp.width).multipliedBy(1.3)
-    }
-    
-    currentEventImage.snp.makeConstraints {
-    make in
-    
-    make.left.right.equalTo(imageContainer)
-    
-    //** Note the priorities
-    make.top.equalTo(view).priority(.high)
-    
-    //** We add a height constraint too
-    make.height.greaterThanOrEqualTo(imageContainer.snp.height).priority(.required)
-    
-    //** And keep the bottom constraint
-    make.bottom.equalTo(imageContainer.snp.bottom)
-    }
-    
-    textContainer.snp.makeConstraints {
-    make in
-    make.top.equalTo(imageContainer.snp.bottom)
-    make.left.right.equalTo(view)
-    make.bottom.equalTo(scrollView)
-    }
-    
-    textBacking.snp.makeConstraints {
-    make in
-    
-    make.left.right.equalTo(view)
-    make.top.equalTo(textContainer)
-    make.bottom.equalTo(view)
-    }
         
-    LocationMarkerViewButton.snp.makeConstraints { (make) in
+        
+        view.addSubview(scrollView)
+        
+        scrollView.addSubview(imageContainer)
+        scrollView.addSubview(textBacking)
+        scrollView.addSubview(textContainer)
+        scrollView.addSubview(currentEventImage)
+        
+        //    textContainer.addSubview(eventNameLabel)
+        textContainer.addSubview(addressLabel)
+        textContainer.addSubview(currentEventDate)
+        textContainer.addSubview(LocationMarkerViewButton)
+        textContainer.addSubview(infoText)
+        textContainer.addSubview(userInteractStackView!)
+        textContainer.addSubview(userInteractStackView1!)
+        scrollView.snp.makeConstraints {
+            make in
+            
+            make.edges.equalTo(view.safeAreaLayoutGuide)
+        }
+        
+        imageContainer.snp.makeConstraints {
+            make in
+            
+            make.top.equalTo(scrollView)
+            make.left.right.equalTo(view)
+            make.height.equalTo(imageContainer.snp.width).multipliedBy(1.3)
+        }
+        
+        currentEventImage.snp.makeConstraints {
+            make in
+            
+            make.left.right.equalTo(imageContainer)
+            
+            //** Note the priorities
+            make.top.equalTo(view).priority(.high)
+            
+            //** We add a height constraint too
+            make.height.greaterThanOrEqualTo(imageContainer.snp.height).priority(.required)
+            
+            //** And keep the bottom constraint
+            make.bottom.equalTo(imageContainer.snp.bottom)
+        }
+        
+        textContainer.snp.makeConstraints {
+            make in
+            make.top.equalTo(imageContainer.snp.bottom)
+            make.left.right.equalTo(view)
+            make.bottom.equalTo(scrollView)
+        }
+        
+        textBacking.snp.makeConstraints {
+            make in
+            
+            make.left.right.equalTo(view)
+            make.top.equalTo(textContainer)
+            make.bottom.equalTo(view)
+        }
+        
+        LocationMarkerViewButton.snp.makeConstraints { (make) in
             make.top.equalTo(textContainer.snp.top).offset(9)
             make.left.equalTo(textContainer.snp.left)
         }
@@ -479,17 +492,17 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
             make.top.equalTo(textContainer.snp.top)
             make.right.equalTo(textContainer).inset(5)
         }
-    addressLabel.snp.makeConstraints { (make) in
+        addressLabel.snp.makeConstraints { (make) in
             make.top.equalTo(textContainer.snp.top).offset(5)
             make.left.equalTo(LocationMarkerViewButton.snp.right).offset(1.5)
         }
         
-    infoText.snp.makeConstraints {
-    make in
-        make.top.equalTo(addressLabel.snp.bottom).offset(20)
-        make.left.right.equalTo(textContainer).inset(10)
-    }
-    
+        infoText.snp.makeConstraints {
+            make in
+            make.top.equalTo(addressLabel.snp.bottom).offset(20)
+            make.left.right.equalTo(textContainer).inset(10)
+        }
+        
         userInteractStackView?.snp.makeConstraints { (make) in
             make.top.equalTo(infoText.snp.bottom).offset(30)
             make.height.equalTo(40)
@@ -506,7 +519,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-
+        
         scrollView.scrollIndicatorInsets = view.safeAreaInsets
         scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: view.safeAreaInsets.bottom, right: 0)
     }
@@ -530,7 +543,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
     }
     
     //MARK: - Date Componets
-
+    
     fileprivate func getDayAndMonthFromEvent(_ event:Event) -> (String, String) {
         let apiDateFormat = "MM/dd/yyyy"
         let df = DateFormatter()
@@ -543,6 +556,6 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         return (dayElement, monthElement)
     }
     
-
- 
+    
+    
 }

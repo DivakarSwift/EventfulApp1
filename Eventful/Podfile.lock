@@ -108,7 +108,6 @@ PODS:
   - SVProgressHUD (2.2.5)
   - SwiftLocation (3.2.3):
     - SwiftyJSON (~> 4.0.0-alpha.1)
-  - SwiftVideoGenerator (1.1.6)
   - SwiftyCam (2.7.0)
   - SwiftyJSON (4.0.0)
   - SwipeCellKit (2.4.3)
@@ -148,7 +147,6 @@ DEPENDENCIES:
   - SimpleImageViewer (~> 1.1.1)
   - SVProgressHUD
   - SwiftLocation
-  - SwiftVideoGenerator
   - SwiftyCam (from `https://github.com/Awalz/SwiftyCam.git`, branch `Swift4`)
   - SwiftyJSON
   - SwipeCellKit (from `https://github.com/SwipeCellKit/SwipeCellKit.git`, branch `master`)
@@ -231,13 +229,12 @@ SPEC CHECKSUMS:
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   SwiftLocation: a3c3bc2023118171ef3572188a31def94aa0892c
-  SwiftVideoGenerator: cc01213d03fcea0fd030c05a3b504a3883109e55
   SwiftyCam: 7c826b73a5b208677aee29390582c771bf748661
   SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
   SwipeCellKit: cee9906e6d3a36e22ad1a852fba7f8fa0839d113
   TextFieldEffects: 4ee41b5216e674d55fb6ac25107bf1af7629176f
   XLActionController: 007868251c0eed70d649d06c1625259b73b3a600
 
-PODFILE CHECKSUM: e751ea4f34e7745a103f1e350745a41d736800cb
+PODFILE CHECKSUM: ab6d9830a7e66aeebb947728d71874f89ed79a11
 
 COCOAPODS: 1.4.0
