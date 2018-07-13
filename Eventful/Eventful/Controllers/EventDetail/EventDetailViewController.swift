@@ -119,7 +119,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         let currentAddressLabel = UILabel()
         currentAddressLabel.numberOfLines = 0
         currentAddressLabel.textColor = UIColor.lightGray
-        currentAddressLabel.font = UIFont(name:"GillSans", size: 13.0)
+        currentAddressLabel.font = UIFont(name:"GillSans", size: 16.0)
         currentAddressLabel.isUserInteractionEnabled = true
         currentAddressLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(openMaps)))
         return currentAddressLabel
@@ -485,7 +485,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         }
         
         LocationMarkerViewButton.snp.makeConstraints { (make) in
-            make.top.equalTo(textContainer.snp.top).offset(9)
+            make.top.equalTo(textContainer.snp.top).offset(5)
             make.left.equalTo(textContainer.snp.left)
         }
         currentEventDate.snp.makeConstraints { (make) in
@@ -493,8 +493,8 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
             make.right.equalTo(textContainer).inset(5)
         }
         addressLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(textContainer.snp.top).offset(5)
-            make.left.equalTo(LocationMarkerViewButton.snp.right).offset(1.5)
+            make.top.equalTo(textContainer.snp.top).offset(7)
+            make.left.equalTo(LocationMarkerViewButton.snp.right).offset(2.5)
         }
         
         infoText.snp.makeConstraints {

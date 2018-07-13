@@ -8,6 +8,7 @@ PODS:
   - Crashlytics (3.10.3):
     - Fabric (~> 1.7.8)
   - DTPagerController (2.0.1)
+  - Eureka (4.2.0)
   - Fabric (1.7.8)
   - FaceAware (1.4.0)
   - FCAlertView (1.4.0)
@@ -74,6 +75,8 @@ PODS:
   - IGListKit/Default (3.4.0):
     - IGListKit/Diffing
   - IGListKit/Diffing (3.4.0)
+  - ImageRow (3.1.0):
+    - Eureka (~> 4.0)
   - Instabug (8.0.2):
     - Instabug/Instabug (= 8.0.2)
     - Instabug/InstabugCore (= 8.0.2)
@@ -112,6 +115,8 @@ PODS:
   - SwiftyJSON (4.0.0)
   - SwipeCellKit (2.4.3)
   - TextFieldEffects (1.4.0)
+  - ViewRow (0.3.0):
+    - Eureka (>= 4.0.0)
   - XLActionController/Core (4.0.1)
   - XLActionController/Twitter (4.0.1):
     - XLActionController/Core
@@ -123,6 +128,7 @@ DEPENDENCIES:
   - BPStatusBarAlert
   - Crashlytics
   - DTPagerController
+  - Eureka
   - Fabric
   - FaceAware
   - FCAlertView
@@ -136,6 +142,7 @@ DEPENDENCIES:
   - GooglePlacePicker
   - GooglePlaces
   - IGListKit (from `https://github.com/Instagram/IGListKit.git`, branch `master`)
+  - ImageRow (~> 3.0)
   - Instabug
   - InstantSearch
   - IQKeyboardManagerSwift
@@ -151,6 +158,7 @@ DEPENDENCIES:
   - SwiftyJSON
   - SwipeCellKit (from `https://github.com/SwipeCellKit/SwipeCellKit.git`, branch `master`)
   - TextFieldEffects
+  - ViewRow (from `https://github.com/EurekaCommunity/ViewRow`)
   - XLActionController/Twitter
 
 EXTERNAL SOURCES:
@@ -168,6 +176,8 @@ EXTERNAL SOURCES:
   SwipeCellKit:
     :branch: master
     :git: https://github.com/SwipeCellKit/SwipeCellKit.git
+  ViewRow:
+    :git: https://github.com/EurekaCommunity/ViewRow
 
 CHECKOUT OPTIONS:
   GeoFire:
@@ -185,6 +195,9 @@ CHECKOUT OPTIONS:
   SwipeCellKit:
     :commit: f8a53daa475770a05fa64cef4d42fb5b4362f32c
     :git: https://github.com/SwipeCellKit/SwipeCellKit.git
+  ViewRow:
+    :commit: 5f8816fa17af881048b8fe881df329e193c28f93
+    :git: https://github.com/EurekaCommunity/ViewRow
 
 SPEC CHECKSUMS:
   Alamofire: e4fa87002c137ba2d8d634d2c51fabcda0d5c223
@@ -193,6 +206,7 @@ SPEC CHECKSUMS:
   BPStatusBarAlert: 0bc567e3a0f740189239f49c6c516bd61cb3c758
   Crashlytics: 2aea305161a2122492698c75af27f2b98aa49a25
   DTPagerController: 4b4bb13ebe2e462f11416778ddc9fb09e9cf80fe
+  Eureka: 0748c7bbb2560130e43c7bfa83e99c98854a1f42
   Fabric: fba4684a95df789565b0b27fc5b6e68f1755af32
   FaceAware: 94410295a219c4a397ce525eab0063d6b17258aa
   FCAlertView: fdddd63381898c1d1a5a20c9f084fbd2c6d12f8b
@@ -211,6 +225,7 @@ SPEC CHECKSUMS:
   GoogleToolboxForMac: 91c824d21e85b31c2aae9bb011c5027c9b4e738f
   GTMSessionFetcher: 5fa5b80fd20e439ef5f545fb2cb3ca6c6714caa2
   IGListKit: 7a5d788e9fb746bcd402baa8e8b24bc3bd2a5a07
+  ImageRow: 1ea483078bfa3d880a7fc76fdfcddfd5f29a9e6b
   Instabug: 4035e184559739a81139a9378649eb3d1e54a772
   InstantSearch: 4e30463b32cb9782a8210fd6fc8559ce05cdb077
   InstantSearchClient: 2b70bd14817d5c35cfb1e8b65b7801b3cbd2f537
@@ -233,8 +248,9 @@ SPEC CHECKSUMS:
   SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
   SwipeCellKit: cee9906e6d3a36e22ad1a852fba7f8fa0839d113
   TextFieldEffects: 4ee41b5216e674d55fb6ac25107bf1af7629176f
+  ViewRow: e278428ff53da5eab18b191d3e19a16f3e299fc1
   XLActionController: 007868251c0eed70d649d06c1625259b73b3a600
 
-PODFILE CHECKSUM: ab6d9830a7e66aeebb947728d71874f89ed79a11
+PODFILE CHECKSUM: 3c2283a74528395d141d3806bc2de1be9e9fffd0
 
 COCOAPODS: 1.4.0

@@ -18,7 +18,7 @@ class ContactUsVC: UIViewController {
         label.adjustsFontForContentSizeCategory = true
         label.numberOfLines = 0
         label.textAlignment = .justified
-        label.text = "At Haipe we love to hear from our users, so take the time out to contact us. Tell us what you like about the app. Tell us what you don't like about the app, so we can continously improve how you discover and conect with events.To report anything to us at all just shake your phone and select from the menu of options\n\n -Thanks Haipe "
+        label.text = "At Haipe we love to hear from our users, so take the time out to contact us. Tell us what you like about the app. Tell us what you don't like about the app, so we can continously improve how you discover and connect with events.To report anything to us at all just shake your phone and select from the menu of options or you can email us directly by clicking the button below.\n\n -Thanks Haipe "
         return label
     }()
     

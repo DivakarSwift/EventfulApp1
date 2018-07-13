@@ -15,7 +15,7 @@ class SettingsViewController: UITableViewController {
     let settingsCell = "settingsCell"
     let settingsCell2 = "settingsCell2"
     let settingsOptionsTwoDimArray = [["Logout"],["Make Profile Private"],["Privacy Policy"],
-                                      ["Contact Us"]
+                                      ["Contact Us"],["Submit an Event"]
     ]
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -83,6 +83,11 @@ class SettingsViewController: UITableViewController {
             print("Contact US Clicked")
             let contactVc = ContactUsVC()
             self.navigationController?.pushViewController(contactVc, animated: false)
+        }
+        if [indexPath.section][indexPath.row] == [4][0]{
+            print("Submit an Event Clicked")
+            let submit = submitEvent()
+            self.navigationController?.pushViewController(submit, animated: false)
         }
     }
 

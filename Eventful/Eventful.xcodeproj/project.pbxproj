@@ -130,6 +130,7 @@
 		07EDACBA20F5B4AB00585EF0 /* VideoGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EDACB620F5B4AA00585EF0 /* VideoGenerator.swift */; };
 		07EDACBB20F5B4AB00585EF0 /* VideoGeneratorError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EDACB720F5B4AA00585EF0 /* VideoGeneratorError.swift */; };
 		07EDACBC20F5B4AB00585EF0 /* AVAssetExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EDACB820F5B4AB00585EF0 /* AVAssetExtension.swift */; };
+		07EDACBE20F6E34300585EF0 /* SubmitEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EDACBD20F6E34300585EF0 /* SubmitEvent.swift */; };
 		07F3EC591F4A57C3005296EB /* PostService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F3EC581F4A57C3005296EB /* PostService.swift */; };
 		07F3EC5E1F4B7B28005296EB /* StoryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F3EC5D1F4B7B28005296EB /* StoryService.swift */; };
 		07F3EC601F4B7BE9005296EB /* Story.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F3EC5F1F4B7BE9005296EB /* Story.swift */; };
@@ -267,6 +268,7 @@
 		07EDACB620F5B4AA00585EF0 /* VideoGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VideoGenerator.swift; path = SwiftVideoGenerator/VideoGenerator.swift; sourceTree = "<group>"; };
 		07EDACB720F5B4AA00585EF0 /* VideoGeneratorError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VideoGeneratorError.swift; path = SwiftVideoGenerator/VideoGeneratorError.swift; sourceTree = "<group>"; };
 		07EDACB820F5B4AB00585EF0 /* AVAssetExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AVAssetExtension.swift; path = SwiftVideoGenerator/AVAssetExtension.swift; sourceTree = "<group>"; };
+		07EDACBD20F6E34300585EF0 /* SubmitEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SubmitEvent.swift; path = Controllers/Settings/SubmitEvent.swift; sourceTree = "<group>"; };
 		07F3EC581F4A57C3005296EB /* PostService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostService.swift; path = Services/PostService.swift; sourceTree = "<group>"; };
 		07F3EC5D1F4B7B28005296EB /* StoryService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StoryService.swift; path = Services/StoryService.swift; sourceTree = "<group>"; };
 		07F3EC5F1F4B7BE9005296EB /* Story.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Story.swift; path = Models/Story.swift; sourceTree = "<group>"; };
@@ -590,6 +592,7 @@
 				0747AA0220375D5E00F725C7 /* SettingsViewController.swift */,
 				07EDACA720F2F07200585EF0 /* ContactUsVC.swift */,
 				07C15E2320B7DA920046D8BC /* Private.swift */,
+				07EDACBD20F6E34300585EF0 /* SubmitEvent.swift */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -784,12 +787,14 @@
 				"${BUILT_PRODUCTS_DIR}/AlamofireNetworkActivityIndicator/AlamofireNetworkActivityIndicator.framework",
 				"${BUILT_PRODUCTS_DIR}/BPStatusBarAlert/BPStatusBarAlert.framework",
 				"${BUILT_PRODUCTS_DIR}/DTPagerController/DTPagerController.framework",
+				"${BUILT_PRODUCTS_DIR}/Eureka/Eureka.framework",
 				"${BUILT_PRODUCTS_DIR}/FCAlertView/FCAlertView.framework",
 				"${BUILT_PRODUCTS_DIR}/FaceAware/FaceAware.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/IGListKit/IGListKit.framework",
 				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/ImageRow/ImageRow.framework",
 				"${PODS_ROOT}/Instabug/Instabug.framework",
 				"${PODS_ROOT}/Instabug/InstabugCore.framework",
 				"${BUILT_PRODUCTS_DIR}/InstantSearch/InstantSearch.framework",
@@ -810,6 +815,7 @@
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 				"${BUILT_PRODUCTS_DIR}/SwipeCellKit/SwipeCellKit.framework",
 				"${BUILT_PRODUCTS_DIR}/TextFieldEffects/TextFieldEffects.framework",
+				"${BUILT_PRODUCTS_DIR}/ViewRow/ViewRow.framework",
 				"${BUILT_PRODUCTS_DIR}/XLActionController/XLActionController.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
@@ -821,12 +827,14 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireNetworkActivityIndicator.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BPStatusBarAlert.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DTPagerController.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Eureka.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FCAlertView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FaceAware.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IGListKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ImageRow.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Instabug.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/InstabugCore.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/InstantSearch.framework",
@@ -847,6 +855,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwipeCellKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TextFieldEffects.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ViewRow.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/XLActionController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
@@ -933,6 +942,7 @@
 				0747AA0B20375D6E00F725C7 /* VideoLauncher.swift in Sources */,
 				073A3DA120E2D2380045024D /* NewUserSearchCell.swift in Sources */,
 				07C15E6420D232460046D8BC /* NewUserEventAttendingCell.swift in Sources */,
+				07EDACBE20F6E34300585EF0 /* SubmitEvent.swift in Sources */,
 				0747A9F820375D2400F725C7 /* BaseRoundedCell.swift in Sources */,
 				07D923A81F33C61D0069613D /* Storyboard+Utility.swift in Sources */,
 				0741702C20468A1F006B236B /* NotificationCell.swift in Sources */,
