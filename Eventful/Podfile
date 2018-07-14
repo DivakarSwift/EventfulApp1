@@ -41,9 +41,7 @@ target 'Eventful' do
     pod 'FCAlertView'
     pod 'Instabug'
     pod 'InstantSearch'
-    pod 'ViewRow', :git => 'https://github.com/EurekaCommunity/ViewRow'
-    pod 'Eureka'
-    pod 'ImageRow', '~> 3.0'
+    pod 'AMPopTip'
     # Pods for Eventful
     
 end

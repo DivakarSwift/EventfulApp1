@@ -14,6 +14,7 @@ import GoogleMaps
 import CoreLocation
 import MapKit
 import SimpleImageViewer
+import AMPopTip
 
 
 class EventDetailViewController: UIViewController,UIScrollViewDelegate {
@@ -51,11 +52,23 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
     private let textContainer = UIView()
     private var userInteractStackView: UIStackView?
     private var userInteractStackView1: UIStackView?
+    private var tagStackView: UIStackView?
     private var eventKey = ""
     private var eventPromo = ""
     let titleView = UILabel()
     let camera = TempCameraViewController()
     
+    
+    
+    lazy var popTip: PopTip = {
+        let popTip = PopTip()
+        popTip.shouldDismissOnTap = true
+        popTip.shouldDismissOnTapOutside = true
+        popTip.edgeMargin = 5
+        popTip.edgeInsets = UIEdgeInsetsMake(0, 10, 0, 10)
+        popTip.bubbleColor = UIColor.rgb(red: 44, green: 152, blue: 229)
+        return popTip
+    }()
     
     private let infoText: UILabel = {
         let infoText = UILabel()
@@ -65,6 +78,23 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         infoText.numberOfLines = 0
         return infoText
     }()
+    
+    lazy var costImage: UIImageView = {
+       let costImage = UIImageView()
+        costImage.isUserInteractionEnabled = true
+        costImage.image = UIImage(named: "icons8-paper-money-40")
+        let singleTap = UITapGestureRecognizer(target: self, action: #selector(showPopTip))
+        singleTap.numberOfTapsRequired = 1
+        costImage.addGestureRecognizer(singleTap)
+        return costImage
+    }()
+    
+    @objc func showPopTip(){
+        if let price = currentEvent?.eventPrice{
+                  self.popTip.show(text: "$\(price)", direction: .up, maxWidth: 200, in: self.textContainer, from: self.costImage.frame)
+        }
+
+    }
     
     
     lazy var currentEventDate: UILabel = {
@@ -179,7 +209,6 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
                 mapItem.name = addressString
                 mapItem.openInMaps(launchOptions: options)
             }
-            //            print(currentPlaceMark)
         }
     }
     
@@ -323,20 +352,12 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
     }()
     
     @objc func beginAddToStory(){
-        //  camera.eventKey = self.eventKey
         //Animation 1
         let transition = CATransition()
         transition.duration = 0.4
         transition.type = kCATransitionPush
         transition.subtype = kCATransitionFromBottom
         view.window!.layer.add(transition, forKey: kCATransition)
-        //Animation 2
-        //        let transition = CATransition()
-        //        transition.duration = 0.5
-        //        transition.type = kCATransitionPush
-        //        transition.subtype = kCATransitionFromRight
-        //        transition.timingFunction = CAMediaTimingFunction(name:kCAMediaTimingFunctionEaseInEaseOut)
-        //        view.window!.layer.add(transition, forKey: kCATransition)
         present(camera, animated: false, completion: nil)
     }
     
@@ -424,8 +445,6 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         userInteractStackView1?.axis = .horizontal
         userInteractStackView1?.spacing = 5.0
         
-        
-        
         view.addSubview(scrollView)
         
         scrollView.addSubview(imageContainer)
@@ -433,10 +452,10 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         scrollView.addSubview(textContainer)
         scrollView.addSubview(currentEventImage)
         
-        //    textContainer.addSubview(eventNameLabel)
         textContainer.addSubview(addressLabel)
         textContainer.addSubview(currentEventDate)
         textContainer.addSubview(LocationMarkerViewButton)
+        textContainer.addSubview(costImage)
         textContainer.addSubview(infoText)
         textContainer.addSubview(userInteractStackView!)
         textContainer.addSubview(userInteractStackView1!)
@@ -485,11 +504,11 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         }
         
         LocationMarkerViewButton.snp.makeConstraints { (make) in
-            make.top.equalTo(textContainer.snp.top).offset(5)
+            make.top.equalTo(textContainer.snp.top).offset(10)
             make.left.equalTo(textContainer.snp.left)
         }
         currentEventDate.snp.makeConstraints { (make) in
-            make.top.equalTo(textContainer.snp.top)
+            make.top.equalTo(textContainer.snp.top).offset(7)
             make.right.equalTo(textContainer).inset(5)
         }
         addressLabel.snp.makeConstraints { (make) in
@@ -497,9 +516,16 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
             make.left.equalTo(LocationMarkerViewButton.snp.right).offset(2.5)
         }
         
+        costImage.snp.makeConstraints({ (make) in
+            make.top.equalTo(addressLabel.snp.bottom).offset(20)
+           make.height.width.equalTo(30)
+            make.left.equalTo(textContainer.snp.left).offset(10)
+
+        })
+        
         infoText.snp.makeConstraints {
             make in
-            make.top.equalTo(addressLabel.snp.bottom).offset(20)
+            make.top.equalTo(costImage.snp.bottom).offset(20)
             make.left.right.equalTo(textContainer).inset(10)
         }
         
