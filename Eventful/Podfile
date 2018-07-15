@@ -38,10 +38,10 @@ target 'Eventful' do
     pod 'SwipeCellKit',:git => 'https://github.com/SwipeCellKit/SwipeCellKit.git', :branch => 'master'
     pod 'ScrollableSegmentedControl', '~> 1.3.0'
     pod 'XLActionController/Twitter'
-    pod 'FCAlertView'
     pod 'Instabug'
     pod 'InstantSearch'
-    pod 'AMPopTip'
+    pod 'YNSearch'
+    pod 'AZDialogView'
     # Pods for Eventful
     
 end

@@ -11,9 +11,10 @@ import SnapKit
 import Firebase
 import Photos
 import FirebaseStorage
-import FCAlertView
+import AZDialogView
 
-class PreviewPhotoContainerView: UIView,FCAlertViewDelegate {
+
+class PreviewPhotoContainerView: UIView {
     var event: Event? {
         didSet{
             print("event set")
@@ -53,26 +54,64 @@ class PreviewPhotoContainerView: UIView,FCAlertViewDelegate {
     }()
     
     @objc func handleAdd(){
-        let alert = FCAlertView()
-        alert.colorScheme = UIColor(red: 44/255, green: 152/255, blue: 229/255, alpha: 1)
-        alert.cornerRadius = 4
-        alert.dismissOnOutsideTouch = true
-        alert.delegate = self
-        alert.hideDoneButton = true
-        if let currentEvent = event {
-            alert.showAlert(withTitle: "Add to The Haipe", withSubtitle: "Are you sure you want to add to the Haipe surrounding \(currentEvent.currentEventName.capitalized) with your photo?", withCustomImage: UIImage(named: "logoWithWords"), withDoneButtonTitle: nil, andButtons:  ["Add","Cancel"])
-        }
-    }
-    
-    
-    func fcAlertView(_ alertView: FCAlertView!, clickedButtonIndex index: Int, buttonTitle title: String!) {
-        if title == "Add" {
-            // Perform Action for Button 1
-            self.handleAddToStory()
+        if let currentEvent = event, let username = User.current.username {
+            let dialog = AZDialogViewController(title: "\(username)", message: "Are you sure you want to add to the Haipe surrounding the \(currentEvent.currentEventName.capitalized) with your photo?")
+            //set the title color
+            dialog.titleColor = .black
             
-        }else if title == "Cancel"{
-            // Perform Action for Button 2
-            alertView.dismiss()
+            //set the message color
+            dialog.messageColor = .black
+            
+            //set the dialog background color
+            dialog.alertBackgroundColor = .white
+            
+            //set the gesture dismiss direction
+            dialog.dismissDirection = .bottom
+            
+            //allow dismiss by touching the background
+            dialog.dismissWithOutsideTouch = true
+            //show seperator under the title
+            dialog.showSeparator = true
+            //set the seperator color
+            dialog.separatorColor = UIColor.rgb(red: 44, green: 152, blue: 229)
+            //enable/disable drag
+            dialog.allowDragGesture = true
+            //enable rubber (bounce) effect
+            dialog.rubberEnabled = true
+            //enable/disable backgroud blur
+            dialog.blurBackground = true
+            
+            //set the background blur style
+            dialog.blurEffectStyle = .prominent
+            dialog.imageHandler = { (imageView) in
+                imageView.image = UIImage(named: "appIcon")
+                imageView.contentMode = .scaleAspectFit
+                return true //must return true, otherwise image won't show.
+            }
+            dialog.addAction(AZDialogAction(title: "Add") { (dialog) -> (Void) in
+                //add your actions here.
+                self.handleAddToStory()
+                
+                dialog.dismiss()
+            })
+            
+            dialog.buttonStyle = { (button,height,position) in
+                button.setBackgroundImage(UIImage.from(color: UIColor.rgb(red: 44, green: 152, blue: 229)), for: .highlighted)
+                button.setTitleColor(UIColor.white, for: .highlighted)
+                button.setTitleColor(UIColor.rgb(red: 44, green: 152, blue: 229), for: .normal)
+                button.layer.masksToBounds = true
+                button.layer.borderColor = UIColor.rgb(red: 44, green: 152, blue: 229).cgColor
+            }
+            
+            dialog.cancelEnabled = true
+            
+            dialog.cancelButtonStyle = { (button,height) in
+                button.tintColor = UIColor.rgb(red: 44, green: 152, blue: 229)
+                button.setTitle("CANCEL", for: [])
+                return true //must return true, otherwise cancel button won't show.
+            }
+            
+            dialog.show(in: self.viewContainingController()!)
         }
     }
     

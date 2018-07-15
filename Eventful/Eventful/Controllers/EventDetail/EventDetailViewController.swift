@@ -14,7 +14,6 @@ import GoogleMaps
 import CoreLocation
 import MapKit
 import SimpleImageViewer
-import AMPopTip
 
 
 class EventDetailViewController: UIViewController,UIScrollViewDelegate {
@@ -45,6 +44,16 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
             setupAttendInteraction()
             titleView.text = currentEvent?.currentEventName.uppercased()
             camera.event = currentEvent
+            if let price = currentEvent?.eventPrice {
+                let formatter = NumberFormatter()
+                formatter.locale = Locale.current // Change this to another locale if you want to force a specific locale, otherwise this is redundant as the current locale is the default already
+                formatter.numberStyle = .currency
+                if let formattedTipAmount = formatter.string(from:                     NSNumber(value: Int(price)!)) {
+                    costLabel.text = "Cost: \(formattedTipAmount)"
+                }
+
+            }
+           
         }
     }
     private let scrollView = UIScrollView()
@@ -60,48 +69,32 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
     
     
     
-    lazy var popTip: PopTip = {
-        let popTip = PopTip()
-        popTip.shouldDismissOnTap = true
-        popTip.shouldDismissOnTapOutside = true
-        popTip.edgeMargin = 5
-        popTip.edgeInsets = UIEdgeInsetsMake(0, 10, 0, 10)
-        popTip.bubbleColor = UIColor.rgb(red: 44, green: 152, blue: 229)
-        return popTip
-    }()
+
     
     private let infoText: UILabel = {
         let infoText = UILabel()
         infoText.textColor = .black
         infoText.textAlignment = .natural
-        infoText.font = UIFont(name: "GillSans", size: 16.5)
+        infoText.font = UIFont.systemFont(ofSize: 16.5)
         infoText.numberOfLines = 0
         return infoText
     }()
     
-    lazy var costImage: UIImageView = {
-       let costImage = UIImageView()
-        costImage.isUserInteractionEnabled = true
-        costImage.image = UIImage(named: "icons8-paper-money-40")
-        let singleTap = UITapGestureRecognizer(target: self, action: #selector(showPopTip))
-        singleTap.numberOfTapsRequired = 1
-        costImage.addGestureRecognizer(singleTap)
-        return costImage
+     lazy var costLabel: UILabel = {
+        let costLabel = UILabel()
+        costLabel.textColor = .black
+        costLabel.textAlignment = .natural
+        costLabel.font = UIFont.boldSystemFont(ofSize: 15)
+        costLabel.numberOfLines = 0
+        return costLabel
     }()
-    
-    @objc func showPopTip(){
-        if let price = currentEvent?.eventPrice{
-                  self.popTip.show(text: "$\(price)", direction: .up, maxWidth: 200, in: self.textContainer, from: self.costImage.frame)
-        }
-
-    }
     
     
     lazy var currentEventDate: UILabel = {
         let currentEventDate = UILabel()
         currentEventDate.numberOfLines = 0
         currentEventDate.textAlignment = .center
-        currentEventDate.font = UIFont(name: "Futura-CondensedMedium", size: 15)
+        currentEventDate.font = UIFont.boldSystemFont(ofSize: 15)
         return currentEventDate
     }()
     
@@ -149,7 +142,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         let currentAddressLabel = UILabel()
         currentAddressLabel.numberOfLines = 0
         currentAddressLabel.textColor = UIColor.lightGray
-        currentAddressLabel.font = UIFont(name:"GillSans", size: 16.0)
+        currentAddressLabel.font = UIFont.boldSystemFont(ofSize: 16)
         currentAddressLabel.isUserInteractionEnabled = true
         currentAddressLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(openMaps)))
         return currentAddressLabel
@@ -263,7 +256,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         titleView.frame = CGRect(origin:CGPoint.zero, size:CGSize(width: width, height: 500))
         titleView.textAlignment = .center;
         self.navigationItem.titleView = titleView
-        self.titleView.font = UIFont(name: "Futura-CondensedMedium", size: 18)
+        self.titleView.font = UIFont.boldSystemFont(ofSize: 18)
         self.titleView.adjustsFontSizeToFitWidth = true
         
     }
@@ -455,7 +448,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         textContainer.addSubview(addressLabel)
         textContainer.addSubview(currentEventDate)
         textContainer.addSubview(LocationMarkerViewButton)
-        textContainer.addSubview(costImage)
+        textContainer.addSubview(costLabel)
         textContainer.addSubview(infoText)
         textContainer.addSubview(userInteractStackView!)
         textContainer.addSubview(userInteractStackView1!)
@@ -516,16 +509,16 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
             make.left.equalTo(LocationMarkerViewButton.snp.right).offset(2.5)
         }
         
-        costImage.snp.makeConstraints({ (make) in
-            make.top.equalTo(addressLabel.snp.bottom).offset(20)
-           make.height.width.equalTo(30)
-            make.left.equalTo(textContainer.snp.left).offset(10)
+        costLabel.snp.makeConstraints({ (make) in
+            make.top.equalTo(addressLabel.snp.bottom).offset(10)
+           make.height.equalTo(30)
+            make.left.right.equalTo(textContainer).inset(5)
 
         })
         
         infoText.snp.makeConstraints {
             make in
-            make.top.equalTo(costImage.snp.bottom).offset(20)
+            make.top.equalTo(costLabel.snp.bottom).offset(10)
             make.left.right.equalTo(textContainer).inset(10)
         }
         

@@ -174,6 +174,7 @@ class HomeFeedController: UICollectionViewController {
                 return
             }
             self.savedLocation = currentLocation
+            SVProgressHUD.show(withStatus: "Getting Events...")
             
             PostService.showEvent(cameFromeHomeFeed: true, for: currentLocation, completion: { [unowned self](events) in
                 
@@ -229,6 +230,7 @@ class HomeFeedController: UICollectionViewController {
             dispatchGroup.notify(queue: .main) {
                 // dismiss the revealing view
                 self.collectionView?.reloadData()
+                SVProgressHUD.dismiss()
                  NotificationCenter.default.post(name: heartAttackNotificationName, object: nil)
             }
             

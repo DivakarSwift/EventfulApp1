@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 import AVFoundation
 import RecordButton
+import SVProgressHUD
 
 var arrCameraPreferences = [String]()
 var backCameraResolution = CGSize.zero
@@ -1291,6 +1292,8 @@ extension TempCameraViewController: AVCaptureFileOutputRecordingDelegate{
         }
         
         if success {
+            SVProgressHUD.show(withStatus: "Processing Video")
+            SVProgressHUD.setDefaultMaskType(.gradient)
             print("************** THE BACK \(self.isBackCamera)")
             //arrCameraPreferences.append(self.isBackCamera)
             videoURLArr.append(outputFileURL)
@@ -1319,6 +1322,7 @@ extension TempCameraViewController: AVCaptureFileOutputRecordingDelegate{
                     let videoPlayBackVC = VideoViewController()
                     videoPlayBackVC.event = self.event
                     videoPlayBackVC.videoURL = videoURL
+                    SVProgressHUD.dismiss()
                     self.present(videoPlayBackVC, animated: true) {
                         
                     }
