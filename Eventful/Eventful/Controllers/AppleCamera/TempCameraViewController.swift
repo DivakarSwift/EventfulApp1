@@ -1292,8 +1292,6 @@ extension TempCameraViewController: AVCaptureFileOutputRecordingDelegate{
         }
         
         if success {
-            SVProgressHUD.show(withStatus: "Processing Video")
-            SVProgressHUD.setDefaultMaskType(.gradient)
             print("************** THE BACK \(self.isBackCamera)")
             //arrCameraPreferences.append(self.isBackCamera)
             videoURLArr.append(outputFileURL)
@@ -1315,6 +1313,8 @@ extension TempCameraViewController: AVCaptureFileOutputRecordingDelegate{
                 print("Asset arr===>\(videoURLArr)")
                 
                 cleanUp()
+                SVProgressHUD.show(withStatus: "Processing Video")
+                SVProgressHUD.setDefaultMaskType(.gradient)
                 VideoGenerator.mergeMovies(videoURLs: videoURLArr, andFileName: "finalOutput", success: { (videoURL) in
                     
                     print(videoURL)
