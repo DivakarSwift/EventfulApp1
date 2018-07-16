@@ -118,7 +118,6 @@ class VideoViewController: UIViewController {
         navigationController?.navigationBar.isHidden = true
         tabBarController?.tabBar.isHidden = true
         player?.play()
-        
     }
     
     
