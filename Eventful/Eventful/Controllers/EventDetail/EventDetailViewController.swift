@@ -38,7 +38,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
             addressLabel.text = secondPartOfAddress
             
             let dateComponets = getDayAndMonthFromEvent(currentEvent!)
-            currentEventDate.text = dateComponets.1 + ", \(dateComponets.0)\n\(currentEvent?.currentEventTime?.lowercased() ?? "")"
+            currentEventDate.text = "Date and Time: "+dateComponets.1 + " \(dateComponets.0), \(dateComponets.2) \(currentEvent?.currentEventTime?.lowercased() ?? "")"
             eventKey = (currentEvent?.key)!
             eventPromo = (currentEvent?.currentEventPromo)!
             setupAttendInteraction()
@@ -84,7 +84,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         let costLabel = UILabel()
         costLabel.textColor = .black
         costLabel.textAlignment = .natural
-        costLabel.font = UIFont.boldSystemFont(ofSize: 15)
+        costLabel.font = UIFont.boldSystemFont(ofSize: 17)
         costLabel.numberOfLines = 0
         return costLabel
     }()
@@ -94,7 +94,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         let currentEventDate = UILabel()
         currentEventDate.numberOfLines = 0
         currentEventDate.textAlignment = .center
-        currentEventDate.font = UIFont.boldSystemFont(ofSize: 15)
+        currentEventDate.font = UIFont.boldSystemFont(ofSize: 17)
         return currentEventDate
     }()
     
@@ -500,10 +500,6 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
             make.top.equalTo(textContainer.snp.top).offset(10)
             make.left.equalTo(textContainer.snp.left)
         }
-        currentEventDate.snp.makeConstraints { (make) in
-            make.top.equalTo(textContainer.snp.top).offset(7)
-            make.right.equalTo(textContainer).inset(5)
-        }
         addressLabel.snp.makeConstraints { (make) in
             make.top.equalTo(textContainer.snp.top).offset(7)
             make.left.equalTo(LocationMarkerViewButton.snp.right).offset(2.5)
@@ -515,10 +511,15 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
             make.left.right.equalTo(textContainer).inset(5)
 
         })
+        currentEventDate.snp.makeConstraints { (make) in
+            make.top.equalTo(costLabel.snp.bottom).offset(5)
+            make.left.equalTo(textContainer).offset(5)
+        }
+
         
         infoText.snp.makeConstraints {
             make in
-            make.top.equalTo(costLabel.snp.bottom).offset(10)
+            make.top.equalTo(currentEventDate.snp.bottom).offset(10)
             make.left.right.equalTo(textContainer).inset(10)
         }
         
@@ -563,7 +564,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
     
     //MARK: - Date Componets
     
-    fileprivate func getDayAndMonthFromEvent(_ event:Event) -> (String, String) {
+    fileprivate func getDayAndMonthFromEvent(_ event:Event) -> (String, String, String) {
         let apiDateFormat = "MM/dd/yyyy"
         let df = DateFormatter()
         df.dateFormat = apiDateFormat
@@ -572,7 +573,9 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         let dayElement = df.string(from: eventDate)
         df.dateFormat = "MMM"
         let monthElement = df.string(from: eventDate)
-        return (dayElement, monthElement)
+        df.dateFormat = "yyyy"
+        let yearElement = df.string(from: eventDate)
+        return (dayElement, monthElement, yearElement)
     }
     
     

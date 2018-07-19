@@ -42,6 +42,8 @@ target 'Eventful' do
     pod 'InstantSearch'
     pod 'YNSearch'
     pod 'AZDialogView'
+    pod 'Eureka'
+    pod 'ImageRow', '~> 3.0'
     # Pods for Eventful
     
 end

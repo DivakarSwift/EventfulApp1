@@ -16,7 +16,7 @@ class RequestViewController: UITableViewController {
     lazy var noFriendLabel: UILabel = {
         let noFriendLabel = UILabel()
         noFriendLabel.text = "Sorry, You Currently Have No Friend Request"
-        noFriendLabel.font = UIFont(name: "Avenir", size: 20)
+        noFriendLabel.font = UIFont.systemFont(ofSize: 20)
         noFriendLabel.numberOfLines = 0
         noFriendLabel.textAlignment = .center
         return noFriendLabel

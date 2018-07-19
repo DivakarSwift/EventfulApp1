@@ -9,6 +9,7 @@ PODS:
   - Crashlytics (3.10.3):
     - Fabric (~> 1.7.8)
   - DTPagerController (2.0.1)
+  - Eureka (4.2.0)
   - Fabric (1.7.8)
   - FaceAware (1.4.0)
   - Firebase/Auth (5.4.0):
@@ -74,6 +75,8 @@ PODS:
   - IGListKit/Default (3.4.0):
     - IGListKit/Diffing
   - IGListKit/Diffing (3.4.0)
+  - ImageRow (3.1.0):
+    - Eureka (~> 4.0)
   - Instabug (8.0.2):
     - Instabug/Instabug (= 8.0.2)
     - Instabug/InstabugCore (= 8.0.2)
@@ -112,7 +115,6 @@ PODS:
   - SwiftyJSON (4.0.0)
   - SwipeCellKit (2.4.3)
   - TextFieldEffects (1.4.0)
-  - TransitionButton (0.4.0)
   - XLActionController/Core (4.0.1)
   - XLActionController/Twitter (4.0.1):
     - XLActionController/Core
@@ -126,6 +128,7 @@ DEPENDENCIES:
   - BPStatusBarAlert
   - Crashlytics
   - DTPagerController
+  - Eureka
   - Fabric
   - FaceAware
   - Firebase/Auth
@@ -138,6 +141,7 @@ DEPENDENCIES:
   - GooglePlacePicker
   - GooglePlaces
   - IGListKit (from `https://github.com/Instagram/IGListKit.git`, branch `master`)
+  - ImageRow (~> 3.0)
   - Instabug
   - InstantSearch
   - IQKeyboardManagerSwift
@@ -153,7 +157,6 @@ DEPENDENCIES:
   - SwiftyJSON
   - SwipeCellKit (from `https://github.com/SwipeCellKit/SwipeCellKit.git`, branch `master`)
   - TextFieldEffects
-  - TransitionButton
   - XLActionController/Twitter
   - YNSearch
 
@@ -198,6 +201,7 @@ SPEC CHECKSUMS:
   BPStatusBarAlert: 0bc567e3a0f740189239f49c6c516bd61cb3c758
   Crashlytics: 2aea305161a2122492698c75af27f2b98aa49a25
   DTPagerController: 4b4bb13ebe2e462f11416778ddc9fb09e9cf80fe
+  Eureka: 0748c7bbb2560130e43c7bfa83e99c98854a1f42
   Fabric: fba4684a95df789565b0b27fc5b6e68f1755af32
   FaceAware: 94410295a219c4a397ce525eab0063d6b17258aa
   Firebase: d66f4f29c23f22d96808d9abc174d81d8eee968f
@@ -215,6 +219,7 @@ SPEC CHECKSUMS:
   GoogleToolboxForMac: 91c824d21e85b31c2aae9bb011c5027c9b4e738f
   GTMSessionFetcher: 5fa5b80fd20e439ef5f545fb2cb3ca6c6714caa2
   IGListKit: 7a5d788e9fb746bcd402baa8e8b24bc3bd2a5a07
+  ImageRow: 1ea483078bfa3d880a7fc76fdfcddfd5f29a9e6b
   Instabug: 4035e184559739a81139a9378649eb3d1e54a772
   InstantSearch: 4e30463b32cb9782a8210fd6fc8559ce05cdb077
   InstantSearchClient: 2b70bd14817d5c35cfb1e8b65b7801b3cbd2f537
@@ -237,10 +242,9 @@ SPEC CHECKSUMS:
   SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
   SwipeCellKit: cee9906e6d3a36e22ad1a852fba7f8fa0839d113
   TextFieldEffects: 4ee41b5216e674d55fb6ac25107bf1af7629176f
-  TransitionButton: d271030914c84a00b54b4d983446944d2875e7ba
   XLActionController: 007868251c0eed70d649d06c1625259b73b3a600
   YNSearch: 3a6e0a69cfd34a7c5a7c77e0873f426de4437824
 
-PODFILE CHECKSUM: 3f20a021d261f1bace950a19268c915ae9615e59
+PODFILE CHECKSUM: ff4e63c45616bf46f11f35a5fc58434e48bc1f8d
 
 COCOAPODS: 1.4.0

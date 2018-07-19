@@ -56,7 +56,7 @@ class PlacesSearchController: UIViewController, UICollectionViewDelegateFlowLayo
             )
         }
         label.setCellShadow()
-        label.font = UIFontMetrics.default.scaledFont(for: customFont)
+        label.font = UIFont.systemFont(ofSize: 34)
         label.adjustsFontForContentSizeCategory = true
         label.numberOfLines = 0
         label.textAlignment = .justified
@@ -110,7 +110,7 @@ self.navigationController?.interactivePopGestureRecognizer?.delegate = nil
             make.left.right.equalTo(searchCollectionView).inset(10)
         }
         
-        titleView.font = UIFont(name: "Avenir", size: 18)
+        titleView.font = UIFont.boldSystemFont(ofSize: 18)
         titleView.text = "Location"
         let width = titleView.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)).width
         titleView.frame = CGRect(origin:CGPoint.zero, size:CGSize(width: width, height: 500))

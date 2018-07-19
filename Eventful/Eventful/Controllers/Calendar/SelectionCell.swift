@@ -42,13 +42,13 @@ class SelectionCell: SwipeTableViewCell {
     
     lazy var eventNameLabel : UILabel = {
         let label = UILabel()
-        label.font =  UIFont(name:"HelveticaNeue", size: 16)
+        label.font =  UIFont.systemFont(ofSize: 16)
         return label
     }()
     
     lazy var eventTimeLabel : UILabel = {
         let label = UILabel()
-        label.font = UIFont(name:"HelveticaNeue", size: 12)
+        label.font = UIFont.systemFont(ofSize: 12)
         return label
     }()
     

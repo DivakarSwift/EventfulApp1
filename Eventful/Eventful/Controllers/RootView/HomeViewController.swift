@@ -9,8 +9,14 @@
  
  class HomeViewController: UITabBarController,UITabBarControllerDelegate  {
    
+    var isFromLoginOrSignUp: Bool?
     lazy var viewControllerList: [UIViewController] = {
         let homeFeedController = HomeFeedController(collectionViewLayout: UICollectionViewFlowLayout())
+        if let fromLoginOrSignUp = self.isFromLoginOrSignUp {
+            if fromLoginOrSignUp {
+                homeFeedController.isFromSignUpOrLogin = fromLoginOrSignUp
+            }
+        }
         let navController = UINavigationController(rootViewController: homeFeedController)
         navController.tabBarItem.image = UIImage(named: "icons8-home-page-50")?.withRenderingMode(.alwaysOriginal)
         navController.tabBarItem.title = "Home"
@@ -42,8 +48,8 @@
 
         let pagerController = DTPagerController(viewControllers: [notificationView,requestVC])
         pagerController.title = "Notifications"
-        pagerController.font = UIFont(name: "Avenir", size: 14)!
-        pagerController.selectedFont = UIFont(name: "Avenir-Medium", size: 14)!
+        pagerController.font = UIFont.systemFont(ofSize: 14)
+        pagerController.selectedFont = UIFont.systemFont(ofSize: 14)
         pagerController.selectedTextColor =  UIColor.black
         pagerController.perferredScrollIndicatorHeight = 1.8
         pagerController.preferredSegmentedControlHeight = 40

@@ -1322,11 +1322,9 @@ extension TempCameraViewController: AVCaptureFileOutputRecordingDelegate{
                     let videoPlayBackVC = VideoViewController()
                     videoPlayBackVC.event = self.event
                     videoPlayBackVC.videoURL = videoURL
-                    SVProgressHUD.dismiss()
-                    self.present(videoPlayBackVC, animated: true) {
-                        
-                    }
-                    
+                    SVProgressHUD.dismiss(completion: {
+                        self.present(videoPlayBackVC, animated: true)
+                    })
                 }) { (error) in
                     print(error)
                 }

@@ -34,19 +34,23 @@ class CommentGrabbed: NSObject {
         let userDict = dict["sender"] as? [String : Any],
         let uid = userDict["uid"] as? String,
         let username = userDict["username"] as? String,
+        let name = userDict["name"] as? String,
+        let bio = userDict["bio"] as? String,
         let profilePic = userDict["profilePic"] as? String
             else { return nil }
         self.key = snapshot.key
         self.content = content
         self.creationDate = Date(timeIntervalSince1970: secondsFrom1970)
         self.eventKey = eventKey
-        self.sender = User(uid: uid, username: username,profilePic: profilePic)
+        self.sender = User(uid: uid, username: username, profilePic: profilePic, bio: bio, name: name)
     }
     
     var dictValue: [String : Any] {
         let userDict = ["username" : sender.username,
                         "uid" : sender.uid,
-                        "profilePic": sender.profilePic]
+                        "profilePic": sender.profilePic,
+                        "bio" : sender.bio,
+                        "name": sender.name]
         
         return ["sender" : userDict,
                 "content" : content,"eventKey":eventKey,

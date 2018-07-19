@@ -99,7 +99,7 @@ extension SideMenuLauncher: UICollectionViewDataSource {
         case UICollectionElementKindSectionHeader:
              let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerID, for: indexPath) as! SideMenuHeader
             header.user = User.current
-                        header.dismissButton.addTarget(self, action: #selector(handleDismiss), for: .touchUpInside)
+            header.dismissButton.addTarget(self, action: #selector(handleDismiss), for: .touchUpInside)
              return header
 
         case UICollectionElementKindSectionFooter:

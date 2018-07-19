@@ -43,7 +43,7 @@ class CategoryCell: UICollectionViewCell, UICollectionViewDataSource, UICollecti
     
     let sectionNameLabel : UILabel =  {
         let sectionNameLabel = UILabel()
-        sectionNameLabel.font = UIFont(name:"HelveticaNeue-CondensedBlack", size: 25.0)
+        sectionNameLabel.font = UIFont.boldSystemFont(ofSize: 26)
         return sectionNameLabel
     }()
     

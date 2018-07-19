@@ -131,6 +131,7 @@
 		07EDACBB20F5B4AB00585EF0 /* VideoGeneratorError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EDACB720F5B4AA00585EF0 /* VideoGeneratorError.swift */; };
 		07EDACBC20F5B4AB00585EF0 /* AVAssetExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EDACB820F5B4AB00585EF0 /* AVAssetExtension.swift */; };
 		07EDACBE20F6E34300585EF0 /* SubmitEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EDACBD20F6E34300585EF0 /* SubmitEvent.swift */; };
+		07EDACC020FD618600585EF0 /* EditProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EDACBF20FD618600585EF0 /* EditProfile.swift */; };
 		07F3EC591F4A57C3005296EB /* PostService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F3EC581F4A57C3005296EB /* PostService.swift */; };
 		07F3EC5E1F4B7B28005296EB /* StoryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F3EC5D1F4B7B28005296EB /* StoryService.swift */; };
 		07F3EC601F4B7BE9005296EB /* Story.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F3EC5F1F4B7BE9005296EB /* Story.swift */; };
@@ -269,6 +270,7 @@
 		07EDACB720F5B4AA00585EF0 /* VideoGeneratorError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VideoGeneratorError.swift; path = SwiftVideoGenerator/VideoGeneratorError.swift; sourceTree = "<group>"; };
 		07EDACB820F5B4AB00585EF0 /* AVAssetExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AVAssetExtension.swift; path = SwiftVideoGenerator/AVAssetExtension.swift; sourceTree = "<group>"; };
 		07EDACBD20F6E34300585EF0 /* SubmitEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SubmitEvent.swift; path = Controllers/Settings/SubmitEvent.swift; sourceTree = "<group>"; };
+		07EDACBF20FD618600585EF0 /* EditProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EditProfile.swift; path = Controllers/Profile/EditProfile.swift; sourceTree = "<group>"; };
 		07F3EC581F4A57C3005296EB /* PostService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostService.swift; path = Services/PostService.swift; sourceTree = "<group>"; };
 		07F3EC5D1F4B7B28005296EB /* StoryService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StoryService.swift; path = Services/StoryService.swift; sourceTree = "<group>"; };
 		07F3EC5F1F4B7BE9005296EB /* Story.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Story.swift; path = Models/Story.swift; sourceTree = "<group>"; };
@@ -537,6 +539,7 @@
 				07C15E5F20D227D00046D8BC /* NewProfileVC.swift */,
 				07C15E6120D2311F0046D8BC /* NewUserHeader.swift */,
 				07C15E6320D232460046D8BC /* NewUserEventAttendingCell.swift */,
+				07EDACBF20FD618600585EF0 /* EditProfile.swift */,
 			);
 			name = Profile;
 			sourceTree = "<group>";
@@ -788,11 +791,13 @@
 				"${BUILT_PRODUCTS_DIR}/AlamofireNetworkActivityIndicator/AlamofireNetworkActivityIndicator.framework",
 				"${BUILT_PRODUCTS_DIR}/BPStatusBarAlert/BPStatusBarAlert.framework",
 				"${BUILT_PRODUCTS_DIR}/DTPagerController/DTPagerController.framework",
+				"${BUILT_PRODUCTS_DIR}/Eureka/Eureka.framework",
 				"${BUILT_PRODUCTS_DIR}/FaceAware/FaceAware.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/IGListKit/IGListKit.framework",
 				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/ImageRow/ImageRow.framework",
 				"${PODS_ROOT}/Instabug/Instabug.framework",
 				"${PODS_ROOT}/Instabug/InstabugCore.framework",
 				"${BUILT_PRODUCTS_DIR}/InstantSearch/InstantSearch.framework",
@@ -813,7 +818,6 @@
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 				"${BUILT_PRODUCTS_DIR}/SwipeCellKit/SwipeCellKit.framework",
 				"${BUILT_PRODUCTS_DIR}/TextFieldEffects/TextFieldEffects.framework",
-				"${BUILT_PRODUCTS_DIR}/TransitionButton/TransitionButton.framework",
 				"${BUILT_PRODUCTS_DIR}/XLActionController/XLActionController.framework",
 				"${BUILT_PRODUCTS_DIR}/YNSearch/YNSearch.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
@@ -827,11 +831,13 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireNetworkActivityIndicator.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BPStatusBarAlert.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DTPagerController.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Eureka.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FaceAware.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IGListKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ImageRow.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Instabug.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/InstabugCore.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/InstantSearch.framework",
@@ -852,7 +858,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwipeCellKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TextFieldEffects.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TransitionButton.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/XLActionController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YNSearch.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
@@ -981,6 +986,7 @@
 				0747A9E320375CD800F725C7 /* HomeViewController.swift in Sources */,
 				07437F491F29167000CE728B /* UserService.swift in Sources */,
 				07FF92B91F3627A300FC9716 /* Post.swift in Sources */,
+				07EDACC020FD618600585EF0 /* EditProfile.swift in Sources */,
 				073A3D8220E1ECAD0045024D /* NewSearchVC.swift in Sources */,
 				07F3EC5E1F4B7B28005296EB /* StoryService.swift in Sources */,
 				07C15E4220C10D760046D8BC /* TempCameraViewController.swift in Sources */,

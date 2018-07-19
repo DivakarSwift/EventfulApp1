@@ -36,13 +36,13 @@ class CalendarViewController: UIViewController, UICollectionViewDelegateFlowLayo
     //day labels for calendar
     let yearLabel : UILabel =  {
         let yearLabel = UILabel()
-        yearLabel.font = UIFont(name:"HelveticaNeue", size: 30.5)
+        yearLabel.font = UIFont.systemFont(ofSize: 30.5)
         yearLabel.textColor = UIColor.lightGray
         return yearLabel
     }()
     let monthLabel : UILabel =  {
         let monthLabel = UILabel()
-        monthLabel.font = UIFont(name:"HelveticaNeue", size: 30.5)
+        monthLabel.font = UIFont.boldSystemFont(ofSize: 30.5)
         return monthLabel
     }()
     
@@ -70,7 +70,7 @@ class CalendarViewController: UIViewController, UICollectionViewDelegateFlowLayo
     lazy var noEventsLabel: UILabel = {
         let noEventsLabel = UILabel()
         noEventsLabel.text = "No Events For The Selected Day"
-        noEventsLabel.font = UIFont(name: "Avenir", size: 16)
+        noEventsLabel.font = UIFont.systemFont(ofSize: 16)
         noEventsLabel.numberOfLines = 0
         noEventsLabel.textAlignment = .center
         return noEventsLabel
@@ -449,7 +449,7 @@ extension CalendarViewController: UITableViewDelegate {
         view.backgroundColor = .white
         let label = UILabel()
         label.text = "Events For Selected Day"
-        label.font = UIFont(name:"HelveticaNeue", size: 16)
+        label.font = UIFont.boldSystemFont(ofSize: 16)
         label.textAlignment = .center
         view.addSubview(label)
         label.snp.makeConstraints { (make) in

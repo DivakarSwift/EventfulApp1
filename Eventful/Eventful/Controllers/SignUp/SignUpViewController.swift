@@ -13,7 +13,6 @@ import TextFieldEffects
 import Firebase
 import FirebaseStorage
 
-
 class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     var selectedImageFromPicker: UIImage?
     // creates a signup UILabel
@@ -230,6 +229,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
     
     func finishSigningUp() {
         let homeController = HomeViewController()
+        homeController.isFromLoginOrSignUp = true
         //should change the root view controller to the homecontroller when done signing up
         self.view.window?.rootViewController = homeController
         self.view.window?.makeKeyAndVisible()

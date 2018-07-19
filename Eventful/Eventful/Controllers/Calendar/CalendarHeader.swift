@@ -20,7 +20,7 @@ class CalendarHeader: JTAppleCollectionReusableView {
     let sunLabel : UILabel =  {
         let sunLabel = UILabel()
         sunLabel.text = "Sun"
-        sunLabel.font = UIFont(name:"HelveticaNeue", size: 16.5)
+        sunLabel.font = UIFont.systemFont(ofSize: 16.5)
         sunLabel.textAlignment = .center
         return sunLabel
     }()
@@ -28,7 +28,7 @@ class CalendarHeader: JTAppleCollectionReusableView {
     let monLabel : UILabel =  {
         let monLabel = UILabel()
         monLabel.text = "Mon"
-        monLabel.font = UIFont(name:"HelveticaNeue", size: 16.5)
+        monLabel.font = UIFont.systemFont(ofSize: 16.5)
         monLabel.textAlignment = .center
         return monLabel
     }()
@@ -36,35 +36,35 @@ class CalendarHeader: JTAppleCollectionReusableView {
     let tuesLabel : UILabel =  {
         let tuesLabel = UILabel()
         tuesLabel.text = "Tue"
-        tuesLabel.font = UIFont(name:"HelveticaNeue", size: 16.5)
+        tuesLabel.font = UIFont.systemFont(ofSize: 16.5)
         tuesLabel.textAlignment = .center
         return tuesLabel
     }()
     let wedsLabel : UILabel =  {
         let wedsLabel = UILabel()
         wedsLabel.text = "Wed"
-        wedsLabel.font = UIFont(name:"HelveticaNeue", size: 16.5)
+        wedsLabel.font = UIFont.systemFont(ofSize: 16.5)
         wedsLabel.textAlignment = .center
         return wedsLabel
     }()
     let thursLabel : UILabel =  {
         let thursLabel = UILabel()
         thursLabel.text = "Thu"
-        thursLabel.font = UIFont(name:"HelveticaNeue", size: 16.5)
+        thursLabel.font = UIFont.systemFont(ofSize: 16.5)
         thursLabel.textAlignment = .center
         return thursLabel
     }()
     let friLabel : UILabel =  {
         let friLabel = UILabel()
         friLabel.text = "Fri"
-        friLabel.font = UIFont(name:"HelveticaNeue", size: 16.5)
+        friLabel.font = UIFont.systemFont(ofSize: 16.5)
         friLabel.textAlignment = .center
         return friLabel
     }()
     let satLabel : UILabel =  {
         let satLabel = UILabel()
         satLabel.text = "Sat"
-        satLabel.font = UIFont(name:"HelveticaNeue", size: 16.5)
+        satLabel.font = UIFont.systemFont(ofSize: 16.5)
         satLabel.textAlignment = .center
         return satLabel
     }()
