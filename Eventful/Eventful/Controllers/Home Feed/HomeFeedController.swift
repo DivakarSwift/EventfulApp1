@@ -350,9 +350,9 @@ extension HomeFeedController: UICollectionViewDelegateFlowLayout {
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         if section == 0 {
-            return UIEdgeInsets(top: 5, left: 5, bottom: 10, right: 5)
+            return UIEdgeInsets(top: 5, left: 5, bottom: 15, right: 5)
         }
-        return UIEdgeInsets(top: 10, left: 8, bottom: 0, right: 8)
+        return UIEdgeInsets(top: 15, left: 8, bottom: 0, right: 8)
     }
 }
 
