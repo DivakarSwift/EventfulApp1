@@ -60,7 +60,7 @@ class FriendRequestCell: UITableViewCell {
         //will accept the users friend request
         print("accept tapped")
         FriendService.system.acceptFriendRequest((user?.uid)!)
-        self.followNotificationData = Notifications.init(reciever: User.current, content: (self.user?.username!)! + " has followed you", type: notiType.follow.rawValue)
+        self.followNotificationData = Notifications.init(reciever: User.current.uid, content: (self.user?.username!)! + " has followed you", type: notiType.follow.rawValue)
         //will make sure the user gets the notifcation
         FollowService.sendFollowNotification(self.followNotificationData)
         FriendService.system.removeFriendRequest((user?.uid)!)
