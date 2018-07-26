@@ -10,6 +10,7 @@
  class HomeViewController: UITabBarController,UITabBarControllerDelegate  {
    
     var isFromLoginOrSignUp: Bool?
+    
     lazy var viewControllerList: [UIViewController] = {
         let homeFeedController = HomeFeedController(collectionViewLayout: UICollectionViewFlowLayout())
         if let fromLoginOrSignUp = self.isFromLoginOrSignUp {
@@ -17,6 +18,7 @@
                 homeFeedController.isFromSignUpOrLogin = fromLoginOrSignUp
             }
         }
+        
         let navController = UINavigationController(rootViewController: homeFeedController)
         navController.tabBarItem.image = UIImage(named: "icons8-home-page-50")?.withRenderingMode(.alwaysOriginal)
         navController.tabBarItem.title = "Home"
@@ -34,7 +36,7 @@
 //        let searchController = EventSearchController(collectionViewLayout: UICollectionViewFlowLayout())
         let layout = UICollectionViewFlowLayout()
         layout.sectionFootersPinToVisibleBounds = true
-        let searchVC = NewSearchVC(collectionViewLayout: layout)
+        let searchVC = SearchVC()//NewSearchVC(collectionViewLayout: layout)
 
         let searchNavController = UINavigationController(rootViewController: searchVC)
         searchNavController.tabBarItem.image =  UIImage(named: "icons8-search-50")?.withRenderingMode(.alwaysOriginal)

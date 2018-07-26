@@ -17,6 +17,7 @@ class SettingsViewController: UITableViewController {
     let settingsOptionsTwoDimArray = [["Logout"],["Make Profile Private"],["Privacy Policy"],
                                       ["Contact Us"],["Submit an Event"]
     ]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.interactivePopGestureRecognizer?.delegate = nil
@@ -35,6 +36,7 @@ class SettingsViewController: UITableViewController {
         self.tabBarController?.tabBar.isHidden = true
         authHandle = AuthService.authListener(viewController: self)
     }
+    
     deinit {
         AuthService.removeAuthListener(authHandle: authHandle)
     }
