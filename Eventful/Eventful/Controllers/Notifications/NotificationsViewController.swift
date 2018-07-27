@@ -236,15 +236,28 @@ extension NotificationsViewController: ListAdapterDataSource {
     // 3 emptyView(for:) returns a view that should be displayed when the list is empty. NASA is in a bit of a time crunch, so they didn’t budget for this feature.
     func emptyView(for listAdapter: ListAdapter) -> UIView? {
         let view = UIView()
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.image = UIImage(named: "icons8-activity-feed-50")
+
         let emptyLabel = UILabel()
         emptyLabel.text = "No Activity to Show"
         emptyLabel.textAlignment = .center
         emptyLabel.font = UIFont.systemFont(ofSize: 20)
         view.addSubview(emptyLabel)
+        view.addSubview(imageView)
+        
+        imageView.snp.makeConstraints { (make) in
+            make.left.right.equalTo(view)
+            make.centerX.equalTo(view.snp.centerX)
+            make.top.equalTo(view.snp.top).offset(260)
+
+        }
+        
         emptyLabel.snp.makeConstraints { (make) in
             make.left.right.equalTo(view)
             make.centerX.equalTo(view.snp.centerX)
-            make.top.equalTo(view.snp.top).offset(340)
+            make.top.equalTo(imageView.snp.bottom).offset(20)
         }
         view.backgroundColor = UIColor.white
         return view

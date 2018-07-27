@@ -43,9 +43,8 @@
 		073A3DB920E300E30045024D /* SearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073A3DB820E300E30045024D /* SearchCell.swift */; };
 		073A3DBB20E301450045024D /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073A3DBA20E301450045024D /* UserCell.swift */; };
 		073A3DBD20E3111E0045024D /* NewEventSearchHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073A3DBC20E3111E0045024D /* NewEventSearchHeader.swift */; };
-		073A3DBF20E314E90045024D /* StickyHeaderLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073A3DBE20E314E90045024D /* StickyHeaderLayout.swift */; };
-		073A3DC120E3B2E80045024D /* CustomFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073A3DC020E3B2E80045024D /* CustomFlowLayout.swift */; };
 		073AFDC51F45E4FB009D4773 /* FollowService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073AFDC41F45E4FB009D4773 /* FollowService.swift */; };
+		073B65C82109794B0067505F /* RoundShadowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073B65C72109794B0067505F /* RoundShadowView.swift */; };
 		0741702C20468A1F006B236B /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0741702B20468A1F006B236B /* NotificationCell.swift */; };
 		0741702E20474D12006B236B /* NotificationSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0741702D20474D12006B236B /* NotificationSectionController.swift */; };
 		07417030204751DB006B236B /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0741702F204751DB006B236B /* NotificationService.swift */; };
@@ -179,9 +178,8 @@
 		073A3DB820E300E30045024D /* SearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SearchCell.swift; path = Controllers/Search/SearchCell.swift; sourceTree = "<group>"; };
 		073A3DBA20E301450045024D /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UserCell.swift; path = Controllers/Search/UserCell.swift; sourceTree = "<group>"; };
 		073A3DBC20E3111E0045024D /* NewEventSearchHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NewEventSearchHeader.swift; path = Controllers/Search/NewEventSearchHeader.swift; sourceTree = "<group>"; };
-		073A3DBE20E314E90045024D /* StickyHeaderLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StickyHeaderLayout.swift; path = Controllers/Search/StickyHeaderLayout.swift; sourceTree = "<group>"; };
-		073A3DC020E3B2E80045024D /* CustomFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CustomFlowLayout.swift; path = Controllers/Search/CustomFlowLayout.swift; sourceTree = "<group>"; };
 		073AFDC41F45E4FB009D4773 /* FollowService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FollowService.swift; path = Services/FollowService.swift; sourceTree = "<group>"; };
+		073B65C72109794B0067505F /* RoundShadowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RoundShadowView.swift; path = Controllers/EventDetail/RoundShadowView.swift; sourceTree = "<group>"; };
 		0741702B20468A1F006B236B /* NotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NotificationCell.swift; path = Controllers/Notifications/NotificationCell.swift; sourceTree = "<group>"; };
 		0741702D20474D12006B236B /* NotificationSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NotificationSectionController.swift; path = Controllers/Notifications/NotificationSectionController.swift; sourceTree = "<group>"; };
 		0741702F204751DB006B236B /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NotificationService.swift; path = Services/NotificationService.swift; sourceTree = "<group>"; };
@@ -323,8 +321,6 @@
 				073A3DB820E300E30045024D /* SearchCell.swift */,
 				073A3DBA20E301450045024D /* UserCell.swift */,
 				073A3DBC20E3111E0045024D /* NewEventSearchHeader.swift */,
-				073A3DBE20E314E90045024D /* StickyHeaderLayout.swift */,
-				073A3DC020E3B2E80045024D /* CustomFlowLayout.swift */,
 			);
 			name = Search;
 			sourceTree = "<group>";
@@ -638,6 +634,7 @@
 				0747AA0720375D6E00F725C7 /* VideoLauncher.swift */,
 				07C15E5920C5A5BF0046D8BC /* ShareViewController.swift */,
 				07C15E5B20C5AEBF0046D8BC /* ShareCell.swift */,
+				073B65C72109794B0067505F /* RoundShadowView.swift */,
 			);
 			name = "Event Detail";
 			sourceTree = "<group>";
@@ -972,7 +969,6 @@
 				0748714C20845C320024635C /* BaseCell.swift in Sources */,
 				07C15E5A20C5A5BF0046D8BC /* ShareViewController.swift in Sources */,
 				074D75A0200C8E8C0044C3AD /* LocationService.swift in Sources */,
-				073A3DC120E3B2E80045024D /* CustomFlowLayout.swift in Sources */,
 				0704C7722062CE1D00C9E35A /* HomeFeedEventCell.swift in Sources */,
 				0747AA1F20375E0E00F725C7 /* EventSearchHeader.swift in Sources */,
 				073A3D8020E0BCCF0045024D /* CalendarHeader.swift in Sources */,
@@ -1009,9 +1005,9 @@
 				0747AA1620375D8500F725C7 /* NewCommentsViewController.swift in Sources */,
 				0747A9DB20375C6600F725C7 /* NotificationsViewController.swift in Sources */,
 				07C15E2420B7DA920046D8BC /* Private.swift in Sources */,
-				073A3DBF20E314E90045024D /* StickyHeaderLayout.swift in Sources */,
 				073AFDC51F45E4FB009D4773 /* FollowService.swift in Sources */,
 				07EDACBA20F5B4AB00585EF0 /* VideoGenerator.swift in Sources */,
+				073B65C82109794B0067505F /* RoundShadowView.swift in Sources */,
 				07C15E3D20C10D550046D8BC /* FollowingViewController.swift in Sources */,
 				0724731F2078562700DD285E /* PlacesSearchController.swift in Sources */,
 				07F3EC591F4A57C3005296EB /* PostService.swift in Sources */,
