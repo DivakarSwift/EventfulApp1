@@ -59,7 +59,6 @@
 		07437F241F267CA900CE728B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 07437F221F267CA900CE728B /* LaunchScreen.storyboard */; };
 		07437F3B1F28D4B900CE728B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 07437F3A1F28D4B900CE728B /* GoogleService-Info.plist */; };
 		07437F3D1F28D4C500CE728B /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07437F3C1F28D4C500CE728B /* Extensions.swift */; };
-		07437F3F1F28D52200CE728B /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 07437F3E1F28D52200CE728B /* Default-568h@2x.png */; };
 		07437F441F290F9F00CE728B /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07437F431F290F9F00CE728B /* User.swift */; };
 		07437F461F2911E500CE728B /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07437F451F2911E500CE728B /* AuthService.swift */; };
 		07437F491F29167000CE728B /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07437F481F29167000CE728B /* UserService.swift */; };
@@ -124,6 +123,7 @@
 		07C15E6220D2311F0046D8BC /* NewUserHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C15E6120D2311F0046D8BC /* NewUserHeader.swift */; };
 		07C15E6420D232460046D8BC /* NewUserEventAttendingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C15E6320D232460046D8BC /* NewUserEventAttendingCell.swift */; };
 		07D923A81F33C61D0069613D /* Storyboard+Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D923A71F33C61D0069613D /* Storyboard+Utility.swift */; };
+		07DE9E7D210BCF9E009374B0 /* Default-568h@2x .png in Resources */ = {isa = PBXBuildFile; fileRef = 07DE9E7C210BCF9E009374B0 /* Default-568h@2x .png */; };
 		07E271B62056354F007F0592 /* NotifBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E271B52056354F007F0592 /* NotifBannerView.swift */; };
 		07EDACA820F2F07200585EF0 /* ContactUsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EDACA720F2F07200585EF0 /* ContactUsVC.swift */; };
 		07EDACAD20F2F43100585EF0 /* TipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EDACA920F2F43100585EF0 /* TipView.swift */; };
@@ -202,7 +202,6 @@
 		07437F381F28D4AD00CE728B /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Supporting/Info.plist; sourceTree = "<group>"; };
 		07437F3A1F28D4B900CE728B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Supporting/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		07437F3C1F28D4C500CE728B /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Extensions.swift; path = Extensions/Extensions.swift; sourceTree = "<group>"; };
-		07437F3E1F28D52200CE728B /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		07437F431F290F9F00CE728B /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = User.swift; path = Models/User.swift; sourceTree = "<group>"; };
 		07437F451F2911E500CE728B /* AuthService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AuthService.swift; path = Services/AuthService.swift; sourceTree = "<group>"; };
 		07437F481F29167000CE728B /* UserService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserService.swift; path = Services/UserService.swift; sourceTree = "<group>"; };
@@ -268,6 +267,7 @@
 		07C15E6120D2311F0046D8BC /* NewUserHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NewUserHeader.swift; path = Controllers/Profile/NewUserHeader.swift; sourceTree = "<group>"; };
 		07C15E6320D232460046D8BC /* NewUserEventAttendingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NewUserEventAttendingCell.swift; path = Controllers/Profile/NewUserEventAttendingCell.swift; sourceTree = "<group>"; };
 		07D923A71F33C61D0069613D /* Storyboard+Utility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Storyboard+Utility.swift"; path = "Extensions/Storyboard+Utility.swift"; sourceTree = "<group>"; };
+		07DE9E7C210BCF9E009374B0 /* Default-568h@2x .png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x .png"; sourceTree = "<group>"; };
 		07E271B52056354F007F0592 /* NotifBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NotifBannerView.swift; path = Controllers/Notifications/NotifBannerView.swift; sourceTree = "<group>"; };
 		07EDACA720F2F07200585EF0 /* ContactUsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContactUsVC.swift; path = Controllers/Settings/ContactUsVC.swift; sourceTree = "<group>"; };
 		07EDACA920F2F43100585EF0 /* TipView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TipView.swift; path = TipViewSource/TipView.swift; sourceTree = "<group>"; };
@@ -393,7 +393,7 @@
 			children = (
 				04FEB45A210905EB0021F46A /* Assets.xcassets */,
 				07437F181F267CA900CE728B /* Eventful */,
-				07437F3E1F28D52200CE728B /* Default-568h@2x.png */,
+				07DE9E7C210BCF9E009374B0 /* Default-568h@2x .png */,
 				07437F171F267CA900CE728B /* Products */,
 				69B6760783C527721C92650D /* Pods */,
 				EDCAC4FC8504278362A0DA28 /* Frameworks */,
@@ -777,9 +777,9 @@
 				073A3DB620E2D2E60045024D /* ProximaNova-Black.ttf in Resources */,
 				073A3DB220E2D2E60045024D /* ProximaNovaSoft-Bold.ttf in Resources */,
 				07437F1F1F267CA900CE728B /* Main.storyboard in Resources */,
+				07DE9E7D210BCF9E009374B0 /* Default-568h@2x .png in Resources */,
 				073A3DB420E2D2E60045024D /* ProximaNova-Regular.ttf in Resources */,
 				0441DBE9210A5AA300ED2796 /* YNSearch.xcassets in Resources */,
-				07437F3F1F28D52200CE728B /* Default-568h@2x.png in Resources */,
 				073A3DB120E2D2E60045024D /* ProximaNova-Medium.ttf in Resources */,
 				073A3DB320E2D2E60045024D /* ProximaNovaSoft-Regular.otf in Resources */,
 			);

@@ -43,11 +43,20 @@ class SearchVC: UIViewController,DeleteButtonDelegate {
         TF.returnKeyType = .search
         TF.placeholder = "Search what you want"
         TF.font = UIFont.systemFont(ofSize: 14.0)
+        TF.addTarget(self, action: #selector(instantSearch), for: UIControlEvents.editingChanged)
+
         TF.borderStyle = .none
         TF.clearButtonMode = .whileEditing
         return TF
     }()
     
+    
+    @objc func instantSearch(textField: UITextField){
+        guard let text = textField.text, text != "" else {
+            return
+        }
+        doSearch(searchText: text, index: client.index(withName: self.index))
+    }
     let cancelButton : UIButton = {
        let button = UIButton()
        button.addTarget(self, action: #selector(hideCancelButton), for: .touchUpInside)
@@ -388,6 +397,8 @@ extension SearchVC: UITextFieldDelegate {
         }
 
     }
+    
+    
 
 }
 
