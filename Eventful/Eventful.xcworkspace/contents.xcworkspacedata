@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:/Users/BandManFabo/Desktop/EventfulApp/EventfulApp1/Eventful/Assets.xcassets">
+   </FileRef>
+   <FileRef
       location = "group:Eventful.xcodeproj">
    </FileRef>
    <FileRef
