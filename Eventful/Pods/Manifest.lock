@@ -4,11 +4,13 @@ PODS:
     - Alamofire (~> 4.5)
   - AlamofireNetworkActivityIndicator (2.2.1):
     - Alamofire (~> 4.7)
+  - AlgoliaSearch-Client-Swift (5.1.7)
   - AZDialogView (1.2.1)
   - BPStatusBarAlert (0.1.5)
   - Crashlytics (3.10.3):
     - Fabric (~> 1.7.8)
   - DTPagerController (2.0.1)
+  - DZNEmptyDataSet (1.8.1)
   - Eureka (4.2.0)
   - Fabric (1.7.8)
   - FaceAware (1.4.0)
@@ -32,13 +34,13 @@ PODS:
   - FirebaseAnalytics (5.0.1):
     - FirebaseCore (~> 5.0)
     - FirebaseInstanceID (~> 3.0)
-    - GoogleToolboxForMac/NSData+zlib (~> 2.1)
+    - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
     - nanopb (~> 0.3)
   - FirebaseAuth (5.0.2):
     - FirebaseCore (~> 5.0)
     - GTMSessionFetcher/Core (~> 1.1)
   - FirebaseCore (5.0.5):
-    - GoogleToolboxForMac/NSData+zlib (~> 2.1)
+    - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
   - FirebaseDatabase (5.0.2):
     - FirebaseCore (~> 5.0)
     - leveldb-library (~> 1.18)
@@ -67,7 +69,7 @@ PODS:
   - GoogleToolboxForMac/Defines (2.1.4)
   - GoogleToolboxForMac/Logger (2.1.4):
     - GoogleToolboxForMac/Defines (= 2.1.4)
-  - GoogleToolboxForMac/NSData+zlib (2.1.4):
+  - "GoogleToolboxForMac/NSData+zlib (2.1.4)":
     - GoogleToolboxForMac/Defines (= 2.1.4)
   - GTMSessionFetcher/Core (1.1.15)
   - IGListKit (3.4.0):
@@ -92,6 +94,7 @@ PODS:
     - InstantSearchClient (~> 5.0)
   - IQKeyboardManagerSwift (6.0.4)
   - JTAppleCalendar (7.1.5)
+  - Kingfisher (4.8.0)
   - leveldb-library (1.20)
   - MarqueeLabel/Swift (3.1.6)
   - nanopb (0.3.8):
@@ -102,6 +105,7 @@ PODS:
   - NotificationBannerSwift (1.6.3):
     - MarqueeLabel/Swift
     - SnapKit (~> 4.0)
+  - PinterestSegment (1.2.0)
   - Protobuf (3.6.0)
   - RecordButton (1.0.2)
   - RevealingSplashView (0.5.0)
@@ -124,10 +128,12 @@ DEPENDENCIES:
   - Alamofire
   - AlamofireImage
   - AlamofireNetworkActivityIndicator
+  - AlgoliaSearch-Client-Swift
   - AZDialogView
   - BPStatusBarAlert
   - Crashlytics
   - DTPagerController
+  - DZNEmptyDataSet
   - Eureka
   - Fabric
   - FaceAware
@@ -146,7 +152,9 @@ DEPENDENCIES:
   - InstantSearch
   - IQKeyboardManagerSwift
   - JTAppleCalendar (from `https://github.com/patchthecode/JTAppleCalendar.git`, branch `master`)
+  - Kingfisher
   - NotificationBannerSwift
+  - PinterestSegment
   - RecordButton
   - RevealingSplashView
   - ScrollableSegmentedControl (~> 1.3.0)
@@ -159,6 +167,58 @@ DEPENDENCIES:
   - TextFieldEffects
   - XLActionController/Twitter
   - YNSearch
+
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - Alamofire
+    - AlamofireImage
+    - AlamofireNetworkActivityIndicator
+    - AlgoliaSearch-Client-Swift
+    - AZDialogView
+    - BPStatusBarAlert
+    - Crashlytics
+    - DTPagerController
+    - DZNEmptyDataSet
+    - Eureka
+    - Fabric
+    - FaceAware
+    - Firebase
+    - FirebaseAnalytics
+    - FirebaseAuth
+    - FirebaseCore
+    - FirebaseDatabase
+    - FirebaseInstanceID
+    - FirebaseMessaging
+    - FirebaseStorage
+    - GoogleMaps
+    - GooglePlacePicker
+    - GooglePlaces
+    - GoogleToolboxForMac
+    - GTMSessionFetcher
+    - ImageRow
+    - Instabug
+    - InstantSearch
+    - InstantSearchClient
+    - InstantSearchCore
+    - IQKeyboardManagerSwift
+    - Kingfisher
+    - leveldb-library
+    - MarqueeLabel
+    - nanopb
+    - NotificationBannerSwift
+    - PinterestSegment
+    - Protobuf
+    - RecordButton
+    - RevealingSplashView
+    - ScrollableSegmentedControl
+    - SimpleImageViewer
+    - SnapKit
+    - SVProgressHUD
+    - SwiftLocation
+    - SwiftyJSON
+    - TextFieldEffects
+    - XLActionController
+    - YNSearch
 
 EXTERNAL SOURCES:
   GeoFire:
@@ -197,10 +257,12 @@ SPEC CHECKSUMS:
   Alamofire: e4fa87002c137ba2d8d634d2c51fabcda0d5c223
   AlamofireImage: 3b35b586853abaf94ca1250f4e94cff3c21a4c0d
   AlamofireNetworkActivityIndicator: aeac50e6ecb78ec71a5f1f29098bcf4ec2962910
+  AlgoliaSearch-Client-Swift: 13f8abe012615ed3ccc35dc61ce0401a191be0ff
   AZDialogView: 75a481ef11e78b047e9d7d212a83b76a8d91627f
   BPStatusBarAlert: 0bc567e3a0f740189239f49c6c516bd61cb3c758
   Crashlytics: 2aea305161a2122492698c75af27f2b98aa49a25
   DTPagerController: 4b4bb13ebe2e462f11416778ddc9fb09e9cf80fe
+  DZNEmptyDataSet: 9525833b9e68ac21c30253e1d3d7076cc828eaa7
   Eureka: 0748c7bbb2560130e43c7bfa83e99c98854a1f42
   Fabric: fba4684a95df789565b0b27fc5b6e68f1755af32
   FaceAware: 94410295a219c4a397ce525eab0063d6b17258aa
@@ -226,10 +288,12 @@ SPEC CHECKSUMS:
   InstantSearchCore: bdbc9e62e337f16b7636310ea004e756eb1a1dba
   IQKeyboardManagerSwift: 36dbe324b4f9793f5f41ba5227f3e7c76dfefd50
   JTAppleCalendar: df0df2b055ba4c6d5940ef4f40a0f4270ea021ac
+  Kingfisher: 976d828df2b24834c6a3f2fc4d82cdbd26552be1
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   MarqueeLabel: 0c41f08ef5773e29c0f71064a8fa788a2fd8b365
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   NotificationBannerSwift: b231e4c3244848ef300e1c53ce027b9756b9b06f
+  PinterestSegment: d589fce6c62141466b9f36ea8ab0a16fde9ac8f4
   Protobuf: 0fc0ad8bec688b2a3017a139953e01374fedbd5f
   RecordButton: 76677be0f4b94f8a387454a23b4b64bd9b6c0e51
   RevealingSplashView: 0794eecad3a8983ac11a1fe474e9a9b51b926780
@@ -245,6 +309,6 @@ SPEC CHECKSUMS:
   XLActionController: 007868251c0eed70d649d06c1625259b73b3a600
   YNSearch: 3a6e0a69cfd34a7c5a7c77e0873f426de4437824
 
-PODFILE CHECKSUM: ff4e63c45616bf46f11f35a5fc58434e48bc1f8d
+PODFILE CHECKSUM: 5a0b6b5288893f204b042fae97cef31ea63a0467
 
-COCOAPODS: 1.4.0
+COCOAPODS: 1.5.0

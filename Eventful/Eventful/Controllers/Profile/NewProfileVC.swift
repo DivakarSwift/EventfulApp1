@@ -274,6 +274,7 @@ extension NewProfileVC: UICollectionViewDataSource, UICollectionViewDelegate,UIC
         let kWhateverHeightYouWant = 60
         return CGSize(width: collectionView.bounds.size.width - 30, height: CGFloat(kWhateverHeightYouWant))
     }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: collectionView.bounds.size.width - 20, height: 270)
     }

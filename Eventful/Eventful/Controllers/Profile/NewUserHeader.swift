@@ -144,11 +144,13 @@ class NewUserHeader: UICollectionViewCell {
         profileViewController.navigationController?.pushViewController(following, animated: true)
         
     }
+    
     @objc func presentFollowers(){
         let followers = FollowersViewController()
         profileViewController.navigationController?.pushViewController(followers, animated: true)
         print("showing followers")
     }
+    
     @objc func setupUserStatsView(){
         
         cellView.addSubview(currentImage)
@@ -191,7 +193,6 @@ class NewUserHeader: UICollectionViewCell {
             make.bottom.equalTo(cellView.snp.bottom)
             make.height.equalTo(50)
         }
-        
      
     }
     
