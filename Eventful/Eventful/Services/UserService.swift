@@ -26,7 +26,7 @@ struct UserService {
         
         print("")
         let userAttrs = ["username": username,
-                         "profilePic": profilePic,"fcmToken":fcmToken, "isPrivate": isPrivate,"bio":"", "name":""] as [String : Any]
+                         "profilePic": profilePic,"fcmToken":fcmToken, "isPrivate": isPrivate] as [String : Any]
         //creats the path in the database where we want our user attributes to be created
         //Also sets the value at that point in the tree to the user Attributes array
         
@@ -61,11 +61,8 @@ struct UserService {
         }
     }
     //Will allow you to edit user data in firebase
-    static func edit(username: String,bio: String, name: String, completion: @escaping (User?) -> Void) {
-        let userAttrs = ["username": username,
-                         "bio": bio,
-                         "name": name
-                         ] as [String : Any]
+    static func edit(username: String, completion: @escaping (User?) -> Void) {
+        let userAttrs = ["username": username] as [String : Any]
         
         let ref = Database.database().reference().child("users").child(User.current.uid)
         ref.updateChildValues(userAttrs) { (error, ref) in
@@ -96,6 +93,50 @@ struct UserService {
                 completion(user)
             })
         }
+    }
+    
+    /// add / edit current index of story
+    static func setCurrentIndexOfStory(currentIndex: Int, eventId: String, completion: @escaping (User?) -> Void) {
+        let userAttrs = [eventId: currentIndex]
+        
+        let ref = Database.database().reference().child("users").child(User.current.uid)
+        ref.child("storyIndexes").updateChildValues(userAttrs) { (error, ref) in
+            if let error = error {
+                assertionFailure(error.localizedDescription)
+                return completion(nil)
+            }
+            
+            ref.observeSingleEvent(of: .value, with: { (snapshot) in
+                let user = User(snapshot: snapshot)
+                completion(user)
+            })
+        }
+    }
+    
+    /// get current index of story if it exists
+    static func getCurrentIndexOfStory(eventId: String, userId: String, completion: @escaping (Int?) -> Void) {
+        
+        UserService.show(forUID: userId) { (user) in
+            
+            if let user = user {
+                
+                if user.storyIndexes != nil {
+                    
+                    if let result = user.storyIndexes?[eventId] as? Int {
+                        //the saved index is saved so set to the current index
+                        return completion(result)
+                    }
+                    
+                }
+                //doesnt exist
+                return completion(nil)
+                
+            } else {
+                //something went wrong getting the user
+                return completion(nil)
+            }
+        }
+        
     }
     
     // will observe the user object in the database for any changes and make sure that they are updated

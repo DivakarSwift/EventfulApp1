@@ -122,7 +122,6 @@ class LoginViewController: UIViewController , LoginViewControllerDelegate {
     func finishLoggingIn() {
        // print("Finish logging in from LoginController")
         let homeController = HomeViewController()
-        homeController.isFromLoginOrSignUp = true
         self.view.window?.rootViewController = homeController
         self.view.window?.makeKeyAndVisible()
     }

@@ -241,7 +241,7 @@ class AlterProfileViewController: UIViewController, UIImagePickerControllerDeleg
                             User.setCurrent(user, writeToUserDefaults: true)
                         }
                     })
-                    UserService.edit(username: username, bio: "", name: "") { [unowned self](user) in
+                    UserService.edit(username: username) { [unowned self](user) in
                         guard let user = user else {
                             return
                         }

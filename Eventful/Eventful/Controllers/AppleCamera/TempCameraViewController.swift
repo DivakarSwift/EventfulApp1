@@ -1244,6 +1244,16 @@ extension TempCameraViewController: AVCapturePhotoCaptureDelegate {
                 
                 if let cgImage = image?.cgImage, let scale = image?.scale {
                     let newImage = UIImage(cgImage: cgImage, scale: scale, orientation:  self.getImageOrientation(forCamera: self.videoDeviceInput.device.position))
+                    
+                    
+                    if let event = self.event {
+                        let imgViewController = FilterImageViewController(image: newImage)
+                        imgViewController.event = event
+                        present(imgViewController, animated: false, completion: nil)
+                    }
+                
+                    
+                    /*
                     let containerView = PreviewPhotoContainerView()
                     containerView.event = event
                     self.view.addSubview(containerView)
@@ -1251,6 +1261,7 @@ extension TempCameraViewController: AVCapturePhotoCaptureDelegate {
                     containerView.snp.makeConstraints { (make) in
                         make.edges.equalTo(self.view)
                     }
+                    */
                     
                 }
             }
@@ -1319,12 +1330,27 @@ extension TempCameraViewController: AVCaptureFileOutputRecordingDelegate{
                     
                     print(videoURL)
                     
+                    if let event = self.event {
+                        let video = AVURLAsset(url: videoURL)
+                        let videoViewController = FilterVideoViewController(video: video)
+                        videoViewController.event = event
+                        SVProgressHUD.dismiss(completion: {
+                            self.present(videoViewController, animated: false, completion: nil)
+                        })
+                        
+                    }
+
+                    
+                    /*
                     let videoPlayBackVC = VideoViewController()
                     videoPlayBackVC.event = self.event
                     videoPlayBackVC.videoURL = videoURL
-                    SVProgressHUD.dismiss(completion: {
-                        self.present(videoPlayBackVC, animated: true)
-                    })
+                    SVProgressHUD.dismiss()
+                    self.present(videoPlayBackVC, animated: true) {
+                        
+                    }
+                    */
+                    
                 }) { (error) in
                     print(error)
                 }

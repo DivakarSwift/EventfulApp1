@@ -17,12 +17,8 @@ class NewUserHeader: UICollectionViewCell {
     var followNotificationData : Notifications!
     var user: User?{
         didSet {
-            nameLabel.text = user?.name
-            bioLabel.text = user?.bio
-            if let profilePic = user?.profilePic {
-                currentImage.loadImage(urlString: profilePic)
-
-            }
+            setupProfileImage()
+            //  userNameLabel.text = user?.username
             setupEditFollowButton()
         }
     }
@@ -38,28 +34,9 @@ class NewUserHeader: UICollectionViewCell {
         cellView.setCellShadow()
         return cellView
     }()
-    //creatas a UILabel
-    let nameLabel: UILabel = {
-        let nameLabel = UILabel()
-//        nameLabel.text = "Josh Hart"
-        nameLabel.textColor = UIColor.black
-        nameLabel.font = UIFont.boldSystemFont(ofSize: 15)
-        return nameLabel
-    }()
     
-    //creatas a UILabel
-    let bioLabel: UILabel = {
-        let bioLabel = UILabel()
-//        bioLabel.text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse nunc massa, laoreet id sapien non, vehicula dapibus mi. Nam placerat lacinia diam, sed scelerisque dolor mollis sit amet"
-        bioLabel.textColor = UIColor.lightGray
-        bioLabel.numberOfLines = 0
-        bioLabel.font = UIFont.systemFont(ofSize: 13)
-        return bioLabel
-    }()
-    
-    
-    lazy var currentImage : CustomImageView = {
-        let currentImage = CustomImageView()
+    lazy var currentImage : UIImageView = {
+        let currentImage = UIImageView()
         currentImage.setCellShadow()
         currentImage.clipsToBounds = true
         currentImage.translatesAutoresizingMaskIntoConstraints = false
@@ -117,12 +94,12 @@ class NewUserHeader: UICollectionViewCell {
     lazy var editFollowButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Edit Profile", for: .normal)
-        button.setupShadow2()
-        button.setTitleColor(UIColor.darkText, for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
         button.layer.borderColor = UIColor.lightGray.cgColor
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 14)
-        button.layer.borderWidth = 0.4
+        button.layer.borderWidth = 1
          button.addTarget(self, action: #selector(didTapEditFollowButton), for: .touchUpInside)
+        button.layer.cornerRadius = 3
         return button
     }()
     
@@ -144,46 +121,27 @@ class NewUserHeader: UICollectionViewCell {
         profileViewController.navigationController?.pushViewController(following, animated: true)
         
     }
-    
     @objc func presentFollowers(){
         let followers = FollowersViewController()
         profileViewController.navigationController?.pushViewController(followers, animated: true)
         print("showing followers")
     }
-    
     @objc func setupUserStatsView(){
         
         cellView.addSubview(currentImage)
         currentImage.snp.makeConstraints { (make) in
-            make.left.equalTo(cellView.snp.left).offset(15)
-            make.top.equalTo(cellView.snp.top).offset(15)
-            make.height.width.equalTo(80)
+            make.left.right.equalTo(cellView).inset(40)
+            make.top.equalTo(cellView.snp.top).offset(5)
+            make.height.equalTo(250)
         }
-        currentImage.layer.cornerRadius = 80/2
-        
-        cellView.addSubview(nameLabel)
-        nameLabel.snp.makeConstraints { (make) in
-            make.left.equalTo(cellView.snp.left).offset(15)
-            make.top.equalTo(currentImage.snp.bottom).offset(15)
-            make.right.equalTo(cellView.snp.right).inset(70)
-        }
-        cellView.addSubview(bioLabel)
-        bioLabel.snp.makeConstraints { (make) in
-            make.left.equalTo(cellView.snp.left).offset(15)
-            make.top.equalTo(nameLabel.snp.bottom).offset(15)
-            make.right.equalTo(cellView.snp.right).inset(20)
-        }
-        
         
         cellView.addSubview(editFollowButton)
 
         editFollowButton.snp.makeConstraints { (make) in
-            make.right.equalTo(cellView.snp.right).inset(15)
-            make.left.equalTo(currentImage.snp.right).offset(90)
-            make.top.equalTo(cellView.snp.top).offset(30)
-            make.height.equalTo(40)
+            make.left.right.equalTo(cellView).inset(15)
+            make.top.equalTo(currentImage.snp.bottom).offset(10)
+            make.height.equalTo(30)
         }
-        editFollowButton.layer.cornerRadius = 20
 
         let stackView = UIStackView(arrangedSubviews: [eventsLabel,followersLabel,followingLabel])
         stackView.distribution = .fillEqually
@@ -193,9 +151,35 @@ class NewUserHeader: UICollectionViewCell {
             make.bottom.equalTo(cellView.snp.bottom)
             make.height.equalTo(50)
         }
+        
      
     }
     
+    fileprivate func setupProfileImage() {
+        guard let profileImageUrl = user?.profilePic else {return }
+        
+        guard let url = URL(string: profileImageUrl) else { return }
+        
+        URLSession.shared.dataTask(with: url) { (data, response, err) in
+            //check for the error, then construct the image using data
+            if let err = err {
+                print("Failed to fetch profile image:", err)
+                return
+            }
+            
+            //perhaps check for response status of 200 (HTTP OK)
+            
+            guard let data = data else { return }
+            
+            let image = UIImage(data: data)
+            
+            //need to get back onto the main UI thread
+            DispatchQueue.main.async {
+                self.currentImage.image = image
+            }
+            
+            }.resume()
+    }
     
     fileprivate func setupEditFollowButton(){
         guard let currentLoggedInUser = Auth.auth().currentUser?.uid else{
@@ -252,10 +236,7 @@ class NewUserHeader: UICollectionViewCell {
         if currentLoggedInUser == uid {
             //edit profile
             editFollowButton.isUserInteractionEnabled = false
-            let profileSetupTransition = EditProfile()
-            if let image = currentImage.image {
-                profileSetupTransition.currentProfilePic = image
-            }
+            let profileSetupTransition = AlterProfileViewController()
             let navController = UINavigationController(rootViewController: profileSetupTransition)
             profileViewController.present(navController, animated: true, completion: nil)
             self.editFollowButton.isUserInteractionEnabled = true
@@ -314,13 +295,10 @@ class NewUserHeader: UICollectionViewCell {
                                 
                                 followee?.isFollowed = !(followee?.isFollowed)!
                                 print(followee?.isFollowed ?? "true")
-                                if let uid = self.user?.uid {
-                                    self.followNotificationData = Notifications.init(reciever: uid, content: User.current.username! + " has followed you", type: notiType.follow.rawValue)
-                                    
-                                    FollowService.sendFollowNotification(self.followNotificationData)
-                                }
                                 
+                                self.followNotificationData = Notifications.init(reciever: self.user!, content: User.current.username! + " has followed you", type: notiType.follow.rawValue)
                                 
+                                FollowService.sendFollowNotification(self.followNotificationData)
                                 print("Successfully followed user: ", self.user?.username ?? "")
                                 self.editFollowButton.setTitle("Unfollow", for: .normal)
                                 self.editFollowButton.backgroundColor = .white

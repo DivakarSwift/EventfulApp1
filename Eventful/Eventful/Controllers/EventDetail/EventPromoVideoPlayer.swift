@@ -25,6 +25,16 @@ class EventPromoVideoPlayer: UIViewController {
     // Allows you to display the video content of a AVPlayer
     var playerController : AVPlayerViewController?
     
+    // App enter in forground.
+    @objc func applicationWillEnterForeground(_ notification: Notification) {
+        player?.play()
+    }
+    
+    // App enter in forground.
+    @objc func applicationDidEnterBackground(_ notification: Notification) {
+        player?.pause()
+    }
+    
     init(videoURL: URL) {
         self.videoURL = videoURL
         super.init(nibName: nil, bundle: nil)
@@ -35,6 +45,12 @@ class EventPromoVideoPlayer: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Add the observers to stop the video from freezing when the app goes to the background
+        NotificationCenter.default.addObserver(self, selector: #selector(applicationWillEnterForeground), name: .UIApplicationWillEnterForeground, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(applicationDidEnterBackground), name: .UIApplicationDidEnterBackground, object: nil)
+        
         self.view.backgroundColor = UIColor.gray
         let downSwipe = UISwipeGestureRecognizer(target: self, action: #selector(swipeAction(_:)))
         downSwipe.direction = .down
@@ -81,7 +97,13 @@ class EventPromoVideoPlayer: UIViewController {
         self.view.transform = transform
     }
     
-
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        // Remove the observers
+        NotificationCenter.default.removeObserver(self, name: .UIApplicationWillEnterForeground, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .UIApplicationDidEnterBackground, object: nil)
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)

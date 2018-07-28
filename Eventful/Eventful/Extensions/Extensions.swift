@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 extension UIColor {
     
@@ -496,6 +497,12 @@ public extension Sequence where Iterator.Element: Equatable {
                 ? uniqueElements
                 : uniqueElements + [element]
         }
+    }
+}
+
+extension AVPlayer {
+    var isPlaying: Bool{
+        return rate != 0 && error == nil
     }
 }
 
