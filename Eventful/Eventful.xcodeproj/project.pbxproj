@@ -49,9 +49,8 @@
 		073A3DB920E300E30045024D /* SearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073A3DB820E300E30045024D /* SearchCell.swift */; };
 		073A3DBB20E301450045024D /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073A3DBA20E301450045024D /* UserCell.swift */; };
 		073A3DBD20E3111E0045024D /* NewEventSearchHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073A3DBC20E3111E0045024D /* NewEventSearchHeader.swift */; };
-		073A3DBF20E314E90045024D /* StickyHeaderLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073A3DBE20E314E90045024D /* StickyHeaderLayout.swift */; };
-		073A3DC120E3B2E80045024D /* CustomFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073A3DC020E3B2E80045024D /* CustomFlowLayout.swift */; };
 		073AFDC51F45E4FB009D4773 /* FollowService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073AFDC41F45E4FB009D4773 /* FollowService.swift */; };
+		073B65C82109794B0067505F /* RoundShadowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073B65C72109794B0067505F /* RoundShadowView.swift */; };
 		0741702C20468A1F006B236B /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0741702B20468A1F006B236B /* NotificationCell.swift */; };
 		0741702E20474D12006B236B /* NotificationSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0741702D20474D12006B236B /* NotificationSectionController.swift */; };
 		07417030204751DB006B236B /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0741702F204751DB006B236B /* NotificationService.swift */; };
@@ -60,7 +59,6 @@
 		07437F241F267CA900CE728B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 07437F221F267CA900CE728B /* LaunchScreen.storyboard */; };
 		07437F3B1F28D4B900CE728B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 07437F3A1F28D4B900CE728B /* GoogleService-Info.plist */; };
 		07437F3D1F28D4C500CE728B /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07437F3C1F28D4C500CE728B /* Extensions.swift */; };
-		07437F3F1F28D52200CE728B /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 07437F3E1F28D52200CE728B /* Default-568h@2x.png */; };
 		07437F441F290F9F00CE728B /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07437F431F290F9F00CE728B /* User.swift */; };
 		07437F461F2911E500CE728B /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07437F451F2911E500CE728B /* AuthService.swift */; };
 		07437F491F29167000CE728B /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07437F481F29167000CE728B /* UserService.swift */; };
@@ -125,6 +123,7 @@
 		07C15E6220D2311F0046D8BC /* NewUserHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C15E6120D2311F0046D8BC /* NewUserHeader.swift */; };
 		07C15E6420D232460046D8BC /* NewUserEventAttendingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C15E6320D232460046D8BC /* NewUserEventAttendingCell.swift */; };
 		07D923A81F33C61D0069613D /* Storyboard+Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D923A71F33C61D0069613D /* Storyboard+Utility.swift */; };
+		07DE9E7D210BCF9E009374B0 /* Default-568h@2x .png in Resources */ = {isa = PBXBuildFile; fileRef = 07DE9E7C210BCF9E009374B0 /* Default-568h@2x .png */; };
 		07E271B62056354F007F0592 /* NotifBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E271B52056354F007F0592 /* NotifBannerView.swift */; };
 		07EDACA820F2F07200585EF0 /* ContactUsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EDACA720F2F07200585EF0 /* ContactUsVC.swift */; };
 		07EDACAD20F2F43100585EF0 /* TipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EDACA920F2F43100585EF0 /* TipView.swift */; };
@@ -191,9 +190,8 @@
 		073A3DB820E300E30045024D /* SearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SearchCell.swift; path = Controllers/Search/SearchCell.swift; sourceTree = "<group>"; };
 		073A3DBA20E301450045024D /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UserCell.swift; path = Controllers/Search/UserCell.swift; sourceTree = "<group>"; };
 		073A3DBC20E3111E0045024D /* NewEventSearchHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NewEventSearchHeader.swift; path = Controllers/Search/NewEventSearchHeader.swift; sourceTree = "<group>"; };
-		073A3DBE20E314E90045024D /* StickyHeaderLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StickyHeaderLayout.swift; path = Controllers/Search/StickyHeaderLayout.swift; sourceTree = "<group>"; };
-		073A3DC020E3B2E80045024D /* CustomFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CustomFlowLayout.swift; path = Controllers/Search/CustomFlowLayout.swift; sourceTree = "<group>"; };
 		073AFDC41F45E4FB009D4773 /* FollowService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FollowService.swift; path = Services/FollowService.swift; sourceTree = "<group>"; };
+		073B65C72109794B0067505F /* RoundShadowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RoundShadowView.swift; path = Controllers/EventDetail/RoundShadowView.swift; sourceTree = "<group>"; };
 		0741702B20468A1F006B236B /* NotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NotificationCell.swift; path = Controllers/Notifications/NotificationCell.swift; sourceTree = "<group>"; };
 		0741702D20474D12006B236B /* NotificationSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NotificationSectionController.swift; path = Controllers/Notifications/NotificationSectionController.swift; sourceTree = "<group>"; };
 		0741702F204751DB006B236B /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NotificationService.swift; path = Services/NotificationService.swift; sourceTree = "<group>"; };
@@ -204,7 +202,6 @@
 		07437F381F28D4AD00CE728B /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Supporting/Info.plist; sourceTree = "<group>"; };
 		07437F3A1F28D4B900CE728B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Supporting/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		07437F3C1F28D4C500CE728B /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Extensions.swift; path = Extensions/Extensions.swift; sourceTree = "<group>"; };
-		07437F3E1F28D52200CE728B /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		07437F431F290F9F00CE728B /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = User.swift; path = Models/User.swift; sourceTree = "<group>"; };
 		07437F451F2911E500CE728B /* AuthService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AuthService.swift; path = Services/AuthService.swift; sourceTree = "<group>"; };
 		07437F481F29167000CE728B /* UserService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserService.swift; path = Services/UserService.swift; sourceTree = "<group>"; };
@@ -270,6 +267,7 @@
 		07C15E6120D2311F0046D8BC /* NewUserHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NewUserHeader.swift; path = Controllers/Profile/NewUserHeader.swift; sourceTree = "<group>"; };
 		07C15E6320D232460046D8BC /* NewUserEventAttendingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NewUserEventAttendingCell.swift; path = Controllers/Profile/NewUserEventAttendingCell.swift; sourceTree = "<group>"; };
 		07D923A71F33C61D0069613D /* Storyboard+Utility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Storyboard+Utility.swift"; path = "Extensions/Storyboard+Utility.swift"; sourceTree = "<group>"; };
+		07DE9E7C210BCF9E009374B0 /* Default-568h@2x .png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x .png"; sourceTree = "<group>"; };
 		07E271B52056354F007F0592 /* NotifBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NotifBannerView.swift; path = Controllers/Notifications/NotifBannerView.swift; sourceTree = "<group>"; };
 		07EDACA720F2F07200585EF0 /* ContactUsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContactUsVC.swift; path = Controllers/Settings/ContactUsVC.swift; sourceTree = "<group>"; };
 		07EDACA920F2F43100585EF0 /* TipView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TipView.swift; path = TipViewSource/TipView.swift; sourceTree = "<group>"; };
@@ -348,8 +346,6 @@
 				073A3DB820E300E30045024D /* SearchCell.swift */,
 				073A3DBA20E301450045024D /* UserCell.swift */,
 				073A3DBC20E3111E0045024D /* NewEventSearchHeader.swift */,
-				073A3DBE20E314E90045024D /* StickyHeaderLayout.swift */,
-				073A3DC020E3B2E80045024D /* CustomFlowLayout.swift */,
 			);
 			name = Search;
 			sourceTree = "<group>";
@@ -397,7 +393,7 @@
 			children = (
 				04FEB45A210905EB0021F46A /* Assets.xcassets */,
 				07437F181F267CA900CE728B /* Eventful */,
-				07437F3E1F28D52200CE728B /* Default-568h@2x.png */,
+				07DE9E7C210BCF9E009374B0 /* Default-568h@2x .png */,
 				07437F171F267CA900CE728B /* Products */,
 				69B6760783C527721C92650D /* Pods */,
 				EDCAC4FC8504278362A0DA28 /* Frameworks */,
@@ -664,6 +660,7 @@
 				0747AA0720375D6E00F725C7 /* VideoLauncher.swift */,
 				07C15E5920C5A5BF0046D8BC /* ShareViewController.swift */,
 				07C15E5B20C5AEBF0046D8BC /* ShareCell.swift */,
+				073B65C72109794B0067505F /* RoundShadowView.swift */,
 			);
 			name = "Event Detail";
 			sourceTree = "<group>";
@@ -735,9 +732,9 @@
 				TargetAttributes = {
 					07437F151F267CA900CE728B = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = KT77239KB2;
+						DevelopmentTeam = W8XH6RU95C;
 						LastSwiftMigration = 0900;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Push = {
 								enabled = 1;
@@ -781,9 +778,9 @@
 				073A3DB620E2D2E60045024D /* ProximaNova-Black.ttf in Resources */,
 				073A3DB220E2D2E60045024D /* ProximaNovaSoft-Bold.ttf in Resources */,
 				07437F1F1F267CA900CE728B /* Main.storyboard in Resources */,
+				07DE9E7D210BCF9E009374B0 /* Default-568h@2x .png in Resources */,
 				073A3DB420E2D2E60045024D /* ProximaNova-Regular.ttf in Resources */,
 				0441DBE9210A5AA300ED2796 /* YNSearch.xcassets in Resources */,
-				07437F3F1F28D52200CE728B /* Default-568h@2x.png in Resources */,
 				073A3DB120E2D2E60045024D /* ProximaNova-Medium.ttf in Resources */,
 				073A3DB320E2D2E60045024D /* ProximaNovaSoft-Regular.otf in Resources */,
 			);
@@ -1011,7 +1008,6 @@
 				0748714C20845C320024635C /* BaseCell.swift in Sources */,
 				07C15E5A20C5A5BF0046D8BC /* ShareViewController.swift in Sources */,
 				074D75A0200C8E8C0044C3AD /* LocationService.swift in Sources */,
-				073A3DC120E3B2E80045024D /* CustomFlowLayout.swift in Sources */,
 				0704C7722062CE1D00C9E35A /* HomeFeedEventCell.swift in Sources */,
 				0747AA1F20375E0E00F725C7 /* EventSearchHeader.swift in Sources */,
 				073A3D8020E0BCCF0045024D /* CalendarHeader.swift in Sources */,
@@ -1048,9 +1044,9 @@
 				0747AA1620375D8500F725C7 /* NewCommentsViewController.swift in Sources */,
 				0747A9DB20375C6600F725C7 /* NotificationsViewController.swift in Sources */,
 				07C15E2420B7DA920046D8BC /* Private.swift in Sources */,
-				073A3DBF20E314E90045024D /* StickyHeaderLayout.swift in Sources */,
 				073AFDC51F45E4FB009D4773 /* FollowService.swift in Sources */,
 				07EDACBA20F5B4AB00585EF0 /* VideoGenerator.swift in Sources */,
+				073B65C82109794B0067505F /* RoundShadowView.swift in Sources */,
 				07C15E3D20C10D550046D8BC /* FollowingViewController.swift in Sources */,
 				0724731F2078562700DD285E /* PlacesSearchController.swift in Sources */,
 				07F3EC591F4A57C3005296EB /* PostService.swift in Sources */,
@@ -1144,7 +1140,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -1195,7 +1191,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -1210,10 +1206,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-2";
 				CODE_SIGN_ENTITLEMENTS = Eventful/Eventful.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = KT77239KB2;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = W8XH6RU95C;
 				INFOPLIST_FILE = "$(SRCROOT)/Eventful/Supporting/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.haipe.Haipe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1231,10 +1227,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-2";
 				CODE_SIGN_ENTITLEMENTS = Eventful/Eventful.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = W8XH6RU95C;
 				INFOPLIST_FILE = "$(SRCROOT)/Eventful/Supporting/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.haipe.Haipe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
