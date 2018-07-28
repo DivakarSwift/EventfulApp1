@@ -45,9 +45,9 @@ public class RecordingSession: NSObject {
         self.renderPipeline = renderPipeline
 
         let captureOutputs = captureSessions.flatMap { captureSession -> [(AVCaptureSession, AVCaptureOutput)] in
-            let allMediaTypes = captureSession.inputs.flatMap { $0 as? AVCaptureInput }.flatMap { $0.ports.flatMap { $0 as? AVCaptureInput.Port } }.flatMap { $0.mediaType }
+            let allMediaTypes = captureSession.inputs.compactMap { $0 as? AVCaptureInput }.flatMap { $0.ports.compactMap { $0 as? AVCaptureInput.Port } }.compactMap { $0.mediaType }
 
-            return allMediaTypes.flatMap { mediaType -> (AVCaptureSession, AVCaptureOutput)? in
+            return allMediaTypes.compactMap { mediaType -> (AVCaptureSession, AVCaptureOutput)? in
                 switch mediaType {
                 case .audio:
                     let output = AVCaptureAudioDataOutput()
@@ -74,7 +74,7 @@ public class RecordingSession: NSObject {
     let sampleBufferQueue = DispatchQueue(label: "RecordingSession")
 
     var ports: [AVCaptureInput.Port] {
-        return captureSessions.flatMap { $0.inputs.flatMap { $0 as? AVCaptureInput }}.flatMap { $0.ports.flatMap { $0 as? AVCaptureInput.Port } }
+        return captureSessions.flatMap { $0.inputs.compactMap { $0 as? AVCaptureInput }}.flatMap { $0.ports.compactMap { $0 as? AVCaptureInput.Port } }
     }
 
     func createRoutes() {

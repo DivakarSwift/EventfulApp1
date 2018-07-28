@@ -44,7 +44,7 @@ class NewUserEventAttendingCell: BaseRoundedCardCell {
     
     lazy var eventNameLabel : UILabel = {
         let label = UILabel()
-        label.font =  UIFont(name:"HelveticaNeue-Medium", size: 16)
+        label.font =  UIFont(name:"HelveticaNeue-Medium", size: 12)
         label.textAlignment = .center
         label.numberOfLines = 0
         return label
@@ -52,7 +52,7 @@ class NewUserEventAttendingCell: BaseRoundedCardCell {
     
     lazy var eventCityLabel : UILabel = {
         let label = UILabel()
-        label.font = UIFont(name:"HelveticaNeue", size: 15.5)
+        label.font = UIFont(name:"HelveticaNeue", size: 12)
         label.textAlignment = .center
         label.numberOfLines = 0
         return label
@@ -60,7 +60,7 @@ class NewUserEventAttendingCell: BaseRoundedCardCell {
     
     lazy var eventTimeLabel : UILabel = {
         let label = UILabel()
-        label.font = UIFont(name:"HelveticaNeue-Medium", size: 18)
+        label.font = UIFont(name:"HelveticaNeue-Medium", size: 12)
         label.textAlignment = .center
         label.numberOfLines = 0
         return label
@@ -78,27 +78,23 @@ class NewUserEventAttendingCell: BaseRoundedCardCell {
             make.left.equalTo(cellView.snp.left).inset(4)
             make.top.bottom.equalTo(cellView).inset(4)
             make.centerY.equalTo(cellView.snp.centerY)
-            make.height.equalTo(self.frame.height - 20)
-            make.width.equalTo(self.frame.width / 3)
+            make.height.width.equalTo(50)
         }
         
         cellView.addSubview(eventNameLabel)
         eventNameLabel.snp.makeConstraints { (make) in
-            make.left.equalTo(eventImageView.snp.right).offset(18)
-            make.right.equalTo(cellView.snp.right).inset(5)
+            make.left.equalTo(eventImageView.snp.right).offset(10)
             make.top.equalTo(cellView.snp.top).inset(10)
         }
         cellView.addSubview(eventCityLabel)
         eventCityLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(eventNameLabel.snp.bottom).offset(15)
-            make.left.equalTo(eventImageView.snp.right).offset(18)
-            make.right.equalTo(cellView.snp.right).inset(5)
+            make.top.equalTo(eventNameLabel.snp.bottom).offset(5)
+            make.left.equalTo(eventImageView.snp.right).offset(10)
         }
-        
+
         cellView.addSubview(eventTimeLabel)
         eventTimeLabel.snp.makeConstraints { (make) in
-            make.bottom.equalTo(cellView.snp.bottom).inset(10)
-            make.left.equalTo(eventImageView.snp.right).offset(18)
+            make.top.equalTo(cellView.snp.top).inset(9)
             make.right.equalTo(cellView.snp.right).inset(5)
         }
     }

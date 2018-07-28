@@ -43,7 +43,7 @@ public class FilterScrollView: UIView, UIScrollViewDelegate {
     }
 
     var sortedVisibleSubviews: [UIView] {
-        return scrollView.visibleSubviews.flatMap { $0 as? UIView }.sorted(by: { (firstView, secondView) -> Bool in
+        return scrollView.visibleSubviews.compactMap { $0 as? UIView }.sorted(by: { (firstView, secondView) -> Bool in
             return firstView.tag < secondView.tag
         })
     }
@@ -53,7 +53,7 @@ public class FilterScrollView: UIView, UIScrollViewDelegate {
             return [(CIFilter, CGRect, String?)]()
         }
 
-        return sortedVisibleSubviews.flatMap { view -> (CIFilter, CGRect, String?)? in
+        return sortedVisibleSubviews.compactMap { view -> (CIFilter, CGRect, String?)? in
             let rect = view.convert(view.bounds, to: self)
 
             guard bounds.intersects(rect) else {

@@ -20,7 +20,7 @@ class CategoryViewController: UICollectionViewController,UICollectionViewDelegat
     
     lazy var emptyLabel: UILabel = {
         let emptyLabel = UILabel()
-        emptyLabel.font = UIFont(name: "Avenir", size: 18)
+        emptyLabel.font = UIFont.systemFont(ofSize: 18)
         emptyLabel.numberOfLines = 0
         emptyLabel.textAlignment = .center
         return emptyLabel
@@ -127,6 +127,7 @@ class CategoryViewController: UICollectionViewController,UICollectionViewDelegat
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! CategoryEventCell
         cell.event = events[indexPath.item]
+        cell.eventNameLabel.font = UIFont.systemFont(ofSize: 12)
         // Configure the cell
         return cell
     }

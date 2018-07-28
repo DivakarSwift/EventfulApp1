@@ -251,8 +251,13 @@ class StoriesViewController: UIViewController, SegmentedProgressBarDelegate {
         
         // Setup the Progress bar
         spb = SegmentedProgressBar(numberOfSegments: allStories.count)
-        spb.frame = CGRect(x: 0, y: 1, width: self.view.frame.width, height: 9)
+//        spb.frame = CGRect(x: 0, y: 1, width: self.view.frame.width, height: 9)
         self.view.addSubview(spb)
+        spb.snp.makeConstraints { (make) in
+            make.left.right.equalTo(view.safeAreaLayoutGuide)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(1)
+            make.height.equalTo(9)
+        }
         
         spb.delegate = self
         
@@ -269,12 +274,7 @@ class StoriesViewController: UIViewController, SegmentedProgressBarDelegate {
         infoView.backgroundColor = UIColor.clear
 
         // The image view for the user of the current story
-        let infoImageViewFrame = CGRect(x: 10, y: 17, width: 30, height: 30)
-        
-        infoImageView = UIImageView(frame: infoImageViewFrame)
-        infoImageView.layer.cornerRadius = 15
-        infoImageView.layer.masksToBounds = true
-        
+        infoImageView = UIImageView()
         self.view.addSubview(imageView)
         self.view.addSubview(playerController.view)
         self.view.bringSubview(toFront: spb)
@@ -283,9 +283,16 @@ class StoriesViewController: UIViewController, SegmentedProgressBarDelegate {
         
         self.infoView.addSubview(infoImageView)
         
+        infoImageView.snp.makeConstraints { (make) in
+            make.top.equalTo(spb.snp.bottom).offset(2)
+            make.left.equalTo(view.safeAreaLayoutGuide.snp.left).offset(10)
+            make.height.width.equalTo(30)
+        }
+        infoImageView.layer.cornerRadius = 15
+        infoImageView.layer.masksToBounds = true
+        
         // The name for the user of the current story
-        let infoNameLabelFrame = CGRect(x: infoImageView.frame.origin.x + infoImageView.frame.width + 5, y: 17, width: 80, height: 30)
-        infoNameLabel = UILabel(frame: infoNameLabelFrame)
+        infoNameLabel = UILabel()
         infoNameLabel.backgroundColor = UIColor.black.withAlphaComponent(0.1)
         infoNameLabel.textColor = UIColor.white
         infoNameLabel.font = UIFont.boldSystemFont(ofSize: 18)
@@ -293,13 +300,26 @@ class StoriesViewController: UIViewController, SegmentedProgressBarDelegate {
         
         self.infoView.addSubview(infoNameLabel)
         
+        infoNameLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(infoImageView.snp.right).offset(5)
+            make.top.equalTo(spb.snp.bottom).offset(2)
+            make.height.equalTo(30)
+            make.width.equalTo(80)
+        }
+        
         // Time label for long ago the story was posted
-        let infoTimeLabelFrame = CGRect(x: infoNameLabel.frame.origin.x + infoNameLabel.frame.width + 10, y: 17, width: 50, height: 30)
-        infoTimeLabel = UILabel(frame: infoTimeLabelFrame)
+        infoTimeLabel = UILabel()
         infoTimeLabel.backgroundColor = UIColor.black.withAlphaComponent(0.1)
         infoTimeLabel.textColor = UIColor.white
         
         self.infoView.addSubview(infoTimeLabel)
+        
+        infoTimeLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(infoNameLabel.snp.right).offset(5)
+            make.top.equalTo(spb.snp.bottom).offset(2)
+            make.height.equalTo(30)
+            make.width.equalTo(50)
+        }
         
         infoView.isUserInteractionEnabled = true
         infoView.addGestureRecognizer(tapInfoView)

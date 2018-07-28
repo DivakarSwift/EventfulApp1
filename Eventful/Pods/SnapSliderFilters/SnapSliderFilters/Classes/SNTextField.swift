@@ -151,7 +151,7 @@ public extension SNTextField {
         self.frame.origin.y = self.location.y
     }
     
-    func updatePosition(_ notification: Notification) {
+    @objc func updatePosition(_ notification: Notification) {
         if let keyboardSize = ((notification as NSNotification).userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             self.frame.origin.y = self.heightOfScreen - keyboardSize.height - self.frame.size.height
         }

@@ -400,7 +400,7 @@ class FilterVideoViewController: FiilterViewController {
     @IBAction func doneButtontapped() {
         video?.exportFilterVideo(videoComposition: avVideoComposition , completion: { (url) in
             if let delegate = self.delegate {
-                let convertedVideo = AVURLAsset(url: url as URL!)
+                let convertedVideo = AVURLAsset(url: (url as URL?)!)
                 delegate.filterVideoViewControllerVideoDidFilter(video: convertedVideo)
             }
         })

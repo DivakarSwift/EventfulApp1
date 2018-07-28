@@ -72,18 +72,29 @@ class NotificationsSectionController: ListSectionController,NotificationCellDele
     
     func handleProfileTransition(tapGesture: UITapGestureRecognizer) {
         let userProfileController = ProfileeViewController(collectionViewLayout: UICollectionViewFlowLayout())
-        userProfileController.user = notif?.sender
-        userProfileController.navigationItem.title = notif?.sender.username
-        userProfileController.navigationItem.hidesBackButton = true
-        let backButton = UIBarButtonItem(image: UIImage(named: "icons8-Back-64"), style: .plain, target: self, action: #selector(GoBack))
-        userProfileController.navigationItem.leftBarButtonItem = backButton
-        let navController = UINavigationController(rootViewController: userProfileController)
-        if Auth.auth().currentUser?.uid != notif?.sender.uid{
-            self.viewController?.present(navController, animated: true, completion: nil)
-        }else{
-            //do nothing
+        if let uid = notif?.sender {
             
+            UserService.show(forUID: uid) { (user) in
+                guard let user = user else {
+                    return
+                }
+                
+                userProfileController.user = user
+                userProfileController.navigationItem.title = user.username
+                userProfileController.navigationItem.hidesBackButton = true
+                let backButton = UIBarButtonItem(image: UIImage(named: "icons8-Back-64"), style: .plain, target: self, action: #selector(self.GoBack))
+                userProfileController.navigationItem.leftBarButtonItem = backButton
+                let navController = UINavigationController(rootViewController: userProfileController)
+                if Auth.auth().currentUser?.uid != user.uid{
+                    self.viewController?.present(navController, animated: true, completion: nil)
+                }else{
+                    //do nothing
+                    
+                }
+            }
         }
+        
+        
     }
 
     @objc func GoBack(){

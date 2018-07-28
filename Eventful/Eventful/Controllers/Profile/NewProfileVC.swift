@@ -271,11 +271,12 @@ extension NewProfileVC: UICollectionViewDataSource, UICollectionViewDelegate,UIC
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let kWhateverHeightYouWant = 169
+        let kWhateverHeightYouWant = 60
         return CGSize(width: collectionView.bounds.size.width - 30, height: CGFloat(kWhateverHeightYouWant))
     }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: collectionView.bounds.size.width - 20, height: 350)
+        return CGSize(width: collectionView.bounds.size.width - 20, height: 270)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -294,7 +295,7 @@ extension NewProfileVC: UICollectionViewDataSource, UICollectionViewDelegate,UIC
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerID, for: indexPath) as! NewUserHeader
         header.user = user
         header.profileViewController = self
-        header.eventsLabel.attributedText = setupHeaderLabel(count: String(userEvents.count), type: "events")
+        header.eventsLabel.attributedText = setupHeaderLabel(count: String(userEvents.count), type: "event(s)")
         header.followersLabel.attributedText = setupHeaderLabel(count: String(FriendService.system.followerList.count), type: "followers")
         header.followingLabel.attributedText = setupHeaderLabel(count: String(FriendService.system.followingList.count), type: "following")
         return header

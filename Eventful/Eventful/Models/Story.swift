@@ -26,11 +26,11 @@ struct Story {
     
     init?(snapshot: DataSnapshot){
         guard let dict = snapshot.value as? [String:Any],
-       let uid = dict["uid"] as? String,
-        let Url = dict["url"] as? String,
-        let date = dict["date"] as? String
-        else {
-            return nil
+            let uid = dict["uid"] as? String,
+            let Url = dict["url"] as? String,
+            let date = dict["date"] as? String
+            else {
+                return nil
         }
         self.uid = uid
         self.Url = Url

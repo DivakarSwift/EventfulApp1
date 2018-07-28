@@ -26,7 +26,7 @@ struct UserService {
         
         print("")
         let userAttrs = ["username": username,
-                         "profilePic": profilePic,"fcmToken":fcmToken, "isPrivate": isPrivate] as [String : Any]
+                         "profilePic": profilePic,"fcmToken":fcmToken, "isPrivate": isPrivate,"bio":"", "name":""] as [String : Any]
         //creats the path in the database where we want our user attributes to be created
         //Also sets the value at that point in the tree to the user Attributes array
         
@@ -61,8 +61,11 @@ struct UserService {
         }
     }
     //Will allow you to edit user data in firebase
-    static func edit(username: String, completion: @escaping (User?) -> Void) {
-        let userAttrs = ["username": username] as [String : Any]
+    static func edit(username: String,bio: String, name: String, completion: @escaping (User?) -> Void) {
+        let userAttrs = ["username": username,
+                         "bio": bio,
+                         "name": name
+                         ] as [String : Any]
         
         let ref = Database.database().reference().child("users").child(User.current.uid)
         ref.updateChildValues(userAttrs) { (error, ref) in
@@ -94,6 +97,8 @@ struct UserService {
             })
         }
     }
+    
+    
     
     /// add / edit current index of story
     static func setCurrentIndexOfStory(currentIndex: Int, eventId: String, completion: @escaping (User?) -> Void) {

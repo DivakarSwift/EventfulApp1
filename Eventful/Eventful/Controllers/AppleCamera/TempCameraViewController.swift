@@ -1312,7 +1312,7 @@ extension TempCameraViewController: AVCaptureFileOutputRecordingDelegate{
             if isRecordingStopped == false {
                 
                 if let movieFileOutput = self.movieFileOutput {
-                    let movieFileOutputConnection = output.connection(with: .video)
+                    _ = output.connection(with: .video)
                     //                    movieFileOutputConnection?.isVideoMirrored = !self.isBackCamera
                     
                     let outputFileName = NSUUID().uuidString

@@ -70,13 +70,13 @@ class CommentsSectionController: ListSectionController,CommentCellDelegate {
         print("like")
    
         let comment = self.comment
-        _ = comment?.sender.uid
+        _ = comment?.sender
         
         // 3
         let actionSheet = TwitterActionController()
         
         // 4
-        if comment?.sender.uid != User.current.uid {
+        if comment?.sender != User.current.uid {
             actionSheet.addAction(Action(ActionData(title: "Report as Inappropriate",image: UIImage(named: "icons8-Info-64")!), style: .default, handler: { action in
                 // do something useful
                 ChatService.flag(comment!)
@@ -114,32 +114,64 @@ class CommentsSectionController: ListSectionController,CommentCellDelegate {
     }
     func handleProfileTransition(tapGesture: UITapGestureRecognizer){
         let userProfileController = NewProfileVC()
-        userProfileController.user = comment?.sender
-        userProfileController.navigationItem.title = comment?.sender.username
-        userProfileController.navigationItem.hidesBackButton = true
-        let backButton = UIBarButtonItem(image: UIImage(named: "icons8-Back-64"), style: .plain, target: self, action: #selector(GoBack))
-        userProfileController.navigationItem.leftBarButtonItem = backButton
-        let navController = UINavigationController(rootViewController: userProfileController)
-        if Auth.auth().currentUser?.uid != comment?.sender.uid{
+        
+        if let uid = comment?.sender {
+            
+            UserService.show(forUID: uid) { (user) in
+                guard let user = user else {
+                    return
+                }
+                userProfileController.user = user
+                userProfileController.navigationItem.title = user.username
+                userProfileController.navigationItem.hidesBackButton = true
+                let backButton = UIBarButtonItem(image: UIImage(named: "icons8-Back-64"), style: .plain, target: self, action: #selector(self.GoBack))
+                userProfileController.navigationItem.leftBarButtonItem = backButton
+                let navController = UINavigationController(rootViewController: userProfileController)
+                
+                if Auth.auth().currentUser?.uid != self.comment?.sender{
                     self.viewController?.present(navController, animated: true, completion: nil)
-        }else{
-            //do nothing
+                }else{
+                    //do nothing
+                    
+                }
+            }
             
         }
+        
+        
+
     }
     
     private func handleReply(){
        //will eliminate the placeholderText in the textView
         self.currentViewController.containerView.commentTextView.hidePlaceholderLabel()
         //will add the user's username and @symbol into the textView to get ready for reply
-        self.currentViewController.containerView.commentTextView.text = "@" + (comment?.sender.username)! + " "
-        //assures that the textView becomes the first respnder so the keyboard pops up and props you to tyoe
-        self.currentViewController.containerView.commentTextView.becomeFirstResponder()
-        //sets the isReplyingVariable to know if I am replying to someones comment or not
-        self.currentViewController.isReplying = true
-        UserService.show(forUID: (comment?.sender.uid)!) { (reciever) in
-            self.currentViewController.notificationData = Notifications.init(eventKey: (self.comment?.eventKey)!, reciever: reciever!, content: User.current.username! + " has replied to your comment", type: notiType.comment.rawValue, commentId: (self.comment?.commentID)!)
+        
+        if let uid = comment?.sender {
+            
+            UserService.show(forUID: uid) { (user) in
+                guard let user = user else {
+                    return
+                }
+                if let username = user.username {
+                    self.currentViewController.containerView.commentTextView.text = "@" + username + " "
+                    //assures that the textView becomes the first respnder so the keyboard pops up and props you to tyoe
+                    self.currentViewController.containerView.commentTextView.becomeFirstResponder()
+                    //sets the isReplyingVariable to know if I am replying to someones comment or not
+                    self.currentViewController.isReplying = true
+                    
+                    
+                    UserService.show(forUID: uid, completion: { (reciever) in
+                        if let eventKey = self.comment?.eventKey, let reciever = reciever, let commentID = self.comment?.commentID {                
+                            self.currentViewController.notificationData = Notifications.init(eventKey: eventKey, reciever: reciever.uid, content:  User.current.username! + " has replied to your comment", type: notiType.comment.rawValue, commentId: commentID)
+                        }
+                    })
+                    
+                }
+            }
         }
+        
+       
     }
     
     @objc func GoBack(){

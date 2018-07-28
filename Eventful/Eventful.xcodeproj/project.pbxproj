@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0704C76C2061D11F00C9E35A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0704C76B2061C75800C9E35A /* Assets.xcassets */; };
 		0704C76E2062AFAC00C9E35A /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0704C76D2062AFAC00C9E35A /* CategoryCell.swift */; };
 		0704C7702062BB7C00C9E35A /* CategoryEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0704C76F2062BB7C00C9E35A /* CategoryEventCell.swift */; };
 		0704C7722062CE1D00C9E35A /* HomeFeedEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0704C7712062CE1D00C9E35A /* HomeFeedEventCell.swift */; };
@@ -99,8 +98,10 @@
 		074D75A0200C8E8C0044C3AD /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074D759F200C8E8C0044C3AD /* LocationService.swift */; };
 		0753E7D72041E2AF00B882E4 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0753E7D62041E2AF00B882E4 /* Notification.swift */; };
 		0753E7D92043CF9E00B882E4 /* FollowNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0753E7D82043CF9E00B882E4 /* FollowNotification.swift */; };
+		076EBD6D210CAA4C0011BFC2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 076EBD6C210CAA4B0011BFC2 /* Assets.xcassets */; };
 		077247D5206F2C42007E5C29 /* PreviewPhotoContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 077247D4206F2C42007E5C29 /* PreviewPhotoContainerView.swift */; };
 		077247D720720CE2007E5C29 /* SideMenuLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 077247D620720CE2007E5C29 /* SideMenuLauncher.swift */; };
+		07754189210CBF11007C1E17 /* EditProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07754188210CBF11007C1E17 /* EditProfile.swift */; };
 		07C15E2420B7DA920046D8BC /* Private.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C15E2320B7DA920046D8BC /* Private.swift */; };
 		07C15E2620BA30670046D8BC /* SettingsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C15E2520BA30670046D8BC /* SettingsService.swift */; };
 		07C15E2820BA5F6B0046D8BC /* FriendService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C15E2720BA5F6B0046D8BC /* FriendService.swift */; };
@@ -169,7 +170,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0704C76B2061C75800C9E35A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = "/Users/sol369 1/Desktop/EventfulApp1/Eventful/Assets.xcassets"; sourceTree = "<absolute>"; };
 		0704C76D2062AFAC00C9E35A /* CategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CategoryCell.swift; path = "Controllers/Home Feed/CategoryCell.swift"; sourceTree = "<group>"; };
 		0704C76F2062BB7C00C9E35A /* CategoryEventCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CategoryEventCell.swift; path = "Controllers/Home Feed/CategoryEventCell.swift"; sourceTree = "<group>"; };
 		0704C7712062CE1D00C9E35A /* HomeFeedEventCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HomeFeedEventCell.swift; path = "Controllers/Home Feed/HomeFeedEventCell.swift"; sourceTree = "<group>"; };
@@ -264,8 +264,10 @@
 		074D759F200C8E8C0044C3AD /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LocationService.swift; path = Services/LocationService.swift; sourceTree = "<group>"; };
 		0753E7D62041E2AF00B882E4 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Notification.swift; path = Models/Notification.swift; sourceTree = "<group>"; };
 		0753E7D82043CF9E00B882E4 /* FollowNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FollowNotification.swift; path = Models/FollowNotification.swift; sourceTree = "<group>"; };
+		076EBD6C210CAA4B0011BFC2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		077247D4206F2C42007E5C29 /* PreviewPhotoContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PreviewPhotoContainerView.swift; path = Controllers/Camera/PreviewPhotoContainerView.swift; sourceTree = "<group>"; };
 		077247D620720CE2007E5C29 /* SideMenuLauncher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SideMenuLauncher.swift; path = "Controllers/Home Feed/SideMenuLauncher.swift"; sourceTree = "<group>"; };
+		07754188210CBF11007C1E17 /* EditProfile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditProfile.swift; path = Controllers/Profile/EditProfile.swift; sourceTree = "<group>"; };
 		07C15E2320B7DA920046D8BC /* Private.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Private.swift; path = Controllers/Settings/Private.swift; sourceTree = "<group>"; };
 		07C15E2520BA30670046D8BC /* SettingsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SettingsService.swift; path = Services/SettingsService.swift; sourceTree = "<group>"; };
 		07C15E2720BA5F6B0046D8BC /* FriendService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FriendService.swift; path = Services/FriendService.swift; sourceTree = "<group>"; };
@@ -428,7 +430,7 @@
 		07437F0D1F267CA900CE728B = {
 			isa = PBXGroup;
 			children = (
-				0704C76B2061C75800C9E35A /* Assets.xcassets */,
+				076EBD6C210CAA4B0011BFC2 /* Assets.xcassets */,
 				07437F181F267CA900CE728B /* Eventful */,
 				07437F3E1F28D52200CE728B /* Default-568h@2x.png */,
 				07437F171F267CA900CE728B /* Products */,
@@ -592,6 +594,7 @@
 		07D923A01F2EEE4C0069613D /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				07754188210CBF11007C1E17 /* EditProfile.swift */,
 				0747A9FA20375D3B00F725C7 /* AlterProfileViewController.swift */,
 				0747A9FB20375D3B00F725C7 /* ProfileeViewController.swift */,
 				0747A9FC20375D3B00F725C7 /* UserEventAttendingCell.swift */,
@@ -817,7 +820,7 @@
 				TargetAttributes = {
 					07437F151F267CA900CE728B = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = 96Q26UST5X;
+						DevelopmentTeam = W8XH6RU95C;
 						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
@@ -855,6 +858,7 @@
 				073A3DAF20E2D2E60045024D /* ProximaNova-SemiBold.ttf in Resources */,
 				D791702D20EE695200F581C0 /* FilterVideoViewController.xib in Resources */,
 				073A3DAD20E2D2E60045024D /* ProximaNova-Thin.ttf in Resources */,
+				076EBD6D210CAA4C0011BFC2 /* Assets.xcassets in Resources */,
 				07437F241F267CA900CE728B /* LaunchScreen.storyboard in Resources */,
 				07437F3B1F28D4B900CE728B /* GoogleService-Info.plist in Resources */,
 				073A3DAE20E2D2E60045024D /* ProximaNova-Bold.ttf in Resources */,
@@ -870,7 +874,6 @@
 				07437F3F1F28D52200CE728B /* Default-568h@2x.png in Resources */,
 				073A3DB120E2D2E60045024D /* ProximaNova-Medium.ttf in Resources */,
 				073A3DB320E2D2E60045024D /* ProximaNovaSoft-Regular.otf in Resources */,
-				0704C76C2061D11F00C9E35A /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -902,22 +905,27 @@
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/AlamofireImage/AlamofireImage.framework",
 				"${BUILT_PRODUCTS_DIR}/AlamofireNetworkActivityIndicator/AlamofireNetworkActivityIndicator.framework",
+				"${BUILT_PRODUCTS_DIR}/AlgoliaSearch-Client-Swift/AlgoliaSearch.framework",
 				"${BUILT_PRODUCTS_DIR}/BPStatusBarAlert/BPStatusBarAlert.framework",
 				"${BUILT_PRODUCTS_DIR}/ColorSlider/ColorSlider.framework",
 				"${BUILT_PRODUCTS_DIR}/DTPagerController/DTPagerController.framework",
+				"${BUILT_PRODUCTS_DIR}/DZNEmptyDataSet/DZNEmptyDataSet.framework",
+				"${BUILT_PRODUCTS_DIR}/Eureka/Eureka.framework",
 				"${BUILT_PRODUCTS_DIR}/FaceAware/FaceAware.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/IGListKit/IGListKit.framework",
 				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/ImageRow/ImageRow.framework",
 				"${PODS_ROOT}/Instabug/Instabug.framework",
-				"${PODS_ROOT}/Instabug/InstabugCore.framework",
 				"${BUILT_PRODUCTS_DIR}/InstantSearch/InstantSearch.framework",
 				"${BUILT_PRODUCTS_DIR}/InstantSearchClient/InstantSearchClient.framework",
 				"${BUILT_PRODUCTS_DIR}/InstantSearchCore/InstantSearchCore.framework",
 				"${BUILT_PRODUCTS_DIR}/JTAppleCalendar/JTAppleCalendar.framework",
+				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
 				"${BUILT_PRODUCTS_DIR}/MarqueeLabel/MarqueeLabel.framework",
 				"${BUILT_PRODUCTS_DIR}/NotificationBannerSwift/NotificationBannerSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/PinterestSegment/PinterestSegment.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/RecordButton/RecordButton.framework",
 				"${BUILT_PRODUCTS_DIR}/RevealingSplashView/RevealingSplashView.framework",
@@ -943,22 +951,27 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireNetworkActivityIndicator.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlgoliaSearch.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BPStatusBarAlert.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ColorSlider.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DTPagerController.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DZNEmptyDataSet.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Eureka.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FaceAware.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IGListKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ImageRow.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Instabug.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/InstabugCore.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/InstantSearch.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/InstantSearchClient.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/InstantSearchCore.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JTAppleCalendar.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MarqueeLabel.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NotificationBannerSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PinterestSegment.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RecordButton.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RevealingSplashView.framework",
@@ -1052,6 +1065,7 @@
 				07C15E6020D227D00046D8BC /* NewProfileVC.swift in Sources */,
 				D791701B20EE694500F581C0 /* Utils.swift in Sources */,
 				D791701C20EE694500F581C0 /* AVPlayerItem+CroppedMedia.swift in Sources */,
+				07754189210CBF11007C1E17 /* EditProfile.swift in Sources */,
 				0747A9E020375C9500F725C7 /* SignUpViewController.swift in Sources */,
 				D791700D20EE694500F581C0 /* PlayerItemPipelineDisplayLink.swift in Sources */,
 				07EDACA820F2F07200585EF0 /* ContactUsVC.swift in Sources */,
@@ -1305,13 +1319,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-2";
 				CODE_SIGN_ENTITLEMENTS = Eventful/Eventful.entitlements;
-				DEVELOPMENT_TEAM = 96Q26UST5X;
+				DEVELOPMENT_TEAM = W8XH6RU95C;
 				INFOPLIST_FILE = "$(SRCROOT)/Eventful/Supporting/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.soloinc.Haipe;
+				PRODUCT_BUNDLE_IDENTIFIER = com.com.Haipe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "/Users/sol369 1/Desktop/EventfulApp1/Eventful/Eventful/Eventful-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "./Eventful/Eventful-Bridging-Header.h";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1324,13 +1338,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-2";
 				CODE_SIGN_ENTITLEMENTS = Eventful/Eventful.entitlements;
-				DEVELOPMENT_TEAM = 96Q26UST5X;
+				DEVELOPMENT_TEAM = W8XH6RU95C;
 				INFOPLIST_FILE = "$(SRCROOT)/Eventful/Supporting/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.soloinc.Haipe;
+				PRODUCT_BUNDLE_IDENTIFIER = com.com.Haipe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "/Users/sol369 1/Desktop/EventfulApp1/Eventful/Eventful/Eventful-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "./Eventful/Eventful-Bridging-Header.h";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

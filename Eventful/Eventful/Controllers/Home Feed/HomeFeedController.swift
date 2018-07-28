@@ -26,7 +26,7 @@ class ImageAndTitleItem: NSObject {
 }
 
 class HomeFeedController: UICollectionViewController {
-    
+    var isFromSignUpOrLogin: Bool?
     let dispatchGroup = DispatchGroup()
     var savedLocation: CLLocation?
     var userLocation: CLLocation?
@@ -174,7 +174,12 @@ class HomeFeedController: UICollectionViewController {
                 return
             }
             self.savedLocation = currentLocation
-            SVProgressHUD.show(withStatus: "Getting Events...")
+            
+            if let fromLoginorSignUp = self.isFromSignUpOrLogin {
+                if fromLoginorSignUp{
+                    SVProgressHUD.show(withStatus: "Getting Events...")
+                }
+            }
             
             PostService.showEvent(cameFromeHomeFeed: true, for: currentLocation, completion: { [unowned self](events) in
                 
@@ -230,7 +235,11 @@ class HomeFeedController: UICollectionViewController {
             dispatchGroup.notify(queue: .main) {
                 // dismiss the revealing view
                 self.collectionView?.reloadData()
-                SVProgressHUD.dismiss()
+                if let fromLoginorSignUp = self.isFromSignUpOrLogin {
+                    if fromLoginorSignUp{
+                        SVProgressHUD.dismiss()
+                    }
+                }
                  NotificationCenter.default.post(name: heartAttackNotificationName, object: nil)
             }
             
@@ -341,9 +350,9 @@ extension HomeFeedController: UICollectionViewDelegateFlowLayout {
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         if section == 0 {
-            return UIEdgeInsets(top: 5, left: 5, bottom: 10, right: 5)
+            return UIEdgeInsets(top: 5, left: 5, bottom: 15, right: 5)
         }
-        return UIEdgeInsets(top: 10, left: 8, bottom: 0, right: 8)
+        return UIEdgeInsets(top: 15, left: 8, bottom: 0, right: 8)
     }
 }
 

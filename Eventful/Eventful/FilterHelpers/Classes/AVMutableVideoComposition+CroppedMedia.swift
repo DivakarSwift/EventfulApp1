@@ -36,7 +36,7 @@ public extension AVMutableVideoComposition {
         let trackRange = CMTimeRange(start: kCMTimeZero, duration: duration)
 
         let renderPipeline = RenderPipeline(config: .defaultConfig, size: renderSize)
-        renderPipeline.filters = [filter].flatMap { $0 }
+        renderPipeline.filters = [filter].compactMap { $0 }
         renderPipeline.overlay = overlay
 
         let layerInstruction = RenderPipelineLayerInstruction(assetTrack: track, renderPipeline: renderPipeline)

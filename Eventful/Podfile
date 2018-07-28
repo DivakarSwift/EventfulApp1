@@ -2,7 +2,7 @@
 # platform :ios, '9.0'
 workspace 'Eventful'
 target 'Eventful' do
-    project '/Users/sol369 1/Desktop/EventfulApp1/Eventful/Eventful.xcodeproj'
+    #project '/Users/BandManFabo/Desktop/EventfulApp/EventfulApp1/Eventful/Eventful.xcodeproj'
     # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
     workspace 'Eventful'
     use_frameworks!
@@ -39,12 +39,21 @@ target 'Eventful' do
     pod 'ScrollableSegmentedControl', '~> 1.3.0'
     pod 'XLActionController/Twitter'
     pod 'Instabug'
-    pod 'AFDateHelper'
-    pod 'SnapSliderFilters'
-    pod 'ColorSlider'
     pod 'InstantSearch'
     pod 'YNSearch'
+    
     pod 'AZDialogView'
+    pod 'Eureka'
+    pod 'ImageRow', '~> 3.0'
+    
+    pod 'AlgoliaSearch-Client-Swift'
+    pod 'PinterestSegment'
+    pod 'Kingfisher'
+    pod 'DZNEmptyDataSet'
+    
+    pod 'AFDateHelper'
+    pod 'ColorSlider'
+    pod 'SnapSliderFilters'
     # Pods for Eventful
     
 end

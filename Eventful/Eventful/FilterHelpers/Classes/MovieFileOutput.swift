@@ -58,7 +58,7 @@ class MovieFileOutput {
         }
 
         let videoOutputSettings: [String: Any]? = [
-            AVVideoCodecKey: AVVideoCodecH264,
+            AVVideoCodecKey: AVVideoCodecType.h264,
             AVVideoHeightKey: self.size.height,
             AVVideoWidthKey: self.size.width
         ]
@@ -70,7 +70,7 @@ class MovieFileOutput {
             AVNumberOfChannelsKey: 2
         ]
 
-        return self.captureOutputs.flatMap { captureOutput -> MovieFileOutputAdapter? in
+        return self.captureOutputs.compactMap { captureOutput -> MovieFileOutputAdapter? in
             if let audioCaptureOutput = captureOutput as? AVCaptureAudioDataOutput {
                 let assetWriterInput = AVAssetWriterInput(mediaType: AVMediaType.audio, outputSettings: audioOutputSettings)
                 assetWriterInput.expectsMediaDataInRealTime = true

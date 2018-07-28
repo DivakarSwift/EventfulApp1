@@ -44,7 +44,7 @@ public class CaptureSession {
     let videoDeviceDiscoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera], mediaType: AVMediaType.video, position: .unspecified)
 
     var videoInputs: [AVCaptureDeviceInput] {
-        return videoCaptureSession.inputs.flatMap{ $0 as? AVCaptureDeviceInput }
+        return videoCaptureSession.inputs.compactMap{ $0 as? AVCaptureDeviceInput }
     }
     
     public var currentVideoDevice: AVCaptureDevice? {
