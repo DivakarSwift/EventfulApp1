@@ -64,7 +64,7 @@ class Notifications: NSObject {
             let timestamp = dict["creationDate"] as? TimeInterval,
             let eventKey = dict["eventKey"] as? String,
             let commentId = dict["commentId"] as? String,
-            let receiverUid = dict["reciever"] as? String,
+            let receiverUid = dict["receiver"] as? String,
             let uid = dict["sender"] as? String,
             let notiType = dict["notiType"] as? notiType.RawValue
             else { return nil }
@@ -85,7 +85,7 @@ class Notifications: NSObject {
             let content = dict["content"] as? String,
             let timestamp = dict["creationDate"] as? TimeInterval,
             let uid = dict["sender"] as? String,
-            let receiverUid = dict["reciever"] as? String,
+            let receiverUid = dict["receiver"] as? String,
             let notiType = dict["notiType"] as? notiType.RawValue
             else { return nil }
         
@@ -104,7 +104,7 @@ class Notifications: NSObject {
             let eventKey = dict["eventKey"] as? String,
             let timestamp = dict["creationDate"] as? TimeInterval,
             let uid = dict["sender"] as? String,
-            let receiverUid = dict["reciever"] as? String,
+            let receiverUid = dict["receiver"] as? String,
             let notiType = dict["notiType"] as? notiType.RawValue
             else { return nil }
         
