@@ -20,7 +20,7 @@ class NewEventSearchCell: BaseCell {
     }
     private let cellId = "cellId"
     let eventSearchCollectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
+        let layout = CustomFlowLayout()
         layout.scrollDirection = .vertical
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.backgroundColor = .clear

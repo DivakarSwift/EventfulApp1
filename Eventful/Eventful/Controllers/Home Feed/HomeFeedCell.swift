@@ -39,14 +39,14 @@ class HomeFeedCell: UICollectionViewCell, UICollectionViewDataSource, UICollecti
     
     let sectionNameLabel : UILabel =  {
         let sectionNameLabel = UILabel()
-        sectionNameLabel.font = UIFont.boldSystemFont(ofSize: 36)
+        sectionNameLabel.font = UIFont(name:"HelveticaNeue-CondensedBlack", size: 36.0)
         return sectionNameLabel
     }()
     
     lazy var emptyLabel: UILabel = {
         let emptyLabel = UILabel()
         emptyLabel.text = "Sorry We Currently Have No Events, \n In This Category Near You"
-        emptyLabel.font = UIFont.systemFont(ofSize: 14)
+        emptyLabel.font = UIFont(name: "Avenir", size: 14)
         emptyLabel.numberOfLines = 0
         emptyLabel.textAlignment = .center
         return emptyLabel

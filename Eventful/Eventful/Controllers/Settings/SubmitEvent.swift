@@ -13,7 +13,7 @@ import MessageUI
 class submitEvent: UIViewController, MFMailComposeViewControllerDelegate {
     lazy var submitEventPromptLabel : UILabel = {
         let label = UILabel()
-        let customFont = UIFont.systemFont(ofSize: 15)
+        let customFont = UIFont.systemFont(ofSize: 18)
         label.font = UIFontMetrics.default.scaledFont(for: customFont)
         label.adjustsFontForContentSizeCategory = true
         label.numberOfLines = 0

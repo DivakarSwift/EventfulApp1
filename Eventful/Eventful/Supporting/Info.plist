@@ -2,20 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>UIAppFonts</key>
-	<array>
-		<string>ProximaNova-Bold.ttf</string>
-		<string>ProximaNova-Light.ttf</string>
-		<string>ProximaNova-Medium.ttf</string>
-		<string>ProximaNova-Regular.ttf</string>
-		<string>ProximaNova-SemiBold.ttf</string>
-		<string>ProximaNova-Thin.ttf</string>
-		<string>ProximaNovaSoft-Bold.ttf</string>
-		<string>ProximaNovaSoft-Regular.otf</string>
-		<string>UVF ProximaNova-Regular.ttf</string>
-		<string>ProximaNova-BlackItalic.ttf</string>
-		<string>ProximaNova-Black.ttf</string>
-	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -66,7 +52,21 @@
 	<key>NSMicrophoneUsageDescription</key>
 	<string>To Record Audio With Video</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Allow &quot;Eventful&quot; Access To Your Photots</string>
+	<string>Allow "Eventful" Access To Your Photots</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>ProximaNova-Bold.ttf</string>
+		<string>ProximaNova-Light.ttf</string>
+		<string>ProximaNova-Medium.ttf</string>
+		<string>ProximaNova-Regular.ttf</string>
+		<string>ProximaNova-SemiBold.ttf</string>
+		<string>ProximaNova-Thin.ttf</string>
+		<string>ProximaNovaSoft-Bold.ttf</string>
+		<string>ProximaNovaSoft-Regular.otf</string>
+		<string>UVF ProximaNova-Regular.ttf</string>
+		<string>ProximaNova-BlackItalic.ttf</string>
+		<string>ProximaNova-Black.ttf</string>
+	</array>
 	<key>UILaunchImageFile</key>
 	<string>LaunchImage-1</string>
 	<key>UILaunchStoryboardName</key>

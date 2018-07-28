@@ -38,7 +38,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
             addressLabel.text = secondPartOfAddress
             
             let dateComponets = getDayAndMonthFromEvent(currentEvent!)
-            currentEventDate.text = "Date and Time: "+dateComponets.1 + " \(dateComponets.0), \(dateComponets.2) \(currentEvent?.currentEventTime?.lowercased() ?? "") - \(currentEvent?.currentEventEndTime?.lowercased() ?? "")"
+            currentEventDate.text = dateComponets.1 + ", \(dateComponets.0)\n\(currentEvent?.currentEventTime?.lowercased() ?? "")"
             eventKey = (currentEvent?.key)!
             eventPromo = (currentEvent?.currentEventPromo)!
             setupAttendInteraction()
@@ -75,7 +75,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         let infoText = UILabel()
         infoText.textColor = .black
         infoText.textAlignment = .natural
-        infoText.font = UIFont.systemFont(ofSize: 15.5)
+        infoText.font = UIFont.systemFont(ofSize: 16.5)
         infoText.numberOfLines = 0
         return infoText
     }()
@@ -84,7 +84,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         let costLabel = UILabel()
         costLabel.textColor = .black
         costLabel.textAlignment = .natural
-        costLabel.font = UIFont.boldSystemFont(ofSize: 14)
+        costLabel.font = UIFont.boldSystemFont(ofSize: 15)
         costLabel.numberOfLines = 0
         return costLabel
     }()
@@ -94,13 +94,13 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         let currentEventDate = UILabel()
         currentEventDate.numberOfLines = 0
         currentEventDate.textAlignment = .center
-        currentEventDate.font = UIFont.boldSystemFont(ofSize: 14)
+        currentEventDate.font = UIFont.boldSystemFont(ofSize: 15)
         return currentEventDate
     }()
     
     lazy var currentEventImage : UIImageView = {
         let currentEvent = UIImageView()
-        currentEvent.setupShadow2()
+        currentEvent.setCellShadow()
         currentEvent.clipsToBounds = true
         currentEvent.translatesAutoresizingMaskIntoConstraints = false
         currentEvent.contentMode = .scaleToFill
@@ -116,21 +116,6 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         singleTap.require(toFail: doubleTap)
         return currentEvent
     }()
-    
-    lazy var priceImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(named: "icons8-price-tag-64")
-        return imageView
-    }()
-    
-    lazy var dateImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(named: "icons8-date-to-64")
-        return imageView
-    }()
-    
     fileprivate func extractedFunc(_ url: URL?) -> EventPromoVideoPlayer {
         return EventPromoVideoPlayer(videoURL: url!)
     }
@@ -157,7 +142,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         let currentAddressLabel = UILabel()
         currentAddressLabel.numberOfLines = 0
         currentAddressLabel.textColor = UIColor.lightGray
-        currentAddressLabel.font = UIFont.boldSystemFont(ofSize: 14)
+        currentAddressLabel.font = UIFont.boldSystemFont(ofSize: 16)
         currentAddressLabel.isUserInteractionEnabled = true
         currentAddressLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(openMaps)))
         return currentAddressLabel
@@ -380,10 +365,22 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         viewStoryButton.backgroundColor = UIColor.rgb(red: 44, green: 152, blue: 229)
         viewStoryButton.layer.borderWidth = 0.1
         viewStoryButton.layer.borderColor = UIColor.clear.cgColor
+        
+        viewStoryButton.addTarget(self, action: #selector(handleViewStory), for: .touchUpInside)
+
+        
+//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleViewStory))
+//        viewStoryButton.addGestureRecognizer(tapGesture)
         //        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleViewStory))
         //        viewStoryButton.addGestureRecognizer(tapGesture)
         return viewStoryButton
     }()
+    
+    @objc func handleViewStory(){
+        let vc = StoriesViewController()
+        vc.eventKey = self.eventKey
+        present(vc, animated: false, completion: nil)
+    }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -463,18 +460,14 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         textContainer.addSubview(addressLabel)
         textContainer.addSubview(currentEventDate)
         textContainer.addSubview(LocationMarkerViewButton)
-        textContainer.addSubview(priceImageView)
-        textContainer.addSubview(dateImageView)
         textContainer.addSubview(costLabel)
         textContainer.addSubview(infoText)
         textContainer.addSubview(userInteractStackView!)
         textContainer.addSubview(userInteractStackView1!)
         scrollView.snp.makeConstraints {
             make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(5)
-            make.left.right.equalTo(view.safeAreaLayoutGuide)
-            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
-//            make.edges.equalTo(view.safeAreaLayoutGuide)
+            
+            make.edges.equalTo(view.safeAreaLayoutGuide)
         }
         
         imageContainer.snp.makeConstraints {
@@ -488,7 +481,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         currentEventImage.snp.makeConstraints {
             make in
             
-            make.left.right.equalTo(imageContainer).inset(10)
+            make.left.right.equalTo(imageContainer)
             
             //** Note the priorities
             make.top.equalTo(view).priority(.high)
@@ -516,61 +509,28 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         }
         
         LocationMarkerViewButton.snp.makeConstraints { (make) in
-            make.top.equalTo(textContainer.snp.top).offset(12)
-            make.left.equalTo(textContainer.snp.left).offset(10)
+            make.top.equalTo(textContainer.snp.top).offset(10)
+            make.left.equalTo(textContainer.snp.left)
+        }
+        currentEventDate.snp.makeConstraints { (make) in
+            make.top.equalTo(textContainer.snp.top).offset(7)
+            make.right.equalTo(textContainer).inset(5)
         }
         addressLabel.snp.makeConstraints { (make) in
             make.top.equalTo(textContainer.snp.top).offset(7)
-            make.left.equalTo(LocationMarkerViewButton.snp.right).offset(5)
-        }
-        
-        let dividerView = UIView()
-        dividerView.backgroundColor = UIColor.rgb(red: 220, green: 220, blue: 220)
-        textContainer.addSubview(dividerView)
-        
-        dividerView.snp.makeConstraints { (make) in
-            make.left.right.equalTo(textContainer).inset(15)
-            make.top.equalTo(addressLabel.snp.bottom).offset(15)
-            make.height.equalTo(1.5)
-        }
-        
-        
-        priceImageView.snp.makeConstraints { (make) in
-            make.top.equalTo(dividerView.snp.bottom).offset(12)
-            make.left.equalTo(textContainer.snp.left).offset(10)
+            make.left.equalTo(LocationMarkerViewButton.snp.right).offset(2.5)
         }
         
         costLabel.snp.makeConstraints({ (make) in
-            make.top.equalTo(dividerView.snp.bottom).offset(9)
-            make.height.equalTo(30)
-            make.left.equalTo(priceImageView.snp.right).offset(5)
+            make.top.equalTo(addressLabel.snp.bottom).offset(10)
+           make.height.equalTo(30)
+            make.left.right.equalTo(textContainer).inset(5)
+
         })
-
-        
-        dateImageView.snp.makeConstraints { (make) in
-            make.top.equalTo(costLabel.snp.bottom).offset(10)
-            make.left.equalTo(textContainer.snp.left).offset(10)
-        }
-        
-        currentEventDate.snp.makeConstraints { (make) in
-            make.top.equalTo(costLabel.snp.bottom).offset(10)
-            make.left.equalTo(dateImageView.snp.right).offset(5)
-        }
-
-        
-        let dividerView2 = UIView()
-        dividerView2.backgroundColor = UIColor.rgb(red: 220, green: 220, blue: 220)
-        textContainer.addSubview(dividerView2)
-        
-        dividerView2.snp.makeConstraints { (make) in
-            make.left.right.equalTo(textContainer).inset(15)
-            make.top.equalTo(currentEventDate.snp.bottom).offset(15)
-            make.height.equalTo(1.5)
-        }
         
         infoText.snp.makeConstraints {
             make in
-            make.top.equalTo(dividerView2.snp.bottom).offset(10)
+            make.top.equalTo(costLabel.snp.bottom).offset(10)
             make.left.right.equalTo(textContainer).inset(10)
         }
         
@@ -615,7 +575,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
     
     //MARK: - Date Componets
     
-    fileprivate func getDayAndMonthFromEvent(_ event:Event) -> (String, String, String) {
+    fileprivate func getDayAndMonthFromEvent(_ event:Event) -> (String, String) {
         let apiDateFormat = "MM/dd/yyyy"
         let df = DateFormatter()
         df.dateFormat = apiDateFormat
@@ -624,8 +584,9 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         let dayElement = df.string(from: eventDate)
         df.dateFormat = "MMM"
         let monthElement = df.string(from: eventDate)
-        df.dateFormat = "yyyy"
-        let yearElement = df.string(from: eventDate)
-        return (dayElement, monthElement, yearElement)
+        return (dayElement, monthElement)
     }
+    
+    
+    
 }

@@ -43,7 +43,7 @@ class CategoryCell: UICollectionViewCell, UICollectionViewDataSource, UICollecti
     
     let sectionNameLabel : UILabel =  {
         let sectionNameLabel = UILabel()
-        sectionNameLabel.font = UIFont.boldSystemFont(ofSize: 26)
+        sectionNameLabel.font = UIFont(name:"HelveticaNeue-CondensedBlack", size: 25.0)
         return sectionNameLabel
     }()
     
@@ -107,7 +107,7 @@ class CategoryCell: UICollectionViewCell, UICollectionViewDataSource, UICollecti
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 10, left: 14, bottom: 10, right: 14)
+        return UIEdgeInsets(top: 10, left: 14, bottom: 5, right: 14)
     }
  
     
