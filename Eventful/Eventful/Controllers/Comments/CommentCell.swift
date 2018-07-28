@@ -35,26 +35,17 @@ class CommentCell: UICollectionViewCell {
           //  print("apples")
             // textLabel.text = comment.content
             //shawn was also here
-            UserService.show(forUID: comment.sender) { (user) in
-                guard let user = user else {
-                    return
-                }
-                
-                self.profileImageView.loadImage(urlString: (user.profilePic!))
-                //  print(comment.user.username)
-                let attributedText = NSMutableAttributedString(string: (user.username!), attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 14)])
-                
-                attributedText.append(NSAttributedString(string: " " + (comment.content), attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14)]))
-                
-                attributedText.append(NSAttributedString(string: "\n\n", attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 4)]))
-                let timeAgoDisplay = comment.creationDate.timeAgoDisplay()
-                attributedText.append(NSAttributedString(string: timeAgoDisplay, attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 12), NSAttributedStringKey.foregroundColor: UIColor.gray]))
-                
-                self.textView.attributedText = attributedText
-
-            }
+            profileImageView.loadImage(urlString: (comment.sender.profilePic!))
+            //  print(comment.user.username)
+            let attributedText = NSMutableAttributedString(string: (comment.sender.username!), attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 14)])
             
+            attributedText.append(NSAttributedString(string: " " + (comment.content), attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14)]))
             
+            attributedText.append(NSAttributedString(string: "\n\n", attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 4)]))
+            let timeAgoDisplay = comment.creationDate.timeAgoDisplay()
+            attributedText.append(NSAttributedString(string: timeAgoDisplay, attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 12), NSAttributedStringKey.foregroundColor: UIColor.gray]))
+          
+            textView.attributedText = attributedText
             
             
         }

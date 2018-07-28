@@ -77,8 +77,8 @@ class ChatService {
     
     static func sendNotification(_ notification: Notifications, success: ((Bool) -> Void)? = nil) {
         var multiUpdateValue = [String : Any]()
-        _ = Database.database().reference().child("notifcations").child((notification.receiver)!)
-        multiUpdateValue["notifications/\((notification.receiver)!)/\(notification.commentId ?? "")"] = notification.dictValue
+        _ = Database.database().reference().child("notifcations").child((notification.receiver?.uid)!)
+        multiUpdateValue["notifications/\((notification.receiver?.uid)!)/\(notification.commentId ?? "")"] = notification.dictValue
         let rootRef = Database.database().reference()
         rootRef.updateChildValues(multiUpdateValue, withCompletionBlock: { (error, ref) in
             if let error = error {
@@ -99,7 +99,8 @@ class ChatService {
         let flaggedPostRef = Database.database().reference().child("flaggedComments").child(commentKey)
         
         // 3
-        let flaggedDict = ["poster_uid": comment.sender,
+        let flaggedDict = ["image_url": comment.sender.profilePic,
+                           "poster_uid": comment.sender.uid,
                            "reporter_uid": User.current.uid]
         
         // 4

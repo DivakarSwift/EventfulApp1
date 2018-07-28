@@ -27,26 +27,18 @@ class NotificationCell: UICollectionViewCell,NotificationCellDelegate {
             guard let notification = notification else{
                 return
             }
+            profileImageView.loadImage(urlString: notification.sender.profilePic!)
             
-            UserService.show(forUID: notification.sender) { (user) in
-                guard let user = user else {
-                    return
-                }
-                self.profileImageView.loadImage(urlString: user.profilePic!)
-                
-                let attributedText = NSMutableAttributedString(string: notification.content, attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 14)])
-                attributedText.append(NSAttributedString(string: "\n\n", attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 4)]))
-                let timeAgoDisplay = notification.timeStamp?.timeAgoDisplay()
-                attributedText.append(NSAttributedString(string: timeAgoDisplay!, attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 12), NSAttributedStringKey.foregroundColor: UIColor.gray]))
-                
-                self.label.attributedText = attributedText
-                
-                if notification.notiType == notiType.follow.rawValue{
-                    //setupUserInteraction()
-                }
-                
+            let attributedText = NSMutableAttributedString(string: notification.content, attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 14)])
+            attributedText.append(NSAttributedString(string: "\n\n", attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 4)]))
+            let timeAgoDisplay = notification.timeStamp?.timeAgoDisplay()
+            attributedText.append(NSAttributedString(string: timeAgoDisplay!, attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 12), NSAttributedStringKey.foregroundColor: UIColor.gray]))
+            
+            label.attributedText = attributedText
+            
+            if notification.notiType == notiType.follow.rawValue{
+                //setupUserInteraction()
             }
-
         }
     }
     
@@ -74,7 +66,11 @@ class NotificationCell: UICollectionViewCell,NotificationCellDelegate {
     }()
     
 
-
+    fileprivate func setupUserInteraction (){
+        print("Attempting to add follow button")
+        print(notification?.receiver?.username as Any)
+        
+            }
     
     
     @objc func handleProfileTransition(tapGesture: UITapGestureRecognizer){

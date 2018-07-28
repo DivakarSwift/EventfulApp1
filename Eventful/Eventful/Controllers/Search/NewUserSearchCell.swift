@@ -20,7 +20,7 @@ class NewUserSearchCell: BaseCell,UITextFieldDelegate {
     var searchVc: NewSearchVC?
     private let cellId = "cellId"
     let userSearchCollectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
+        let layout = CustomFlowLayout()
         layout.scrollDirection = .vertical
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.backgroundColor = .clear

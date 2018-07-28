@@ -13,7 +13,7 @@ import Firebase
 class CommentGrabbed: NSObject {
     let content: String
     var key: String?
-    let sender: String
+    let sender: User
     let creationDate: Date
     var commentID: String? = ""
     let eventKey:String
@@ -22,7 +22,7 @@ class CommentGrabbed: NSObject {
         self.content = content
         self.creationDate = Date()
         self.eventKey = eventKey
-        self.sender = User.current.uid
+        self.sender = User.current
     }
     
     init?(snapshot: DataSnapshot) {
@@ -31,18 +31,24 @@ class CommentGrabbed: NSObject {
             let _ = dict["timestamp"] as? TimeInterval,
             let eventKey = dict["eventKey"] as? String,
             let secondsFrom1970 = dict["timestamp"] as? Double,
-            let uid = dict["sender"] as? String
+        let userDict = dict["sender"] as? [String : Any],
+        let uid = userDict["uid"] as? String,
+        let username = userDict["username"] as? String,
+        let profilePic = userDict["profilePic"] as? String
             else { return nil }
         self.key = snapshot.key
         self.content = content
         self.creationDate = Date(timeIntervalSince1970: secondsFrom1970)
         self.eventKey = eventKey
-        self.sender = uid
+        self.sender = User(uid: uid, username: username,profilePic: profilePic)
     }
     
     var dictValue: [String : Any] {
+        let userDict = ["username" : sender.username,
+                        "uid" : sender.uid,
+                        "profilePic": sender.profilePic]
         
-        return ["sender" : sender,
+        return ["sender" : userDict,
                 "content" : content,"eventKey":eventKey,
                 "timestamp" : creationDate.timeIntervalSince1970]
     }
