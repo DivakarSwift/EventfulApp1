@@ -42,7 +42,7 @@ class NewProfileVC: UIViewController,UIScrollViewDelegate {
     lazy var emptyLabel: UILabel = {
         let emptyLabel = UILabel()
         emptyLabel.text = "Go Attend Some Events"
-        emptyLabel.font = UIFont(name: "Avenir", size: 14)
+        emptyLabel.font = UIFont.systemFont(ofSize: 14)
         emptyLabel.numberOfLines = 0
         emptyLabel.textAlignment = .center
         return emptyLabel
@@ -209,15 +209,9 @@ extension NewProfileVC: UICollectionViewDataSource, UICollectionViewDelegate,UIC
 
             }
             emptyView.backgroundColor = .clear
-            emptyView.addSubview(iconImageView)
-            iconImageView.image = UIImage(named: "icons8-the-toast-64")
-            iconImageView.snp.makeConstraints { (make) in
-                make.center.equalTo(emptyView)
-            }
-            
             emptyView.addSubview(emptyLabel)
             emptyLabel.snp.makeConstraints { (make) in
-                make.bottom.equalTo(iconImageView.snp.bottom).offset(30)
+                make.center.equalTo(emptyView)
                 make.left.right.equalTo(emptyView)
             }
             return userEvents.count
@@ -286,8 +280,8 @@ extension NewProfileVC: UICollectionViewDataSource, UICollectionViewDelegate,UIC
     }
     
     fileprivate func setupHeaderLabel(count: String, type: String) -> NSAttributedString {
-        let attributedText = NSMutableAttributedString(string: "\(count)\n", attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 14)])
-        attributedText.append(NSAttributedString(string: type, attributes: [NSAttributedStringKey.foregroundColor: UIColor.lightGray, NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14)]))
+        let attributedText = NSMutableAttributedString(string: "\(count)\n", attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 11)])
+        attributedText.append(NSAttributedString(string: type, attributes: [NSAttributedStringKey.foregroundColor: UIColor.lightGray, NSAttributedStringKey.font: UIFont.systemFont(ofSize: 11)]))
         return attributedText
     }
     

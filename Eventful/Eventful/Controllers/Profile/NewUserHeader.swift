@@ -32,6 +32,8 @@ class NewUserHeader: UICollectionViewCell {
         super.init(frame: frame)
         setupViews()
     }
+    
+    
     let cellView: UIView = {
         let cellView = UIView()
         cellView.backgroundColor = .white
@@ -191,7 +193,7 @@ class NewUserHeader: UICollectionViewCell {
         stackView.snp.makeConstraints { (make) in
             make.left.right.equalTo(cellView)
             make.bottom.equalTo(cellView.snp.bottom)
-            make.height.equalTo(50)
+            make.height.equalTo(30)
         }
      
     }

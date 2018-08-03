@@ -71,7 +71,7 @@ class NotificationsSectionController: ListSectionController,NotificationCellDele
     
     
     func handleProfileTransition(tapGesture: UITapGestureRecognizer) {
-        let userProfileController = ProfileeViewController(collectionViewLayout: UICollectionViewFlowLayout())
+        let userProfileController = NewProfileVC()
         if let uid = notif?.sender {
             
             UserService.show(forUID: uid) { (user) in

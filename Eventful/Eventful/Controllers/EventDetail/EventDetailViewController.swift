@@ -411,6 +411,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
     @objc func GoBack(){
         print("BACK TAPPED")
         self.navigationController?.popViewController(animated: true)
+        self.dismiss(animated: true, completion: nil)
     }
     
     @objc func shareWithFollowers(){

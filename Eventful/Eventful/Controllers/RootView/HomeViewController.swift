@@ -28,7 +28,7 @@
 //        let searchController = EventSearchController(collectionViewLayout: UICollectionViewFlowLayout())
         let layout = UICollectionViewFlowLayout()
         layout.sectionFootersPinToVisibleBounds = true
-        let searchVC = NewSearchVC(collectionViewLayout: layout)
+        let searchVC = SearchVC()
 
         let searchNavController = UINavigationController(rootViewController: searchVC)
         searchNavController.tabBarItem.image =  UIImage(named: "icons8-search-50")?.withRenderingMode(.alwaysOriginal)

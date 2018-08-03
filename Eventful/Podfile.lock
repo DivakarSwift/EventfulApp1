@@ -117,9 +117,11 @@ PODS:
   - SwiftyJSON (4.0.0)
   - SwipeCellKit (2.4.3)
   - TextFieldEffects (1.4.0)
+  - TTSegmentedControl (0.4.4)
   - XLActionController/Core (4.0.1)
   - XLActionController/Twitter (4.0.1):
     - XLActionController/Core
+  - YNDropDownMenu (3.0.2)
   - YNSearch (2.3.1)
 
 DEPENDENCIES:
@@ -166,7 +168,9 @@ DEPENDENCIES:
   - SwiftyJSON
   - SwipeCellKit (from `https://github.com/SwipeCellKit/SwipeCellKit.git`, branch `master`)
   - TextFieldEffects
+  - TTSegmentedControl
   - XLActionController/Twitter
+  - YNDropDownMenu
   - YNSearch
 
 EXTERNAL SOURCES:
@@ -258,9 +262,11 @@ SPEC CHECKSUMS:
   SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
   SwipeCellKit: cee9906e6d3a36e22ad1a852fba7f8fa0839d113
   TextFieldEffects: 4ee41b5216e674d55fb6ac25107bf1af7629176f
+  TTSegmentedControl: 7a5fc6c3e117c340106efd3a35205b987f2ba23c
   XLActionController: 007868251c0eed70d649d06c1625259b73b3a600
+  YNDropDownMenu: 9421eb9c144448415d90141344a2cdbbaf11fc3c
   YNSearch: 3a6e0a69cfd34a7c5a7c77e0873f426de4437824
 
-PODFILE CHECKSUM: 73fdfb7fb7136c8f379a294691c4ad2ef2f305b2
+PODFILE CHECKSUM: c7ecd811274819b8da48c158b6a3eea1c3e3dd36
 
 COCOAPODS: 1.4.0

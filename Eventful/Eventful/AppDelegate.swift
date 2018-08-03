@@ -34,7 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
     var hasNotification = false
     var appRef : UIApplication!
     var notifBanner = NotifBannerView()
-    let userProfileController = ProfileeViewController(collectionViewLayout: UICollectionViewFlowLayout())
+    let userProfileController = NewProfileVC()
     let revealingSplashView = RevealingSplashView(iconImage:UIImage(named: "LogoWelcome")! , iconInitialSize: CGSize(width:123,height:123), backgroundImage:UIImage(named: "Ресурс 14")! )
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         

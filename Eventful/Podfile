@@ -54,6 +54,10 @@ target 'Eventful' do
     pod 'AFDateHelper'
     pod 'ColorSlider'
     pod 'SnapSliderFilters'
+    pod 'YNDropDownMenu'
+    
+    pod 'TTSegmentedControl'
+    
     # Pods for Eventful
     
 end

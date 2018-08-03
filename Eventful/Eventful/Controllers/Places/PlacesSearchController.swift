@@ -94,8 +94,8 @@ self.navigationController?.interactivePopGestureRecognizer?.delegate = nil
         view.addSubview(searchBar)
         view.addSubview(searchCollectionView)
         searchBar.snp.makeConstraints { (make) in
-            make.left.right.equalTo(view).inset(5)
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
+            make.left.right.equalTo(view)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             make.height.equalTo(40)
         }
         searchCollectionView.snp.makeConstraints { (make) in

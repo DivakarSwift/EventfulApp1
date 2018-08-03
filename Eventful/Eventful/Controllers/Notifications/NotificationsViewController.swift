@@ -131,7 +131,7 @@ class NotificationsViewController: UIViewController,NotificationsSectionDelegate
             guard let sender = notifCell.notification?.sender else {
                 return
             }
- let userProfileController = ProfileeViewController(collectionViewLayout: UICollectionViewFlowLayout())
+ let userProfileController = NewProfileVC()
             
             UserService.show(forUID: sender) { (user) in
                 guard let user = user else {
