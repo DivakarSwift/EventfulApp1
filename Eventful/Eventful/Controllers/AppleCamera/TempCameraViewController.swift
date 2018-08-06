@@ -10,6 +10,7 @@ import UIKit
 import AVFoundation
 import RecordButton
 import SVProgressHUD
+import YPImagePicker
 
 var arrCameraPreferences = [String]()
 var backCameraResolution = CGSize.zero
@@ -117,6 +118,11 @@ class TempCameraViewController: UIViewController {
     // Function which controls the cancel button
     @objc private func cancel()
     {
+        let transition = CATransition()
+        transition.duration = 0.4
+        transition.type = kCATransitionPush
+        transition.subtype = kCATransitionFromTop
+        view.window!.layer.add(transition, forKey: kCATransition)
         dismiss(animated: true, completion: nil)
     }
     
@@ -168,6 +174,13 @@ class TempCameraViewController: UIViewController {
         return videoButton
     }()
     
+    lazy var cameraRollToggle : UIButton = {
+        let cameraRollToggle = UIButton()
+        cameraRollToggle.setImage(UIImage(named: "icons8-photo-gallery-filled-50"), for: UIControlState())
+       cameraRollToggle.addTarget(self, action: #selector(displayPicker), for: .touchUpInside)
+        return cameraRollToggle
+    }()
+    
     //Intro View
     var introView: UIView?
     
@@ -189,7 +202,7 @@ class TempCameraViewController: UIViewController {
         flipCameraButton.isEnabled = false
         cameraButton.isEnabled = false
         videoButton.isEnabled = false
-        
+        cameraRollToggle.isEnabled = false
         // Set up the video preview view.
         capturePreviewView.session = session
         /*
@@ -397,6 +410,7 @@ class TempCameraViewController: UIViewController {
                 self.flipCameraButton.isEnabled = isSessionRunning
                 self.flashButton.isEnabled = isSessionRunning
                 self.videoButton.isEnabled = isSessionRunning
+                self.cameraRollToggle.isEnabled = isSessionRunning
             }
         }
         keyValueObservations.append(keyValueObservation)
@@ -667,7 +681,7 @@ class TempCameraViewController: UIViewController {
             make.edges.equalTo(view)
         }
         
-        stackView = UIStackView(arrangedSubviews: [ cameraButton, videoButton])
+        stackView = UIStackView(arrangedSubviews: [ cameraButton, videoButton,cameraRollToggle])
         stackView?.axis = .vertical
         stackView?.distribution = .fillEqually
         stackView?.spacing = 15.0
@@ -869,7 +883,7 @@ extension TempCameraViewController {
         flipCameraButton.isEnabled = false
         cameraButton.isEnabled = false
         videoButton.isEnabled = false
-        
+        cameraRollToggle.isEnabled = false
         if let movieFileOutput = self.movieFileOutput {
             if movieFileOutput.isRecording {
                 movieFileOutput.stopRecording()
@@ -971,6 +985,7 @@ extension TempCameraViewController {
                 self.flipCameraButton.isEnabled = true
                 self.cameraButton.isEnabled = true
                 self.videoButton.isEnabled = true
+                self.cameraRollToggle.isEnabled = true
             }
         }
     }
@@ -1054,6 +1069,7 @@ extension TempCameraViewController {
         cameraButton.isHidden = true
         videoButton.isHidden = true
         cancelButton.isHidden = true
+        cameraRollToggle.isHidden = true
         
         /*
          Retrieve the video preview layer's video orientation on the main queue
@@ -1127,6 +1143,7 @@ extension TempCameraViewController {
         cameraButton.isHidden = false
         videoButton.isHidden = false
         cancelButton.isHidden = false
+        cameraRollToggle.isHidden = false
         progress = 0;
         //        }
     }
@@ -1312,7 +1329,7 @@ extension TempCameraViewController: AVCaptureFileOutputRecordingDelegate{
             if isRecordingStopped == false {
                 
                 if let movieFileOutput = self.movieFileOutput {
-                    _ = output.connection(with: .video)
+                    let movieFileOutputConnection = output.connection(with: .video)
                     //                    movieFileOutputConnection?.isVideoMirrored = !self.isBackCamera
                     
                     let outputFileName = NSUUID().uuidString
@@ -1554,3 +1571,66 @@ extension TempCameraViewController {
                             }
                 }
         }
+
+
+//will control display
+
+extension TempCameraViewController {
+    @objc func displayPicker() {
+        print("toggle button pressed")
+        var config = YPImagePickerConfiguration()
+        config.library.mediaType = .photoAndVideo
+        config.library.onlySquare  = false
+        config.targetImageSize = .original
+        config.showsFilters = false
+        config.video.compression = AVAssetExportPresetHighestQuality
+        config.albumName = "Haipe"
+        config.screens = [.library]
+        config.startOnScreen = .library
+        config.video.libraryTimeLimit = 16
+        config.wordings.libraryTitle = "Gallery"
+        config.library.maxNumberOfItems = 1
+        config.library.minNumberOfItems = 1
+        config.library.numberOfItemsInRow = 3
+        config.library.spacingBetweenItems = 2
+        let picker = YPImagePicker(configuration: config)
+        
+        
+        
+        picker.didFinishPicking { [unowned picker] items, cancelled in
+            
+            if cancelled {
+                print("Picker was canceled")
+                picker.dismiss(animated: true, completion: nil)
+            }
+            
+            for item in items {
+                switch item {
+                case .photo(let photo):
+                    print(photo.image)
+                    picker.dismiss(animated: true, completion: {
+                        let imgViewController = FilterImageViewController(image: photo.image)
+                        imgViewController.event = self.event
+                        self.present(imgViewController, animated: false, completion: nil)
+                    })
+                case .video(let video):
+                    print(video)
+                    picker.dismiss(animated: true, completion: {
+                        if let event = self.event {
+                            let video = AVURLAsset(url: video.url)
+                            let videoViewController = FilterVideoViewController(video: video)
+                            videoViewController.event = event
+                            SVProgressHUD.dismiss(completion: {
+                                self.present(videoViewController, animated: false, completion: nil)
+                            })
+                            
+                        }
+                    })
+                }
+            }
+        }
+        
+        present(picker, animated: true, completion: nil)
+
+    }
+}

@@ -20,7 +20,7 @@ struct EventService {
        //  print(eventKey)
         //pull everything
         
-        ref.observeSingleEvent(of: .value, andPreviousSiblingKeyWith: { (snapshot,eventKey) in
+        ref.observeSingleEvent(of: .value, andPreviousSiblingKeyWith: {(snapshot,eventKey) in
            print(snapshot.value ?? "")
 
             guard let event = Event(snapshot: snapshot) else {
@@ -34,7 +34,7 @@ struct EventService {
                     if isFromHomeFeed {
                         completion(nil)
                     }else{
-                        completion(event)
+                        completion(event)                        
                     }
                 }
             }else{

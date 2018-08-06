@@ -89,7 +89,7 @@ class FilterVideoViewController: FiilterViewController {
     
     // video player
     fileprivate var avpController: AVPlayerViewController!
-
+    
     fileprivate var playerItem: AVPlayerItem!
     fileprivate var videoPlayer:AVPlayer?
     fileprivate var video: AVURLAsset?
@@ -97,7 +97,7 @@ class FilterVideoViewController: FiilterViewController {
     
     /// The composition for the current video playing
     fileprivate var avVideoComposition: AVVideoComposition!
-
+    
     // App enter in forground.
     @objc func applicationWillEnterForeground(_ notification: Notification) {
         videoPlayer?.play()
@@ -138,7 +138,7 @@ class FilterVideoViewController: FiilterViewController {
             self.playVideo(video:video, filterName: self.filterNameList[0])
         }
     }
-
+    
     public init(video: AVURLAsset) {
         super.init(nibName: nil, bundle: nil)
         self.video = video
@@ -230,7 +230,7 @@ class FilterVideoViewController: FiilterViewController {
     
     @objc func swipeAction(_ swipe: UIGestureRecognizer) {
         guard let swipeGesture = swipe as? UISwipeGestureRecognizer else { return }
-
+        
         switch swipeGesture.direction {
             
         case UISwipeGestureRecognizerDirection.right:
@@ -307,7 +307,7 @@ class FilterVideoViewController: FiilterViewController {
             })
             avPlayerItem.videoComposition = avVideoComposition
         }
-
+        
         
         if self.videoPlayer == nil {
             self.videoPlayer = AVPlayer(playerItem: avPlayerItem)
@@ -338,7 +338,7 @@ class FilterVideoViewController: FiilterViewController {
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(playerItemDidReachEnd), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: self.videoPlayer?.currentItem)
-
+        
         
         avpController.showsPlaybackControls = false
         
@@ -388,7 +388,7 @@ class FilterVideoViewController: FiilterViewController {
         
         return filteredImage
     }
-   
+    
     /// Close the view
     @IBAction func closeButtonTapped() {
         if let delegate = self.delegate {
@@ -441,6 +441,8 @@ extension FilterVideoViewController: UIGestureRecognizerDelegate {
 extension FilterVideoViewController {
     
     @objc func handleCancel() {
+        videoPlayer?.pause()
+        videoPlayer = nil
         dismiss(animated: true, completion: nil)
     }
     

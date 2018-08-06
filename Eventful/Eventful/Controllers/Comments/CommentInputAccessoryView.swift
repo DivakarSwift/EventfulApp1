@@ -1,11 +1,3 @@
-//
-//  CommentInputAccessoryView.swift
-//  Eventful
-//
-//  Created by Shawn Miller on 1/5/18.
-//  Copyright © 2018 Make School. All rights reserved.
-//
-
 import UIKit
 protocol CommentInputAccessoryViewDelegate:NSObjectProtocol {
     func handleSubmit(for comment: String?)
@@ -14,7 +6,7 @@ protocol CommentInputAccessoryViewDelegate:NSObjectProtocol {
 class CommentInputAccessoryView: UIView, UITextViewDelegate {
     weak var delegate: CommentInputAccessoryViewDelegate?
     
-   fileprivate let submitButton: UIButton = {
+    fileprivate let submitButton: UIButton = {
         let submitButton = UIButton(type: .system)
         submitButton.setTitle("Submit", for: .normal)
         submitButton.setTitleColor(.black, for: .normal)
@@ -43,13 +35,13 @@ class CommentInputAccessoryView: UIView, UITextViewDelegate {
         addSubview(commentTextView)
         //3
         if #available(iOS 11.0, *){
-                    commentTextView.anchor(top: topAnchor, left: leftAnchor, bottom: safeAreaLayoutGuide.bottomAnchor, right: submitButton.leftAnchor, paddingTop: 8, paddingLeft: 8, paddingBottom: 8, paddingRight: 0, width: 0, height: 0)
+            commentTextView.anchor(top: topAnchor, left: leftAnchor, bottom: safeAreaLayoutGuide.bottomAnchor, right: submitButton.leftAnchor, paddingTop: 8, paddingLeft: 8, paddingBottom: 8, paddingRight: 0, width: 0, height: 0)
         }else{
             //fallback on earlier versions
         }
-
+        
         setupLineSeparatorView()
-
+        
     }
     // 2
     override var intrinsicContentSize: CGSize {

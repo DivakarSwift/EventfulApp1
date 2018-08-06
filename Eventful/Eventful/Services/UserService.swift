@@ -162,7 +162,6 @@ struct UserService {
             // 4
             Events(for: user, completion: { events in
                 // 5
-                print(events)
                 completion(userRef, user, events)
             })
         })

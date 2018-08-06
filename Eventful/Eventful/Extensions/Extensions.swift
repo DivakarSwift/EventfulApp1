@@ -231,6 +231,8 @@ extension UIView {
         self.clipsToBounds = false
         self.layer.cornerRadius = 6
     }
+    
+
 
     func addConstraintsWithFormatt(_ format: String, views: UIView...) {
         

@@ -104,12 +104,13 @@ PODS:
     - SnapKit (~> 4.0)
   - PinterestSegment (1.2.0)
   - Protobuf (3.6.0)
+  - PryntTrimmerView (2.0.1)
   - RecordButton (1.0.2)
   - RevealingSplashView (0.5.0)
-  - ScrollableSegmentedControl (1.3.0)
   - SimpleImageViewer (1.1.1)
   - SnapKit (4.0.0)
   - SnapSliderFilters (2.0)
+  - SteviaLayout (4.2.0)
   - SVProgressHUD (2.2.5)
   - SwiftLocation (3.2.3):
     - SwiftyJSON (~> 4.0.0-alpha.1)
@@ -123,6 +124,9 @@ PODS:
     - XLActionController/Core
   - YNDropDownMenu (3.0.2)
   - YNSearch (2.3.1)
+  - YPImagePicker (3.4.0):
+    - PryntTrimmerView (~> 2.0)
+    - SteviaLayout (~> 4.2.0)
 
 DEPENDENCIES:
   - AFDateHelper
@@ -159,7 +163,6 @@ DEPENDENCIES:
   - PinterestSegment
   - RecordButton
   - RevealingSplashView
-  - ScrollableSegmentedControl (~> 1.3.0)
   - SimpleImageViewer (~> 1.1.1)
   - SnapSliderFilters
   - SVProgressHUD
@@ -172,6 +175,7 @@ DEPENDENCIES:
   - XLActionController/Twitter
   - YNDropDownMenu
   - YNSearch
+  - YPImagePicker
 
 EXTERNAL SOURCES:
   GeoFire:
@@ -250,12 +254,13 @@ SPEC CHECKSUMS:
   NotificationBannerSwift: b231e4c3244848ef300e1c53ce027b9756b9b06f
   PinterestSegment: d589fce6c62141466b9f36ea8ab0a16fde9ac8f4
   Protobuf: 0fc0ad8bec688b2a3017a139953e01374fedbd5f
+  PryntTrimmerView: 4260ae497a2f3e1bbfc0b71247eb74ab92bf0490
   RecordButton: 76677be0f4b94f8a387454a23b4b64bd9b6c0e51
   RevealingSplashView: 0794eecad3a8983ac11a1fe474e9a9b51b926780
-  ScrollableSegmentedControl: a90ae91537fd670a46b177301d035223e3bd149e
   SimpleImageViewer: 34c3a2cde2d9ac022146772cefc27fca14b0c8b1
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
   SnapSliderFilters: 7f571683b05cf70b8d398e4a0e45691bd9f03a33
+  SteviaLayout: 0d2112caea45707695e8c718262c8ea3dd37ef17
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   SwiftLocation: a3c3bc2023118171ef3572188a31def94aa0892c
   SwiftyCam: 7c826b73a5b208677aee29390582c771bf748661
@@ -266,7 +271,8 @@ SPEC CHECKSUMS:
   XLActionController: 007868251c0eed70d649d06c1625259b73b3a600
   YNDropDownMenu: 9421eb9c144448415d90141344a2cdbbaf11fc3c
   YNSearch: 3a6e0a69cfd34a7c5a7c77e0873f426de4437824
+  YPImagePicker: 049aa31e2858c63730ace6b6358bba946178dfe3
 
-PODFILE CHECKSUM: c7ecd811274819b8da48c158b6a3eea1c3e3dd36
+PODFILE CHECKSUM: 8be0abacb9879aa09bbcea6d7c4beba5a62ee405
 
 COCOAPODS: 1.4.0

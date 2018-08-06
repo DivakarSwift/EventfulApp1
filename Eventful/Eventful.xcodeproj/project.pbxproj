@@ -21,10 +21,6 @@
 		07370C841F4A4CC8006DC7A2 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07370C831F4A4CC8006DC7A2 /* StorageService.swift */; };
 		0738DD391F3DC1340093F51B /* CustomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0738DD381F3DC1340093F51B /* CustomImageView.swift */; };
 		073A3D8020E0BCCF0045024D /* CalendarHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073A3D7F20E0BCCF0045024D /* CalendarHeader.swift */; };
-		073A3D8220E1ECAD0045024D /* NewSearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073A3D8120E1ECAD0045024D /* NewSearchVC.swift */; };
-		073A3D8620E1F9FB0045024D /* LeftPaddedTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073A3D8520E1F9FB0045024D /* LeftPaddedTextField.swift */; };
-		073A3D9F20E27D700045024D /* NewEventSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073A3D9E20E27D700045024D /* NewEventSearchCell.swift */; };
-		073A3DA120E2D2380045024D /* NewUserSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073A3DA020E2D2380045024D /* NewUserSearchCell.swift */; };
 		073A3DAD20E2D2E60045024D /* ProximaNova-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 073A3DA220E2D2E50045024D /* ProximaNova-Thin.ttf */; };
 		073A3DAE20E2D2E60045024D /* ProximaNova-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 073A3DA320E2D2E50045024D /* ProximaNova-Bold.ttf */; };
 		073A3DAF20E2D2E60045024D /* ProximaNova-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 073A3DA420E2D2E50045024D /* ProximaNova-SemiBold.ttf */; };
@@ -36,11 +32,6 @@
 		073A3DB520E2D2E60045024D /* ProximaNova-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 073A3DAA20E2D2E60045024D /* ProximaNova-Light.ttf */; };
 		073A3DB620E2D2E60045024D /* ProximaNova-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 073A3DAB20E2D2E60045024D /* ProximaNova-Black.ttf */; };
 		073A3DB720E2D2E60045024D /* ProximaNova-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 073A3DAC20E2D2E60045024D /* ProximaNova-BlackItalic.ttf */; };
-		073A3DB920E300E30045024D /* SearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073A3DB820E300E30045024D /* SearchCell.swift */; };
-		073A3DBB20E301450045024D /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073A3DBA20E301450045024D /* UserCell.swift */; };
-		073A3DBD20E3111E0045024D /* NewEventSearchHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073A3DBC20E3111E0045024D /* NewEventSearchHeader.swift */; };
-		073A3DBF20E314E90045024D /* StickyHeaderLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073A3DBE20E314E90045024D /* StickyHeaderLayout.swift */; };
-		073A3DC120E3B2E80045024D /* CustomFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073A3DC020E3B2E80045024D /* CustomFlowLayout.swift */; };
 		073AFDC51F45E4FB009D4773 /* FollowService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073AFDC41F45E4FB009D4773 /* FollowService.swift */; };
 		0741702C20468A1F006B236B /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0741702B20468A1F006B236B /* NotificationCell.swift */; };
 		0741702E20474D12006B236B /* NotificationSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0741702D20474D12006B236B /* NotificationSectionController.swift */; };
@@ -72,9 +63,6 @@
 		0747AA1720375D8500F725C7 /* CommentInputAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0747AA1020375D8500F725C7 /* CommentInputAccessoryView.swift */; };
 		0747AA1820375D8500F725C7 /* CommentInputTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0747AA1120375D8500F725C7 /* CommentInputTextView.swift */; };
 		0747AA1920375D8500F725C7 /* CommentsSpinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0747AA1220375D8500F725C7 /* CommentsSpinner.swift */; };
-		0747AA1F20375E0E00F725C7 /* EventSearchHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0747AA1A20375E0D00F725C7 /* EventSearchHeader.swift */; };
-		0747AA2020375E0E00F725C7 /* UserSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0747AA1B20375E0D00F725C7 /* UserSearchCell.swift */; };
-		0747AA2220375E0E00F725C7 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0747AA1D20375E0E00F725C7 /* SearchViewController.swift */; };
 		0747AA2A20375E2A00F725C7 /* StoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0747AA2620375E2A00F725C7 /* StoriesViewController.swift */; };
 		0747AA2D20375E4400F725C7 /* StroyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0747AA2C20375E4400F725C7 /* StroyCell.swift */; };
 		0747AA3020375E6500F725C7 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0747AA2E20375E6500F725C7 /* Storage.swift */; };
@@ -98,6 +86,7 @@
 		07754540210F9349007C1E17 /* TopCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0775453B210F9349007C1E17 /* TopCell.swift */; };
 		07754541210F9349007C1E17 /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0775453C210F9349007C1E17 /* CustomCell.swift */; };
 		07754543210F93EB007C1E17 /* MaterialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07754542210F93EB007C1E17 /* MaterialView.swift */; };
+		0775454521141A3A007C1E17 /* LeftPaddedTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0775454421141A3A007C1E17 /* LeftPaddedTextField.swift */; };
 		07C15E2420B7DA920046D8BC /* Private.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C15E2320B7DA920046D8BC /* Private.swift */; };
 		07C15E2620BA30670046D8BC /* SettingsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C15E2520BA30670046D8BC /* SettingsService.swift */; };
 		07C15E2820BA5F6B0046D8BC /* FriendService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C15E2720BA5F6B0046D8BC /* FriendService.swift */; };
@@ -180,10 +169,6 @@
 		07370C831F4A4CC8006DC7A2 /* StorageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StorageService.swift; path = Services/StorageService.swift; sourceTree = "<group>"; };
 		0738DD381F3DC1340093F51B /* CustomImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomImageView.swift; path = Models/CustomImageView.swift; sourceTree = "<group>"; };
 		073A3D7F20E0BCCF0045024D /* CalendarHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CalendarHeader.swift; path = Controllers/Calendar/CalendarHeader.swift; sourceTree = "<group>"; };
-		073A3D8120E1ECAD0045024D /* NewSearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NewSearchVC.swift; path = Controllers/Search/NewSearchVC.swift; sourceTree = "<group>"; };
-		073A3D8520E1F9FB0045024D /* LeftPaddedTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LeftPaddedTextField.swift; path = Controllers/Search/LeftPaddedTextField.swift; sourceTree = "<group>"; };
-		073A3D9E20E27D700045024D /* NewEventSearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NewEventSearchCell.swift; path = Controllers/Search/NewEventSearchCell.swift; sourceTree = "<group>"; };
-		073A3DA020E2D2380045024D /* NewUserSearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NewUserSearchCell.swift; path = Controllers/Search/NewUserSearchCell.swift; sourceTree = "<group>"; };
 		073A3DA220E2D2E50045024D /* ProximaNova-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ProximaNova-Thin.ttf"; path = "Fonts/ProximaNova-Thin.ttf"; sourceTree = "<group>"; };
 		073A3DA320E2D2E50045024D /* ProximaNova-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ProximaNova-Bold.ttf"; path = "Fonts/ProximaNova-Bold.ttf"; sourceTree = "<group>"; };
 		073A3DA420E2D2E50045024D /* ProximaNova-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ProximaNova-SemiBold.ttf"; path = "Fonts/ProximaNova-SemiBold.ttf"; sourceTree = "<group>"; };
@@ -195,11 +180,6 @@
 		073A3DAA20E2D2E60045024D /* ProximaNova-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ProximaNova-Light.ttf"; path = "Fonts/ProximaNova-Light.ttf"; sourceTree = "<group>"; };
 		073A3DAB20E2D2E60045024D /* ProximaNova-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ProximaNova-Black.ttf"; path = "Fonts/ProximaNova-Black.ttf"; sourceTree = "<group>"; };
 		073A3DAC20E2D2E60045024D /* ProximaNova-BlackItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ProximaNova-BlackItalic.ttf"; path = "Fonts/ProximaNova-BlackItalic.ttf"; sourceTree = "<group>"; };
-		073A3DB820E300E30045024D /* SearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SearchCell.swift; path = Controllers/Search/SearchCell.swift; sourceTree = "<group>"; };
-		073A3DBA20E301450045024D /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UserCell.swift; path = Controllers/Search/UserCell.swift; sourceTree = "<group>"; };
-		073A3DBC20E3111E0045024D /* NewEventSearchHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NewEventSearchHeader.swift; path = Controllers/Search/NewEventSearchHeader.swift; sourceTree = "<group>"; };
-		073A3DBE20E314E90045024D /* StickyHeaderLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StickyHeaderLayout.swift; path = Controllers/Search/StickyHeaderLayout.swift; sourceTree = "<group>"; };
-		073A3DC020E3B2E80045024D /* CustomFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CustomFlowLayout.swift; path = Controllers/Search/CustomFlowLayout.swift; sourceTree = "<group>"; };
 		073AFDC41F45E4FB009D4773 /* FollowService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FollowService.swift; path = Services/FollowService.swift; sourceTree = "<group>"; };
 		0741702B20468A1F006B236B /* NotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NotificationCell.swift; path = Controllers/Notifications/NotificationCell.swift; sourceTree = "<group>"; };
 		0741702D20474D12006B236B /* NotificationSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NotificationSectionController.swift; path = Controllers/Notifications/NotificationSectionController.swift; sourceTree = "<group>"; };
@@ -233,9 +213,6 @@
 		0747AA1020375D8500F725C7 /* CommentInputAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CommentInputAccessoryView.swift; path = Controllers/Comments/CommentInputAccessoryView.swift; sourceTree = "<group>"; };
 		0747AA1120375D8500F725C7 /* CommentInputTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CommentInputTextView.swift; path = Controllers/Comments/CommentInputTextView.swift; sourceTree = "<group>"; };
 		0747AA1220375D8500F725C7 /* CommentsSpinner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CommentsSpinner.swift; path = Controllers/Comments/CommentsSpinner.swift; sourceTree = "<group>"; };
-		0747AA1A20375E0D00F725C7 /* EventSearchHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EventSearchHeader.swift; path = Controllers/Search/EventSearchHeader.swift; sourceTree = "<group>"; };
-		0747AA1B20375E0D00F725C7 /* UserSearchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserSearchCell.swift; path = Controllers/Search/UserSearchCell.swift; sourceTree = "<group>"; };
-		0747AA1D20375E0E00F725C7 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchViewController.swift; path = Controllers/Search/SearchViewController.swift; sourceTree = "<group>"; };
 		0747AA2620375E2A00F725C7 /* StoriesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StoriesViewController.swift; path = Controllers/Camera/StoriesViewController.swift; sourceTree = "<group>"; };
 		0747AA2C20375E4400F725C7 /* StroyCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StroyCell.swift; path = Controllers/Stories/StroyCell.swift; sourceTree = "<group>"; };
 		0747AA2E20375E6500F725C7 /* Storage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Storage.swift; path = Extensions/Storage.swift; sourceTree = "<group>"; };
@@ -260,6 +237,7 @@
 		0775453B210F9349007C1E17 /* TopCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TopCell.swift; path = Eventful/Controllers/YNSearch/TopCell.swift; sourceTree = SOURCE_ROOT; };
 		0775453C210F9349007C1E17 /* CustomCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomCell.swift; path = Eventful/Controllers/YNSearch/CustomCell.swift; sourceTree = SOURCE_ROOT; };
 		07754542210F93EB007C1E17 /* MaterialView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MaterialView.swift; path = Eventful/MaterialView.swift; sourceTree = SOURCE_ROOT; };
+		0775454421141A3A007C1E17 /* LeftPaddedTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftPaddedTextField.swift; sourceTree = "<group>"; };
 		07C15E2320B7DA920046D8BC /* Private.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Private.swift; path = Controllers/Settings/Private.swift; sourceTree = "<group>"; };
 		07C15E2520BA30670046D8BC /* SettingsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SettingsService.swift; path = Services/SettingsService.swift; sourceTree = "<group>"; };
 		07C15E2720BA5F6B0046D8BC /* FriendService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FriendService.swift; path = Services/FriendService.swift; sourceTree = "<group>"; };
@@ -359,18 +337,6 @@
 		071C9E081F3F955B0021D5A3 /* Search */ = {
 			isa = PBXGroup;
 			children = (
-				0747AA1A20375E0D00F725C7 /* EventSearchHeader.swift */,
-				0747AA1D20375E0E00F725C7 /* SearchViewController.swift */,
-				0747AA1B20375E0D00F725C7 /* UserSearchCell.swift */,
-				073A3D8120E1ECAD0045024D /* NewSearchVC.swift */,
-				073A3D8520E1F9FB0045024D /* LeftPaddedTextField.swift */,
-				073A3D9E20E27D700045024D /* NewEventSearchCell.swift */,
-				073A3DA020E2D2380045024D /* NewUserSearchCell.swift */,
-				073A3DB820E300E30045024D /* SearchCell.swift */,
-				073A3DBA20E301450045024D /* UserCell.swift */,
-				073A3DBC20E3111E0045024D /* NewEventSearchHeader.swift */,
-				073A3DBE20E314E90045024D /* StickyHeaderLayout.swift */,
-				073A3DC020E3B2E80045024D /* CustomFlowLayout.swift */,
 			);
 			name = Search;
 			sourceTree = "<group>";
@@ -558,6 +524,7 @@
 				0775453A210F9349007C1E17 /* SearchVC.swift */,
 				0775453B210F9349007C1E17 /* TopCell.swift */,
 				07754538210F9348007C1E17 /* YNSearch.xcassets */,
+				0775454421141A3A007C1E17 /* LeftPaddedTextField.swift */,
 			);
 			path = YNSearch;
 			sourceTree = "<group>";
@@ -924,13 +891,14 @@
 				"${BUILT_PRODUCTS_DIR}/NotificationBannerSwift/NotificationBannerSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/PinterestSegment/PinterestSegment.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/PryntTrimmerView/PryntTrimmerView.framework",
 				"${BUILT_PRODUCTS_DIR}/RecordButton/RecordButton.framework",
 				"${BUILT_PRODUCTS_DIR}/RevealingSplashView/RevealingSplashView.framework",
 				"${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework",
-				"${BUILT_PRODUCTS_DIR}/ScrollableSegmentedControl/ScrollableSegmentedControl.framework",
 				"${BUILT_PRODUCTS_DIR}/SimpleImageViewer/SimpleImageViewer.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapSliderFilters/SnapSliderFilters.framework",
+				"${BUILT_PRODUCTS_DIR}/SteviaLayout/Stevia.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftLocation/SwiftLocation.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyCam/SwiftyCam.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
@@ -940,6 +908,7 @@
 				"${BUILT_PRODUCTS_DIR}/XLActionController/XLActionController.framework",
 				"${BUILT_PRODUCTS_DIR}/YNDropDownMenu/YNDropDownMenu.framework",
 				"${BUILT_PRODUCTS_DIR}/YNSearch/YNSearch.framework",
+				"${BUILT_PRODUCTS_DIR}/YPImagePicker/YPImagePicker.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
@@ -972,13 +941,14 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NotificationBannerSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PinterestSegment.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PryntTrimmerView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RecordButton.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RevealingSplashView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVProgressHUD.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ScrollableSegmentedControl.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SimpleImageViewer.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapSliderFilters.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Stevia.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftLocation.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyCam.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
@@ -988,6 +958,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/XLActionController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YNDropDownMenu.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YNSearch.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YPImagePicker.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
@@ -1080,7 +1051,6 @@
 				0747A9F620375D2400F725C7 /* HomeFeedCell.swift in Sources */,
 				07754543210F93EB007C1E17 /* MaterialView.swift in Sources */,
 				0747AA0B20375D6E00F725C7 /* VideoLauncher.swift in Sources */,
-				073A3DA120E2D2380045024D /* NewUserSearchCell.swift in Sources */,
 				07C15E6420D232460046D8BC /* NewUserEventAttendingCell.swift in Sources */,
 				07EDACBE20F6E34300585EF0 /* SubmitEvent.swift in Sources */,
 				0747A9F820375D2400F725C7 /* BaseRoundedCell.swift in Sources */,
@@ -1098,7 +1068,6 @@
 				07C15E4D20C112DB0046D8BC /* RequestViewController.swift in Sources */,
 				07FF92C91F3B898C00FC9716 /* Comment.swift in Sources */,
 				0747AA2D20375E4400F725C7 /* StroyCell.swift in Sources */,
-				073A3D8620E1F9FB0045024D /* LeftPaddedTextField.swift in Sources */,
 				07EDACB320F2F54B00585EF0 /* Constants.swift in Sources */,
 				0738DD391F3DC1340093F51B /* CustomImageView.swift in Sources */,
 				0747AA1920375D8500F725C7 /* CommentsSpinner.swift in Sources */,
@@ -1110,9 +1079,7 @@
 				0748714C20845C320024635C /* BaseCell.swift in Sources */,
 				07C15E5A20C5A5BF0046D8BC /* ShareViewController.swift in Sources */,
 				074D75A0200C8E8C0044C3AD /* LocationService.swift in Sources */,
-				073A3DC120E3B2E80045024D /* CustomFlowLayout.swift in Sources */,
 				0704C7722062CE1D00C9E35A /* HomeFeedEventCell.swift in Sources */,
-				0747AA1F20375E0E00F725C7 /* EventSearchHeader.swift in Sources */,
 				D791701720EE694500F581C0 /* RenderPipeline.swift in Sources */,
 				073A3D8020E0BCCF0045024D /* CalendarHeader.swift in Sources */,
 				D791701A20EE694500F581C0 /* PhotoOutput.swift in Sources */,
@@ -1128,28 +1095,22 @@
 				0747A9E320375CD800F725C7 /* HomeViewController.swift in Sources */,
 				07437F491F29167000CE728B /* UserService.swift in Sources */,
 				07FF92B91F3627A300FC9716 /* Post.swift in Sources */,
-				073A3D8220E1ECAD0045024D /* NewSearchVC.swift in Sources */,
 				07754540210F9349007C1E17 /* TopCell.swift in Sources */,
 				07F3EC5E1F4B7B28005296EB /* StoryService.swift in Sources */,
 				07C15E4220C10D760046D8BC /* TempCameraViewController.swift in Sources */,
 				07C15E4E20C112DB0046D8BC /* FriendRequestCell.swift in Sources */,
 				07C15E2620BA30670046D8BC /* SettingsService.swift in Sources */,
-				073A3DBB20E301450045024D /* UserCell.swift in Sources */,
 				07EDACB920F5B4AB00585EF0 /* ImageExtension.swift in Sources */,
-				073A3D9F20E27D700045024D /* NewEventSearchCell.swift in Sources */,
 				0747A9F920375D2400F725C7 /* HomeFeedController.swift in Sources */,
-				073A3DBD20E3111E0045024D /* NewEventSearchHeader.swift in Sources */,
-				0747AA2020375E0E00F725C7 /* UserSearchCell.swift in Sources */,
 				07C15E5E20D0CBEC0046D8BC /* SelectionCell.swift in Sources */,
-				0747AA2220375E0E00F725C7 /* SearchViewController.swift in Sources */,
 				07C15E4320C10D760046D8BC /* PreviewView.swift in Sources */,
 				077247D720720CE2007E5C29 /* SideMenuLauncher.swift in Sources */,
 				07E271B62056354F007F0592 /* NotifBannerView.swift in Sources */,
 				0747AA1620375D8500F725C7 /* NewCommentsViewController.swift in Sources */,
 				D791701320EE694500F581C0 /* RenderPipelineCompositor.swift in Sources */,
 				0747A9DB20375C6600F725C7 /* NotificationsViewController.swift in Sources */,
+				0775454521141A3A007C1E17 /* LeftPaddedTextField.swift in Sources */,
 				07C15E2420B7DA920046D8BC /* Private.swift in Sources */,
-				073A3DBF20E314E90045024D /* StickyHeaderLayout.swift in Sources */,
 				073AFDC51F45E4FB009D4773 /* FollowService.swift in Sources */,
 				07EDACBA20F5B4AB00585EF0 /* VideoGenerator.swift in Sources */,
 				07C15E3D20C10D550046D8BC /* FollowingViewController.swift in Sources */,
@@ -1164,7 +1125,6 @@
 				07417030204751DB006B236B /* NotificationService.swift in Sources */,
 				D791701420EE694500F581C0 /* InfiniteScrollView.m in Sources */,
 				07437F461F2911E500CE728B /* AuthService.swift in Sources */,
-				073A3DB920E300E30045024D /* SearchCell.swift in Sources */,
 				D791701920EE694500F581C0 /* CaptureSession.swift in Sources */,
 				0747AA1720375D8500F725C7 /* CommentInputAccessoryView.swift in Sources */,
 				0747AA1320375D8500F725C7 /* CommentCell.swift in Sources */,

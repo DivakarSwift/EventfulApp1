@@ -43,7 +43,6 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
             eventPromo = (currentEvent?.currentEventPromo)!
             setupAttendInteraction()
             titleView.text = currentEvent?.currentEventName.uppercased()
-            camera.event = currentEvent
             if let price = currentEvent?.eventPrice {
                 let formatter = NumberFormatter()
                 formatter.locale = Locale.current // Change this to another locale if you want to force a specific locale, otherwise this is redundant as the current locale is the default already
@@ -65,8 +64,6 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
     private var eventKey = ""
     private var eventPromo = ""
     let titleView = UILabel()
-    let camera = TempCameraViewController()
-    
     
     
 
@@ -224,6 +221,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         let viewComments = UIButton(type: .system)
         viewComments.setCellShadow()
         viewComments.setImage(#imageLiteral(resourceName: "icons8-chat-50").withRenderingMode(.alwaysOriginal), for: .normal)
+        viewComments.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 10)
         viewComments.layer.cornerRadius = 5
         viewComments.setTitle("Comments", for: .normal)
         viewComments.titleLabel?.font = UIFont(name: "GillSans", size: 15)
@@ -248,6 +246,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         let attendButton = UIButton(type: .system)
         attendButton.setCellShadow()
         attendButton.setImage(#imageLiteral(resourceName: "icons8-walking-50").withRenderingMode(.alwaysOriginal), for: .normal)
+        attendButton.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 10)
         attendButton.layer.cornerRadius = 5
         attendButton.titleLabel?.font = UIFont(name: "GillSans", size: 15)
         attendButton.setTitleColor(.white, for: .normal)
@@ -348,6 +347,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         let addToStory = UIButton(type: .system)
         addToStory.setCellShadow()
         addToStory.setImage(#imageLiteral(resourceName: "icons8-screenshot-filled-50").withRenderingMode(.alwaysOriginal), for: .normal)
+        addToStory.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 10)
         addToStory.layer.cornerRadius = 5
         addToStory.titleLabel?.font = UIFont(name: "GillSans", size: 15)
         addToStory.setTitle("Add to Story", for: .normal)
@@ -366,6 +366,8 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         transition.type = kCATransitionPush
         transition.subtype = kCATransitionFromBottom
         view.window!.layer.add(transition, forKey: kCATransition)
+         let camera = TempCameraViewController()
+        camera.event = currentEvent
         present(camera, animated: false, completion: nil)
     }
     
@@ -373,6 +375,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         let viewStoryButton = UIButton(type: .system)
         viewStoryButton.setCellShadow()
         viewStoryButton.setImage(#imageLiteral(resourceName: "icons8-next-50").withRenderingMode(.alwaysOriginal), for: .normal)
+        viewStoryButton.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 10)
         viewStoryButton.layer.cornerRadius = 5
         viewStoryButton.setTitle("View Story", for: .normal)
         viewStoryButton.titleLabel?.font = UIFont(name: "GillSans", size: 15)
@@ -390,6 +393,8 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         vc.eventKey = self.eventKey
         present(vc, animated: false, completion: nil)
     }
+    
+
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
@@ -405,7 +410,6 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
             print(start)
             print(end)
         }
-        
         setupVc()
     }
     @objc func GoBack(){
@@ -526,8 +530,8 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
             make.left.equalTo(textContainer.snp.left).offset(10)
         }
         addressLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(textContainer.snp.top).offset(7)
             make.left.equalTo(LocationMarkerViewButton.snp.right).offset(5)
+            make.centerY.equalTo(LocationMarkerViewButton.snp.centerY)
         }
         
         let dividerView = UIView()
@@ -547,9 +551,9 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         }
         
         costLabel.snp.makeConstraints({ (make) in
-            make.top.equalTo(dividerView.snp.bottom).offset(9)
             make.height.equalTo(30)
             make.left.equalTo(priceImageView.snp.right).offset(5)
+            make.centerY.equalTo(priceImageView.snp.centerY)
         })
 
         
@@ -559,8 +563,8 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         }
         
         currentEventDate.snp.makeConstraints { (make) in
-            make.top.equalTo(costLabel.snp.bottom).offset(10)
             make.left.equalTo(dateImageView.snp.right).offset(5)
+            make.centerY.equalTo(dateImageView.snp.centerY)
         }
 
         

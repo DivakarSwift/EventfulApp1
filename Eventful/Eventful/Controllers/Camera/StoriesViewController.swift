@@ -234,7 +234,7 @@ class StoriesViewController: UIViewController, SegmentedProgressBarDelegate {
     
     /// Setup the view for stories
     private func setupViews() {
-        
+        view.backgroundColor = .clear
         // Setup the blur view for loading
         blurView = UIVisualEffectView(frame: view.frame)
         blurView.effect = UIBlurEffect(style: .regular)

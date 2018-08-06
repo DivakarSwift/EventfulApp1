@@ -41,15 +41,15 @@ class HomeFeedController: UICollectionViewController {
     private let catergoryCellID = "catergoryCellID"
     var featuredEventsHeaderString = "Featured Events"
     lazy var sideMenuLauncher: SideMenuLauncher = {
-       let launcher = SideMenuLauncher()
+        let launcher = SideMenuLauncher()
         launcher.homeFeedController = self
         return launcher
     }()
     let titleView = UILabel()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-         self.navigationController?.navigationBar.backgroundColor = UIColor.white
+        self.navigationController?.navigationBar.backgroundColor = UIColor.white
         UIGraphicsBeginImageContext(self.view.frame.size)
         UIImage(named: "homePageBG")?.draw(in: self.view.bounds)
         let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
@@ -60,7 +60,7 @@ class HomeFeedController: UICollectionViewController {
         grabUserLoc()
         setupBarButtonItems()
         collectionView?.register(HomeFeedCell.self, forCellWithReuseIdentifier: cellID)
-                collectionView?.register(CategoryCell.self, forCellWithReuseIdentifier: catergoryCellID)
+        collectionView?.register(CategoryCell.self, forCellWithReuseIdentifier: catergoryCellID)
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -69,7 +69,7 @@ class HomeFeedController: UICollectionViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-
+        
     }
     
     deinit {
@@ -78,8 +78,8 @@ class HomeFeedController: UICollectionViewController {
     }
     
     @objc func setupBarButtonItems(){
-    let sideMenuButton = UIBarButtonItem(image: UIImage(named: "icons8-Menu-48"), style: .plain, target: self, action: #selector(presentSideMenu))
-    navigationItem.leftBarButtonItem = sideMenuButton
+        let sideMenuButton = UIBarButtonItem(image: UIImage(named: "icons8-Menu-48"), style: .plain, target: self, action: #selector(presentSideMenu))
+        navigationItem.leftBarButtonItem = sideMenuButton
         let calendarMenuButton = UIBarButtonItem(image: UIImage(named: "icons8-calendar-48"), style: .plain, target: self, action: #selector(presentCalendar))
         navigationItem.rightBarButtonItem = calendarMenuButton
     }
@@ -100,7 +100,7 @@ class HomeFeedController: UICollectionViewController {
             calendar.savedLocation1 = self.userLocation
             self.navigationController?.pushViewController(calendar, animated: false)
         }
-
+        
     }
     
     @objc func presentSideMenu(){
@@ -116,11 +116,11 @@ class HomeFeedController: UICollectionViewController {
         }else{
             
             if self.categoryEvents[sideMenu.name.rawValue]?.count != nil {
-                 categoryVC.events = self.categoryEvents[sideMenu.name.rawValue]!
+                categoryVC.events = self.categoryEvents[sideMenu.name.rawValue]!
             }else {
                 categoryVC.events = []
             }
-           
+            
             categoryVC.emptyLabel.text = "Sorry We Currently Have No Events, \n In This Category Near You"
         }
         navigationController?.pushViewController(categoryVC, animated: true)
@@ -164,7 +164,7 @@ class HomeFeedController: UICollectionViewController {
             }else {
                 print("No place details for \(placeID)")
             }
-
+            
         }
     }
     
@@ -191,7 +191,7 @@ class HomeFeedController: UICollectionViewController {
                     if var arr = self.categoryEvents[event.category]{
                         arr.append(event)
                         print(arr)
-                         self.categoryEvents[event.category] = arr
+                        self.categoryEvents[event.category] = arr
                     }
                 }
                 print(self.categoryEvents.count)
@@ -203,8 +203,8 @@ class HomeFeedController: UICollectionViewController {
                 self?.featuredEvents = events
                 print("ending in Featured events")
                 self?.grabFriendsEvents()
-
-            }
+                
+                }
             )
             print("Latitude: \(currentLocation.coordinate.latitude)")
             print("Longitude: \(currentLocation.coordinate.longitude)")
@@ -219,10 +219,10 @@ class HomeFeedController: UICollectionViewController {
                 print(following.username as Any)
                 print("entering dispatch group")
                 dispatchGroup.enter()
-
+                
                 PostService.showFollowingEvent(for: following.uid, completion: { (event) in
                     self.friendsEvents = event
-                   // self.friendsEvents.append(contentsOf: event)
+                    // self.friendsEvents.append(contentsOf: event)
                     // leave here
                     self.friendsEvents = self.friendsEvents.removeDuplicates()
                     print("ending in friends events")
@@ -230,7 +230,7 @@ class HomeFeedController: UICollectionViewController {
                     print("leaving dispatch group")
                 })
                 
-            }  
+            }
             
             dispatchGroup.notify(queue: .main) {
                 // dismiss the revealing view
@@ -240,7 +240,7 @@ class HomeFeedController: UICollectionViewController {
                         SVProgressHUD.dismiss()
                     }
                 }
-                 NotificationCenter.default.post(name: heartAttackNotificationName, object: nil)
+                NotificationCenter.default.post(name: heartAttackNotificationName, object: nil)
             }
             
         }
@@ -302,8 +302,8 @@ class HomeFeedController: UICollectionViewController {
         searchController.homeFeedController = self
         self.navigationController?.pushViewController(searchController, animated: true)
     }
-
-
+    
+    
 }
 
 //DATASOURCE
@@ -336,7 +336,7 @@ extension HomeFeedController {
         }
         return cell
     }
-
+    
 }
 //Delegate flow layout
 extension HomeFeedController: UICollectionViewDelegateFlowLayout {
@@ -380,7 +380,7 @@ extension HomeFeedController {
         
         PostService.showFeaturedEvent(cameFromHomeFeed: true, passedDate: selectedDate,for: currentLocation, completion: { [weak self] (events) in
             self?.featuredEvents = events
-
+            
             DispatchQueue.main.async {
                 self?.collectionView?.reloadData()
                 SVProgressHUD.dismiss(withDelay: 1)

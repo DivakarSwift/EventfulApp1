@@ -360,7 +360,6 @@ class SearchVC: UIViewController,DeleteButtonDelegate {
                     for result in data {
                         if self.index == "events"{
                             let obj = resultObj()
-                            print(result["objectID"])
                             obj.name = result["event:name"] as? String ?? ""//name
                             obj.img = result["event:imageURL"] as? String ?? ""
                             obj.desc = result["event:city"] as? String ?? ""
@@ -437,6 +436,20 @@ extension SearchVC: UICollectionViewDelegate,UICollectionViewDataSource,UICollec
     //Action for popular searches
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
             self.searchTxt.text = _topSearches[indexPath.row]
+        guard let topSearchText = self.searchTxt.text else {
+            return
+        }
+            doSearch(searchText:topSearchText, index: client.index(withName: self.index))
+        self.searchResult.reloadData()
+        UIView.animate(withDuration: 0.3, animations: {
+            self.mainView.alpha = 0
+            self.resultView.alpha = 1
+        }) { (true) in
+            self.mainView.isHidden = true
+            self.resultView.isHidden = false
+            self.cancelButton.isHidden = false
+        }
+
     }
 
 }

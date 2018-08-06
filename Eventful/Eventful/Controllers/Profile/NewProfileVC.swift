@@ -203,7 +203,7 @@ extension NewProfileVC: UICollectionViewDataSource, UICollectionViewDelegate,UIC
             //must also be following them or be you
             self.myCollectionView.addSubview(emptyView)
 
-            emptyView.snp.makeConstraints { (make) in
+            emptyView.snp.makeConstraints { [unowned self] (make) in
                 make.centerY.equalTo(self.myCollectionView.snp.centerY).offset(160)
                 make.centerX.equalTo(self.myCollectionView.snp.centerX)
 
