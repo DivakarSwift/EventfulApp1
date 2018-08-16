@@ -29,7 +29,7 @@ class NewProfileVC: UIViewController,UIScrollViewDelegate {
         cv.showsVerticalScrollIndicator = false
         cv.delegate = self
         cv.dataSource = self
-        cv.backgroundColor = .clear
+        cv.backgroundColor = .white
         return cv
     }()
     
@@ -83,6 +83,7 @@ class NewProfileVC: UIViewController,UIScrollViewDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.navigationController?.navigationBar.isHidden = false
         self.tabBarController?.tabBar.isHidden = false
         if let user = user{
             grabFollowers(user: user)
@@ -125,7 +126,7 @@ class NewProfileVC: UIViewController,UIScrollViewDelegate {
         }
         view.addSubview(myCollectionView)
         myCollectionView.snp.makeConstraints { (make) in
-           make.edges.equalTo(view.safeAreaLayoutGuide)
+            make.left.top.bottom.right.equalTo(view.safeAreaLayoutGuide)
         }
         
     }
@@ -208,7 +209,7 @@ extension NewProfileVC: UICollectionViewDataSource, UICollectionViewDelegate,UIC
                 make.centerX.equalTo(self.myCollectionView.snp.centerX)
 
             }
-            emptyView.backgroundColor = .clear
+            emptyView.backgroundColor = .white
             emptyView.addSubview(emptyLabel)
             emptyLabel.snp.makeConstraints { (make) in
                 make.center.equalTo(emptyView)
@@ -226,7 +227,7 @@ extension NewProfileVC: UICollectionViewDataSource, UICollectionViewDelegate,UIC
                 make.centerX.equalTo(self.myCollectionView.snp.centerX)
                 
             }
-            emptyView.backgroundColor = .clear
+            emptyView.backgroundColor = .white
             emptyView.addSubview(iconImageView)
             iconImageView.image = UIImage(named: "icons8-secure-50")
             iconImageView.snp.makeConstraints { (make) in
@@ -258,15 +259,24 @@ extension NewProfileVC: UICollectionViewDataSource, UICollectionViewDelegate,UIC
         return cell
     }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 0.3
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 0.3
+    }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 10.0, left: 1.0, bottom: 1.0, right: 1.0)
+        return UIEdgeInsets(top: 5.0, left: 1.0, bottom: 1.0, right: 1.0)
     }
     
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let kWhateverHeightYouWant = 60
-        return CGSize(width: collectionView.bounds.size.width - 30, height: CGFloat(kWhateverHeightYouWant))
+        let width = (view.frame.width - 20) / 2.9
+        
+        return CGSize(width: width, height: 160)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {

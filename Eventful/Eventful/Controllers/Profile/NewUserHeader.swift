@@ -149,7 +149,7 @@ class NewUserHeader: UICollectionViewCell {
     
     @objc func presentFollowers(){
         let followers = FollowersViewController()
-        profileViewController.navigationController?.pushViewController(followers, animated: true)
+        profileViewController.navigationController?.pushViewController(followers, animated: false)
         print("showing followers")
     }
     

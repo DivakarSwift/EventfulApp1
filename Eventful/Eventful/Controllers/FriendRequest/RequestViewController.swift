@@ -46,7 +46,6 @@ class RequestViewController: UITableViewController {
         self.navigationItem.leftBarButtonItem = backButton
         self.tableView.tableFooterView = UIView(frame: CGRect.zero)
         self.tableView.allowsSelection = false
-        self.tabBarController?.tabBar.isHidden = true
         self.tableView.register(FriendRequestCell.self, forCellReuseIdentifier: requestCell)
         //NotificationCenter.default.post(name: heartAttackNotificationName, object: nil)
     }

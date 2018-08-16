@@ -149,9 +149,14 @@ class SearchVC: UIViewController,DeleteButtonDelegate {
         getTops(index: index)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.tabBarController?.tabBar.isHidden = false
+        self.navigationController?.navigationBar.isHidden = true
+    }
+    
+    
     func setupView() {
-        self.navigationController?.isNavigationBarHidden = true
-        
         searchTxt.delegate = self
         topSearches.delegate = self
         topSearches.dataSource = self
@@ -494,8 +499,8 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
                     
                     let eventDetail = EventDetailViewController()
                     eventDetail.currentEvent = event
-                    let eventNav = UINavigationController(rootViewController: eventDetail)
-                    self.present(eventNav, animated: true, completion: nil)
+                    self.navigationController?.pushViewController(eventDetail, animated: true)
+
                 }
                 
             } else {
@@ -505,13 +510,20 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
                 UserService.show(forUID: uid) { (user) in
                     let userProfile = NewProfileVC()
                     userProfile.user = user
-                    let userNav = UINavigationController(rootViewController: userProfile)
-                    self.present(userNav, animated: true, completion: nil)
+                    userProfile.navigationItem.hidesBackButton = true
+                    let backButton = UIBarButtonItem(image: UIImage(named: "icons8-Back-64"), style: .plain, target: self, action: #selector(self.GoBack))
+                    userProfile.navigationItem.leftBarButtonItem = backButton
+                    self.navigationController?.pushViewController(userProfile, animated: true)
                 }
             }
             
         }
     }
+    
+    @objc func GoBack(){
+        self.navigationController?.popViewController( animated: true)
+    }
+
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if tableView == searchResult {

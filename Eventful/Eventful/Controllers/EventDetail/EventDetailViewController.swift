@@ -14,6 +14,8 @@ import GoogleMaps
 import CoreLocation
 import MapKit
 import SimpleImageViewer
+import FirebaseMessaging
+import OneSignal
 
 
 class EventDetailViewController: UIViewController,UIScrollViewDelegate {
@@ -297,6 +299,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
                 self.currentEvent?.currentAttendCount += !((self.currentEvent!.isAttending)) ? 1 : -1
                 self.attendingButton.setImage(#imageLiteral(resourceName: "icons8-walking-50").withRenderingMode(.alwaysOriginal), for: .normal)
                 self.attendingButton.setTitle("Not Attending", for: .normal)
+                OneSignal.deleteTag(self.currentEvent?.currentEventName)
             }
             
         }else{
@@ -316,7 +319,9 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
                 
                 self.currentEvent?.currentAttendCount += !((self.currentEvent!.isAttending)) ? 1 : -1
                 self.attendingButton.setImage(#imageLiteral(resourceName: "icons8-walking-filled-50").withRenderingMode(.alwaysOriginal), for: .normal)
+                
                 self.attendingButton.setTitle("Attending", for: .normal)
+                OneSignal.sendTag(self.currentEvent?.currentEventName, value: "1")
             }
             
         }
@@ -390,6 +395,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
     }()
     @objc func handleViewStory(){
         let vc = StoriesViewController()
+        vc.eventDetailRef = self
         vc.eventKey = self.eventKey
         present(vc, animated: false, completion: nil)
     }

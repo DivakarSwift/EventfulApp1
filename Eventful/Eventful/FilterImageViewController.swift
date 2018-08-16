@@ -185,7 +185,7 @@ class FilterImageViewController: FiilterViewController {
                 updateCellFont()
                 scrollCollectionViewToIndex(itemIndex: filterIndex)
                 
-                filterNameLabel.text = filterNameList[filterIndex]
+                filterNameLabel.text = filterDisplayNameList[filterIndex]
                 
                 break
             case UISwipeGestureRecognizerDirection.left:
@@ -203,7 +203,7 @@ class FilterImageViewController: FiilterViewController {
                 updateCellFont()
                 scrollCollectionViewToIndex(itemIndex: filterIndex)
                 
-                filterNameLabel.text = filterNameList[filterIndex]
+                filterNameLabel.text = filterDisplayNameList[filterIndex]
                 
                 break
             default:

@@ -102,6 +102,7 @@ PODS:
   - NotificationBannerSwift (1.6.3):
     - MarqueeLabel/Swift
     - SnapKit (~> 4.0)
+  - OneSignal (2.8.5)
   - PinterestSegment (1.2.0)
   - Protobuf (3.6.0)
   - PryntTrimmerView (2.0.1)
@@ -122,7 +123,6 @@ PODS:
   - XLActionController/Core (4.0.1)
   - XLActionController/Twitter (4.0.1):
     - XLActionController/Core
-  - YNDropDownMenu (3.0.2)
   - YNSearch (2.3.1)
   - YPImagePicker (3.4.0):
     - PryntTrimmerView (~> 2.0)
@@ -160,6 +160,7 @@ DEPENDENCIES:
   - JTAppleCalendar (from `https://github.com/patchthecode/JTAppleCalendar.git`, branch `master`)
   - Kingfisher
   - NotificationBannerSwift
+  - OneSignal (< 3.0, >= 2.6.2)
   - PinterestSegment
   - RecordButton
   - RevealingSplashView
@@ -173,7 +174,6 @@ DEPENDENCIES:
   - TextFieldEffects
   - TTSegmentedControl
   - XLActionController/Twitter
-  - YNDropDownMenu
   - YNSearch
   - YPImagePicker
 
@@ -252,6 +252,7 @@ SPEC CHECKSUMS:
   MarqueeLabel: 0c41f08ef5773e29c0f71064a8fa788a2fd8b365
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   NotificationBannerSwift: b231e4c3244848ef300e1c53ce027b9756b9b06f
+  OneSignal: 42dae269c7eca517aee34963820e1eb922390031
   PinterestSegment: d589fce6c62141466b9f36ea8ab0a16fde9ac8f4
   Protobuf: 0fc0ad8bec688b2a3017a139953e01374fedbd5f
   PryntTrimmerView: 4260ae497a2f3e1bbfc0b71247eb74ab92bf0490
@@ -269,10 +270,9 @@ SPEC CHECKSUMS:
   TextFieldEffects: 4ee41b5216e674d55fb6ac25107bf1af7629176f
   TTSegmentedControl: 7a5fc6c3e117c340106efd3a35205b987f2ba23c
   XLActionController: 007868251c0eed70d649d06c1625259b73b3a600
-  YNDropDownMenu: 9421eb9c144448415d90141344a2cdbbaf11fc3c
   YNSearch: 3a6e0a69cfd34a7c5a7c77e0873f426de4437824
   YPImagePicker: 049aa31e2858c63730ace6b6358bba946178dfe3
 
-PODFILE CHECKSUM: 8be0abacb9879aa09bbcea6d7c4beba5a62ee405
+PODFILE CHECKSUM: ffa33fc7c2138643631ed7eb9d60bdcf05df9536
 
 COCOAPODS: 1.4.0

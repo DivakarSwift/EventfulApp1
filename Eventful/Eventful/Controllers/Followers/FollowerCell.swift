@@ -74,10 +74,11 @@ class FollowerCell: UITableViewCell {
         addSubview(userNameLabel)
         addSubview(unfollowButton)
         userImageView.snp.makeConstraints { (make) in
-            make.height.width.equalTo(50)
+            make.height.width.equalTo(40)
+            make.top.bottom.equalTo(self.safeAreaLayoutGuide).inset(5)
             make.left.equalTo(self.safeAreaLayoutGuide.snp.left).offset(10)
         }
-        userImageView.layer.cornerRadius = 50/2
+        userImageView.layer.cornerRadius = 40/2
         
         userNameLabel.snp.makeConstraints { (make) in
             make.left.equalTo(userImageView.snp.right).offset(10)

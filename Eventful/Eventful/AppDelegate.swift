@@ -19,7 +19,7 @@ import Instabug
 import InstantSearch
 import FirebaseAuth
 import FirebaseMessaging                                                                
-
+import OneSignal
 
 
 typealias FIRUser = FirebaseAuth.User
@@ -54,13 +54,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
 
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
-        window?.backgroundColor = UIColor.white
+        window?.backgroundColor = UIColor.black
         configureInitialRootViewController(for: window)
        // Will make the tab bar white
         UITabBar.appearance().backgroundColor = UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1)
         UITabBar.appearance().tintColor = .black
 
-
+        UINavigationBar.appearance().backgroundColor = UIColor.white
+        UINavigationBar.appearance().barTintColor = UIColor.white
 
         // 4
         // here so firebase will work
@@ -70,6 +71,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
         // Get Device Token
         self.registerForPushNotifications()
         
+        
+        let onesignalInitSettings = [kOSSettingsKeyAutoPrompt: false]
+        
+        // Replace 'YOUR_APP_ID' with your OneSignal App ID.
+        OneSignal.initWithLaunchOptions(launchOptions,
+                                        appId: "436b635e-4dd1-40f7-b689-ae9189c8c5fc",
+                                        handleNotificationAction: nil,
+                                        settings: onesignalInitSettings)
+        
+        OneSignal.inFocusDisplayType = OSNotificationDisplayType.none;
+    
+        
+        // Recommend moving the below line to prompt for push after informing the user about
+        //   how your app will use them.
+        OneSignal.promptForPushNotifications(userResponse: { accepted in
+            print("User accepted notifications: \(accepted)")
+        })
+        
+        OneSignal.promptLocation()
+        
         //6
         // Handle push when app invoked from notification
         if launchOptions?[UIApplicationLaunchOptionsKey.remoteNotification] != nil {
@@ -77,9 +98,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
             print(dict)
             self.hasNotification = true
         }
-        return true
         
-
+        return true
 
     }
 

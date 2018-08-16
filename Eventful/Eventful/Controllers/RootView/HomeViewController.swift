@@ -31,6 +31,7 @@
         let searchVC = SearchVC()
 
         let searchNavController = UINavigationController(rootViewController: searchVC)
+        searchNavController.title = "Search"
         searchNavController.tabBarItem.image =  UIImage(named: "icons8-search-50")?.withRenderingMode(.alwaysOriginal)
         searchNavController.tabBarItem.selectedImage =  UIImage(named: "icons8-search-filled-50")?.withRenderingMode(.alwaysOriginal)
         searchNavController.tabBarItem.title = "Search"

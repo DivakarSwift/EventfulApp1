@@ -67,6 +67,10 @@
 		<string>ProximaNova-BlackItalic.ttf</string>
 		<string>ProximaNova-Black.ttf</string>
 	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+	</array>
 	<key>UILaunchImageFile</key>
 	<string>LaunchImage-1</string>
 	<key>UILaunchStoryboardName</key>

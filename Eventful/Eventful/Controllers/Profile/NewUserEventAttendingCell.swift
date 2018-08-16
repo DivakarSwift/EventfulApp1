@@ -16,9 +16,6 @@ class NewUserEventAttendingCell: BaseRoundedCardCell {
             if let currentEvent = event {
                 eventImageView.loadImage(urlString: currentEvent.currentEventImage)
                 eventNameLabel.text = currentEvent.currentEventName.capitalized
-                eventCityLabel.text = currentEvent.currentEventCity + "," + currentEvent.currentEventState
-                let dateComponets = getDayAndMonthFromEvent(currentEvent)
-                eventTimeLabel.text = dateComponets.1 + ", \(dateComponets.0)\n\(currentEvent.currentEventTime?.lowercased() ?? "")"
             }
             print("recieved event")
         }
@@ -37,7 +34,7 @@ class NewUserEventAttendingCell: BaseRoundedCardCell {
     lazy var eventImageView: CustomImageView = {
         let iv = CustomImageView()
         iv.setCellShadow()
-        iv.contentMode = .scaleAspectFill
+        iv.contentMode = .scaleToFill
         iv.clipsToBounds = true
         return iv
     }()
@@ -45,26 +42,12 @@ class NewUserEventAttendingCell: BaseRoundedCardCell {
     lazy var eventNameLabel : UILabel = {
         let label = UILabel()
         label.font =  UIFont(name:"HelveticaNeue-Medium", size: 12)
+        label.adjustsFontSizeToFitWidth = true
         label.textAlignment = .center
         label.numberOfLines = 0
         return label
     }()
     
-    lazy var eventCityLabel : UILabel = {
-        let label = UILabel()
-        label.font = UIFont(name:"HelveticaNeue", size: 12)
-        label.textAlignment = .center
-        label.numberOfLines = 0
-        return label
-    }()
-    
-    lazy var eventTimeLabel : UILabel = {
-        let label = UILabel()
-        label.font = UIFont(name:"HelveticaNeue-Medium", size: 12)
-        label.textAlignment = .center
-        label.numberOfLines = 0
-        return label
-    }()
     
     @objc func setupViews(){
         backgroundColor = .clear
@@ -75,45 +58,21 @@ class NewUserEventAttendingCell: BaseRoundedCardCell {
         }
         cellView.addSubview(eventImageView)
         eventImageView.snp.makeConstraints { (make) in
-            make.left.equalTo(cellView.snp.left).inset(4)
-            make.top.bottom.equalTo(cellView).inset(4)
-            make.centerY.equalTo(cellView.snp.centerY)
-            make.height.width.equalTo(50)
+            make.top.left.right.bottom.equalTo(self.cellView)
         }
-        
-        cellView.addSubview(eventNameLabel)
-        eventNameLabel.snp.makeConstraints { (make) in
-            make.left.equalTo(eventImageView.snp.right).offset(10)
-            make.top.equalTo(cellView.snp.top).inset(10)
-        }
-        cellView.addSubview(eventCityLabel)
-        eventCityLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(eventNameLabel.snp.bottom).offset(5)
-            make.left.equalTo(eventImageView.snp.right).offset(10)
-        }
-
-        cellView.addSubview(eventTimeLabel)
-        eventTimeLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(cellView.snp.top).inset(9)
-            make.right.equalTo(cellView.snp.right).inset(5)
-        }
+//
+//        cellView.addSubview(eventNameLabel)
+//        eventNameLabel.snp.makeConstraints { (make) in
+//            make.top.equalTo(eventImageView.snp.bottom).inset(4)
+//            make.left.right.equalTo(cellView)
+//        }
+       
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    fileprivate func getDayAndMonthFromEvent(_ event:Event) -> (String, String) {
-        let apiDateFormat = "MM/dd/yyyy"
-        let df = DateFormatter()
-        df.dateFormat = apiDateFormat
-        let eventDate = df.date(from: event.currentEventDate!)!
-        df.dateFormat = "dd"
-        let dayElement = df.string(from: eventDate)
-        df.dateFormat = "MMM"
-        let monthElement = df.string(from: eventDate)
-        return (dayElement, monthElement)
-    }
     
     
     

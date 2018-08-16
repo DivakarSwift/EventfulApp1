@@ -12,8 +12,9 @@ import AVKit
 import AVFoundation
 import AFDateHelper
 import Firebase
+import AZDialogView
 
-class StoriesViewController: UIViewController, SegmentedProgressBarDelegate {
+class StoriesViewController: UIViewController {
     
     /// the event key
     var eventKey = ""
@@ -35,10 +36,8 @@ class StoriesViewController: UIViewController, SegmentedProgressBarDelegate {
     
     /// The current story index (allStories array)
     var currentIndex = 0
-    
-    /// The progress bar
-    var spb: SegmentedProgressBar!
-    
+    //
+    var eventDetailRef: EventDetailViewController?
     /// Flags for to see if using is rewinding/forwarding/or on repeat
     var isRewinding = false
     var isForwarding = false
@@ -49,6 +48,7 @@ class StoriesViewController: UIViewController, SegmentedProgressBarDelegate {
     
     /// Gesture recoginzers for taps and swipes
     var tapInfoView: UITapGestureRecognizer!
+    var zoomVideoTap: UITapGestureRecognizer!
     var swipeInfoView: UISwipeGestureRecognizer!
     
     /// Views to detect if user is tapping back or forward
@@ -84,11 +84,15 @@ class StoriesViewController: UIViewController, SegmentedProgressBarDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(applicationDidEnterBackground), name: .UIApplicationDidEnterBackground, object: nil)
         
         tapInfoView = UITapGestureRecognizer(target: self, action: #selector(self.tapInfoViewPressed(_:)))
+        zoomVideoTap = UITapGestureRecognizer(target: self, action: #selector(self.zoomTapPressed(_:)))
         swipeInfoView = UISwipeGestureRecognizer(target: self, action: #selector(self.swipedInfoView(_:)))
         
+        zoomVideoTap.numberOfTapsRequired = 2
         tapInfoView.numberOfTapsRequired = 1
         swipeInfoView.direction = .down
         
+        tapInfoView.require(toFail: zoomVideoTap)
+
         // Setup the views for detecting back and forward taps
         let width = self.view.frame.width / 4
         leftRect = CGRect(x: 0, y: 0, width: width, height: self.view.frame.height)
@@ -108,8 +112,8 @@ class StoriesViewController: UIViewController, SegmentedProgressBarDelegate {
         NotificationCenter.default.removeObserver(self, name: .UIApplicationDidEnterBackground, object: nil)
         
         // CLEAN EVERYTHING UP
-        if spb != nil {
-            spb.removeFromSuperview()
+       
+        if playerController != nil, imageView != nil, infoView != nil {
             playerController.view.removeFromSuperview()
             imageView.removeFromSuperview()
             infoView.removeFromSuperview()
@@ -118,12 +122,11 @@ class StoriesViewController: UIViewController, SegmentedProgressBarDelegate {
             playerController.player = nil
             playerController = nil
             imageView = nil
-            spb = nil
             
             infoNameLabel.text = ""
             infoTimeLabel.text = ""
         }
-        
+
         // Since user is leaving stories we need to save their current index for what story they are on
         UserService.setCurrentIndexOfStory(currentIndex: currentIndex, eventId: eventKey, completion: { (user) in
             
@@ -142,6 +145,13 @@ class StoriesViewController: UIViewController, SegmentedProgressBarDelegate {
         self.dismiss(animated: true, completion: nil)
     }
     
+    @objc private func zoomTapPressed(_ sender: AnyObject){
+        if playerController.videoGravity == AVLayerVideoGravity.resizeAspect.rawValue {
+            playerController.videoGravity = AVLayerVideoGravity.resizeAspectFill.rawValue
+        }else if playerController.videoGravity == AVLayerVideoGravity.resizeAspectFill.rawValue {
+            playerController.videoGravity = AVLayerVideoGravity.resizeAspect.rawValue
+        }
+    }
     
     /// Handle left and right taps aka back and forward taps
     ///
@@ -150,8 +160,9 @@ class StoriesViewController: UIViewController, SegmentedProgressBarDelegate {
         
         if rightRect.contains(tappedLocation) {
             // next pressed
+            self.currentIndex = currentIndex + 1
+            let tempIndex = currentIndex
             
-            let tempIndex = currentIndex + 1
             
             if tempIndex < allStories.count {
                 
@@ -161,17 +172,24 @@ class StoriesViewController: UIViewController, SegmentedProgressBarDelegate {
                 infoNameLabel.text = ""
                 infoTimeLabel.text = ""
                 
-                self.spb.skip()
+                let story = allStories[tempIndex]
+                getStoryInfo(story: story)
+                playStory(story: story, isFirst: false)
+
                 
             } else {
                 // reached end of story so repeat
-                segmentedProgressBarFinished()
+                currentIndex = 0
+                onRepeat = true
             }
             
         } else if leftRect.contains(tappedLocation) {
             // back pressed
-            
-            if currentIndex > 0 {
+            self.currentIndex = currentIndex - 1
+
+            let tempIndex = currentIndex
+
+            if currentIndex >= 0 {
                 
                 // you can go back
                 isRewinding = true
@@ -181,10 +199,14 @@ class StoriesViewController: UIViewController, SegmentedProgressBarDelegate {
                 infoNameLabel.text = ""
                 infoTimeLabel.text = ""
                 
-                self.spb.rewind()
+                let story = allStories[tempIndex]
+                getStoryInfo(story: story)
+                playStory(story: story, isFirst: false)
+
                 
             } else {
                 //can't go back so leave the story vc
+                self.currentIndex = 0
                 self.dismiss(animated: true, completion: nil)
             }
         }
@@ -199,34 +221,59 @@ class StoriesViewController: UIViewController, SegmentedProgressBarDelegate {
             self.currentIndex = 0
             
             // clear the arrays
-            self.allStories.removeAll()
-            self.durations.removeAll()
             
             self.allStories = stories
             
             if self.allStories.count > 0 {
-                
-                // Loop through the stories and get their duration
-                for s in self.allStories {
-                    if s.Url.contains(".mp4") {
-                        
-                        let videoUrl = URL(string: s.Url)
-                        
-                        let asset = AVAsset(url: videoUrl!)
-                        let secAsset = CMTimeGetSeconds(asset.duration)
-                        self.durations.append(secAsset)
-                        
-                    } else {
-                        //IMAGE DURATION - CURRENTLY AT 5 SECONDS
-                        self.durations.append(5)
-                    }
-                }
-                
                 self.playStories()
-                
             } else {
                 // No stories
-                self.dismiss(animated: true, completion: nil)
+                self.dismiss(animated: false, completion: {
+                 let dialog = AZDialogViewController(title: "Sorry", message: "There is currently no video or image content associated with the story for this event")
+                    
+                    dialog.titleColor = .black
+                    
+                    //set the message color
+                    dialog.messageColor = .black
+                    
+                    //set the dialog background color
+                    dialog.alertBackgroundColor = .white
+                    
+                    //set the gesture dismiss direction
+                    dialog.dismissDirection = .bottom
+                    
+                    //allow dismiss by touching the background
+                    dialog.dismissWithOutsideTouch = true
+                    //show seperator under the title
+                    dialog.showSeparator = true
+                    //set the seperator color
+                    dialog.separatorColor = UIColor.rgb(red: 44, green: 152, blue: 229)
+                    //enable/disable drag
+                    dialog.allowDragGesture = true
+                    //enable rubber (bounce) effect
+                    dialog.rubberEnabled = true
+                    //enable/disable backgroud blur
+                    dialog.blurBackground = true
+                    
+                    //set the background blur style
+                    dialog.blurEffectStyle = .prominent
+                    dialog.imageHandler = { (imageView) in
+                        imageView.image = UIImage(named: "appIcon")
+                        imageView.contentMode = .scaleAspectFit
+                        return true //must return true, otherwise image won't show.
+                    }
+                    
+                    dialog.cancelButtonStyle = { (button,height) in
+                        button.tintColor = UIColor.rgb(red: 44, green: 152, blue: 229)
+                        button.setTitle("CANCEL", for: [])
+                        return true //must return true, otherwise cancel button won't show.
+                    }
+                    
+                    if let eventDetail = self.eventDetailRef {
+                        dialog.show(in: eventDetail)
+                    }
+                    
+                })
             }
         }
     }
@@ -249,18 +296,6 @@ class StoriesViewController: UIViewController, SegmentedProgressBarDelegate {
         
         blurView.contentView.addSubview(indicator)
         
-        // Setup the Progress bar
-        spb = SegmentedProgressBar(numberOfSegments: allStories.count)
-//        spb.frame = CGRect(x: 0, y: 1, width: self.view.frame.width, height: 9)
-        self.view.addSubview(spb)
-        spb.snp.makeConstraints { (make) in
-            make.left.right.equalTo(view.safeAreaLayoutGuide)
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(1)
-            make.height.equalTo(9)
-        }
-        
-        spb.delegate = self
-        
         // Player Controller
         playerController = AVPlayerViewController()
         playerController.showsPlaybackControls = false
@@ -268,7 +303,8 @@ class StoriesViewController: UIViewController, SegmentedProgressBarDelegate {
         self.addChildViewController(playerController)
         
         // Image view for the story
-        imageView = UIImageView(frame: self.view.frame)
+        imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
         
         infoView = UIView(frame: self.view.frame)
         infoView.backgroundColor = UIColor.clear
@@ -276,15 +312,18 @@ class StoriesViewController: UIViewController, SegmentedProgressBarDelegate {
         // The image view for the user of the current story
         infoImageView = UIImageView()
         self.view.addSubview(imageView)
+        imageView.snp.makeConstraints { (make) in
+            make.edges.equalTo(view.safeAreaLayoutGuide)
+        }
         self.view.addSubview(playerController.view)
-        self.view.bringSubview(toFront: spb)
+//        self.view.bringSubview(toFront: spb)
         
         self.view.addSubview(infoView)
         
         self.infoView.addSubview(infoImageView)
         
         infoImageView.snp.makeConstraints { (make) in
-            make.top.equalTo(spb.snp.bottom).offset(2)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(2)
             make.left.equalTo(view.safeAreaLayoutGuide.snp.left).offset(10)
             make.height.width.equalTo(30)
         }
@@ -302,7 +341,7 @@ class StoriesViewController: UIViewController, SegmentedProgressBarDelegate {
         
         infoNameLabel.snp.makeConstraints { (make) in
             make.left.equalTo(infoImageView.snp.right).offset(5)
-            make.top.equalTo(spb.snp.bottom).offset(2)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(2)
             make.height.equalTo(30)
             make.width.equalTo(80)
         }
@@ -316,13 +355,14 @@ class StoriesViewController: UIViewController, SegmentedProgressBarDelegate {
         
         infoTimeLabel.snp.makeConstraints { (make) in
             make.left.equalTo(infoNameLabel.snp.right).offset(5)
-            make.top.equalTo(spb.snp.bottom).offset(2)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(2)
             make.height.equalTo(30)
             make.width.equalTo(50)
         }
         
         infoView.isUserInteractionEnabled = true
         infoView.addGestureRecognizer(tapInfoView)
+        infoView.addGestureRecognizer(zoomVideoTap)
         infoView.addGestureRecognizer(swipeInfoView)
         
         infoTimeLabel.layer.cornerRadius = 10
@@ -333,10 +373,11 @@ class StoriesViewController: UIViewController, SegmentedProgressBarDelegate {
         infoNameLabel.layer.masksToBounds = true
         infoNameLabel.textAlignment = .center
         
-        playerController.videoGravity = AVLayerVideoGravity.resizeAspectFill.rawValue
-        playerController.view.frame = view.frame
-        
-        spb.durations = durations
+        playerController.view.frame = view.bounds
+
+        playerController.videoGravity = AVLayerVideoGravity.resizeAspect.rawValue
+
+//        spb.durations = durations
     }
     
     private func playStories() {
@@ -350,16 +391,17 @@ class StoriesViewController: UIViewController, SegmentedProgressBarDelegate {
                 
                 if var savedIndex = savedIndex {
                     
-                    if savedIndex >= self.allStories.count {
+                    if savedIndex >= self.allStories.count || savedIndex <= self.allStories.count {
                         savedIndex = 0
                     }
                     
+                    
                     self.currentIndex = savedIndex
-                    self.spb.savedIndex = savedIndex
+//                    self.spb.savedIndex = savedIndex
                     
                     // if the current index isn't equal to 0 then skip to the correct story and bar
                     if self.currentIndex != 0 {
-                        self.spb.skipBars(number: self.currentIndex - 1)
+//                        self.spb.skipBars(number: self.currentIndex - 1)
                     }
                 }
                 let story = self.allStories[self.currentIndex]
@@ -387,55 +429,8 @@ class StoriesViewController: UIViewController, SegmentedProgressBarDelegate {
         }
     }
     
-    //SEGMENT BAR DELEGATES
-    func segmentedProgressBarFinished() {
-        currentIndex = 0
-        
-        // finished the story so set the onRepeat flag to true
-        onRepeat = true
-        
-        // reset the progress bar
-        spb.reset()
-    }
     
     
-    /// Delegate called everytime the progressbar index is changed
-    ///
-    /// - Parameter index: new index
-    func segmentedProgressBarChangedIndex(index: Int) {
-        
-        spb.isPaused = true
-        
-        if playerController.player != nil {
-            playerController.player = nil
-        }
-        
-        // Update the flags and the current index
-        if isRewinding {
-            currentIndex -= 1
-            isRewinding = false
-            
-        } else if isForwarding {
-            return
-            
-        } else if onRepeat {
-            onRepeat = false
-            
-        } else {
-            currentIndex += 1
-        }
-        
-        // if the current index is greater than the stories array count then the user finished viewing
-        if currentIndex < allStories.count {
-            let story = allStories[currentIndex]
-            getStoryInfo(story: story)
-            playStory(story: story, isFirst: false)
-            
-        } else {
-            segmentedProgressBarFinished()
-        }
-        
-    }
     
     
     /// Get the user info from the story
@@ -485,7 +480,7 @@ class StoriesViewController: UIViewController, SegmentedProgressBarDelegate {
             // video
             self.playerController.view.isHidden = false
             self.view.bringSubview(toFront: playerController.view)
-            self.view.bringSubview(toFront: spb)
+//            self.view.bringSubview(toFront: spb)
             self.view.bringSubview(toFront: infoView)
             
             let videoUrl = URL(string: story.Url)
@@ -506,9 +501,9 @@ class StoriesViewController: UIViewController, SegmentedProgressBarDelegate {
                     // If this is the first story that the user is watching than start the animation
                     // for the progress bar else unpause the progress bar if its not the first story
                     if isFirst {
-                        self.spb.startAnimationAt(index: self.currentIndex)
+//                        self.spb.startAnimationAt(index: self.currentIndex)
                     } else {
-                        self.spb.isPaused = false
+//                        self.spb.isPaused = false
                     }
                 }
                 
@@ -517,7 +512,7 @@ class StoriesViewController: UIViewController, SegmentedProgressBarDelegate {
         } else {
             // photo
             self.view.bringSubview(toFront: imageView)
-            self.view.bringSubview(toFront: spb)
+//            self.view.bringSubview(toFront: spb)
             self.view.bringSubview(toFront: infoView)
             
             let url = URL(string: story.Url)
@@ -526,7 +521,7 @@ class StoriesViewController: UIViewController, SegmentedProgressBarDelegate {
             
             showLoader()
             
-            self.spb.currentAnimationIndex = self.currentIndex
+//            self.spb.currentAnimationIndex = self.currentIndex
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
                 
@@ -535,9 +530,9 @@ class StoriesViewController: UIViewController, SegmentedProgressBarDelegate {
                 // If this is the first story that the user is watching than start the animation
                 // for the progress bar else unpause the progress bar if its not the first story
                 if isFirst {
-                    self.spb.startAnimationAt(index: self.currentIndex)
+//                    self.spb.startAnimationAt(index: self.currentIndex)
                 } else {
-                    self.spb.isPaused = false
+//                    self.spb.isPaused = false
                 }
                 
                 self.imageView.image = image

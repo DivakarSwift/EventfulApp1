@@ -105,7 +105,7 @@ class ShareViewController: UITableViewController  {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if FriendService.system.followerList.count == 0 {
-            emptyView.backgroundColor = .clear
+            emptyView.backgroundColor = .white
             emptyView.addSubview(iconImageView)
             iconImageView.image = UIImage(named: "icons8-friends-51")
             iconImageView.snp.makeConstraints { (make) in

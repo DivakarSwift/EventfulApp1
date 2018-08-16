@@ -252,7 +252,7 @@ class FilterVideoViewController: FiilterViewController {
             updateCellFont()
             scrollCollectionViewToIndex(itemIndex: filterIndex)
             
-            filterNameLabel.text = filterNameList[filterIndex]
+            filterNameLabel.text = filterDisplayNameList[filterIndex]
             
             break
         case UISwipeGestureRecognizerDirection.left:
@@ -270,7 +270,7 @@ class FilterVideoViewController: FiilterViewController {
             updateCellFont()
             scrollCollectionViewToIndex(itemIndex: filterIndex)
             
-            filterNameLabel.text = filterNameList[filterIndex]
+            filterNameLabel.text = filterDisplayNameList[filterIndex]
             
             break
         default:
@@ -584,9 +584,6 @@ extension FilterVideoViewController {
         let videoImage = self.imageWithView(inView: self.tapView)
         colorSlider.isHidden = false
         
-        // Show the loader
-        SVProgressHUD.show()
-        SVProgressHUD.setDefaultMaskType(.gradient)
         
         // Export the video
         video?.exportFilterVideo(videoComposition: avVideoComposition , completion: { (url) in
@@ -615,10 +612,10 @@ extension FilterVideoViewController {
                     }
                     
                     //svprogresshud insert here
-                    SVProgressHUD.dismiss(completion: {
-                        self.dismiss(animated: true, completion: nil)
-                        self.videoPlayer?.replaceCurrentItem(with: nil)
-                    })
+//                    SVProgressHUD.dismiss(completion: {
+//                        self.dismiss(animated: true, completion: nil)
+//                        self.videoPlayer?.replaceCurrentItem(with: nil)
+//                    })
                     
                 }, progressHandler: { _ in })
                 
@@ -639,14 +636,15 @@ extension FilterVideoViewController {
                     PostService.create(for: self.eventKey, for: videoUrlString)
                 }
                 //svprogresshud insert here
-                SVProgressHUD.dismiss(completion: {
-                    self.dismiss(animated: true, completion: nil)
-                    self.videoPlayer?.replaceCurrentItem(with: nil)
-                })
                 
             }
             
         })
+        
+    
+            self.dismiss(animated: true, completion: nil)
+            self.videoPlayer?.replaceCurrentItem(with: nil)
+        
         
     }
     

@@ -47,7 +47,6 @@ class FollowingViewController: UITableViewController  {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.tabBarController?.tabBar.isHidden = true
     }
     //will leave the VC
     @objc func GoBack(){
@@ -65,9 +64,28 @@ class FollowingViewController: UITableViewController  {
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let currentCell = tableView.cellForRow(at: indexPath) as! FollowerCell
+        let userProfileVC = NewProfileVC()
+        userProfileVC.user = currentCell.user
+        userProfileVC.navigationItem.hidesBackButton = true
+        let backButton = UIBarButtonItem(image: UIImage(named: "icons8-Back-64"), style: .plain, target: self, action: #selector(self.GoBack))
+        userProfileVC.navigationItem.leftBarButtonItem = backButton
+        self.navigationController?.pushViewController(userProfileVC, animated: true)
+    }
+    
+    
+    override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        let currentCell = tableView.cellForRow(at: indexPath) as! FollowerCell
+        print(currentCell.user?.uid)
+        tableView.cellForRow(at: indexPath)?.accessoryType = UITableViewCellAccessoryType.none
+    }
+    
+    
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if FriendService.system.followingList.count == 0 {
-            emptyView.backgroundColor = .clear
+            emptyView.backgroundColor = .white
             emptyView.addSubview(iconImageView)
             iconImageView.image = UIImage(named: "icons8-friends-51")
             iconImageView.snp.makeConstraints { (make) in

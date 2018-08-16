@@ -50,7 +50,6 @@ class FollowersViewController: UITableViewController  {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.tabBarController?.tabBar.isHidden = true
     }
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -62,9 +61,19 @@ class FollowersViewController: UITableViewController  {
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let currentCell = tableView.cellForRow(at: indexPath) as! FollowerCell
+        let userProfileVC = NewProfileVC()
+        userProfileVC.user = currentCell.user
+        userProfileVC.navigationItem.hidesBackButton = true
+        let backButton = UIBarButtonItem(image: UIImage(named: "icons8-Back-64"), style: .plain, target: self, action: #selector(self.GoBack))
+        userProfileVC.navigationItem.leftBarButtonItem = backButton
+        self.navigationController?.pushViewController(userProfileVC, animated: true)
+    }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if FriendService.system.followerList.count == 0 {
-            emptyView.backgroundColor = .clear
+            emptyView.backgroundColor = .white
             emptyView.addSubview(iconImageView)
             iconImageView.image = UIImage(named: "icons8-friends-51")
             iconImageView.snp.makeConstraints { (make) in

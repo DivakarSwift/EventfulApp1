@@ -53,10 +53,15 @@ target 'Eventful' do
     pod 'AFDateHelper'
     pod 'ColorSlider'
     pod 'SnapSliderFilters'
-    pod 'YNDropDownMenu'
     
     pod 'TTSegmentedControl'
     pod 'YPImagePicker'
+    pod 'OneSignal', '>= 2.6.2', '< 3.0'
     # Pods for Eventful
-    
+end
+
+
+target 'OneSignalNotificationServiceExtension' do
+    use_frameworks!
+    pod 'OneSignal', '>= 2.6.2', '< 3.0'
 end

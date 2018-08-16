@@ -11,7 +11,6 @@ import Firebase
 import UIKit
 
 struct StoryService {
-    
     static func showEvent(for eventKey: String,completion: @escaping ([Story]) -> Void) {
         //getting firebase root directory
         let ref = Database.database().reference().child("Stories").child(eventKey)
@@ -31,16 +30,8 @@ struct StoryService {
             }
             print(story)
             
-            //            guard let event = Event(snapshot: snapshot) else {
-            //                return completion(nil)
-            //
-            //            }
             
             completion(story)
         })
     }
-    
-    
-    
-    
 }
