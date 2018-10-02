@@ -201,7 +201,6 @@ DEPENDENCIES:
   - SnapSliderFilters
   - SVProgressHUD
   - SwiftLocation
-  - SwiftyJSON
   - SwipeCellKit (from `https://github.com/SwipeCellKit/SwipeCellKit.git`, branch `master`)
   - TagListView (~> 1.0)
   - TTSegmentedControl
@@ -372,6 +371,6 @@ SPEC CHECKSUMS:
   YNSearch: 3a6e0a69cfd34a7c5a7c77e0873f426de4437824
   YPImagePicker: 2cc64e1b8b8bac827cf99865fcd1e304ab342315
 
-PODFILE CHECKSUM: 2e4b984571d4ea6461f2922dfa3f6ee28371cdc3
+PODFILE CHECKSUM: ccf16a34de1711de6178d36f9fa55a4b4e1ac0b9
 
 COCOAPODS: 1.6.0.beta.1
