@@ -14,7 +14,13 @@ class ContactUsVC: UIViewController,MFMailComposeViewControllerDelegate {
     
     lazy var contactUsPromptLabel : UILabel = {
         let label = UILabel()
-        let customFont = UIFont.systemFont(ofSize: 15)
+        guard let customFont =  UIFont(name: "NoirPro-Regular", size: 15) else {
+            fatalError("""
+        Failed to load the "CustomFont-Light" font.
+        Make sure the font file is included in the project and the font name is spelled correctly.
+        """
+            )
+        }
         label.font = UIFontMetrics.default.scaledFont(for: customFont)
         label.adjustsFontForContentSizeCategory = true
         label.numberOfLines = 0
@@ -54,6 +60,7 @@ class ContactUsVC: UIViewController,MFMailComposeViewControllerDelegate {
     }
     @objc func setupViews(){
         navigationItem.title = "Contant Us"
+        view.backgroundColor = .white
         view.addSubview(contactUsPromptLabel)
         contactUsPromptLabel.snp.makeConstraints { (make) in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)

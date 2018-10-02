@@ -45,7 +45,6 @@ class PostService {
         geoFire = GeoFire(firebaseRef: geoFireRef!)
         let circleQuery = geoFire?.query(at: currentLocation, withRadius: 17.0)
         circleQuery?.observe(.keyEntered, with: { (key: String!, location: CLLocation!) in
-            print("Key '\(key)' entered the search area and is at location '\(location)'")
             if let currentKey = key {
                 keys.append(currentKey)
             }
@@ -102,7 +101,6 @@ class PostService {
         geoFire = GeoFire(firebaseRef: geoFireRef!)
         let circleQuery = geoFire?.query(at: currentLocation, withRadius: 17.0)
         circleQuery?.observe(.keyEntered, with: { (key: String!, location: CLLocation!) in
-            print("Key '\(key)' entered the search area and is at location '\(location)'")
             if let currentKey = key {
                 keys.append(currentKey)
             }

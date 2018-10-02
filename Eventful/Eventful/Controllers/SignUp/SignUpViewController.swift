@@ -9,9 +9,8 @@
 import UIKit
 import Foundation
 import SVProgressHUD
-import TextFieldEffects
-import Firebase
 import FirebaseStorage
+import Firebase
 
 
 class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
@@ -20,7 +19,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
     let plusPhotoButton: UIButton = {
         let button = UIButton(type: .system)
         button.setCellShadow()
-        button.setImage(#imageLiteral(resourceName: "camblack").withRenderingMode(.alwaysOriginal), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "addPic").withRenderingMode(.alwaysOriginal), for: .normal)
         button.addTarget(self, action: #selector(handlePlusPhoto), for: .touchUpInside)
         return button
     }()

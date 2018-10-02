@@ -151,7 +151,7 @@ class NotificationsViewController: UIViewController,NotificationsSectionDelegate
                 return
             }
             EventService.show(isFromHomeFeed: false, forEventKey: eventKey) { (event) in
-                let eventDetailVC = EventDetailViewController()
+                let eventDetailVC = NewEventDetailViewController(collectionViewLayout: UICollectionViewFlowLayout())
                 eventDetailVC.currentEvent = event
                 self.navigationController?.pushViewController(eventDetailVC, animated: true)
             }

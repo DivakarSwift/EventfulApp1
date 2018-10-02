@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import Firebase
 import FirebaseDatabase
+import DZNEmptyDataSet
 
 class NewProfileVC: UIViewController,UIScrollViewDelegate {
     let cellID = "cellID"
@@ -78,6 +79,9 @@ class NewProfileVC: UIViewController,UIScrollViewDelegate {
         super.viewDidLoad()
         myCollectionView.register(NewUserHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerID)
         myCollectionView.register(NewUserEventAttendingCell.self, forCellWithReuseIdentifier: cellID)
+        myCollectionView.emptyDataSetDelegate = self
+        myCollectionView.emptyDataSetSource = self
+
         setupVC()
     }
     
@@ -153,6 +157,7 @@ class NewProfileVC: UIViewController,UIScrollViewDelegate {
                     self.profileRef = ref
                     self.user = user
                     self.userEvents = events
+                    self.titleView.text = user?.username
                     self.isFollowed = true
                     DispatchQueue.main.async {
                         self.myCollectionView.reloadData()
@@ -172,6 +177,7 @@ class NewProfileVC: UIViewController,UIScrollViewDelegate {
                     self.profileHandle = UserService.observeProfile(for: self.user!) { [unowned self](ref, user, events) in
                         self.profileRef = ref
                         self.user = user
+                        self.titleView.text = user?.username
                         self.userEvents = events
                         DispatchQueue.main.async {
                             self.myCollectionView.reloadData()
@@ -202,19 +208,6 @@ extension NewProfileVC: UICollectionViewDataSource, UICollectionViewDelegate,UIC
             //will nil out any previous backgroundview
             //will go here if there are no events at all
             //must also be following them or be you
-            self.myCollectionView.addSubview(emptyView)
-
-            emptyView.snp.makeConstraints { [unowned self] (make) in
-                make.centerY.equalTo(self.myCollectionView.snp.centerY).offset(160)
-                make.centerX.equalTo(self.myCollectionView.snp.centerX)
-
-            }
-            emptyView.backgroundColor = .white
-            emptyView.addSubview(emptyLabel)
-            emptyLabel.snp.makeConstraints { (make) in
-                make.center.equalTo(emptyView)
-                make.left.right.equalTo(emptyView)
-            }
             return userEvents.count
         }else if userEvents.isEmpty == true && (user?.isPrivate)! && self.isFollowed == false && user?.uid != User.current.uid{
             //will go here if the user has no events and there private and your not following
@@ -280,11 +273,11 @@ extension NewProfileVC: UICollectionViewDataSource, UICollectionViewDelegate,UIC
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: collectionView.bounds.size.width - 20, height: 270)
+        return CGSize(width: collectionView.bounds.size.width - 20, height: 250)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let eventDetails = EventDetailViewController()
+        let eventDetails = NewEventDetailViewController(collectionViewLayout: UICollectionViewFlowLayout())
         eventDetails.currentEvent = userEvents[indexPath.item]
         self.navigationController?.pushViewController(eventDetails, animated: true)
     }
@@ -303,6 +296,25 @@ extension NewProfileVC: UICollectionViewDataSource, UICollectionViewDelegate,UIC
         header.followersLabel.attributedText = setupHeaderLabel(count: String(FriendService.system.followerList.count), type: "followers")
         header.followingLabel.attributedText = setupHeaderLabel(count: String(FriendService.system.followingList.count), type: "following")
         return header
+    }
+    
+    
+}
+
+extension NewProfileVC: DZNEmptyDataSetDelegate,DZNEmptyDataSetSource{
+    func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
+        let attribute = [NSAttributedStringKey.font: UIFont(name: "NoirPro-Light", size: 20),NSAttributedStringKey.foregroundColor: UIColor.black]
+        let str = "No events to show."
+        return NSAttributedString(string: str, attributes: attribute as [NSAttributedStringKey : Any])
+    }
+    func description(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
+        let attribute = [NSAttributedStringKey.font: UIFont(name: "NoirPro-Light", size: 15),NSAttributedStringKey.foregroundColor: UIColor.black]
+        let str = "Events that a user is currently attending will typically be listed here."
+        return NSAttributedString(string: str, attributes: attribute as [NSAttributedStringKey : Any])
+    }
+    
+    func image(forEmptyDataSet scrollView: UIScrollView!) -> UIImage! {
+        return UIImage(named: "icons8-stage-50")
     }
     
     

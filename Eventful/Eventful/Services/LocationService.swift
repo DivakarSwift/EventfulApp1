@@ -38,5 +38,15 @@ struct LocationService {
 
     }
     
+    static func getEventLocation(address: String,completion: @escaping ([Place]?) -> Void){
+        Locator.location(fromAddress: address, onSuccess: { (place) -> (Void) in
+            print(place.description)
+            completion(place)
+        }) { (err) -> (Void) in
+            print("Failed to get location: \(err)")
+
+        }
+    }
+    
     
 }

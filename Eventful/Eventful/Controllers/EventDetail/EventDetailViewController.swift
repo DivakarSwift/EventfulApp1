@@ -16,86 +16,284 @@ import MapKit
 import SimpleImageViewer
 import FirebaseMessaging
 import OneSignal
+import TagListView
 
 
 class EventDetailViewController: UIViewController,UIScrollViewDelegate {
     var imageURL: URL?
+
     var currentEvent : Event?{
         didSet{
-            imageURL = URL(string: (currentEvent?.currentEventImage)!)
+            
+            guard let event = currentEvent else {
+                return
+            }
+            eventNameLabel.text = event.currentEventName.capitalized
+            imageURL = URL(string: (event.currentEventImage))
             
             DispatchQueue.main.async {
                 self.currentEventImage.af_setImage(withURL: self.imageURL!, placeholderImage: nil, filter: nil, progress: nil, progressQueue: .main, imageTransition: .crossDissolve(0.5), runImageTransitionIfCached: false, completion: { (response) in
                     _ = response.result.value // UIImage Object
                 })
             }
-            //will pass the event description to the corresponding label
-            infoText.text = currentEvent?.currentEventDescription
-            updateWithSpacing(lineSpacing: 5.0)
+            
+            //will create the address
             guard let currentZip = currentEvent?.currentEventZip else{
                 return
             }
-            let firstPartOfAddress = (currentEvent?.currentEventStreetAddress)!  + "\n" + (currentEvent?.currentEventCity)! + ", " + (currentEvent?.currentEventState)!
-            let secondPartOfAddress = firstPartOfAddress + " " + String(describing: currentZip)
-            addressLabel.text = secondPartOfAddress
             
-            let dateComponets = getDayAndMonthFromEvent(currentEvent!)
-            currentEventDate.text = "Date and Time: "+dateComponets.1 + " \(dateComponets.0), \(dateComponets.2) \(currentEvent?.currentEventTime?.lowercased() ?? "") - \(currentEvent?.currentEventEndTime?.lowercased() ?? "")"
-            eventKey = (currentEvent?.key)!
-            eventPromo = (currentEvent?.currentEventPromo)!
-            setupAttendInteraction()
-            titleView.text = currentEvent?.currentEventName.uppercased()
-            if let price = currentEvent?.eventPrice {
-                let formatter = NumberFormatter()
-                formatter.locale = Locale.current // Change this to another locale if you want to force a specific locale, otherwise this is redundant as the current locale is the default already
-                formatter.numberStyle = .currency
-                if let formattedTipAmount = formatter.string(from:                     NSNumber(value: Int(price)!)) {
-                    costLabel.text = "Cost: \(formattedTipAmount)"
-                }
+            let firstPartOfAddress = (event.currentEventStreetAddress)  + "" + (event.currentEventCity) + ", " + (event.currentEventState)
+            let secondPartOfAddress = firstPartOfAddress + " " + String(describing: currentZip)
+            
+              let attributedText = NSMutableAttributedString(string:  "location\n".capitalized, attributes: [NSAttributedStringKey.font: UIFont(name: "NoirPro-SemiBold", size: 15) as Any, NSAttributedStringKey.foregroundColor: UIColor.rgb(red: 32, green: 32, blue: 32)])
+            
+            let attributedText2 = NSMutableAttributedString(string: secondPartOfAddress.capitalized, attributes: [NSAttributedStringKey.font: UIFont(name: "NoirPro-Light", size: 15) as Any, NSAttributedStringKey.foregroundColor: UIColor.rgb(red: 132, green: 132, blue: 132)])
+            attributedText.append(attributedText2)
+            addressLabel.attributedText = attributedText
+            
+            ///////////
 
+            //tag list init
+            
+            guard let tags = event.eventTags else {
+                return
             }
+            
+            populateTagList(tags: tags)
+            //will get weather
+            fetchWeatherData(location: attributedText2.string, time: event.startTime)
+            ////will get the start date and start time
+            guard let beginDate = event.currentEventDate else {
+                return
+            }
+            let dateComponets = getDayAndMonthFromEvent(beginDate)
+
+            let startTimeattributedText = NSMutableAttributedString(string:  "start time\n".capitalized, attributes: [NSAttributedStringKey.font: UIFont(name: "NoirPro-Regular", size: 13) as Any, NSAttributedStringKey.foregroundColor: UIColor.rgb(red: 185, green: 185, blue: 185)])
+            
+            let startTimeAttributedText2 = NSMutableAttributedString(string: "\(dateComponets.0) \(dateComponets.1) \(dateComponets.2) \(currentEvent?.currentEventTime ?? "")", attributes: [NSAttributedStringKey.font: UIFont(name: "NoirPro-Light", size: 13) as Any, NSAttributedStringKey.foregroundColor: UIColor.rgb(red: 32, green: 32, blue: 32)])
+            
+            startTimeattributedText.append(startTimeAttributedText2)
+            
+            startDateText.attributedText = startTimeattributedText
+            
+            guard let endDate = event.currentEventEndDate else {
+                return
+            }
+            
+            let dateComponets2 = getDayAndMonthFromEvent(endDate)
+            
+            let endTimeattributedText = NSMutableAttributedString(string:  "end time\n".capitalized, attributes: [NSAttributedStringKey.font: UIFont(name: "NoirPro-Regular", size: 13) as Any, NSAttributedStringKey.foregroundColor: UIColor.rgb(red: 185, green: 185, blue: 185)])
+            
+            let endTimeAttributedText2 = NSMutableAttributedString(string: "\(dateComponets2.0) \(dateComponets2.1) \(dateComponets2.2) \(currentEvent?.currentEventEndTime ?? "")", attributes: [NSAttributedStringKey.font: UIFont(name: "NoirPro-Light", size: 13) as Any, NSAttributedStringKey.foregroundColor: UIColor.rgb(red: 32, green: 32, blue: 32)])
+            
+            endTimeattributedText.append(endTimeAttributedText2)
+            
+            endDateText.attributedText = endTimeattributedText
+            
+            
+            
+            //will pass the event description to the corresponding label
+            infoText.text = currentEvent?.currentEventDescription
+            updateWithSpacing(lineSpacing: 10.0)
+
+            
+//            currentEventDate.text = "Date and Time: "+dateComponets.1 + " \(dateComponets.0), \(dateComponets.2) \(currentEvent?.currentEventTime?.lowercased() ?? "") - \(currentEvent?.currentEventEndTime?.lowercased() ?? "")"
+            guard let key = event.key else {
+                return
+            }
+            eventKey = key
+            guard let promo = event.currentEventPromo else {
+                return
+            }
+            eventPromo = promo
+            setupAttendInteraction()
+//            let price = event.eventPrice
+//                let formatter = NumberFormatter()
+//                formatter.locale = Locale.current // Change this to another locale if you want to force a specific locale, otherwise this is redundant as the current locale is the default already
+//                formatter.numberStyle = .currency
+//                if let formattedTipAmount = formatter.string(from:                     NSNumber(value: Int(price)!)) {
+//                    costLabel.text = "Cost: \(formattedTipAmount)"
+//                }
+
+            
            
         }
     }
+    let tagList = TagListView()
     private let scrollView = UIScrollView()
     private let imageView = UIImageView()
     private let textContainer = UIView()
     private var userInteractStackView: UIStackView?
     private var userInteractStackView1: UIStackView?
-    private var tagStackView: UIStackView?
+    private var userInteractStackView2: UIStackView?
+
     private var eventKey = ""
     private var eventPromo = ""
     let titleView = UILabel()
     
     
 
+    lazy var eventNameLabel: UILabel = {
+       let eventNameLabel = UILabel()
+        guard let customFont = UIFont(name: "NoirPro-SemiBold", size: 28) else {
+            fatalError("""
+        Failed to load the "CustomFont-Light" font.
+        Make sure the font file is included in the project and the font name is spelled correctly.
+        """
+            )
+        }
+        eventNameLabel.textColor = .black
+        eventNameLabel.textAlignment = .left
+        eventNameLabel.font = customFont
+        eventNameLabel.numberOfLines = 0
+        return eventNameLabel
+    }()
+    
+    lazy var weatherLabel: UILabel = {
+        let weatherLabel = UILabel()
+        weatherLabel.text = "Weather"
+        guard let customFont = UIFont(name: "NoirPro-SemiBold", size: 15) else {
+            fatalError("""
+        Failed to load the "CustomFont-Light" font.
+        Make sure the font file is included in the project and the font name is spelled correctly.
+        """
+            )
+        }
+        weatherLabel.textColor = .black
+        weatherLabel.textAlignment = .left
+        weatherLabel.font = customFont
+        weatherLabel.numberOfLines = 0
+        return weatherLabel
+    }()
+    
+    lazy var degreesLabel: UILabel = {
+        let degreesLabel = UILabel()
+        guard let customFont = UIFont(name: "NoirPro-Medium", size: 20) else {
+            fatalError("""
+        Failed to load the "CustomFont-Light" font.
+        Make sure the font file is included in the project and the font name is spelled correctly.
+        """
+            )
+        }
+        degreesLabel.textColor = UIColor.rgb(red: 32, green: 32, blue: 32)
+        degreesLabel.textAlignment = .left
+        degreesLabel.font = customFont
+        degreesLabel.numberOfLines = 0
+        return degreesLabel
+    }()
+    
+    lazy var summaryLabel: UILabel = {
+        let summaryLabel = UILabel()
+        guard let customFont = UIFont(name: "NoirPro-Light", size: 13) else {
+            fatalError("""
+        Failed to load the "CustomFont-Light" font.
+        Make sure the font file is included in the project and the font name is spelled correctly.
+        """
+            )
+        }
+        summaryLabel.textColor = UIColor.rgb(red: 132, green: 132, blue: 132)
+        summaryLabel.textAlignment = .left
+        summaryLabel.font = customFont
+        summaryLabel.numberOfLines = 0
+        return summaryLabel
+    }()
+    
+    
+    lazy var iconImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }()
+    
+    
+    lazy var dateAndTimeLabel: UILabel = {
+        let dateAndTimeLabel = UILabel()
+        dateAndTimeLabel.text = "Date & Time"
+        guard let customFont = UIFont(name: "NoirPro-Medium", size: 15) else {
+            fatalError("""
+        Failed to load the "CustomFont-Light" font.
+        Make sure the font file is included in the project and the font name is spelled correctly.
+        """
+            )
+        }
+        dateAndTimeLabel.textColor = UIColor.rgb(red: 32, green: 32, blue: 32)
+        dateAndTimeLabel.textAlignment = .left
+        dateAndTimeLabel.font = customFont
+        dateAndTimeLabel.numberOfLines = 0
+        return dateAndTimeLabel
+    }()
+    
+    
+    lazy var startDateText: UILabel = {
+        let startDateText = UILabel()
+        startDateText.textAlignment = .left
+        startDateText.numberOfLines = 0
+        return startDateText
+    }()
+    
+    lazy var endDateText: UILabel = {
+        let endDateText = UILabel()
+        endDateText.textAlignment = .left
+        endDateText.numberOfLines = 0
+        return endDateText
+    }()
+    
+    
+    lazy var hostLabel: UILabel = {
+        let hostLabel = UILabel()
+        hostLabel.text = "Host"
+        guard let customFont = UIFont(name: "NoirPro-Medium", size: 15) else {
+            fatalError("""
+        Failed to load the "CustomFont-Light" font.
+        Make sure the font file is included in the project and the font name is spelled correctly.
+        """
+            )
+        }
+        hostLabel.textColor = UIColor.rgb(red: 32, green: 32, blue: 32)
+        hostLabel.textAlignment = .left
+        hostLabel.font = customFont
+        hostLabel.numberOfLines = 0
+        return hostLabel
+    }()
+    
+    
+    lazy var aboutEventLabel: UILabel = {
+        let aboutEventLabel = UILabel()
+        aboutEventLabel.text = "About Event"
+        guard let customFont = UIFont(name: "NoirPro-Medium", size: 15) else {
+            fatalError("""
+        Failed to load the "CustomFont-Light" font.
+        Make sure the font file is included in the project and the font name is spelled correctly.
+        """
+            )
+        }
+        aboutEventLabel.textColor = UIColor.rgb(red: 32, green: 32, blue: 32)
+        aboutEventLabel.textAlignment = .left
+        aboutEventLabel.font = customFont
+        aboutEventLabel.numberOfLines = 0
+        return aboutEventLabel
+    }()
+    
+    
+    
+    
     
     private let infoText: UILabel = {
         let infoText = UILabel()
-        infoText.textColor = .black
+        guard let customFont = UIFont(name: "NoirPro-Light", size: 13) else {
+            fatalError("""
+        Failed to load the "CustomFont-Light" font.
+        Make sure the font file is included in the project and the font name is spelled correctly.
+        """
+            )
+        }
+        infoText.textColor = UIColor.rgb(red: 32, green: 32, blue: 32)
         infoText.textAlignment = .natural
-        infoText.font = UIFont.systemFont(ofSize: 15.5)
+        infoText.font = customFont
         infoText.numberOfLines = 0
         return infoText
     }()
-    
-     lazy var costLabel: UILabel = {
-        let costLabel = UILabel()
-        costLabel.textColor = .black
-        costLabel.textAlignment = .natural
-        costLabel.font = UIFont.boldSystemFont(ofSize: 14)
-        costLabel.numberOfLines = 0
-        return costLabel
-    }()
-    
-    
-    lazy var currentEventDate: UILabel = {
-        let currentEventDate = UILabel()
-        currentEventDate.numberOfLines = 0
-        currentEventDate.textAlignment = .center
-        currentEventDate.font = UIFont.boldSystemFont(ofSize: 14)
-        return currentEventDate
-    }()
+
     
     lazy var currentEventImage : UIImageView = {
         let currentEvent = UIImageView()
@@ -116,19 +314,6 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         return currentEvent
     }()
     
-    lazy var priceImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(named: "icons8-price-tag-64")
-        return imageView
-    }()
-    
-    lazy var dateImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(named: "icons8-date-to-64")
-        return imageView
-    }()
     
     fileprivate func extractedFunc(_ url: URL?) -> EventPromoVideoPlayer {
         return EventPromoVideoPlayer(videoURL: url!)
@@ -160,13 +345,6 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         currentAddressLabel.isUserInteractionEnabled = true
         currentAddressLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(openMaps)))
         return currentAddressLabel
-    }()
-    //will ad the location marker to potentially bring up google maps
-    lazy var LocationMarkerViewButton : UIButton = {
-        let locationMarker = UIButton(type: .system)
-        locationMarker.setImage(UIImage(named: "icons8-marker-50 (1)")?.withRenderingMode(.alwaysOriginal), for: .normal)
-        locationMarker.addTarget(self, action: #selector(openMaps), for: .touchUpInside)
-        return locationMarker
     }()
     
     
@@ -226,7 +404,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         viewComments.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 10)
         viewComments.layer.cornerRadius = 5
         viewComments.setTitle("Comments", for: .normal)
-        viewComments.titleLabel?.font = UIFont(name: "GillSans", size: 15)
+        viewComments.titleLabel?.font = UIFont(name: "NoirPro-Regular", size: 15)
         viewComments.setTitleColor(.white, for: .normal)
         viewComments.backgroundColor = UIColor.rgb(red: 44, green: 152, blue: 229)
         viewComments.layer.borderWidth = 0.1
@@ -250,7 +428,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         attendButton.setImage(#imageLiteral(resourceName: "icons8-walking-50").withRenderingMode(.alwaysOriginal), for: .normal)
         attendButton.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 10)
         attendButton.layer.cornerRadius = 5
-        attendButton.titleLabel?.font = UIFont(name: "GillSans", size: 15)
+        attendButton.titleLabel?.font = UIFont(name: "NoirPro-Regular", size: 15)
         attendButton.setTitleColor(.white, for: .normal)
         attendButton.backgroundColor = UIColor.rgb(red: 44, green: 152, blue: 229)
         attendButton.layer.borderWidth = 0.1
@@ -258,6 +436,23 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         attendButton.addTarget(self, action: #selector(handleAttend), for: .touchUpInside)
         return attendButton
     }()
+    
+    lazy var shareButton: UIButton = {
+        let shareButton = UIButton(type: .system)
+        shareButton.setImage(UIImage(named: "icons8-share-filled-50")?.withRenderingMode(.alwaysOriginal), for: .normal)
+        shareButton.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 10)
+        shareButton.layer.cornerRadius = 5
+        shareButton.setTitle("Share", for: .normal)
+        shareButton.setTitleColor(.white, for: .normal)
+        shareButton.titleLabel?.font = UIFont(name: "NoirPro-Regular", size: 15)
+        shareButton.backgroundColor = UIColor.rgb(red: 44, green: 152, blue: 229)
+        shareButton.setCellShadow()
+        shareButton.layer.borderWidth = 0.1
+        shareButton.layer.borderColor = UIColor.clear.cgColor
+        shareButton.addTarget(self, action: #selector(shareWithFollowers), for: .touchUpInside)
+        return shareButton
+    }()
+
     
     override func didMove(toParentViewController parent: UIViewController?) {
         super.didMove(toParentViewController: parent)
@@ -268,15 +463,73 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
     }
     
     private func initNavigationItemTitleView() {
+        titleView.font = UIFont(name: "NoirPro-Medium", size: 18)
+        titleView.text = "Event Details"
         let width = titleView.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)).width
         titleView.frame = CGRect(origin:CGPoint.zero, size:CGSize(width: width, height: 500))
-        titleView.textAlignment = .center;
         self.navigationItem.titleView = titleView
-        self.titleView.font = UIFont.boldSystemFont(ofSize: 18)
-        self.titleView.adjustsFontSizeToFitWidth = true
         
     }
     
+    @objc func populateTagList(tags : [String]){
+        for tag in tags {
+            tagList.addTag(tag)
+        }
+        
+        guard let customFont = UIFont(name: "NoirPro-Light", size: 15) else {
+            fatalError("""
+        Failed to load the "CustomFont-Light" font.
+        Make sure the font file is included in the project and the font name is spelled correctly.
+        """
+            )
+        }
+        tagList.textFont = customFont
+        tagList.textColor = UIColor.rgb(red: 132, green: 132, blue: 132)
+        tagList.alignment = .left
+        tagList.tagBackgroundColor = UIColor.white
+        tagList.borderColor = UIColor.rgb(red: 185, green: 185, blue: 185)
+        tagList.borderWidth = 1
+        tagList.cornerRadius = 7
+
+    }
+    
+    @objc func fetchWeatherData(location: String, time: Date){
+        LocationService.getEventLocation(address: location) { (place) in
+            guard let places = place else  {
+                return
+            }
+            
+            for place in places {
+                print(place.coordinates?.latitude as Any)
+                print(place.coordinates?.longitude as Any)
+                let jsonURLString = "https://api.darksky.net/forecast/d455ebdd2abdcb5160adc4e70919367c/\(place.coordinates?.latitude ?? 0),\(place.coordinates?.longitude ?? 0),\(Int(time.timeIntervalSince1970))?exclude=minutely,flags,hourly,daily,alerts"
+                print(jsonURLString)
+                guard let url = URL(string: jsonURLString) else {
+                    return
+                }
+                URLSession.shared.dataTask(with: url, completionHandler: { (data, response, err) in
+                    guard let data = data else {
+                        return
+                    }
+                    do {
+                        let weather = try JSONDecoder().decode(Weather.self, from: data)
+                        print(weather)
+                        print(weather.currently.icon)
+                        DispatchQueue.main.async {
+                            self.iconImageView.image = UIImage(named: weather.currently.icon)
+                            self.degreesLabel.text = String(Int(weather.currently.temperature)) + " °"
+                            self.summaryLabel.text = weather.currently.summary
+                        }
+                    } catch let jsonErr {
+                        print("Error serializing json:", jsonErr)
+
+                    }
+                    
+                }).resume()
+
+            }
+        }
+    }
     @objc func handleAttend(){
         // 2
         attendingButton.isUserInteractionEnabled = false
@@ -327,6 +580,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         }
         
     }
+
     
     fileprivate func setupAttendInteraction(){
         Database.database().reference().child("attending").child(eventKey).child(User.current.uid).observeSingleEvent(of: .value, with: { (snapshot) in
@@ -354,7 +608,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         addToStory.setImage(#imageLiteral(resourceName: "icons8-screenshot-filled-50").withRenderingMode(.alwaysOriginal), for: .normal)
         addToStory.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 10)
         addToStory.layer.cornerRadius = 5
-        addToStory.titleLabel?.font = UIFont(name: "GillSans", size: 15)
+        addToStory.titleLabel?.font = UIFont(name: "NoirPro-Regular", size: 15)
         addToStory.setTitle("Add to Story", for: .normal)
         addToStory.setTitleColor(.white, for: .normal)
         addToStory.backgroundColor = UIColor.rgb(red: 44, green: 152, blue: 229)
@@ -363,6 +617,7 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         addToStory.addTarget(self, action: #selector(beginAddToStory), for: .touchUpInside)
         return addToStory
     }()
+    
     
     @objc func beginAddToStory(){
         //Animation 1
@@ -383,22 +638,24 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         viewStoryButton.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 10)
         viewStoryButton.layer.cornerRadius = 5
         viewStoryButton.setTitle("View Story", for: .normal)
-        viewStoryButton.titleLabel?.font = UIFont(name: "GillSans", size: 15)
+        viewStoryButton.titleLabel?.font = UIFont(name: "NoirPro-Regular", size: 15)
         viewStoryButton.setTitleColor(.white, for: .normal)
         viewStoryButton.backgroundColor = UIColor.rgb(red: 44, green: 152, blue: 229)
         viewStoryButton.layer.borderWidth = 0.1
         viewStoryButton.layer.borderColor = UIColor.clear.cgColor
         viewStoryButton.addTarget(self, action: #selector(handleViewStory), for: .touchUpInside)
-        //        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleViewStory))
-        //        viewStoryButton.addGestureRecognizer(tapGesture)
         return viewStoryButton
     }()
+
+    
+    
     @objc func handleViewStory(){
         let vc = StoriesViewController()
-        vc.eventDetailRef = self
+//        vc.eventDetailRef = self
         vc.eventKey = self.eventKey
         present(vc, animated: false, completion: nil)
     }
+    
     
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -424,6 +681,10 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         self.dismiss(animated: true, completion: nil)
     }
     
+    @objc func favorite(){
+        print("favorite pressed")
+    }
+    
     @objc func shareWithFollowers(){
         print("Attempting to share with friends")
         let share = ShareViewController()
@@ -435,12 +696,12 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
     @objc func setupVc(){
         self.navigationController?.navigationBar.isTranslucent = false
         
-        let backButton = UIBarButtonItem(image: UIImage(named: "icons8-Back-64"), style: .plain, target: self, action: #selector(GoBack))
-        
-        let shareButton = UIBarButtonItem(image: UIImage(named: "icons8-upload-50")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(shareWithFollowers))
+        let backButton = UIBarButtonItem(image: UIImage(named: "icons8-back-48"), style: .plain, target: self, action: #selector(GoBack))
         self.navigationItem.leftBarButtonItem = backButton
-        self.navigationItem.rightBarButtonItem = shareButton
         
+        let favoriteButton = UIBarButtonItem(image: UIImage(named: "icons8-romance-50"), style: .plain, target: self, action: #selector(favorite))
+        self.navigationItem.rightBarButtonItem = favoriteButton
+
         
         view.backgroundColor = .white
         
@@ -457,18 +718,30 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         textBacking.backgroundColor = .white
         
         
-        userInteractStackView = UIStackView(arrangedSubviews: [commentsViewButton, attendingButton])
+        
+//        addToStoryButton,viewStoryButton,commentsViewButton,shareButton
+    
+        userInteractStackView = UIStackView(arrangedSubviews: [attendingButton])
         userInteractStackView?.translatesAutoresizingMaskIntoConstraints = false
         userInteractStackView?.distribution = .fillEqually
         userInteractStackView?.axis = .horizontal
         userInteractStackView?.spacing = 5.0
         
-        userInteractStackView1 = UIStackView(arrangedSubviews: [addToStoryButton,viewStoryButton])
+        userInteractStackView1 = UIStackView(arrangedSubviews: [commentsViewButton,shareButton])
         userInteractStackView1?.translatesAutoresizingMaskIntoConstraints = false
         userInteractStackView1?.distribution = .fillEqually
         userInteractStackView1?.axis = .horizontal
         userInteractStackView1?.spacing = 5.0
         
+        userInteractStackView2 = UIStackView(arrangedSubviews: [addToStoryButton,viewStoryButton])
+        userInteractStackView2?.translatesAutoresizingMaskIntoConstraints = false
+        userInteractStackView2?.distribution = .fillEqually
+        userInteractStackView2?.axis = .horizontal
+        userInteractStackView2?.spacing = 5.0
+        
+//        addToStoryButton,viewStoryButton,commentsViewButton,shareButton
+
+
         view.addSubview(scrollView)
         
         scrollView.addSubview(imageContainer)
@@ -476,15 +749,29 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
         scrollView.addSubview(textContainer)
         scrollView.addSubview(currentEventImage)
         
+        textContainer.addSubview(eventNameLabel)
         textContainer.addSubview(addressLabel)
-        textContainer.addSubview(currentEventDate)
-        textContainer.addSubview(LocationMarkerViewButton)
-        textContainer.addSubview(priceImageView)
-        textContainer.addSubview(dateImageView)
-        textContainer.addSubview(costLabel)
+        textContainer.addSubview(tagList)
+        //weather
+        textContainer.addSubview(weatherLabel)
+        textContainer.addSubview(degreesLabel)
+        textContainer.addSubview(summaryLabel)
+        textContainer.addSubview(iconImageView)
+        //date and time
+        textContainer.addSubview(dateAndTimeLabel)
+        textContainer.addSubview(startDateText)
+        textContainer.addSubview(endDateText)
+        //host
+        textContainer.addSubview(hostLabel)
+        
+        //event info
+        textContainer.addSubview(aboutEventLabel)
         textContainer.addSubview(infoText)
+        
         textContainer.addSubview(userInteractStackView!)
         textContainer.addSubview(userInteractStackView1!)
+        textContainer.addSubview(userInteractStackView2!)
+
         scrollView.snp.makeConstraints {
             make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(5)
@@ -531,77 +818,92 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
             make.bottom.equalTo(view)
         }
         
-        LocationMarkerViewButton.snp.makeConstraints { (make) in
-            make.top.equalTo(textContainer.snp.top).offset(12)
-            make.left.equalTo(textContainer.snp.left).offset(10)
+        eventNameLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(textContainer.snp.top).offset(10)
+            make.left.right.equalTo(textContainer).inset(10)
         }
+        
         addressLabel.snp.makeConstraints { (make) in
-            make.left.equalTo(LocationMarkerViewButton.snp.right).offset(5)
-            make.centerY.equalTo(LocationMarkerViewButton.snp.centerY)
+            make.top.equalTo(eventNameLabel.snp.bottom).offset(10)
+            make.left.equalTo(textContainer).inset(10)
         }
         
-        let dividerView = UIView()
-        dividerView.backgroundColor = UIColor.rgb(red: 220, green: 220, blue: 220)
-        textContainer.addSubview(dividerView)
-        
-        dividerView.snp.makeConstraints { (make) in
-            make.left.right.equalTo(textContainer).inset(15)
-            make.top.equalTo(addressLabel.snp.bottom).offset(15)
-            make.height.equalTo(1.5)
+        tagList.snp.makeConstraints { (make) in
+            make.top.equalTo(addressLabel.snp.bottom).offset(10)
+            make.left.right.equalTo(textContainer).inset(10)
+        }
+        weatherLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(tagList.snp.bottom).offset(15)
+            make.left.right.equalTo(textContainer).inset(10)
         }
         
-        
-        priceImageView.snp.makeConstraints { (make) in
-            make.top.equalTo(dividerView.snp.bottom).offset(12)
-            make.left.equalTo(textContainer.snp.left).offset(10)
+        degreesLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(weatherLabel.snp.bottom).offset(10)
+            make.left.equalTo(textContainer).inset(10)
         }
         
-        costLabel.snp.makeConstraints({ (make) in
-            make.height.equalTo(30)
-            make.left.equalTo(priceImageView.snp.right).offset(5)
-            make.centerY.equalTo(priceImageView.snp.centerY)
-        })
-
-        
-        dateImageView.snp.makeConstraints { (make) in
-            make.top.equalTo(costLabel.snp.bottom).offset(10)
-            make.left.equalTo(textContainer.snp.left).offset(10)
+        summaryLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(degreesLabel.snp.bottom).offset(5)
+            make.left.equalTo(textContainer).inset(10)
+        }
+        iconImageView.snp.makeConstraints { (make) in
+            make.centerY.equalTo(degreesLabel.snp.centerY)
+            make.left.equalTo(degreesLabel.snp.right).offset(35)
         }
         
-        currentEventDate.snp.makeConstraints { (make) in
-            make.left.equalTo(dateImageView.snp.right).offset(5)
-            make.centerY.equalTo(dateImageView.snp.centerY)
+        dateAndTimeLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(summaryLabel.snp.bottom).offset(15)
+            make.left.equalTo(textContainer.snp.left).inset(10)
         }
-
         
-        let dividerView2 = UIView()
-        dividerView2.backgroundColor = UIColor.rgb(red: 220, green: 220, blue: 220)
-        textContainer.addSubview(dividerView2)
+        startDateText.snp.makeConstraints { (make) in
+            make.top.equalTo(dateAndTimeLabel.snp.bottom).offset(15)
+            make.left.equalTo(textContainer.snp.left).inset(10)
+        }
         
-        dividerView2.snp.makeConstraints { (make) in
-            make.left.right.equalTo(textContainer).inset(15)
-            make.top.equalTo(currentEventDate.snp.bottom).offset(15)
-            make.height.equalTo(1.5)
+        endDateText.snp.makeConstraints { (make) in
+            make.top.equalTo(startDateText.snp.bottom).offset(8)
+            make.left.equalTo(textContainer.snp.left).inset(10)
+        }
+        
+        hostLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(endDateText.snp.bottom).offset(15)
+            make.left.equalTo(textContainer.snp.left).inset(10)
+        }
+        
+        aboutEventLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(hostLabel.snp.bottom).offset(15)
+            make.left.equalTo(textContainer.snp.left).inset(10)
         }
         
         infoText.snp.makeConstraints {
             make in
-            make.top.equalTo(dividerView2.snp.bottom).offset(10)
+            make.top.equalTo(aboutEventLabel.snp.bottom).offset(15)
             make.left.right.equalTo(textContainer).inset(10)
         }
-        
+
         userInteractStackView?.snp.makeConstraints { (make) in
             make.top.equalTo(infoText.snp.bottom).offset(30)
             make.height.equalTo(40)
-            make.left.right.equalTo(textContainer).inset(5)
+            make.left.right.equalTo(textContainer).inset(55)
         }
         
         userInteractStackView1?.snp.makeConstraints({ (make) in
-            make.top.equalTo((userInteractStackView?.snp.bottom)!).offset(5)
-            make.height.equalTo(40)
-            make.left.right.equalTo(textContainer).inset(5)
+            make.top.equalTo((userInteractStackView?.snp.bottom)!).offset(15)
+            make.height.equalTo(45)
+            make.left.right.equalTo(textContainer).inset(10)
+        })
+        
+        userInteractStackView2?.snp.makeConstraints({ (make) in
+            make.top.equalTo((userInteractStackView1?.snp.bottom)!).offset(15)
+            make.height.equalTo(45)
+            make.left.right.equalTo(textContainer).inset(10)
             make.bottom.equalTo(textContainer.snp.bottom).inset(10)
         })
+        
+        
+
+ 
     }
     
     override func viewDidLayoutSubviews() {
@@ -631,11 +933,16 @@ class EventDetailViewController: UIViewController,UIScrollViewDelegate {
     
     //MARK: - Date Componets
     
-    fileprivate func getDayAndMonthFromEvent(_ event:Event) -> (String, String, String) {
+    fileprivate func getDayAndMonthFromEvent(_ event:String?) -> (String, String, String) {
+        guard let eventdateParam = event else {
+            return ("","","")
+        }
         let apiDateFormat = "MM/dd/yyyy"
         let df = DateFormatter()
         df.dateFormat = apiDateFormat
-        let eventDate = df.date(from: event.currentEventDate!)!
+        guard let eventDate = df.date(from: eventdateParam) else {
+             return ("","","")
+        }
         df.dateFormat = "dd"
         let dayElement = df.string(from: eventDate)
         df.dateFormat = "MMM"

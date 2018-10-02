@@ -14,9 +14,7 @@ class SettingsViewController: UITableViewController {
     var authHandle: AuthStateDidChangeListenerHandle?
     let settingsCell = "settingsCell"
     let settingsCell2 = "settingsCell2"
-    let settingsOptionsTwoDimArray = [["Logout"],["Make Profile Private"],["Privacy Policy"],
-                                      ["Contact Us"],["Submit an Event"]
-    ]
+    let settingsOptionsTwoDimArray = [ "Make Profile Private","Privacy Policy","Contact Us","Submit an Event","Logout"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,23 +49,25 @@ class SettingsViewController: UITableViewController {
     //will dismiss the screen
     @objc func GoBack(){
         print("BACK TAPPED")
-        self.navigationController?.popViewController(animated: true)
+        self.sideMenuController?.setContentViewController(with: "home")
     }
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return settingsOptionsTwoDimArray.count
+        return 1
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return settingsOptionsTwoDimArray[section].count
+        return settingsOptionsTwoDimArray.count
     }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if[indexPath.section][indexPath.row] == [1][0]{
+        if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: settingsCell2, for: indexPath) as! PrivateCell
             return cell
         }else{
             let cell = tableView.dequeueReusableCell(withIdentifier: settingsCell, for: indexPath) as UITableViewCell
-            let currentSetting = settingsOptionsTwoDimArray[indexPath.section][indexPath.row]
+            print(indexPath.row)
+            let currentSetting = settingsOptionsTwoDimArray[indexPath.row]
             cell.textLabel?.text = currentSetting
+            cell.textLabel?.font = UIFont(name: "NoirPro-Regular", size: 18)
             cell.textLabel?.textAlignment = .left
             return cell
         }
@@ -77,17 +77,14 @@ class SettingsViewController: UITableViewController {
         return 50
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if [indexPath.section][indexPath.row] == [0][0]{
-            print("Logout Clicked")
+        if indexPath.row == 4{
             self.handleLogout()
         }
-        if [indexPath.section][indexPath.row] == [3][0]{
-            print("Contact US Clicked")
+        if indexPath.row == 2 {
             let contactVc = ContactUsVC()
             self.navigationController?.pushViewController(contactVc, animated: false)
         }
-        if [indexPath.section][indexPath.row] == [4][0]{
-            print("Submit an Event Clicked")
+        if indexPath.row == 3{
             let submit = submitEvent()
             self.navigationController?.pushViewController(submit, animated: false)
         }

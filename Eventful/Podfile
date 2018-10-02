@@ -17,15 +17,14 @@ target 'Eventful' do
     pod 'AlamofireImage'
     pod 'AlamofireNetworkActivityIndicator'
     pod ‘SVProgressHUD’
-    pod 'SwiftyCam', :git => 'https://github.com/Awalz/SwiftyCam.git', :branch => 'Swift4'
-    pod ‘TextFieldEffects’
     pod 'SwiftLocation'
     pod 'IGListKit', :git => 'https://github.com/Instagram/IGListKit.git', :branch => 'master'
     pod 'GeoFire', :git => 'https://github.com/firebase/geofire-objc.git'
     pod 'Fabric'
     pod 'Crashlytics'
-    pod 'FaceAware'
-    pod 'NotificationBannerSwift'
+    
+    pod 'NotificationBannerSwift', '1.6.3'
+    pod 'MarqueeLabel/Swift', '3.1.6'
     pod 'GooglePlaces'
     pod 'GooglePlacePicker'
     pod 'GoogleMaps'
@@ -40,11 +39,11 @@ target 'Eventful' do
     pod 'Instabug'
     pod 'InstantSearch'
     pod 'YNSearch'
+    pod 'AMPopTip'
     
     pod 'AZDialogView'
     pod 'Eureka'
     pod 'ImageRow', '~> 3.0'
-    
     pod 'AlgoliaSearch-Client-Swift'
     pod 'PinterestSegment'
     pod 'Kingfisher'
@@ -57,6 +56,14 @@ target 'Eventful' do
     pod 'TTSegmentedControl'
     pod 'YPImagePicker'
     pod 'OneSignal', '>= 2.6.2', '< 3.0'
+    pod 'SnapKit', '~> 4.0.0'
+
+    pod 'Parchment',:git => 'https://github.com/rechsteiner/Parchment', :branch => 'master'
+    pod 'TagListView', '~> 1.0'
+
+    pod "SkeletonView"
+    pod 'SideMenuSwift'
+    
     # Pods for Eventful
 end
 

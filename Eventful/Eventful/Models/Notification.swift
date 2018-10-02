@@ -163,7 +163,7 @@ extension Notifications: ListDiffable{
             return currentCommentID as NSObjectProtocol
         }else {
             guard let currentFollowee = receiver else {
-                return receiver as! NSObjectProtocol
+                return receiver! as NSObjectProtocol
             }
             return currentFollowee as NSObjectProtocol
         }

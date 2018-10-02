@@ -8,6 +8,8 @@
 
 import Foundation
 import UIKit
+import DZNEmptyDataSet
+
 
 class FollowersViewController: UITableViewController  {
     let friendCell1 = "friendCell1"
@@ -40,6 +42,9 @@ class FollowersViewController: UITableViewController  {
         self.tableView.tableFooterView = UIView(frame: CGRect.zero)
         
         self.tableView.register(FollowerCell.self, forCellReuseIdentifier: friendCell1)
+        self.tableView.emptyDataSetSource = self
+        self.tableView.emptyDataSetDelegate = self
+        
         
     }
     //will leave the VC
@@ -72,25 +77,7 @@ class FollowersViewController: UITableViewController  {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if FriendService.system.followerList.count == 0 {
-            emptyView.backgroundColor = .white
-            emptyView.addSubview(iconImageView)
-            iconImageView.image = UIImage(named: "icons8-friends-51")
-            iconImageView.snp.makeConstraints { (make) in
-                make.center.equalTo(emptyView)
-            }
-            
-            emptyView.addSubview(noFriendLabel)
-            noFriendLabel.snp.makeConstraints { (make) in
-                make.bottom.equalTo(iconImageView.snp.bottom).offset(50)
-make.left.right.equalTo(emptyView).inset(5)            }
-            self.tableView.backgroundView = emptyView
-            return FriendService.system.followerList.count
-            
-        }else{
-            self.tableView.backgroundView = nil
-            return FriendService.system.followerList.count
-        }
+        return FriendService.system.followerList.count
     }
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 50
@@ -101,4 +88,21 @@ make.left.right.equalTo(emptyView).inset(5)            }
         //FriendService.system.removeFriendObserver()
     }
     
+}
+extension FollowersViewController: DZNEmptyDataSetSource,DZNEmptyDataSetDelegate{
+    func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
+        let attribute = [NSAttributedStringKey.font: UIFont(name: "NoirPro-Light", size: 20),NSAttributedStringKey.foregroundColor: UIColor.black]
+        let str = "No users to show."
+        return NSAttributedString(string: str, attributes: attribute as [NSAttributedStringKey : Any])
+    }
+    
+    func description(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
+        let attribute = [NSAttributedStringKey.font: UIFont(name: "NoirPro-Light", size: 15),NSAttributedStringKey.foregroundColor: UIColor.black]
+        let str = "When users begin to connect with you they will be listed here."
+        return NSAttributedString(string: str, attributes: attribute as [NSAttributedStringKey : Any])
+    }
+    
+    func image(forEmptyDataSet scrollView: UIScrollView!) -> UIImage! {
+        return UIImage(named: "icons8-user-account-50")
+    }
 }

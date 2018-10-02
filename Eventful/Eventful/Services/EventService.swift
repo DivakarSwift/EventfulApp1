@@ -28,20 +28,31 @@ struct EventService {
             }
             //for the default case
             if passedDate == nil{
+                //will check if the events current end time is greater then the current date
                 if event.endTime > Date(){
+                    //if it is return it
                     completion(event)
                 }else{
+                    //if it isn't check if it's a request from the home feed
+                    
                     if isFromHomeFeed {
+                        //if it is return nothing
                         completion(nil)
+//                        completion(event)
                     }else{
+                        //if it isn't return an event
                         completion(event)                        
                     }
                 }
             }else{
+                //if there is a passed date parameter which would come from the calendar
                 if let date = passedDate{
+                    // check if the event being passed back is happening after current passed date for filtering purposes
                     if event.endTime > date {
+                        //if so return it
                         completion(event)
                     }else{
+                        //if not return nothing
                         completion(nil)
                     }
                 }

@@ -14,6 +14,7 @@ import CoreLocation
 import SwipeCellKit
 import GoogleMaps
 import MapKit
+import DZNEmptyDataSet
 
 class CalendarViewController: UIViewController, UICollectionViewDelegateFlowLayout {
     let cellID = "cellID"
@@ -26,7 +27,8 @@ class CalendarViewController: UIViewController, UICollectionViewDelegateFlowLayo
     var selectedDate = Date()
     let emptyView = UIView()
     var passedDate: Date?
-    var homeFeedController: HomeFeedController?
+    weak var homeFeedController: HomeFeedController?
+    weak var mainVC: MainViewController?
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 100, height: 100)
     }
@@ -47,7 +49,7 @@ class CalendarViewController: UIViewController, UICollectionViewDelegateFlowLayo
     }()
     
 
-    
+    //collectionview for calendar view
     let calendarCollectionView: JTAppleCalendarView = {
         let cv = JTAppleCalendarView(frame: .zero)
         cv.scrollDirection = .horizontal
@@ -59,6 +61,7 @@ class CalendarViewController: UIViewController, UICollectionViewDelegateFlowLayo
         return cv
     }()
     
+    //tableview that will hold events
     let eventsTableView: UITableView = {
        let eventsTableView = UITableView(frame: CGRect.zero, style: .grouped)
         eventsTableView.backgroundColor = .white
@@ -66,22 +69,6 @@ class CalendarViewController: UIViewController, UICollectionViewDelegateFlowLayo
         eventsTableView.showsVerticalScrollIndicator = false
         return eventsTableView
     }()
-    
-    lazy var noEventsLabel: UILabel = {
-        let noEventsLabel = UILabel()
-        noEventsLabel.text = "No Events For The Selected Day"
-        noEventsLabel.font = UIFont(name: "Avenir", size: 16)
-        noEventsLabel.numberOfLines = 0
-        noEventsLabel.textAlignment = .center
-        return noEventsLabel
-    }()
-    
-    lazy var iconImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        return imageView
-    }()
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -102,9 +89,14 @@ class CalendarViewController: UIViewController, UICollectionViewDelegateFlowLayo
         let doneButton = UIBarButtonItem(image: UIImage(named: "icons8-checkmark-64"), style: .plain, target: self, action: #selector(beginDateFilter))
         navigationItem.rightBarButtonItem = doneButton
     }
+    
+    deinit {
+        print("calendar removed from memory")
+    }
 
     
     @objc func setupVC(){
+        view.backgroundColor = .white
         getDatesFromServer()
         setupNavBar()
         calendarCollectionView.visibleDates { (visibleDates) in
@@ -146,6 +138,8 @@ class CalendarViewController: UIViewController, UICollectionViewDelegateFlowLayo
         view.addSubview(eventsTableView)
         eventsTableView.delegate = self
         eventsTableView.dataSource = self
+        eventsTableView.emptyDataSetSource = self
+        eventsTableView.emptyDataSetDelegate = self
         eventsTableView.register(SelectionCell.self, forCellReuseIdentifier: eventCellID)
         eventsTableView.snp.makeConstraints { (make) in
             make.top.equalTo(calendarCollectionView.snp.bottom)
@@ -155,6 +149,7 @@ class CalendarViewController: UIViewController, UICollectionViewDelegateFlowLayo
         
     }
     
+    //sets up label for month and year
     func setupViewsOfCalendar(from visibleDates: DateSegmentInfo){
         guard let date = visibleDates.monthDates.first?.date else {
             return
@@ -166,11 +161,15 @@ class CalendarViewController: UIViewController, UICollectionViewDelegateFlowLayo
     }
     
     @objc func GoBack(){
-        self.navigationController?.popViewController(animated: true)
+        guard let main = mainVC else {
+            return
+        }
+        main.navigationController?.popViewController(animated: true)
     }
     
     @objc func beginDateFilter(){
-        self.homeFeedController?.getSelectedDateFromCal(from: self.selectedDate)
+//        self.homeFeedController?.getSelectedDateFromCal(from: self.selectedDate)
+        self.mainVC?.getSelectedDateFromCal(from: self.selectedDate)
         self.navigationController?.popViewController(animated: true)
         SVProgressHUD.dismiss(withDelay: 2)
     }
@@ -196,7 +195,7 @@ extension CalendarViewController:JTAppleCalendarViewDataSource {
         UINavigationBar.appearance().titleTextAttributes = attributes
         let firstOfYear = Calendar.current.date(from: DateComponents(year: year, month: 1, day: 1))
         let lastOfYear = Calendar.current.date(from: DateComponents(year: year, month: 12, day: 13))
-        let parameter = ConfigurationParameters(startDate: firstOfYear!, endDate: lastOfYear!, numberOfRows: 5, calendar: Calendar.current, generateInDates: .forAllMonths, generateOutDates: .off, firstDayOfWeek: .sunday, hasStrictBoundaries: true)
+        let parameter = ConfigurationParameters(startDate: firstOfYear!, endDate: lastOfYear!, numberOfRows: 5, calendar: Calendar.current, generateInDates: .forAllMonths, generateOutDates: .off, firstDayOfWeek: .monday, hasStrictBoundaries: true)
         return parameter
     }
     
@@ -251,7 +250,9 @@ extension CalendarViewController: JTAppleCalendarViewDelegate {
     func calendar(_ calendar: JTAppleCalendarView, cellForItemAt date: Date, cellState: CellState, indexPath: IndexPath) -> JTAppleCell {
         let cell = calendar.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! CalendarCell
         cell.sectionNameLabel.text = cellState.text
+        //for circle to display selected
         handleCellSelected(view: cell, cellState: cellState)
+        
         handleCellTextColor(view: cell, cellState: cellState)
         handleCellEvents(view: cell, cellState: cellState)
         return cell
@@ -287,24 +288,14 @@ extension CalendarViewController: JTAppleCalendarViewDelegate {
     }
 }
 
+
+///tableview datasource
+
 extension CalendarViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let currentCount = self.allEvents[selectedDate.getFormattedDate(string: selectedDate.description)]?.count else {
-            emptyView.backgroundColor = .clear
-            emptyView.addSubview(iconImageView)
-            iconImageView.image = UIImage(named: "icons8-the-toast-64")
-            iconImageView.snp.makeConstraints { (make) in
-                make.center.equalTo(emptyView)
-            }
-            
-            emptyView.addSubview(noEventsLabel)
-            noEventsLabel.snp.makeConstraints { (make) in
-                make.bottom.equalTo(iconImageView.snp.bottom).offset(50)
-                make.left.right.equalTo(emptyView).inset(5)            }
-            self.eventsTableView.backgroundView = emptyView
             return 0
         }
-        self.eventsTableView.backgroundView = nil
         return currentCount
     }
     
@@ -326,7 +317,7 @@ extension CalendarViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
             let event = self.allEvents[selectedDate.getFormattedDate(string: selectedDate.description)]![indexPath.row]
-        let eventDetailVC = EventDetailViewController()
+        let eventDetailVC = NewEventDetailViewController(collectionViewLayout: UICollectionViewFlowLayout())
         eventDetailVC.currentEvent = event
         self.navigationController?.pushViewController(eventDetailVC, animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
@@ -336,6 +327,8 @@ extension CalendarViewController: UITableViewDataSource {
     
 }
 
+
+//actions for swipetableviewcell
 extension CalendarViewController: SwipeTableViewCellDelegate {
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
         guard orientation == .right else { return nil }
@@ -442,6 +435,8 @@ extension CalendarViewController: SwipeTableViewCellDelegate {
     
 }
 
+
+//tableview for events
 extension CalendarViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -503,6 +498,16 @@ extension CalendarViewController{
             }
         }
         
+    }
+    
+}
+
+
+extension CalendarViewController: DZNEmptyDataSetSource,DZNEmptyDataSetDelegate{
+    func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
+        let attribute = [NSAttributedStringKey.font: UIFont(name: "NoirPro-Light", size: 20),NSAttributedStringKey.foregroundColor: UIColor.black]
+        let str = "No Events For The Selected Day."
+        return NSAttributedString(string: str, attributes: attribute as [NSAttributedStringKey : Any])
     }
     
 }

@@ -122,7 +122,6 @@ struct AttendService {
     //Create a new service method for determining whether the current event is attended:
     static func isEventAttended(_ event: Event?, byCurrentUserWithCompletion completion: @escaping (Bool) -> Void) {
         guard let eventkey = event?.key else {
-            assertionFailure("Error: event must have key.")
             return completion(false)
         }
         
@@ -134,6 +133,42 @@ struct AttendService {
                 completion(false)
             }
         })
+    }
+    
+    
+    static func fetchAttendingUsers(for eventKey: String, completion: @escaping ([User]) -> Void){
+        let attendRef = Database.database().reference().child("attending").child(eventKey)
+        attendRef.observeSingleEvent(of: .value, with: { (snapshot) in
+            guard let attendingDict = snapshot.value as? [String : Bool] else {
+                return completion([])
+            }
+            
+            var attendees = [User]()
+            let dispatchGroup = DispatchGroup()
+
+            for uid in attendingDict.keys {
+                dispatchGroup.enter()
+                
+                UserService.show(forUID: uid, completion: { (user) in
+                    if let user = user {
+                        attendees.append(user)
+                    }
+                    dispatchGroup.leave()
+                })
+            }
+            
+            // 4
+            dispatchGroup.notify(queue: .main) {
+                completion(attendees)
+            }
+
+        }) { (err) in
+            print("event not found",err)
+
+        }
+        
+        
+
     }
     
 }

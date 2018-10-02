@@ -13,7 +13,6 @@ import ImageRow
 import AlamofireImage
 import Firebase
 import FirebaseStorage
-import FaceAware
 import SVProgressHUD
 
 class EditProfile: FormViewController {

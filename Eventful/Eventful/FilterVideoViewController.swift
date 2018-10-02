@@ -47,6 +47,10 @@ class FilterVideoViewController: FiilterViewController {
     
     /// View to show text field when user taps on this view
     var tapView: UIView!
+    //holder for original video
+    fileprivate var originalVideo: AVURLAsset?
+    
+
     
     override var prefersStatusBarHidden: Bool {
         return true
@@ -135,6 +139,7 @@ class FilterVideoViewController: FiilterViewController {
         super.viewDidAppear(animated)
         
         if let video = self.video {
+            originalVideo = video
             self.playVideo(video:video, filterName: self.filterNameList[0])
         }
     }
@@ -288,7 +293,10 @@ class FilterVideoViewController: FiilterViewController {
         let avPlayerItem = AVPlayerItem(asset: video)
         
         if (filterIndex != 0) {
-            avVideoComposition = AVVideoComposition(asset: self.video!, applyingCIFiltersWithHandler: { request in
+            guard let video = self.video else {
+                return
+            }
+            avVideoComposition = AVVideoComposition(asset: video, applyingCIFiltersWithHandler: { request in
                 let source = request.sourceImage.clampedToExtent()
                 let filter = CIFilter(name:filterName)!
                 filter.setDefaults()
@@ -301,7 +309,10 @@ class FilterVideoViewController: FiilterViewController {
             
         } else {
             // No Filter
-            avVideoComposition = AVVideoComposition(asset: self.video!, applyingCIFiltersWithHandler: { request in
+            guard let original = self.originalVideo else {
+                return
+            }
+            avVideoComposition = AVVideoComposition(asset: original, applyingCIFiltersWithHandler: { request in
                 let source = request.sourceImage.clampedToExtent()
                 request.finish(with: source, context: nil)
             })

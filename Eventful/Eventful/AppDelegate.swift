@@ -20,6 +20,7 @@ import InstantSearch
 import FirebaseAuth
 import FirebaseMessaging                                                                
 import OneSignal
+import SideMenuSwift
 
 
 typealias FIRUser = FirebaseAuth.User
@@ -99,6 +100,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
             self.hasNotification = true
         }
         
+    
+        
         return true
 
     }
@@ -146,7 +149,19 @@ extension AppDelegate {
             
             User.setCurrent(user, writeToUserDefaults: true)
            // print("root view controller set to home view controller")
-            initialViewController = HomeViewController()
+            let contentViewController = HomeViewController()
+            let menuViewController = MenuViewController()
+            
+            SideMenuController.preferences.basic.menuWidth = 215
+            SideMenuController.preferences.basic.position = .sideBySide
+            SideMenuController.preferences.basic.statusBarBehavior = .none
+            SideMenuController.preferences.basic.direction = .right
+            SideMenuController.preferences.basic.supportedOrientations = .portrait
+            SideMenuController.preferences.basic.shouldRespectLanguageDirection = true
+            SideMenuController.preferences.basic.defaultCacheKey = "home"
+
+            initialViewController = SideMenuController(contentViewController: contentViewController, menuViewController: menuViewController)
+
             
         } else {
            // print("root view controller set to login view controller")
@@ -323,7 +338,7 @@ extension AppDelegate {
                 mainTabBarController.presentedViewController?.dismiss(animated: true, completion: nil)
                 if let homeNavController = mainTabBarController.viewControllerList.first as? UINavigationController {
                     EventService.show(isFromHomeFeed: false, forEventKey: userInfo["eventKey"] as! String) { (event) in
-                        let eventDetailVC = EventDetailViewController()
+                        let eventDetailVC = NewEventDetailViewController(collectionViewLayout: UICollectionViewFlowLayout())
                         eventDetailVC.currentEvent = event
                         homeNavController.tabBarController?.tabBar.isHidden = true
                         homeNavController.pushViewController(eventDetailVC, animated: true)

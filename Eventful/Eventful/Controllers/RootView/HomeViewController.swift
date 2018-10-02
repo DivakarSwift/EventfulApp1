@@ -2,7 +2,6 @@
  import UIKit
  import Firebase
  import FirebaseAuth
- import FaceAware
  import  DTPagerController
  
  
@@ -10,13 +9,11 @@
  class HomeViewController: UITabBarController,UITabBarControllerDelegate  {
    
     lazy var viewControllerList: [UIViewController] = {
-        let homeFeedController = HomeFeedController(collectionViewLayout: UICollectionViewFlowLayout())
-        let navController = UINavigationController(rootViewController: homeFeedController)
+        let navController = UINavigationController(rootViewController: MainViewController())
         navController.tabBarItem.image = UIImage(named: "icons8-home-page-50")?.withRenderingMode(.alwaysOriginal)
         navController.tabBarItem.title = "Home"
         navController.tabBarItem.selectedImage = UIImage(named: "icons8-home-page-filled-50")?.withRenderingMode(.alwaysOriginal)
 
-        //        let navController = ScrollingNavigationController(rootViewController: homeFeedController)
 
         
         let profileView = NewProfileVC()

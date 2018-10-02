@@ -42,6 +42,7 @@ class PhotoOutput: NSObject, AVCapturePhotoCaptureDelegate {
         capturePhotoOutput.capturePhoto(with: settings, delegate: self)
     }
 
+    
     func handleCapture(data: Data) {
         let image = UIImage(data: data)
         handler?(image, nil)
@@ -56,6 +57,8 @@ class PhotoOutput: NSObject, AVCapturePhotoCaptureDelegate {
         let image = UIImage(data: jpegData)
         handler?(image, nil)
     }
+    
+    
 
     // MARK: AVCapturePhotoCaptureDelegate
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photoSampleBuffer: CMSampleBuffer?, previewPhoto previewPhotoSampleBuffer: CMSampleBuffer?, resolvedSettings: AVCaptureResolvedPhotoSettings, bracketSettings: AVCaptureBracketedStillImageSettings?, error: Error?) {

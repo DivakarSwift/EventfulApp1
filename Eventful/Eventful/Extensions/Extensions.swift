@@ -153,6 +153,62 @@ extension UIButton {
 }
 
 extension UIView {
+    
+    
+    
+    func constrainToEdges(_ subview: UIView) {
+        
+        subview.translatesAutoresizingMaskIntoConstraints = false
+        
+        let topContraint = NSLayoutConstraint(
+            item: subview,
+            attribute: .top,
+            relatedBy: .equal,
+            toItem: self,
+            attribute: .top,
+            multiplier: 1.0,
+            constant: 0)
+        
+        let bottomConstraint = NSLayoutConstraint(
+            item: subview,
+            attribute: .bottom,
+            relatedBy: .equal,
+            toItem: self,
+            attribute: .bottom,
+            multiplier: 1.0,
+            constant: 0)
+        
+        let leadingContraint = NSLayoutConstraint(
+            item: subview,
+            attribute: .leading,
+            relatedBy: .equal,
+            toItem: self,
+            attribute: .leading,
+            multiplier: 1.0,
+            constant: 0)
+        
+        let trailingContraint = NSLayoutConstraint(
+            item: subview,
+            attribute: .trailing,
+            relatedBy: .equal,
+            toItem: self,
+            attribute: .trailing,
+            multiplier: 1.0,
+            constant: 0)
+        
+        addConstraints([
+            topContraint,
+            bottomConstraint,
+            leadingContraint,
+            trailingContraint])
+    }
+    
+    
+    
+    
+    
+    
+    
     func anchor(top: NSLayoutYAxisAnchor?, left: NSLayoutXAxisAnchor?, bottom: NSLayoutYAxisAnchor?, right: NSLayoutXAxisAnchor?,  paddingTop: CGFloat, paddingLeft: CGFloat, paddingBottom: CGFloat, paddingRight: CGFloat, width: CGFloat, height: CGFloat) {
         
         translatesAutoresizingMaskIntoConstraints = false
@@ -350,6 +406,21 @@ extension String {
     var html2String: String {
         return html2AttributedString?.string ?? ""
     }
+    
+    func height(withConstrainedWidth width: CGFloat, font: UIFont?) -> CGFloat {
+        guard let fontValue = font else {
+            return 0
+        }
+        let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
+        let boundingBox = self.boundingRect(with: constraintRect,
+                                            options: .usesLineFragmentOrigin,
+                                            attributes: [NSAttributedStringKey.font: fontValue],
+                                            context: nil)
+        print(boundingBox.height)
+        return ceil(boundingBox.height)
+    }
+    
+    
 }
 
 extension Data {

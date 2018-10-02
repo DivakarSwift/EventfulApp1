@@ -52,7 +52,7 @@
 	<key>NSMicrophoneUsageDescription</key>
 	<string>To Record Audio With Video</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Allow "Eventful" Access To Your Photots</string>
+	<string>Allow &quot;Eventful&quot; Access To Your Photots</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>ProximaNova-Bold.ttf</string>
@@ -66,6 +66,37 @@
 		<string>UVF ProximaNova-Regular.ttf</string>
 		<string>ProximaNova-BlackItalic.ttf</string>
 		<string>ProximaNova-Black.ttf</string>
+		<string>Futura Bold font.ttf</string>
+		<string>Futura Bold Italic font.ttf</string>
+		<string>Futura Book font.ttf</string>
+		<string>Futura Book Italic font.ttf</string>
+		<string>Futura Extra Black font.ttf</string>
+		<string>Futura Heavy font.ttf</string>
+		<string>Futura Heavy Italic font.ttf</string>
+		<string>futura light bt.ttf</string>
+		<string>Futura Light font.ttf</string>
+		<string>Futura Light Italic font.ttf</string>
+		<string>futura medium bt.ttf</string>
+		<string>futura medium condensed bt.ttf</string>
+		<string>Futura Medium Italic font.ttf</string>
+		<string>Futura XBlk BT.ttf</string>
+		<string>Futura-CondensedLight.otf</string>
+		<string>tt0205m_.ttf</string>
+		<string>unicode.futurab.ttf</string>
+		<string>unicode.futurabb.ttf</string>
+		<string>Futura BdCn BT Bold.ttf</string>
+		<string>NoirPro-Bold.otf</string>
+		<string>NoirPro-BoldItalic.otf</string>
+		<string>NoirPro-Heavy.otf</string>
+		<string>NoirPro-HeavyItalic.otf</string>
+		<string>NoirPro-Italic.otf</string>
+		<string>NoirPro-Light.otf</string>
+		<string>NoirPro-LightItalic.otf</string>
+		<string>NoirPro-Medium.otf</string>
+		<string>NoirPro-MediumItalic.otf</string>
+		<string>NoirPro-Regular.otf</string>
+		<string>NoirPro-SemiBold.otf</string>
+		<string>NoirPro-SemiBoldItalic.otf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>

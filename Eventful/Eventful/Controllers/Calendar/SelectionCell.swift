@@ -43,6 +43,7 @@ class SelectionCell: SwipeTableViewCell {
     lazy var eventNameLabel : UILabel = {
         let label = UILabel()
         label.font =  UIFont(name:"HelveticaNeue", size: 16)
+        label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
@@ -84,17 +85,10 @@ class SelectionCell: SwipeTableViewCell {
         cellView.addSubview(eventNameLabel)
         eventNameLabel.snp.makeConstraints { (make) in
             make.left.equalTo(eventImageView.snp.right).offset(8)
+            make.right.equalTo(cellView.snp.right).inset(2)
             make.centerY.equalTo(cellView.snp.centerY)
         }
-        
-        cellView.addSubview(eventTimeLabel)
-        eventTimeLabel.snp.makeConstraints { (make) in
-            make.right.equalTo(cellView.snp.right).inset(4)
-            make.centerY.equalTo(cellView.snp.centerY)
-        }
-        
-
-        
+    
     }
     fileprivate func getDayAndMonthFromEvent(_ event:Event) -> (String, String) {
         let apiDateFormat = "MM/dd/yyyy"

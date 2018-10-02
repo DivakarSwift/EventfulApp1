@@ -221,6 +221,39 @@ struct UserService {
         })
     }
     
+    
+    
+    static func showUsers(for uids: [String] , completion: @escaping ([User]) -> Void) {
+        
+        let dispatchGroup = DispatchGroup()
+        var users = [User]()
+
+        for uid in uids {
+            dispatchGroup.enter()
+
+            let ref = Database.database().reference().child("users").child(uid)
+            ref.observeSingleEvent(of: .value, with: { (snapshot) in
+                guard let user = User(snapshot: snapshot) else {
+                    return completion([])
+                }
+                users.append(user)
+                dispatchGroup.leave()
+
+            }) { (err) in
+                print("user not found",err)
+            }
+
+        }
+        
+        dispatchGroup.notify(queue: .main) {
+            completion(users)
+        }
+        
+        
+    }
+    
+    
+    
     static func following(for user: User = User.current, completion: @escaping ([User]) -> Void) {
         // 1
         let followingRef = Database.database().reference().child("following").child(user.uid)

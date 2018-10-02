@@ -13,7 +13,13 @@ import MessageUI
 class submitEvent: UIViewController, MFMailComposeViewControllerDelegate {
     lazy var submitEventPromptLabel : UILabel = {
         let label = UILabel()
-        let customFont = UIFont.systemFont(ofSize: 15)
+        guard let customFont =  UIFont(name: "NoirPro-Regular", size: 15) else {
+            fatalError("""
+        Failed to load the "CustomFont-Light" font.
+        Make sure the font file is included in the project and the font name is spelled correctly.
+        """
+            )
+        }
         label.font = UIFontMetrics.default.scaledFont(for: customFont)
         label.adjustsFontForContentSizeCategory = true
         label.numberOfLines = 0
@@ -49,6 +55,7 @@ class submitEvent: UIViewController, MFMailComposeViewControllerDelegate {
     
     @objc func setupViews(){
         navigationItem.title = "Add an Event"
+        view.backgroundColor = .white
         view.addSubview(submitEventPromptLabel)
         submitEventPromptLabel.snp.makeConstraints { (make) in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)

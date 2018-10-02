@@ -497,7 +497,7 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
                 }
                 EventService.show(isFromHomeFeed: false, forEventKey: eventKey) { (event) in
                     
-                    let eventDetail = EventDetailViewController()
+                    let eventDetail = NewEventDetailViewController(collectionViewLayout: UICollectionViewFlowLayout())
                     eventDetail.currentEvent = event
                     self.navigationController?.pushViewController(eventDetail, animated: true)
 
@@ -545,8 +545,8 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
 
 extension SearchVC: DZNEmptyDataSetSource,DZNEmptyDataSetDelegate{
     func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
-        let attribute = [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 14)]
+        let attribute = [NSAttributedStringKey.font: UIFont(name: "NoirPro-Light", size: 15),NSAttributedStringKey.foregroundColor: UIColor.black]
         let str = "No results to display."
-        return NSAttributedString(string: str, attributes: attribute)
+        return NSAttributedString(string: str, attributes: attribute as [NSAttributedStringKey : Any])
     }
 }

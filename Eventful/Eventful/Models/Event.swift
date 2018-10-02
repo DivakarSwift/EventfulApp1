@@ -32,6 +32,13 @@ class Event:NSObject{
     //nested properties stop
     var currentAttendCount: Int
     var isAttending = false
+    var eventTags: [String]?
+    var userHost: [String]?
+    var orgHost: [String]?
+
+    
+    
+    
     var eventDictionary: [String: Any]{
         
         
@@ -70,6 +77,8 @@ class Event:NSObject{
         self.currentEventTime = eventDate?["start:time"] as? String ?? ""
         self.currentEventEndTime = eventDate?["end:time"] as? String ?? ""
         self.currentEventEndDate = eventDate?["end:date"] as? String ?? ""
+        //array as dictionary
+        self.eventTags = dictionary["tags"] as? [String]
         
     }
     
@@ -118,6 +127,20 @@ class Event:NSObject{
         self.currentEventEndDate = currentEventEndDate
         self.endTime = Date(timeIntervalSince1970: endInSeconds)
         self.startTime = Date(timeIntervalSince1970: startInSeconds)
+        //tags
+
+        if let tags = dict["tags"] as? [String] {
+            self.eventTags = tags
+        }
+        //user host
+        if let users = dict["host_user"] as? [String] {
+            self.userHost = users
+        }
+        //org host
+        if let orgs = dict["host_org"] as? [String] {
+            self.orgHost = orgs
+        }
+        
     }
     
     override func isEqual(_ object: Any?) -> Bool {

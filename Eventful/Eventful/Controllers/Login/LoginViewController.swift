@@ -9,7 +9,6 @@
 import UIKit
 import Foundation
 import SVProgressHUD
-import TextFieldEffects
 
 protocol LoginViewControllerDelegate: class {
     func finishLoggingIn()

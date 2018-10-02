@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import TextFieldEffects
 
 class ForgotPasswordViewController: UIViewController {
     fileprivate var contentScrollView:UIScrollView!

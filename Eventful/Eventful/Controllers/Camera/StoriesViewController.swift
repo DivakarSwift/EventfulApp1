@@ -37,7 +37,7 @@ class StoriesViewController: UIViewController {
     /// The current story index (allStories array)
     var currentIndex = 0
     //
-    var eventDetailRef: EventDetailViewController?
+    weak var eventDetailRef: NewEventDetailViewController?
     /// Flags for to see if using is rewinding/forwarding/or on repeat
     var isRewinding = false
     var isForwarding = false
@@ -388,10 +388,9 @@ class StoriesViewController: UIViewController {
             
             // Get the current index for what story the user left on if it exists
             UserService.getCurrentIndexOfStory(eventId: eventKey, userId: uid, completion: { (savedIndex) in
-                
                 if var savedIndex = savedIndex {
                     
-                    if savedIndex >= self.allStories.count || savedIndex <= self.allStories.count {
+                    if savedIndex >= self.allStories.count || savedIndex <= 0 {
                         savedIndex = 0
                     }
                     

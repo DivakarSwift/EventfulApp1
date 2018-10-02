@@ -90,7 +90,7 @@ extension JTAppleCalendarView {
     ///     - Month: The state of the found month
     public func monthStatus(for date: Date) -> Month? {
         guard
-            let calendar = cachedConfiguration?.calendar,
+            let calendar = _cachedConfiguration?.calendar,
             let startMonth = startOfMonthCache,
             let monthIndex = calendar.dateComponents([.month], from: startMonth, to: date).month else {
                 return nil
@@ -132,8 +132,10 @@ extension JTAppleCalendarView {
     
     /// Notifies the container that the size of its view is about to change.
     public func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator, anchorDate: Date?) {
-        self.anchorDate = anchorDate
-        calendarViewLayout.clearCache()
+        DispatchQueue.main.async { [weak self] in
+            guard let _self = self else { return }
+            _self.reloadData(withanchor: anchorDate)
+        }
     }
     
     /// Generates a range of dates from from a startDate to an
@@ -157,18 +159,18 @@ extension JTAppleCalendarView {
     /// Registers a class for use in creating supplementary views for the collection view.
     /// For now, the calendar only supports: 'UICollectionElementKindSectionHeader' for the forSupplementaryViewOfKind(parameter)
     open override func register(_ viewClass: AnyClass?, forSupplementaryViewOfKind elementKind: String, withReuseIdentifier identifier: String) {
-        super.register(viewClass, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: identifier)
+        super.register(viewClass, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: identifier)
     }
     
     /// Registers a class for use in creating supplementary views for the collection view.
     /// For now, the calendar only supports: 'UICollectionElementKindSectionHeader' for the forSupplementaryViewOfKind(parameter)
     open override func register(_ nib: UINib?, forSupplementaryViewOfKind kind: String, withReuseIdentifier identifier: String) {
-        super.register(nib, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: identifier)
+        super.register(nib, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: identifier)
     }
     
     /// Dequeues re-usable calendar cells
     public func dequeueReusableJTAppleSupplementaryView(withReuseIdentifier identifier: String, for indexPath: IndexPath) -> JTAppleCollectionReusableView {
-        guard let headerView = dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader,
+        guard let headerView = dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader,
                                                                 withReuseIdentifier: identifier,
                                                                 for: indexPath) as? JTAppleCollectionReusableView else {
                                                                     developerError(string: "Error initializing Header View with identifier: '\(identifier)'")
@@ -237,7 +239,7 @@ extension JTAppleCalendarView {
             completionHandler?()
             if !_self.generalDelayedExecutionClosure.isEmpty { _self.executeDelayedTasks(.general) }
         }
-                
+        calendarViewLayout.reloadWasTriggered = true
         super.reloadData()
     }
     
@@ -408,7 +410,7 @@ extension JTAppleCalendarView {
         
         let fixedScrollSize: CGFloat
         if scrollDirection == .horizontal {
-            if calendarViewLayout.thereAreHeaders || cachedConfiguration.generateOutDates == .tillEndOfGrid {
+            if calendarViewLayout.thereAreHeaders || _cachedConfiguration.generateOutDates == .tillEndOfGrid {
                 fixedScrollSize = calendarViewLayout.sizeOfContentForSection(0)
             } else {
                 fixedScrollSize = frame.width
@@ -488,7 +490,7 @@ extension JTAppleCalendarView {
     public func scrollToDate(_ date: Date,
                              triggerScrollToDateDelegate: Bool = true,
                              animateScroll: Bool = true,
-                             preferredScrollPosition: UICollectionViewScrollPosition? = nil,
+                             preferredScrollPosition: UICollectionView.ScrollPosition? = nil,
                              extraAddedOffset: CGFloat = 0,
                              completionHandler: (() -> Void)? = nil) {
         
@@ -520,7 +522,7 @@ extension JTAppleCalendarView {
         let sectionIndexPath = pathsFromDates([date])[0]
 
         // Ensure valid scroll position is set
-        var position: UICollectionViewScrollPosition = scrollDirection == .horizontal ? .left : .top
+        var position: UICollectionView.ScrollPosition = scrollDirection == .horizontal ? .left : .top
         if !scrollingMode.pagingIsEnabled(),
             let validPosition = preferredScrollPosition {
             if scrollDirection == .horizontal {
@@ -588,16 +590,9 @@ extension JTAppleCalendarView {
     /// - returns:
     ///     - DateSegmentInfo
     public func visibleDates()-> DateSegmentInfo {
-        let emptySegment = DateSegmentInfo(indates: [], monthDates: [], outdates: [])
-        
-        if !isCalendarLayoutLoaded {
-            return emptySegment
-        }
-        
-        let cellAttributes = calendarViewLayout.visibleElements(excludeHeaders: true)
-        let indexPaths: [IndexPath] = cellAttributes.map { $0.indexPath }.sorted()
-        return dateSegmentInfoFrom(visible: indexPaths)
+        return datesAtCurrentOffset()
     }
+    
     /// Returns the visible dates of the calendar.
     /// - returns:
     ///     - DateSegmentInfo

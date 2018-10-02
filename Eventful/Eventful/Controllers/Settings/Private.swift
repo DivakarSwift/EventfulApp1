@@ -15,6 +15,7 @@ class PrivateCell: UITableViewCell {
         let switchStatementLabel = UILabel()
         switchStatementLabel.textAlignment = .justified
         switchStatementLabel.text =  "Make Profile Private"
+       switchStatementLabel.font =  UIFont(name: "NoirPro-Regular", size: 18)
         return switchStatementLabel
     }()
     

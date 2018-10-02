@@ -445,7 +445,10 @@ public class VideoGenerator: NSObject {
                     
                     var pathString = reversedAudioPath.absoluteString
                     if pathString.contains("file://") {
-                      pathString.removeSubrange(Range(pathString.startIndex..<pathString.index(pathString.startIndex, offsetBy: 7)))
+                        let startIndex = pathString.startIndex
+                        let endIndex = pathString.index(pathString.startIndex, offsetBy: 7)
+                        let range = startIndex..<endIndex
+                        pathString.removeSubrange(range)
                     }
                     
                     if FileManager.default.fileExists(atPath: pathString) {
@@ -990,7 +993,10 @@ public class VideoGenerator: NSObject {
     
     var pathString = url.absoluteString
     if pathString.contains("file://") {
-      pathString.removeSubrange(Range(pathString.startIndex..<pathString.index(pathString.startIndex, offsetBy: 7)))
+        let startIndex = pathString.startIndex
+        let endIndex = pathString.index(pathString.startIndex, offsetBy: 7)
+        let range = startIndex..<endIndex
+        pathString.removeSubrange(range)
     }
     
     if FileManager.default.fileExists(atPath: pathString) {
@@ -1065,7 +1071,10 @@ public class VideoGenerator: NSObject {
           
           var pathString = inputUrl.absoluteString
           if pathString.contains("file://") {
-            pathString.removeSubrange(Range(pathString.startIndex..<pathString.index(pathString.startIndex, offsetBy: 7)))
+            let startIndex = pathString.startIndex
+            let endIndex = pathString.index(pathString.startIndex, offsetBy: 7)
+            let range = startIndex..<endIndex
+            pathString.removeSubrange(range)
           }
           
           if FileManager.default.fileExists(atPath: pathString) {

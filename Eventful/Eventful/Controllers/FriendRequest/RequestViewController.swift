@@ -8,25 +8,11 @@
 
 import Foundation
 import UIKit
+import DZNEmptyDataSet
+
 
 class RequestViewController: UITableViewController {
     let requestCell = "requestCell"
-    let emptyView = UIView()
-    
-    lazy var noFriendLabel: UILabel = {
-        let noFriendLabel = UILabel()
-        noFriendLabel.text = "Sorry, You Currently Have No Friend Request"
-        noFriendLabel.font = UIFont(name: "Avenir", size: 20)
-        noFriendLabel.numberOfLines = 0
-        noFriendLabel.textAlignment = .center
-        return noFriendLabel
-    }()
-    
-    lazy var iconImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        return imageView
-    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,6 +33,8 @@ class RequestViewController: UITableViewController {
         self.tableView.tableFooterView = UIView(frame: CGRect.zero)
         self.tableView.allowsSelection = false
         self.tableView.register(FriendRequestCell.self, forCellReuseIdentifier: requestCell)
+        self.tableView.emptyDataSetSource = self
+        self.tableView.emptyDataSetDelegate = self
         //NotificationCenter.default.post(name: heartAttackNotificationName, object: nil)
     }
     
@@ -64,24 +52,7 @@ class RequestViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if FriendService.system.requestList.count == 0 {
-            emptyView.backgroundColor = .clear
-            emptyView.addSubview(iconImageView)
-            iconImageView.image = UIImage(named: "icons8-handshake-heart-50")
-            iconImageView.snp.makeConstraints { (make) in
-                make.center.equalTo(emptyView)
-            }
-            
-            emptyView.addSubview(noFriendLabel)
-            noFriendLabel.snp.makeConstraints { (make) in
-                make.bottom.equalTo(iconImageView.snp.bottom).offset(50)
-make.left.right.equalTo(emptyView).inset(5)            }
-            self.tableView.backgroundView = emptyView
-            return FriendService.system.requestList.count
-        }else{
-            self.tableView.backgroundView = nil
-            return FriendService.system.requestList.count
-        }
+        return FriendService.system.requestList.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -92,6 +63,26 @@ make.left.right.equalTo(emptyView).inset(5)            }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 55
+    }
+    
+}
+
+
+extension RequestViewController: DZNEmptyDataSetDelegate, DZNEmptyDataSetSource {
+    func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
+        let attribute = [NSAttributedStringKey.font: UIFont(name: "NoirPro-Light", size: 20),NSAttributedStringKey.foregroundColor: UIColor.black]
+        let str = "No request to show."
+        return NSAttributedString(string: str, attributes: attribute as [NSAttributedStringKey : Any])
+    }
+    
+    func description(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
+        let attribute = [NSAttributedStringKey.font: UIFont(name: "NoirPro-Light", size: 15),NSAttributedStringKey.foregroundColor: UIColor.black]
+        let str = "Users have the ability to make their profile private. When you do that you will have to grant users permession to connect with you. Those request will be listed here"
+        return NSAttributedString(string: str, attributes: attribute as [NSAttributedStringKey : Any])
+    }
+    
+    func image(forEmptyDataSet scrollView: UIScrollView!) -> UIImage! {
+        return UIImage(named: "icons8-handshake-heart-50")
     }
     
 }

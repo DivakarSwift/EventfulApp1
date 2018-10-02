@@ -19,7 +19,7 @@ protocol CommentsSectionDelegate: class {
 class CommentsSectionController: ListSectionController,CommentCellDelegate {
     weak var delegate: CommentsSectionDelegate? = nil
     weak var comment: CommentGrabbed?
-    var currentViewController: NewCommentsViewController!
+    weak var currentViewController: NewCommentsViewController!
     var eventKey: String?
     override init() {
         super.init()

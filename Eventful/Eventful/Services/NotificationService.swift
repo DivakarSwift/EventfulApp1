@@ -107,7 +107,7 @@ class NotificationService {
         let messagesRef = Database.database().reference().child("notifcations").child((notification.receiver)!).childByAutoId()
         let messageKey = messagesRef.key
         
-        multiUpdateValue["notifications/\((notification.receiver)!)/\(messageKey)"] = notification.shareDictValue
+        multiUpdateValue["notifications/\((notification.receiver)!)/\(messageKey ?? " ")"] = notification.shareDictValue
         print(notification.shareDictValue)
         
         let rootRef = Database.database().reference()

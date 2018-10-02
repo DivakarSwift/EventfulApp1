@@ -9,10 +9,12 @@
 import UIKit
 import GooglePlaces
 import SVProgressHUD
+import DZNEmptyDataSet
 
 class PlacesSearchController: UIViewController, UICollectionViewDelegateFlowLayout {
     let cellID = "cellID"
     var homeFeedController: HomeFeedController?
+    var mainVC: MainViewController?
     let titleView = UILabel()
     var placesClient = GMSPlacesClient()
     var arrayAddress = [GMSAutocompletePrediction]()
@@ -35,33 +37,13 @@ class PlacesSearchController: UIViewController, UICollectionViewDelegateFlowLayo
         sb.sizeToFit()
         sb.barTintColor = UIColor.white
         sb.layer.borderWidth = 0.5
-        sb.clipsToBounds = true
+        sb.layer.borderColor = UIColor.lightGray.cgColor
         sb.layer.cornerRadius = 2.0
         sb.placeholder = "Search"
         sb.delegate = self
-        let searchIconImage = UIImage(named: "icons8-marker-48")
-        sb.setImage(searchIconImage, for: UISearchBarIcon.search, state: UIControlState.normal)
         let textFieldInsideUISearchBar = sb.value(forKey: "searchField") as? UITextField
         textFieldInsideUISearchBar?.font = UIFont.systemFont(ofSize: 14)
         return sb
-    }()
-    
-    lazy var searchPromptLabel : UILabel = {
-        let label = UILabel()
-        guard let customFont = UIFont(name: "ProximaNovaSoft-Regular", size: 34) else {
-            fatalError("""
-        Failed to load the "CustomFont-Light" font.
-        Make sure the font file is included in the project and the font name is spelled correctly.
-        """
-            )
-        }
-        label.setCellShadow()
-        label.font = UIFontMetrics.default.scaledFont(for: customFont)
-        label.adjustsFontForContentSizeCategory = true
-        label.numberOfLines = 0
-        label.textAlignment = .justified
-        label.text = "Hi \(String(describing: User.current.username!))!\nExplore and Discover \nNew Events\nIn Different Cities"
-        return label
     }()
     
 
@@ -75,15 +57,13 @@ self.navigationController?.interactivePopGestureRecognizer?.delegate = nil
 
     @objc func setupViews(){
         //register a cell to the collectionView
-        UIGraphicsBeginImageContext(self.view.frame.size)
-        UIImage(named: "homePageBG")?.draw(in: self.view.bounds)
-        let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
-        UIGraphicsEndImageContext()
-        view.backgroundColor = UIColor(patternImage: image)
         searchCollectionView.register(SearchPlacesCell.self, forCellWithReuseIdentifier: cellID)
         searchCollectionView.keyboardDismissMode = .onDrag
         searchCollectionView.alwaysBounceVertical = true
         searchCollectionView.backgroundColor = .clear
+        searchCollectionView.emptyDataSetDelegate = self
+        searchCollectionView.emptyDataSetSource = self
+
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
@@ -94,8 +74,8 @@ self.navigationController?.interactivePopGestureRecognizer?.delegate = nil
         view.addSubview(searchBar)
         view.addSubview(searchCollectionView)
         searchBar.snp.makeConstraints { (make) in
-            make.left.right.equalTo(view)
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            make.left.right.equalTo(view).inset(10)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(5)
             make.height.equalTo(40)
         }
         searchCollectionView.snp.makeConstraints { (make) in
@@ -104,13 +84,7 @@ self.navigationController?.interactivePopGestureRecognizer?.delegate = nil
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
         
-        searchCollectionView.addSubview(searchPromptLabel)
-        searchPromptLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(searchCollectionView.snp.top).offset(10)
-            make.left.right.equalTo(searchCollectionView).inset(10)
-        }
-        
-        titleView.font = UIFont(name: "Avenir", size: 18)
+        titleView.font = UIFont(name: "NoirPro-Medium", size: 18)
         titleView.text = "Location"
         let width = titleView.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)).width
         titleView.frame = CGRect(origin:CGPoint.zero, size:CGSize(width: width, height: 500))
@@ -160,14 +134,16 @@ extension PlacesSearchController: UICollectionViewDataSource{
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let currentLocation = arrayAddress[indexPath.item].placeID
-       // print("cell tapped and current location is \(currentLocation)")
         let city = arrayAddress[indexPath.item].attributedPrimaryText.string
         let stateHolder = arrayAddress[indexPath.item].attributedSecondaryText?.string.split(separator: ",")
         let string = "\(city), \(String(describing: stateHolder![0])) ▼"
-        self.homeFeedController?.titleView.text = string
-        self.homeFeedController?.updateCVWithLocation(placeID: currentLocation!)
-        self.homeFeedController?.navigationController?.popViewController(animated: true)
-        SVProgressHUD.show(withStatus: "Grabbing Events")
+        self.mainVC?.customLeftBar.cityText.text = string
+        guard let location = currentLocation else {
+            return
+        }
+        self.mainVC?.grabUserLocation(placeId: location)
+        self.mainVC?.navigationController?.popViewController(animated: true)
+
     }
     
 }
@@ -178,7 +154,6 @@ extension PlacesSearchController: UICollectionViewDelegate {
 
 extension PlacesSearchController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        searchPromptLabel.isHidden = true
         guard let searchText = searchBar.text else {
             return
         }
@@ -195,5 +170,19 @@ extension PlacesSearchController: UISearchBarDelegate {
         
     }
     
+    
+}
 
+
+extension PlacesSearchController: DZNEmptyDataSetDelegate,DZNEmptyDataSetSource{
+    func description(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
+        let attribute = [NSAttributedStringKey.font: UIFont(name: "NoirPro-Light", size: 15),NSAttributedStringKey.foregroundColor: UIColor.black]
+        let str = "Hi \(String(describing: User.current.username!))! Here you will be able to search for new and potentially far away cities, in an effort to explore and discover many new events"
+        return NSAttributedString(string: str, attributes: attribute as [NSAttributedStringKey : Any])
+    }
+    
+    func image(forEmptyDataSet scrollView: UIScrollView!) -> UIImage! {
+        return UIImage(named: "icons8-city-filled-50")
+    }
+    
 }

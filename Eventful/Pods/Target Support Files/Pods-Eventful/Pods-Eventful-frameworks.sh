@@ -1,9 +1,18 @@
 #!/bin/sh
 set -e
+set -u
+set -o pipefail
+
+if [ -z ${FRAMEWORKS_FOLDER_PATH+x} ]; then
+    # If FRAMEWORKS_FOLDER_PATH is not set, then there's nowhere for us to copy
+    # frameworks to, so exit 0 (signalling the script phase was successful).
+    exit 0
+fi
 
 echo "mkdir -p ${CONFIGURATION_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}"
 mkdir -p "${CONFIGURATION_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}"
 
+COCOAPODS_PARALLEL_CODE_SIGN="${COCOAPODS_PARALLEL_CODE_SIGN:-false}"
 SWIFT_STDLIB_PATH="${DT_TOOLCHAIN_DIR}/usr/lib/swift/${PLATFORM_NAME}"
 
 # Used as a return value for each invocation of `strip_invalid_archs` function.
@@ -38,8 +47,13 @@ install_framework()
   local basename
   basename="$(basename -s .framework "$1")"
   binary="${destination}/${basename}.framework/${basename}"
+
   if ! [ -r "$binary" ]; then
     binary="${destination}/${basename}"
+  elif [ -L "${binary}" ]; then
+    echo "Destination binary is symlinked..."
+    dirname="$(dirname "${binary}")"
+    binary="${dirname}/$(readlink "${binary}")"
   fi
 
   # Strip invalid architectures so "fat" simulator / device frameworks work on device
@@ -92,10 +106,10 @@ install_dsym() {
 
 # Signs a framework with the provided identity
 code_sign_if_enabled() {
-  if [ -n "${EXPANDED_CODE_SIGN_IDENTITY}" -a "${CODE_SIGNING_REQUIRED}" != "NO" -a "${CODE_SIGNING_ALLOWED}" != "NO" ]; then
-    # Use the current code_sign_identitiy
+  if [ -n "${EXPANDED_CODE_SIGN_IDENTITY:-}" -a "${CODE_SIGNING_REQUIRED:-}" != "NO" -a "${CODE_SIGNING_ALLOWED}" != "NO" ]; then
+    # Use the current code_sign_identity
     echo "Code Signing $1 with Identity ${EXPANDED_CODE_SIGN_IDENTITY_NAME}"
-    local code_sign_cmd="/usr/bin/codesign --force --sign ${EXPANDED_CODE_SIGN_IDENTITY} ${OTHER_CODE_SIGN_FLAGS} --preserve-metadata=identifier,entitlements '$1'"
+    local code_sign_cmd="/usr/bin/codesign --force --sign ${EXPANDED_CODE_SIGN_IDENTITY} ${OTHER_CODE_SIGN_FLAGS:-} --preserve-metadata=identifier,entitlements '$1'"
 
     if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then
       code_sign_cmd="$code_sign_cmd &"
@@ -135,6 +149,7 @@ strip_invalid_archs() {
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/AFDateHelper/AFDateHelper.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/AMPopTip/AMPopTip.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/AZDialogView/AZDialogView.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/AlamofireImage/AlamofireImage.framework"
@@ -145,13 +160,13 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/DTPagerController/DTPagerController.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/DZNEmptyDataSet/DZNEmptyDataSet.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Eureka/Eureka.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/FaceAware/FaceAware.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/IGListKit/IGListKit.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/ImageRow/ImageRow.framework"
   install_framework "${PODS_ROOT}/Instabug/Instabug.framework"
+  install_dsym "${PODS_ROOT}/Instabug/Instabug.framework.dSYM"
   install_framework "${BUILT_PRODUCTS_DIR}/InstantSearch/InstantSearch.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/InstantSearchClient/InstantSearchClient.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/InstantSearchCore/InstantSearchCore.framework"
@@ -159,22 +174,24 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/MarqueeLabel/MarqueeLabel.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/NotificationBannerSwift/NotificationBannerSwift.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/Parchment/Parchment.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/PinterestSegment/PinterestSegment.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/PryntTrimmerView/PryntTrimmerView.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/RecordButton/RecordButton.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/RevealingSplashView/RevealingSplashView.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/SideMenuSwift/SideMenuSwift.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SimpleImageViewer/SimpleImageViewer.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/SkeletonView/SkeletonView.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SnapSliderFilters/SnapSliderFilters.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SteviaLayout/Stevia.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SwiftLocation/SwiftLocation.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/SwiftyCam/SwiftyCam.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SwipeCellKit/SwipeCellKit.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/TTSegmentedControl/TTSegmentedControl.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/TextFieldEffects/TextFieldEffects.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/TagListView/TagListView.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/XLActionController/XLActionController.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/YNSearch/YNSearch.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/YPImagePicker/YPImagePicker.framework"
@@ -183,6 +200,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/AFDateHelper/AFDateHelper.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/AMPopTip/AMPopTip.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/AZDialogView/AZDialogView.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/AlamofireImage/AlamofireImage.framework"
@@ -193,13 +211,13 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/DTPagerController/DTPagerController.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/DZNEmptyDataSet/DZNEmptyDataSet.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Eureka/Eureka.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/FaceAware/FaceAware.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/IGListKit/IGListKit.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/ImageRow/ImageRow.framework"
   install_framework "${PODS_ROOT}/Instabug/Instabug.framework"
+  install_dsym "${PODS_ROOT}/Instabug/Instabug.framework.dSYM"
   install_framework "${BUILT_PRODUCTS_DIR}/InstantSearch/InstantSearch.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/InstantSearchClient/InstantSearchClient.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/InstantSearchCore/InstantSearchCore.framework"
@@ -207,22 +225,24 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/MarqueeLabel/MarqueeLabel.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/NotificationBannerSwift/NotificationBannerSwift.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/Parchment/Parchment.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/PinterestSegment/PinterestSegment.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/PryntTrimmerView/PryntTrimmerView.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/RecordButton/RecordButton.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/RevealingSplashView/RevealingSplashView.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/SideMenuSwift/SideMenuSwift.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SimpleImageViewer/SimpleImageViewer.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/SkeletonView/SkeletonView.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SnapSliderFilters/SnapSliderFilters.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SteviaLayout/Stevia.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SwiftLocation/SwiftLocation.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/SwiftyCam/SwiftyCam.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SwipeCellKit/SwipeCellKit.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/TTSegmentedControl/TTSegmentedControl.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/TextFieldEffects/TextFieldEffects.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/TagListView/TagListView.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/XLActionController/XLActionController.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/YNSearch/YNSearch.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/YPImagePicker/YPImagePicker.framework"
