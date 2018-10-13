@@ -13,8 +13,7 @@ import DZNEmptyDataSet
 
 class PlacesSearchController: UIViewController, UICollectionViewDelegateFlowLayout {
     let cellID = "cellID"
-    var homeFeedController: HomeFeedController?
-    var mainVC: MainViewController?
+    weak var mainVC: MainViewController?
     let titleView = UILabel()
     var placesClient = GMSPlacesClient()
     var arrayAddress = [GMSAutocompletePrediction]()

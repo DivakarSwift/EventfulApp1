@@ -11,6 +11,7 @@ import Foundation
 import SVProgressHUD
 import FirebaseStorage
 import Firebase
+import TransitionButton
 
 
 class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
@@ -116,10 +117,11 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
     }()
     
     // creates a UIButton that will sign up the user
-    let signupButton: UIButton  = {
-        let button = UIButton(type: .system)
+    let signupButton: TransitionButton  = {
+        let button = TransitionButton(type: .system)
         button.setTitle("SIGN UP", for: .normal)
-        button.setCellShadow()
+        button.setupShadow2()
+        button.spinnerColor = .white
         button.titleLabel?.font = UIFont(name: "Futura", size: 14)
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 5
@@ -231,7 +233,10 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         let homeController = HomeViewController()
         //should change the root view controller to the homecontroller when done signing up
         self.view.window?.rootViewController = homeController
-        self.view.window?.makeKeyAndVisible()
+        
+        self.signupButton.stopAnimation(animationStyle: .expand, completion: {
+            self.view.window?.makeKeyAndVisible()
+        })
     }
     
     

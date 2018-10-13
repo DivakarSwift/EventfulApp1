@@ -99,6 +99,11 @@ class StoriesViewController: UIViewController {
         rightRect = CGRect(x: self.view.frame.maxX - width, y: 0, width: width, height: self.view.frame.height)
     }
     
+    // Allows the video to keep playing on a loop
+    @objc fileprivate func playerItemDidReachEnd(_ notification: Notification) {
+       print("player item did reach end")
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         fetchStories()

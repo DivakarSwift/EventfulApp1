@@ -13,7 +13,7 @@ class TopCell: UICollectionViewCell {
     
     lazy var titleLabel : UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.white
+        label.textColor = UIColor.black
         label.font =  UIFont.boldSystemFont(ofSize: 14.0)
         label.textAlignment = .center
         label.numberOfLines = 1
@@ -27,7 +27,7 @@ class TopCell: UICollectionViewCell {
     
     @objc func setupViews(){
         layer.cornerRadius = 3.0
-        backgroundColor = UIColor.rgb(red: 45, green: 162, blue: 232)
+        backgroundColor = UIColor.lightGray.withAlphaComponent(0.1)
         addSubview(titleLabel)
         titleLabel.snp.makeConstraints { (make) in
             make.leading.equalToSuperview().offset(8.0)

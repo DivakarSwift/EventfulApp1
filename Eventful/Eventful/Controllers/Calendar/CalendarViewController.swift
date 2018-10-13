@@ -27,7 +27,6 @@ class CalendarViewController: UIViewController, UICollectionViewDelegateFlowLayo
     var selectedDate = Date()
     let emptyView = UIView()
     var passedDate: Date?
-    weak var homeFeedController: HomeFeedController?
     weak var mainVC: MainViewController?
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 100, height: 100)

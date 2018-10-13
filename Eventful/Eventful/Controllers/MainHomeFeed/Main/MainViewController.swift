@@ -13,9 +13,11 @@ import SwiftLocation
 import GooglePlaces
 import SVProgressHUD
 import SideMenuSwift
+import TransitionButton
 
 
-class MainViewController: UIViewController,ContentViewControllerDelegate {
+
+class MainViewController: CustomTransitionViewController,ContentViewControllerDelegate {
     fileprivate let items = [
         ImageItem(index: 1, title: "City", headerImage: UIImage(named: "city")!),
         ImageItem(index: 2, title: "Concert", headerImage: UIImage(named: "concert")!),
@@ -36,7 +38,7 @@ class MainViewController: UIViewController,ContentViewControllerDelegate {
     var finalCategoryEvents:[String:[Event]] = [:]
     var featuredEvents:[String:[Event]] = [:]
     let dateFormatter = DateFormatter()
-
+    var isFromLoginOrSignUp: Bool?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -430,7 +432,9 @@ extension MainViewController {
                         })                    }
                 }
                 self?.pagingViewController.reloadData()
-                NotificationCenter.default.post(name: heartAttackNotificationName, object: nil)
+                    NotificationCenter.default.post(name: heartAttackNotificationName, object: nil)
+                
+                
                 
                 print(self?.featuredEvents.count as Any)
                 }

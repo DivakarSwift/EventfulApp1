@@ -128,7 +128,7 @@ extension MenuFeedController: UICollectionViewDataSource {
             guard let featureCount = self.featuredEvents?.count else {
                 return 0
             }
-            return featureCount
+            return 1
         }else {
          return self.categoryEvents.count
         }

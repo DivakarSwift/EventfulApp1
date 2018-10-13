@@ -15,6 +15,11 @@ class FinalCategoryCell: UICollectionViewCell, UICollectionViewDelegateFlowLayou
         didSet{
             print("recieved featured event")
             categroyFeedCollectionView.reloadData()
+//            categroyFeedCollectionView.performBatchUpdates(nil, completion: {
+//                (result) in
+//                // ready
+//                print("loading finished")
+//            })
         }
     }
      weak var mainVC: MainViewController?

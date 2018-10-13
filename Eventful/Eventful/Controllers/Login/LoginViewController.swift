@@ -9,6 +9,7 @@
 import UIKit
 import Foundation
 import SVProgressHUD
+import TransitionButton
 
 protocol LoginViewControllerDelegate: class {
     func finishLoggingIn()
@@ -74,11 +75,12 @@ class LoginViewController: UIViewController , LoginViewControllerDelegate {
     }()
     // creates a UIButton and transitions to a different screen after button is selected
     
-    lazy var loginButton: UIButton  = {
-        let button = UIButton(type: .system)
+    lazy var loginButton: TransitionButton  = {
+        let button = TransitionButton(type: .system)
         button.setTitle("LOGIN", for: .normal)
         button.setTitleColor(.white, for: .normal)
-        button.setCellShadow()
+        button.setupShadow2()
+        button.spinnerColor = .white
         button.layer.cornerRadius = 5
         button.titleLabel?.font = UIFont(name: "Futura", size: 14)
         button.addTarget(self, action: #selector(handleLogin), for: .touchUpInside)
@@ -94,12 +96,14 @@ class LoginViewController: UIViewController , LoginViewControllerDelegate {
             self.present(alertController, animated: true, completion: nil)
             
         }else{
-            SVProgressHUD.show(withStatus: "Logging in...")
+//            SVProgressHUD.show(withStatus: "Logging in...")
+            loginButton.startAnimation()
             AuthService.signIn(controller: self, email: emailTextField.text!, password: passwordTextField.text!) { [unowned self] (user) in
                 guard user != nil else {
                     // look back here
            
                     print("error: FiRuser dees not exist")
+                    self.loginButton.stopAnimation()
                     return
                 }
               //  print("user is signed in")
@@ -122,7 +126,9 @@ class LoginViewController: UIViewController , LoginViewControllerDelegate {
        // print("Finish logging in from LoginController")
         let homeController = HomeViewController()
         self.view.window?.rootViewController = homeController
-        self.view.window?.makeKeyAndVisible()
+        self.loginButton.stopAnimation(animationStyle: .expand, completion: {
+            self.view.window?.makeKeyAndVisible()
+        })
     }
     
     //creatas a UILabel

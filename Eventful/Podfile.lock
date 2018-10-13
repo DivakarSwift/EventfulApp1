@@ -130,11 +130,11 @@ PODS:
     - SnapKit (~> 4.0)
   - OneSignal (2.8.8)
   - Parchment (1.4.1)
-  - PinterestSegment (1.2.0)
   - Protobuf (3.6.1)
   - PryntTrimmerView (2.0.1)
   - RecordButton (1.0.2)
   - RevealingSplashView (0.5.0)
+  - Segmentio (3.1)
   - SideMenuSwift (1.0.0)
   - SimpleImageViewer (1.1.1)
   - SkeletonView (1.4)
@@ -147,7 +147,7 @@ PODS:
   - SwiftyJSON (4.0.0)
   - SwipeCellKit (2.5.0)
   - TagListView (1.3.1)
-  - TTSegmentedControl (0.4.4)
+  - TransitionButton (0.5.1)
   - XLActionController/Core (4.0.1)
   - XLActionController/Twitter (4.0.1):
     - XLActionController/Core
@@ -191,9 +191,9 @@ DEPENDENCIES:
   - NotificationBannerSwift (= 1.6.3)
   - OneSignal (< 3.0, >= 2.6.2)
   - Parchment (from `https://github.com/rechsteiner/Parchment`, branch `master`)
-  - PinterestSegment
   - RecordButton
   - RevealingSplashView
+  - Segmentio (from `https://github.com/Yalantis/Segmentio`, branch `master`)
   - SideMenuSwift
   - SimpleImageViewer (~> 1.1.1)
   - SkeletonView
@@ -203,7 +203,7 @@ DEPENDENCIES:
   - SwiftLocation
   - SwipeCellKit (from `https://github.com/SwipeCellKit/SwipeCellKit.git`, branch `master`)
   - TagListView (~> 1.0)
-  - TTSegmentedControl
+  - TransitionButton
   - XLActionController/Twitter
   - YNSearch
   - YPImagePicker
@@ -251,7 +251,6 @@ SPEC REPOS:
     - nanopb
     - NotificationBannerSwift
     - OneSignal
-    - PinterestSegment
     - Protobuf
     - PryntTrimmerView
     - RecordButton
@@ -266,7 +265,7 @@ SPEC REPOS:
     - SwiftLocation
     - SwiftyJSON
     - TagListView
-    - TTSegmentedControl
+    - TransitionButton
     - XLActionController
     - YNSearch
     - YPImagePicker
@@ -283,6 +282,9 @@ EXTERNAL SOURCES:
   Parchment:
     :branch: master
     :git: https://github.com/rechsteiner/Parchment
+  Segmentio:
+    :branch: master
+    :git: https://github.com/Yalantis/Segmentio
   SwipeCellKit:
     :branch: master
     :git: https://github.com/SwipeCellKit/SwipeCellKit.git
@@ -300,6 +302,9 @@ CHECKOUT OPTIONS:
   Parchment:
     :commit: d1382af83a63090b5bd8ec7bada851943fe65f6f
     :git: https://github.com/rechsteiner/Parchment
+  Segmentio:
+    :commit: 2553a61d9ddcf9c3b81e59fb44ea5f7001fc0734
+    :git: https://github.com/Yalantis/Segmentio
   SwipeCellKit:
     :commit: 338db33b96fe79a4149844be0685d3614dac36a0
     :git: https://github.com/SwipeCellKit/SwipeCellKit.git
@@ -350,11 +355,11 @@ SPEC CHECKSUMS:
   NotificationBannerSwift: b231e4c3244848ef300e1c53ce027b9756b9b06f
   OneSignal: 7d2571e9fce1d961b882e1bd9f1f242802e9c8b1
   Parchment: e6c2a3a0063739382dd207e21d48fe5e81f3324a
-  PinterestSegment: d589fce6c62141466b9f36ea8ab0a16fde9ac8f4
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
   PryntTrimmerView: 4260ae497a2f3e1bbfc0b71247eb74ab92bf0490
   RecordButton: 76677be0f4b94f8a387454a23b4b64bd9b6c0e51
   RevealingSplashView: 0794eecad3a8983ac11a1fe474e9a9b51b926780
+  Segmentio: 3b062de5835b855b2faa91575abc1657115b33ef
   SideMenuSwift: f8567754feb36ade13ffd613f608829f4b86d4b3
   SimpleImageViewer: 34c3a2cde2d9ac022146772cefc27fca14b0c8b1
   SkeletonView: 50f7a9b04e3a62bd0ae964859c19317fabaea367
@@ -366,11 +371,11 @@ SPEC CHECKSUMS:
   SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
   SwipeCellKit: d8f2617538ce3021cb0a11d1b93856a06a2f2e20
   TagListView: 6dafd34a61021c6db72c0c8e3a044054c9854311
-  TTSegmentedControl: 7a5fc6c3e117c340106efd3a35205b987f2ba23c
+  TransitionButton: 20f92b3cc726b047e4df200fdab5307f33395a81
   XLActionController: 007868251c0eed70d649d06c1625259b73b3a600
   YNSearch: 3a6e0a69cfd34a7c5a7c77e0873f426de4437824
   YPImagePicker: 2cc64e1b8b8bac827cf99865fcd1e304ab342315
 
-PODFILE CHECKSUM: ccf16a34de1711de6178d36f9fa55a4b4e1ac0b9
+PODFILE CHECKSUM: 20611dffe03d6872d090140165017545aee4b84b
 
 COCOAPODS: 1.6.0.beta.1

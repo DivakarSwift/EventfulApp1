@@ -7,11 +7,10 @@
 //
 
 import UIKit
-import PinterestSegment
 import AlgoliaSearch
 import Alamofire
 import DZNEmptyDataSet
-import TTSegmentedControl
+import Segmentio
 
 class resultObj {
     var name : String = ""
@@ -60,6 +59,9 @@ class SearchVC: UIViewController,DeleteButtonDelegate {
         }
         doSearch(searchText: text, index: client.index(withName: self.index))
     }
+    
+    var segmentioView: Segmentio!
+
     
     let cancelButton : UIButton = {
        let button = UIButton()
@@ -130,7 +132,6 @@ class SearchVC: UIViewController,DeleteButtonDelegate {
     
     
     
-    var style = PinterestSegmentStyle()
     var _topSearches = [String]()
     var _searchHistory = [String]()
     var _searchResult = [resultObj]()
@@ -227,43 +228,94 @@ class SearchVC: UIViewController,DeleteButtonDelegate {
         
         let topSearchesView = UIView(frame: CGRect(x: 0, y: 0, width: searchHistoryTableView.frame.width, height: 190))
         
-        let segmentedControl = TTSegmentedControl()
-        //        segmentedControl.allowChangeThumbWidth = false
-        segmentedControl.backgroundColor = UIColor.white
-        segmentedControl.itemTitles = ["Events","Users"]
-        segmentedControl.useGradient = false
-        segmentedControl.cornerRadius = 0
-        segmentedControl.defaultTextFont = UIFont.boldSystemFont(ofSize: 14)
-        segmentedControl.selectedTextFont = UIFont.boldSystemFont(ofSize: 14)
-        segmentedControl.thumbColor = UIColor.rgb(red: 45, green: 162, blue: 232)
-        segmentedControl.containerBackgroundColor = .white
-      
-        segmentedControl.didSelectItemWith = { (index, title) -> () in
-            print("Selected item \(index)")
-            if index == 0 {
+        self.segmentioView = Segmentio()
+        
+        var content = [SegmentioItem]()
+        let segmentItem1 = SegmentioItem(title: "Events", image: nil)
+        let segmentItem2 = SegmentioItem(title: "Users", image: nil)
+        let segmentItem3 = SegmentioItem(title: "Orgs", image: nil)
+        let segmentItem4 = SegmentioItem(title: "Artists", image: nil)
+
+        content.append(segmentItem1)
+        content.append(segmentItem2)
+        content.append(segmentItem3)
+        content.append(segmentItem4)
+
+        //will control presentation of indicatior
+        let indicatiorOptions = SegmentioIndicatorOptions(
+            type: .bottom,
+            ratio: 0,
+            height: 1,
+            color: .black
+        )
+        
+        //will change font and apparence depending on selected state
+        let segmentStates = SegmentioStates(
+            defaultState: SegmentioState(
+                backgroundColor: .white,
+                titleFont: UIFont(name: "NoirPro-Light", size: UIFont.systemFontSize) ?? UIFont.systemFont(ofSize: UIFont.smallSystemFontSize),
+                titleTextColor: .lightGray
+            ),
+            selectedState: SegmentioState(
+                backgroundColor: .white,
+                titleFont: UIFont(name: "NoirPro-Regular", size: UIFont.systemFontSize) ?? UIFont.systemFont(ofSize: UIFont.smallSystemFontSize),
+                titleTextColor: .black
+            ),
+            highlightedState: SegmentioState(
+                backgroundColor: UIColor.lightGray.withAlphaComponent(0.6),
+                titleFont: UIFont(name: "NoirPro-Light", size: UIFont.systemFontSize) ?? UIFont.systemFont(ofSize: UIFont.smallSystemFontSize),
+                titleTextColor: .black
+            )
+        )
+        
+        
+        let segmentOptions = SegmentioOptions(
+            backgroundColor: .white,
+            segmentPosition: .fixed(maxVisibleItems: 4),
+            scrollEnabled: true,
+            indicatorOptions: indicatiorOptions,
+            horizontalSeparatorOptions: nil,
+            verticalSeparatorOptions: nil,
+            imageContentMode: .center,
+            labelTextAlignment: .center,
+            segmentStates: segmentStates
+        )
+        
+        //will set style of segment controller
+        let segmentStyle = SegmentioStyle.onlyLabel
+
+        segmentioView.setup(content: content, style: segmentStyle, options: segmentOptions)
+        segmentioView.selectedSegmentioIndex = 0
+
+        segmentioView.valueDidChange  = { segmentio, segmentIndex in
+            print("Selected item: ", segmentIndex)
+            if segmentIndex == 0 {
                 self.index = indice.events
                 self.getTops(index: self.index)
-            } else if index == 1 {
+            } else if segmentIndex == 1 {
                 self.index = indice.users
                 self.getTops(index: self.index)
             }
         }
         
+    
+        
         searchHistoryTableView.tableHeaderView = topSearchesView
-        topSearchesView.addSubview(segmentedControl)
+//        topSearchesView.addSubview(segmentedControl)
+        topSearchesView.addSubview(self.segmentioView)
         topSearchesView.addSubview(topSearchesLabel)
         topSearchesView.addSubview(topSearches)
         topSearchesView.addSubview(searchHistoryLabel)
         
-        segmentedControl.snp.makeConstraints { (make) in
+        segmentioView.snp.makeConstraints { (make) in
             make.height.equalTo(30)
-            make.left.right.equalTo(view.safeAreaLayoutGuide).inset(5)
+            make.left.right.equalTo(view.safeAreaLayoutGuide)
             make.top.equalToSuperview().offset(8.0)
         }
         
         topSearchesLabel.snp.makeConstraints { (make) in
             make.leading.equalToSuperview()
-            make.top.equalTo(segmentedControl.snp.bottom).offset(8.0)
+            make.top.equalTo(segmentioView.snp.bottom).offset(10.0)
         }
         
         topSearches.snp.makeConstraints { (make) in
@@ -545,7 +597,7 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
 
 extension SearchVC: DZNEmptyDataSetSource,DZNEmptyDataSetDelegate{
     func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
-        let attribute = [NSAttributedStringKey.font: UIFont(name: "NoirPro-Light", size: 15),NSAttributedStringKey.foregroundColor: UIColor.black]
+        let attribute = [NSAttributedStringKey.font: UIFont(name: "NoirPro-Regular", size: 15),NSAttributedStringKey.foregroundColor: UIColor.black]
         let str = "No results to display."
         return NSAttributedString(string: str, attributes: attribute as [NSAttributedStringKey : Any])
     }
